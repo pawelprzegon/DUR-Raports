@@ -1,10 +1,10 @@
-body{
-    --top-row-height: 60px;
+body {
+    --top-row-height: 80px;
     margin-top: var(--top-row-height);
 
 }
 
-.top-row{
+.top-row {
     z-index: 999;
     position: fixed;
     top: 0;
@@ -12,17 +12,17 @@ body{
     width: 100%;
     height: var(--top-row-height);
     display: flex;
-    background: #7b7b7b;
-    box-shadow:  1px 1px 7px var(--gray);
+    background: #666666;
+    box-shadow: 1px 1px 7px var(--gray);
 }
 
-.logo{
+.logo {
     height: 100%;
     display: block;
     padding: 8px;
 }
 
-.nav-btn{
+.nav-btn {
     width: var(--top-row-height);
     height: 100%;
     display: flex;
@@ -34,12 +34,12 @@ body{
     border: none;
 }
 
-.nav-btn > span{
+.nav-btn>span {
     color: #ffffff;
     font-size: calc(var(--top-row-height)/2);
 }
 
-.nav{
+.nav {
     padding-top: 60px;
     --nav-width: 230px;
     z-index: 1000;
@@ -53,12 +53,12 @@ body{
     transition: transform 0.25s;
 }
 
-.nav-open{
+.nav-open {
     padding-top: 60px;
     transform: translateX(0);
 }
 
-.nav-link{
+.nav-link {
     display: block;
     font-family: 'montserrat', sans-serif;
     font-size: 24px;
@@ -68,30 +68,30 @@ body{
     color: #ffffff;
 }
 
-.nav-image > img{
+.nav-image>img {
     filter: invert(100%);
     margin-right: 10px;
 }
 
-.nav-image{
+.nav-image {
     width: 60px;
     max-width: 60px;
     display: inline-block;
 }
 
-.nav-link:not(:last-child){
+.nav-link:not(:last-child) {
     border-bottom: 1px solid #222222;
 }
 
-.nav-link:hover{
+.nav-link:hover {
     background: rgba(131, 131, 131, 0.462);
 }
 
-.nav-link:active{
+.nav-link:active {
     background: rgba(228, 228, 228, 0.462);
 }
 
-.nav-overlay{
+.nav-overlay {
     z-index: 998;
     display: none;
     position: fixed;
@@ -102,6 +102,6 @@ body{
     background: rgba(3, 3, 3, 0.492);
 }
 
-.nav-overlay-open{
+.nav-overlay-open {
     display: block;
 }

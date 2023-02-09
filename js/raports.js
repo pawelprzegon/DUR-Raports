@@ -79,7 +79,7 @@ function show(data) {
         detailsDate.innerText = `${each.date_created}`;
         detailsUser.innerText = `${each.author.username.capitalize()}`;
         moreButton.innerText = 'Więcej';
-        btnL.setAttribute("href","http://google.com");
+        btnL.setAttribute("href","raport.html");
 
         let stolarnia = 0;
         let drukarnia = 0;

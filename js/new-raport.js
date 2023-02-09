@@ -18,9 +18,13 @@ function showForm () {
 
             const region = document.createElement('div');
                 region.classList.add('regions')
-                const StolarniaLabel = document.createElement('h4');
-                StolarniaLabel.innerText = `${lab}`;
-                region.appendChild(StolarniaLabel);
+                const LabelBox = document.createElement('div');
+                    const StolarniaLabel = document.createElement('h4');
+                    StolarniaLabel.innerText = `${lab}`;
+                    LabelBox.appendChild(StolarniaLabel);
+                    region.appendChild(LabelBox)
+                const CheckBoxesBox = document.createElement('div');
+                CheckBoxesBox.classList.add('checkboxes')
                 let i = 1
                     data.forEach(each => {
                         const element = document.createElement('label');
@@ -38,8 +42,10 @@ function showForm () {
                             input.onclick = function(){
                                 showStolarniaBox(`${lab}`, input.id);
                             }
-
-                        region.appendChild(element);
+                        
+                        
+                        CheckBoxesBox.appendChild(element);
+                        region.appendChild(CheckBoxesBox);
                         element.appendChild(input);
                         element.appendChild(span);
                         
@@ -55,6 +61,7 @@ function showForm () {
             const txtField = document.createElement('div');
                 txtField.classList.add('form-line');
             const inputField = document.createElement('textarea');
+                
             inputField.hidden = true;
             // inputField.type = 'text';
             inputField.name = `${lab}`;
@@ -89,17 +96,21 @@ function showForm () {
         CheckList.appendChild(RaportTextField);
         
         function showStolarniaBox(name, checkbox_id) {
+            console.log(name)
             let checkBoxTriggered = document.getElementById(checkbox_id);
             let text = document.getElementsByName(name);
             let result = checkIfAnyCheckbox(name)
+            console.log(text[0])
             if (checkBoxTriggered.checked){
                 text[0].value += checkBoxTriggered.name +" : \n"
             }
             if (result == true){
               text[0].hidden = false;
+              text[0].classList.add('form-line')
             } else {
               text[0].hidden = true;
               text[0].value = ''
+              text[0].classList.remove('form-line')
             }
           }
         
@@ -120,7 +131,7 @@ function showForm () {
             if (rtfTrigger == true){
                 rtf.style.display = 'block';
             }else{
-                rtf.style.display = 'none'   
+                rtf.style.display = 'none'  
             }
             
             return checkboxTrigger;

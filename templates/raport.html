@@ -5,31 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        Nowy Raport
+        Raport
     </title>
-    <link rel="icon" type="image/png" href="static/images/artgeist.png" />
-    <link rel="stylesheet" href="static/main.css">
-    <link rel="stylesheet" href="static/form.css">
+    <link rel="icon" type="image/png" href="../static/images/artgeist.png" />
+    <link rel="stylesheet" href="/static/nav.css">
+    <link rel="stylesheet" href="/static/raport.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
       <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,700;0,900;1,400&family=Montserrat:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-      <script src="js/new-raport.js" type="module"></script>
-      
+      <script type="module" src="/js/raport.js"></script>
 </head>
 <body>
     <script defer src="/static/js/nav.js"></script>
     
-    <script src="static/js/nav-actions.js" type="text/javascript"></script>
-    
+    <script src="/static/js/nav-actions.js" type="text/javascript"></script>
 
     <header id="app-header"></header>
     <div class="container">
-        <div id="form-data">
-            <form action="#" method="post" id="form">
-            
-            </form>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" 
+                 role="status" id="loading">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div id="raport">
+           
         </div>
     </div>
+
+
 </body>
 </html>
+
+
+

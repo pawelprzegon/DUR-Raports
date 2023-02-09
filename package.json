@@ -1,0 +1,26 @@
+{
+  "name": "raport_front",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pawelprzegon/Raport_Front.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pawelprzegon/Raport_Front/issues"
+  },
+  "homepage": "https://github.com/pawelprzegon/Raport_Front#readme",
+  "devDependencies": {
+    "tsd": "^0.25.0"
+  },
+  "dependencies": {
+    "@types/jquery": "^3.5.16",
+    "jquery": "^3.6.3"
+  }
+}

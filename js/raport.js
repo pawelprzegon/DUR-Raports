@@ -51,7 +51,7 @@ function show(data) {
                     const nameBartek = document.createElement('p');
                     const todoBartek = document.createElement('p');
 
-        Dekl.classList.add('raport-info-grid')
+        Dekl.classList.add('single-raport-info-grid')
         DeklHeader.classList.add('raport-data-user', 'header')
         DeklText.classList.add('raport-text')
         Pawel.classList.add('raport-text', 'one')
@@ -129,7 +129,7 @@ function show(data) {
                 
                     
                         
-                Region.classList.add('raport-info-grid')
+                Region.classList.add('single-raport-info-grid')
                 RegionHeader.classList.add('raport-data-user')
                 RegionTextHeader.classList.add('raport-text', 'one')
                 
@@ -153,7 +153,7 @@ function show(data) {
             const PlexiTextHeader = document.createElement('div');
                 const PlexiText = document.createElement('p');
 
-            Plexi.classList.add('raport-info-grid')
+            Plexi.classList.add('single-raport-info-grid')
             PlexiHeader.classList.add('raport-data-user')
             PlexiTextHeader.classList.add('raport-text', 'one')
             data.plexi.forEach(each => {
