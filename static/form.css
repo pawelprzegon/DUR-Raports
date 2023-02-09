@@ -1,0 +1,214 @@
+/* REGISTRATION */
+:root{
+    --dark: #374151;
+    --darker: #1F2937;
+    --darkest: #111827;
+    --gray: #6B7280;
+    --light: #EEE;
+    --pink: #EC4899;
+    --purple: #8B5Cf6;
+    --bckg: #9f9f9f;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--bckg);
+    color: #5a5a5a;
+
+}
+/* Mobile */
+@media (max-width:600px) {
+    .container {
+        margin-top: 1rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .registration-grid {
+        font-family: 'montserrat', sans-serif;
+        border-style: solid;
+        border-color: #c1c1c1;
+        border-width: 0.1rem;
+        border-radius: 0.2rem;
+        padding: 0.5rem;
+        display: flex;
+        justify-content: center;
+        width: 360px;
+        place-self: center;
+        text-align: center;
+        box-shadow:  2px 2px 7px var(--darkest);
+        background-color: #f8f8f8;
+        margin-top: 10px;
+    }  
+
+    .registration-grid h4{
+        position: relative;
+        margin-bottom: 20px;
+        margin-top: 0px;
+    }  
+
+    .regions{
+        margin: 1rem;
+    }
+
+    .text-grid {
+        font-family: 'montserrat', sans-serif;
+        border-style: solid;
+        border-color: #c1c1c1;
+        border-width: 0.1rem;
+        border-radius: 0.2rem;
+        padding: 0.5rem;
+        display: grid;
+        justify-content: center;
+        width: 360px;
+        place-self: center;
+        text-align: center;
+        box-shadow:  2px 2px 7px var(--darkest);
+        background-color: #f8f8f8;
+        margin-top: 10px;
+    }  
+    .dekl-text-label{
+        text-align: left;
+        font-weight: 200;
+        font-size: 12px;
+        font-family: 'montserrat', sans-serif;
+    }
+
+    #wrapper{
+        display: flex;
+        align-items: center;
+        justify-content: end;
+    }
+
+    div .submit{
+        margin-right: 15px;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+
+    .submit{
+
+        height: 50px; 
+        width: 100px;
+        background-color: #ea4c4c;
+        border-radius: 8px;
+        border-style: none;
+        box-sizing: border-box;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        height: 40px;
+        line-height: 20px;
+        list-style: none;
+        margin: 0;
+        outline: none;
+        padding: 10px 16px;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: color 100ms;
+        vertical-align: baseline;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;  
+        
+    }
+
+    .submit:hover,
+    .submit:focus {
+    background-color: #c22222;
+    }
+}
+
+
+
+
+
+
+
+/* Tablet */
+@media (min-width:600px) {
+    
+}
+
+/* Desktop */
+@media (min-width:900px) {
+    
+}
+
+/* CHECK MARK */
+.label-container {
+    /* display: block; */
+    display: flex;
+    position: sticky;
+    padding-left: 20px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+  }
+  
+  /* Hide the browser's default checkbox */
+  .label-container input {
+    margin-bottom: 2px;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .label-container:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .label-container input:checked ~ .checkmark {
+    background-color: #2196F3;
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .label-container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .label-container .checkmark:after {
+    left: 5px;
+    top: 3px;
+    width: 2px;
+    height: 5px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+/* END CHECK MARK */

@@ -1,0 +1,66 @@
+{% extends 'layout.html' %}
+    {% block title %}
+        Raporty
+    {% endblock %}
+    {% block content %}
+    <div class="container">
+        <div class="raport-grid">
+            {% for rap in raports['items'] %}
+            
+            
+            <div class="raport-info-grid">
+                <div class="raport-user-date">
+                    <p class="raport-user-date">{{ rap['date_created'] }}</p>
+                    <p class="raport-user-date">{{ rap['author']['username']|capitalize }}</p>
+                    <a type="button" class="btn btn-outline-secondary raport-link" href="{{url_for('raports.raport', raport_id=rap['id'])}}">Więcej</a>
+                </div>
+                <div class="raport-short-data">
+                    {% set drukarnia = namespace(items=0) %}
+                    {% set stolarnia = namespace(items=0) %}
+                    {% set bibeloty = namespace(items=0) %}
+                    {% for i in rap['units'] %}
+                        {% if rap.units[loop.index-1].region == 'stolarnia' %}
+                            {% set stolarnia.items = stolarnia.items + 1 %}
+                        {% elif rap.units[loop.index-1].region == 'drukarnia' %}
+                            {% set drukarnia.items = drukarnia.items + 1 %}
+                        {% else %}
+                            {% set bibeloty.items = bibeloty.items + 1 %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% set druk_val = drukarnia.items %}
+                    {% set stol_val = stolarnia.items %}
+                    {% set bib_val = bibeloty.items %}
+
+                    {% set druk = namespace(items=0) %}
+                    {% set stol = namespace(items=0) %}
+                    {% set bib = namespace(items=0) %}
+
+                    {% for i in rap.units %}
+                        {% if rap.units[loop.index-1].region == 'stolarnia' %}
+                            {% set stol.items = stol.items + 1 %}
+                            {% set st = stol.items %}
+                        {% elif rap.units[loop.index-1].region == 'drukarnia' %}
+                            {% set druk.items = druk.items + 1 %}
+                            {% set dr = druk.items %}
+                        {% else %}
+                            {% set bib.items = bib.items + 1 %}
+                            {% set bi = bib.items %}
+                        {% endif %}
+                    {% endfor %}
+                    <div class="headers">Stolarnia
+                        <p class="{% if stol_val > 0 %}markers{% else %}markers-clear{% endif %}">{{ stolarnia.items }}</p>
+                    </div>
+                    <div class="headers">Drukarnia
+                        <p class="{% if druk_val > 0 %}markers{% else %}markers-clear{% endif %}">{{ drukarnia.items }}</p>
+
+                    </div>
+                    <div class="headers">Bibeloty
+                        <p class="{% if bib_val > 0 %}markers{% else %}markers-clear{% endif %}">{{ bibeloty.items }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}

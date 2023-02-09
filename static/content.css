@@ -1,0 +1,603 @@
+:root{
+    --dark: #374151;
+    --darker: #1F2937;
+    --darkest: #111827;
+    --gray: #6B7280;
+    --light: #EEE;
+    --pink: #EC4899;
+    --purple: #8B5Cf6;
+    --bckg: #9f9f9f;
+}
+
+
+/* Mobile */
+@media (max-width:600px) {
+    body{
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background: var(--bckg);
+        color: #5a5a5a;
+    
+    }
+    
+    .container {
+        /* width: 260px; */
+        display: inline;
+        height:100%;
+        margin-top: 1rem;
+        padding-left: 0.5rem;
+        padding-right: 2vh;
+    }
+
+    .raport-grid {
+        display: flex;
+        flex-wrap: wrap;
+        /* grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); */
+        /* column-gap: 3rem; */
+        row-gap: 1rem;
+    }
+
+    .raport-info-grid {
+        flex-grow: 1;
+        font-family: 'montserrat', sans-serif;
+        border-style: solid;
+        border-color: #c1c1c1;
+        border-width: 0.1rem;
+        border-radius: 0.2rem;
+        padding: 0.5rem;
+        /* display: grid; */
+        display: flex;
+        /* grid-row-start: auto; */
+        /* justify-content: space-between; */
+        place-self: center;
+        text-align: center;
+        box-shadow:  2px 2px 7px var(--darkest);
+        background-color: #f8f8f8;
+        min-width: 14rem;
+        /* margin-top: 10px; */
+        
+    }
+
+    .raport-regions{
+        display: flex;  
+        flex-wrap: wrap;
+        flex-grow: 2;
+        justify-content: space-evenly;
+        /* flex-direction: row; */
+        
+        margin: 0.3rem;
+        /* margin-right: 3rem; */
+        font-size: 15px;
+        text-align: center;
+        /* width: 110px; */
+    }
+
+    .regions-headers{
+        font-size: 3vw;
+        display: flex;
+        flex-direction: column;
+        margin-left: 0.6rem;
+        margin-right: 0.6rem;
+        margin-top: 0.3rem;;
+        text-align: center;
+    }
+    
+    .regio-circle-box{
+        max-height: 35px;
+        display: grid;
+        justify-items: center;
+        align-items: start;
+
+    }
+    
+    .raport-circle-empty{
+        /* margin-left: 2rem; */
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 50%;
+        font-size: 13px;
+        margin: 5px;
+        text-align: center;
+        color: #000000;
+        background: #c0c0c0;
+        box-shadow:  1px 1px 7px var(--gray);
+    }
+    
+    .full{
+        color: #ffffff;
+        background: #d95c5c;
+        box-shadow:  1px 1px 7px var(--gray);
+        padding: 0px;
+    }
+    
+    .raport-btn {
+        margin-top: 30px;
+        width: 80px;
+        background-color: #FFFFFF;
+        border: 1px solid rgb(209,213,219);
+        border-radius: .5rem;
+        box-sizing: border-box;
+        color: #111827;
+        font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+        font-size: .875rem;
+        font-weight: 600;
+        line-height: 1.25rem;
+        padding: .75rem 1rem;
+        text-align: center;
+        text-decoration: none #D1D5DB solid;
+        text-decoration-thickness: auto;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+    /* RAPORT */
+    .raport-data-user{
+        display: grid;
+        align-content: space-between;
+        margin: 0.3rem;
+        border-right: solid 0.5px rgb(174, 174, 174);
+        font-size: 15px;
+        text-align: left;
+        min-width: 90px;
+    }
+
+    .raport-text{
+        /* display: flex;  
+        flex-direction: row; */
+        margin: 0.3rem;
+        margin-right: 3rem;
+        font-size: 15px;
+        text-align: left;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* Tablet */
+/* Tablet */
+@media (min-width:600px) {
+    body{
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background: var(--bckg);
+        color: #5a5a5a;
+    
+    }
+    
+    .container {
+        /* width: 260px; */
+        display: inline;
+        height:100%;
+        margin-top: 1rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .raport-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        /* grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); */
+        /* column-gap: 3rem; */
+        row-gap: 1rem;
+        column-gap: 1rem;
+    }
+
+    .raport-info-grid {
+        flex-grow: 1;
+        font-family: 'montserrat', sans-serif;
+        border-style: solid;
+        border-color: #c1c1c1;
+        border-width: 0.1rem;
+        border-radius: 0.2rem;
+        padding: 0.5rem;
+        /* display: grid; */
+        display: flex;
+        max-width: 255px;
+        /* grid-row-start: auto; */
+        /* justify-content: space-between; */
+        place-self: center;
+        text-align: center;
+        box-shadow:  2px 2px 7px var(--darkest);
+        background-color: #f8f8f8;
+        min-width: 14rem;
+        /* margin-top: 10px; */
+        
+    }
+
+    .raport-regions{
+        display: flex;  
+        flex-wrap: wrap;
+        flex-grow: 2;
+        justify-content: space-between;
+        flex-direction: column;
+        
+        margin: 0.3rem;
+        margin-bottom: 2rem;
+        /* margin-right: 3rem; */
+        font-size: 15px;
+        text-align: center;
+        /* width: 110px; */
+    }
+
+    .regions-headers{
+        font-size: 11px;
+        display: flex;
+        flex-direction: column;
+        margin-left: 0.6rem;
+        margin-right: 0.6rem;
+        margin-top: 0.3rem;;
+        text-align: center;
+    }
+    
+    .regio-circle-box{
+        
+        max-height: 35px;
+        display: grid;
+        justify-items: center;
+        align-items: start;
+        margin: 0px;
+
+    }
+    
+    .raport-circle-empty{
+        /* margin-left: 2rem; */
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 50%;
+        font-size: 13px;
+        margin: 5px;
+        text-align: center;
+        color: #000000;
+        background: #c0c0c0;
+        box-shadow:  1px 1px 7px var(--gray);
+    }
+    
+    .full{
+        color: #ffffff;
+        background: #d95c5c;
+        box-shadow:  1px 1px 7px var(--gray);
+        padding: 0px;
+    }
+    
+    .raport-btn {
+        margin-top: 90px;
+        width: 80px;
+        background-color: #FFFFFF;
+        border: 1px solid rgb(209,213,219);
+        border-radius: .5rem;
+        box-sizing: border-box;
+        color: #111827;
+        font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+        font-size: .875rem;
+        font-weight: 600;
+        line-height: 1.25rem;
+        padding: .75rem 1rem;
+        text-align: center;
+        text-decoration: none #D1D5DB solid;
+        text-decoration-thickness: auto;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+    /* RAPORT */
+    .raport-data-user{
+        display: grid;
+        align-content: space-between;
+        margin: 0.3rem;
+        border-right: solid 0.5px rgb(174, 174, 174);
+        font-size: 15px;
+        text-align: left;
+        min-width: 90px;
+    }
+
+    .raport-text{
+        /* display: flex;  
+        flex-direction: row; */
+        margin: 0.3rem;
+        margin-right: 3rem;
+        font-size: 15px;
+        text-align: left;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/* Desktop */
+@media (min-width:900px) {
+    body{
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background: var(--bckg);
+        color: #5a5a5a;
+    
+    }
+    
+    .container {
+        /* width: 260px; */
+        display: inline;
+        height:100%;
+        margin-top: 1rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .raport-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        /* grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); */
+        /* column-gap: 3rem; */
+        row-gap: 1rem;
+        column-gap: 1rem;
+    }
+
+    .raport-info-grid {
+        flex-grow: 1;
+        font-family: 'montserrat', sans-serif;
+        border-style: solid;
+        border-color: #c1c1c1;
+        border-width: 0.1rem;
+        border-radius: 0.2rem;
+        padding: 0.5rem;
+        /* display: grid; */
+        display: flex;
+        max-width: 400px;
+        /* grid-row-start: auto; */
+        /* justify-content: space-between; */
+        place-self: center;
+        text-align: center;
+        box-shadow:  2px 2px 7px var(--darkest);
+        background-color: #f8f8f8;
+        min-width: 14rem;
+        /* margin-top: 10px; */
+        
+    }
+
+    .raport-regions{
+        display: flex;  
+        flex-wrap: wrap;
+        flex-grow: 2;
+        justify-content: space-evenly;
+        flex-direction: row;
+        margin: 0.3rem;
+        text-align: center;
+
+    }
+
+    .regions-headers{
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        margin-left: 0.6rem;
+        margin-right: 0.6rem;
+        margin-top: 0.3rem;
+        margin-bottom: 1rem;;
+        text-align: center;
+    }
+    
+    .regio-circle-box{
+        max-height: 35px;
+        margin: 0px;
+        margin-top: 2rem;
+        display: grid;
+        align-content: center;
+    }
+    
+    .raport-circle-empty{
+        /* margin-left: 2rem; */
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 50%;
+        font-size: 13px;
+        margin: 5px;
+        text-align: center;
+        color: #000000;
+        background: #c0c0c0;
+        box-shadow:  1px 1px 7px var(--gray);
+    }
+    
+    .full{
+        color: #ffffff;
+        background: #d95c5c;
+        box-shadow:  1px 1px 7px var(--gray);
+        padding: 0px;
+    }
+    
+    .raport-btn {
+        margin-top: 30px;
+        width: 80px;
+        background-color: #FFFFFF;
+        border: 1px solid rgb(209,213,219);
+        border-radius: .5rem;
+        box-sizing: border-box;
+        color: #111827;
+        font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+        font-size: .875rem;
+        font-weight: 600;
+        line-height: 1.25rem;
+        padding: .75rem 1rem;
+        text-align: center;
+        text-decoration: none #D1D5DB solid;
+        text-decoration-thickness: auto;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+    /* RAPORT */
+    .raport-data-user{
+        display: grid;
+        align-content: space-between;
+        margin: 0.3rem;
+        border-right: solid 0.5px rgb(174, 174, 174);
+        font-size: 15px;
+        text-align: left;
+        min-width: 90px;
+    }
+
+    .raport-text{
+        /* display: flex;  
+        flex-direction: row; */
+        margin: 0.3rem;
+        margin-right: 3rem;
+        font-size: 15px;
+        text-align: left;
+    }
+}
+
+
+
+
+
+/* .raport-info-grid {
+    font-family: 'montserrat', sans-serif;
+    border-style: solid;
+    border-color: #c1c1c1;
+    border-width: 0.1rem;
+    border-radius: 0.2rem;
+    padding: 0.5rem;
+    display: grid;
+    grid-template-columns: 9rem 2fr;
+    place-self: center;
+    text-align: center;
+    box-shadow:  2px 2px 7px var(--darkest);
+    background-color: #f8f8f8;
+    min-width: 20rem;
+    margin-top: 10px;
+    
+} */
+/* .raport-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    column-gap: 3rem;
+    row-gap: 2rem;
+} */
+
+/* .raport-data-user{
+    margin: 0.3rem;
+    border-right: solid 0.5px rgb(174, 174, 174);
+    font-size: 15px;
+    text-align: left;
+    width: 110px;
+} */
+
+.raport-details{
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+
+/* .raport-btn {
+    margin-top: 60px;
+    width: 100px;
+    background-color: #FFFFFF;
+    border: 1px solid rgb(209,213,219);
+    border-radius: .5rem;
+    box-sizing: border-box;
+    color: #111827;
+    font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: .875rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+    padding: .75rem 1rem;
+    text-align: center;
+    text-decoration: none #D1D5DB solid;
+    text-decoration-thickness: auto;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+} */
+
+.raport-btn:hover {
+    background-color: rgb(223, 223, 223);
+}
+
+.raport-btn:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+
+.raport-btn:focus-visible {
+    box-shadow: none;
+}
+
+/* .raport-regions{
+    padding-top: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 15px;
+} */
+
+/* .regions-headers{
+    margin-left: 0.6rem;
+    margin-right: 0.6rem;
+    display: inline-block;
+    vertical-align:middle;;
+}
+
+
+.raport-circle-empty{
+    margin: 20px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    font-size: 13px;
+    text-align: center;
+    color: #000000;
+    background: #c0c0c0;
+    box-shadow:  1px 1px 7px var(--gray);
+}
+
+.full{
+    color: #ffffff;
+    background: #d95c5c;
+    box-shadow:  1px 1px 7px var(--gray);
+} */
+
+/* raport */
+.one{
+    margin-left: 1rem;
+    margin-right: 1rem;
+    text-align: left;
+    width:auto;
+    margin: 0em;
+
+}
+
+.header{
+    font-weight: 700;
+}
+
+
+
+
