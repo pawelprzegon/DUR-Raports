@@ -36,7 +36,6 @@ function show(data) {
     raportList.innerHTML = '';
 
     data.items.forEach(each => {
-
         const raportInfoGrid = document.createElement('div')
 
             const raportDataUser = document.createElement('div');
@@ -56,14 +55,37 @@ function show(data) {
                     const raportRegionsBibeloty = document.createElement('div');
                     const raportCircleBibeloty = document.createElement('p');
 
-                const newLine = document.createElement('br')
-            
         raportInfoGrid.classList.add('raport-info-grid')
+
+            raportInfoGrid.addEventListener("mouseover", (e) => {
+                if (e.target.firstChild.hasChildNodes())
+                    if((e.target.firstChild.childNodes.length)>2){
+                        e.target.firstChild.children[0].classList.add('bold')
+                        e.target.firstChild.children[1].classList.add('bold')
+                        if (e.target.firstChild.children[2].hasChildNodes())
+                            // console.log(e.target.firstChild.children[2].children[0])
+                            e.target.firstChild.children[2].children[0].classList.add('hover-btn')
+                            // e.target.style.backgroundColor = 'pink'
+                    }
+            });
+            raportInfoGrid.addEventListener("mouseleave", (e) => {
+                if (e.target.firstChild.hasChildNodes())
+                    if((e.target.firstChild.childNodes.length)>2){
+                        e.target.firstChild.children[0].classList.remove('bold')
+                        e.target.firstChild.children[1].classList.remove('bold')
+                        if (e.target.firstChild.children[2].hasChildNodes())
+                            // console.log(e.target.firstChild.children[2].children[0])
+                            e.target.firstChild.children[2].children[0].classList.remove('hover-btn')
+                            // e.target.style.backgroundColor = 'var(--bridge)'
+                    }
+            });
         raportDataUser.classList.add('raport-data-user')
         detailsDate.classList.add('raport-details')
         detailsDate.classList.add('raport-details')
         detailsUser.classList.add('raport-details')
+
         moreButton.classList.add('raport-btn')
+
         raportRegions.classList.add('raport-regions')
         StolarniaBox.classList.add('regio-circle-box')
         DrukarniaBox.classList.add('regio-circle-box')
@@ -75,10 +97,11 @@ function show(data) {
         raportRegionsBibeloty.classList.add('regions-headers')
         raportCircleBibeloty.classList.add('raport-circle-empty')
 
+
         
         detailsDate.innerText = `${each.date_created}`;
         detailsUser.innerText = `${each.author.username.capitalize()}`;
-        moreButton.innerText = 'Więcej';
+        moreButton.innerText = 'WIĘCEJ';
         btnL.setAttribute("href","raport.html");
 
         let stolarnia = 0;
@@ -132,7 +155,16 @@ function show(data) {
             BibelotyBox.appendChild(raportRegionsBibeloty)
             BibelotyBox.appendChild(raportCircleBibeloty)
         raportList.appendChild(raportInfoGrid)
+
+        const paginateBox = document.createElement('div')
+            const paginate = document.createElement('nav')
+            paginate.classList.add('pagination-container')
+
+        paginateBox.appendChild(paginate)
+        raportList.appendChild(paginateBox)
 });
+
+
 }
 
 Object.defineProperty(String.prototype, 'capitalize', {
@@ -141,3 +173,124 @@ Object.defineProperty(String.prototype, 'capitalize', {
     },
     enumerable: false
   });
+
+
+  function addPaginate(){
+    let addPage = `
+
+        <button class="pagination-button" id="prev-button" aria-label="Previous page" title="Previous page">
+        &lt;
+    </button>
+
+    <div id="pagination-numbers">
+
+    </div>
+
+    <button class="pagination-button" id="next-button" aria-label="Next page" title="Next page">
+        &gt;
+    </button>
+    `;
+    document.getElementById("app-header").innerHTML = appHeader;
+
+    const paginationNumbers = document.getElementById("pagination-numbers");
+    const paginatedList = document.getElementById("raport");
+    const listItems = paginatedList.querySelectorAll("li");
+    const nextButton = document.getElementById("next-button");
+    const prevButton = document.getElementById("prev-button");
+
+    const paginationLimit = 10;
+    const pageCount = Math.ceil(listItems.length / paginationLimit);
+    let currentPage = 1;
+
+    const disableButton = (button) => {
+    button.classList.add("disabled");
+    button.setAttribute("disabled", true);
+    };
+
+    const enableButton = (button) => {
+    button.classList.remove("disabled");
+    button.removeAttribute("disabled");
+    };
+
+    const handlePageButtonsStatus = () => {
+    if (currentPage === 1) {
+        disableButton(prevButton);
+    } else {
+        enableButton(prevButton);
+    }
+
+    if (pageCount === currentPage) {
+        disableButton(nextButton);
+    } else {
+        enableButton(nextButton);
+    }
+    };
+
+    const handleActivePageNumber = () => {
+    document.querySelectorAll(".pagination-number").forEach((button) => {
+        button.classList.remove("active");
+        const pageIndex = Number(button.getAttribute("page-index"));
+        if (pageIndex == currentPage) {
+        button.classList.add("active");
+        }
+    });
+    };
+
+    const appendPageNumber = (index) => {
+    const pageNumber = document.createElement("button");
+    pageNumber.className = "pagination-number";
+    pageNumber.innerHTML = index;
+    pageNumber.setAttribute("page-index", index);
+    pageNumber.setAttribute("aria-label", "Page " + index);
+
+    paginationNumbers.appendChild(pageNumber);
+    };
+
+    const getPaginationNumbers = () => {
+    for (let i = 1; i <= pageCount; i++) {
+        appendPageNumber(i);
+    }
+    };
+
+    const setCurrentPage = (pageNum) => {
+    currentPage = pageNum;
+
+    handleActivePageNumber();
+    handlePageButtonsStatus();
+    
+    const prevRange = (pageNum - 1) * paginationLimit;
+    const currRange = pageNum * paginationLimit;
+
+    listItems.forEach((item, index) => {
+        item.classList.add("hidden");
+        if (index >= prevRange && index < currRange) {
+        item.classList.remove("hidden");
+        }
+    });
+    };
+
+    window.addEventListener("load", () => {
+    getPaginationNumbers();
+    setCurrentPage(1);
+
+    prevButton.addEventListener("click", () => {
+        setCurrentPage(currentPage - 1);
+    });
+
+    nextButton.addEventListener("click", () => {
+        setCurrentPage(currentPage + 1);
+    });
+
+    document.querySelectorAll(".pagination-number").forEach((button) => {
+        const pageIndex = Number(button.getAttribute("page-index"));
+
+        if (pageIndex) {
+        button.addEventListener("click", () => {
+            setCurrentPage(pageIndex);
+        });
+        }
+    });
+    });
+
+
+}
