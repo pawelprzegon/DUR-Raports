@@ -20,6 +20,7 @@ async function getapi(url) {
     }
         console.log(data);
         show(data);
+        addPaginate();
 
 }
 // Calling that async function
@@ -36,7 +37,7 @@ function show(data) {
     raportList.innerHTML = '';
 
     data.items.forEach(each => {
-        const raportInfoGrid = document.createElement('div')
+        const raportInfoGrid = document.createElement('li')
 
             const raportDataUser = document.createElement('div');
                 const detailsDate = document.createElement('p');
@@ -154,16 +155,39 @@ function show(data) {
         raportRegions.appendChild(BibelotyBox)
             BibelotyBox.appendChild(raportRegionsBibeloty)
             BibelotyBox.appendChild(raportCircleBibeloty)
+
         raportList.appendChild(raportInfoGrid)
 
-        const paginateBox = document.createElement('div')
-            const paginate = document.createElement('nav')
-            paginate.classList.add('pagination-container')
-
-        paginateBox.appendChild(paginate)
-        raportList.appendChild(paginateBox)
+        
 });
+// dodawanie paginate
+const elem = document.querySelector('#raport');
+const paginateBox = document.createElement('div')
+    paginateBox.classList.add()
+const paginate = document.createElement('nav')
+const prevBtn = document.createElement('button')
+    prevBtn.classList.add("pagination-button")
+    prevBtn.id = 'prev-button'
+    prevBtn.ariaLabel = "Previous page"
+    prevBtn.title = "Previous page"
+    prevBtn.innerHTML = '&lt;'
+    const numb = document.createElement('div')
+    numb.id = "pagination-numbers"
+    const nextBtn = document.createElement('button')
+    nextBtn.classList.add("pagination-button")
+    nextBtn.id = 'next-button'
+    nextBtn.ariaLabel = "Next page"
+    nextBtn.title = "Next page"
+    nextBtn.innerHTML = "&gt;"
 
+
+paginate.classList.add('pagination-container')
+paginate.appendChild(prevBtn)
+paginate.appendChild(numb)
+paginate.appendChild(nextBtn)
+
+paginateBox.appendChild(paginate)
+elem.appendChild(paginateBox)
 
 }
 
@@ -175,22 +199,10 @@ Object.defineProperty(String.prototype, 'capitalize', {
   });
 
 
+
+  
   function addPaginate(){
-    let addPage = `
-
-        <button class="pagination-button" id="prev-button" aria-label="Previous page" title="Previous page">
-        &lt;
-    </button>
-
-    <div id="pagination-numbers">
-
-    </div>
-
-    <button class="pagination-button" id="next-button" aria-label="Next page" title="Next page">
-        &gt;
-    </button>
-    `;
-    document.getElementById("app-header").innerHTML = appHeader;
+    
 
     const paginationNumbers = document.getElementById("pagination-numbers");
     const paginatedList = document.getElementById("raport");
@@ -198,7 +210,7 @@ Object.defineProperty(String.prototype, 'capitalize', {
     const nextButton = document.getElementById("next-button");
     const prevButton = document.getElementById("prev-button");
 
-    const paginationLimit = 10;
+    const paginationLimit = 2;
     const pageCount = Math.ceil(listItems.length / paginationLimit);
     let currentPage = 1;
 
