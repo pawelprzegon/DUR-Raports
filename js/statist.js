@@ -18,9 +18,16 @@ async function getapi(url) {
     if (response) {
         hideloader();
     }
-        console.log(data);
         layout();
         charts(data);
+
+        let canvas = document.getElementById('charts');
+        
+        canvas.style = 'null';
+        canvas.style = 'null';
+        // canvas.style.maxWidth = '350px';
+        canvas.style.maxHeight = '250px';
+
 
 }
 // Calling that async function
