@@ -8,13 +8,13 @@ const users = ['Adam', 'Paweł', 'Bartek'];
 
 
 function showForm () {
-
     const CheckList = document.querySelector('#form-data');
     
 
         //dodawanie checkboxów
         function show(lab, data) {
             // hideloader();
+
 
             const region = document.createElement('div');
                 region.classList.add('regions')
@@ -198,4 +198,5 @@ function showForm () {
               
 }
 showForm()
+
 

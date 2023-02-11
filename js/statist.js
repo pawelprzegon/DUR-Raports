@@ -1,4 +1,4 @@
-
+$("body").css("overflow", "hidden");
 // api url
 const api_url = 
       "https://mocki.io/v1/5f15194a-ce6e-4ae3-bfb3-69c0b3328f96";

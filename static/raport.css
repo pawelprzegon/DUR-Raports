@@ -26,6 +26,11 @@ body {
     max-height: 300vh;
     background: var(--bckg);
     color: #000000;
+
+}
+
+#cont ul {
+    padding: 0;
 }
 
 /* Mobile */

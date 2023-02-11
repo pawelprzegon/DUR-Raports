@@ -1,3 +1,4 @@
+$("body").css("overflow", "hidden");
 // api url
 const api_url = 
       "https://mocki.io/v1/1f2aff46-ef0b-4c2c-9863-1dc3c02a1665";
@@ -33,6 +34,7 @@ function hideloader() {
 
 // Function to define innerHTML for HTML table
 function show(data) {
+    
     const raportList = document.querySelector('#raport');
     raportList.innerHTML = '';
 
@@ -163,7 +165,6 @@ function show(data) {
 // dodawanie paginate
 const elem = document.querySelector('#raport');
 const paginateBox = document.createElement('div')
-    paginateBox.classList.add()
 const paginate = document.createElement('nav')
 const prevBtn = document.createElement('button')
     prevBtn.classList.add("pagination-button")
