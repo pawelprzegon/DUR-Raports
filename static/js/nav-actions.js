@@ -32,7 +32,7 @@ newNavAnim.addEventListener('click', e =>{
 });
 
 navOverlay.addEventListener("click", () =>{
-    elem.style.height = "60px";
+    elem.style.height = "40px";
     elem.classList.remove("big-row", "show-anim")
     pic.classList.remove('big')
     btns.classList.add("nav-close")

@@ -15,8 +15,7 @@ body {
         width: 85%;
         display: grid;
         grid-template-rows: [row1-start] 25% [row1-end]auto [last-line];
-
-        height: 60px;
+        height: 40px;
         background: #000000;
         box-shadow: 1px 1px 7px var(--gray);
         font-family: 'Roboto', sans-serif;
@@ -169,7 +168,7 @@ min-width: 14rem;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
+
     background: none;
     outline: none;
     cursor: pointer;
@@ -185,11 +184,7 @@ min-width: 14rem;
 .nav-btns {
     display: flex;
     flex-wrap: wrap;
-}
-
-.nav-btns a {
-    height: 40px;
-    width: 40px;
+    justify-content: flex-end;
 }
 
 
@@ -203,13 +198,38 @@ min-width: 14rem;
 
 .nav-link {
     text-align: center;
-    margin: 14px;
-    margin-top: 25px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px;
-    font-weight: 300;
-    color: #ffffff;
+    margin: 6px;
+    margin-top: 15px;
+    height: 40px;
+    width: 100px;
+    font-size: 15px;
+    text-align: center;
+    display: grid;
+    align-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    text-decoration: none;
+    color: #b8b8b8;
+    transition: font-size 0.3s;
+    border-color: #ffffff;
+    border-style: solid;
+    border-width: 0 0 1px;
+    border-color: rgb(255, 255, 255);
+    /* background-color: #000000; */
 }
+
+.nav-link:hover {
+    font-size: 20px;
+    border-width: 1px;
+    color: rgb(255, 255, 255);
+    animation: fadeIn 0.5s;
+}
+
+.nav-link:active {
+    background: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+
 
 .show-anim {
     animation: fadeIn 0.5s;
@@ -229,17 +249,6 @@ min-width: 14rem;
     height: 15px;
 }
 
-.nav-link:not(:last-child) {
-    /* border-bottom: 1px solid #222222; */
-}
-
-.nav-link:hover {
-    background: rgba(227, 82, 82, 0.462);
-}
-
-.nav-link:active {
-    background: rgba(228, 228, 228, 0.462);
-}
 
 .nav-overlay {
     z-index: 998;

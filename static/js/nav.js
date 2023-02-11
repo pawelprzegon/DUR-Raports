@@ -15,19 +15,20 @@ let appHeader = `
             </div>
             <div class="top-elements" >
                 <nav class="nav nav-close" id="btns-pics">
-                    <a href="raports.html" class="nav-link">Home</a>
+                    <a href="raports.html" class="nav-link">
+                    home</a>
                     <a href="statistics.html" class="nav-link">
-                       Statystyki</a>
+                       statystyki</a>
                     <a href="users.html" class="nav-link">
-                       Moje</a>
+                       moje</a>
                     <a href="create.html" class="nav-link">
-                        Dodaj</a>
+                        dodaj</a>
                     <a href="#" class="nav-link">
-                        Edytuj</a>
+                        edytuj</a>
                     <a href="#" class="nav-link">
-                        Usuń</a>
+                        usuń</a>
                     <a href="#" class="nav-link">
-                        Wyloguj</a>
+                        wyloguj</a>
                 </nav>  
             </div>   
         </div> 
