@@ -51,7 +51,23 @@ body {
   }
 
   .regions {
-    margin: 1rem;
+    margin: 0.1rem;
+  }
+
+  .label-container {
+    /* display: block; */
+    display: flex;
+    position: sticky;
+    padding-left: 20px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 4rem;
+
   }
 
   .text-grid {
@@ -73,19 +89,25 @@ body {
 
   .dekl-text-label {
     text-align: left;
-    font-weight: 200;
-    font-size: 12px;
+    font-weight: 400;
+    font-size: 15px;
     font-family: 'Roboto', sans-serif;
   }
 
   .form-line {
     display: grid;
     text-align: left;
-    font-weight: 200;
-    font-size: 12px;
+    font-weight: 400;
+    font-size: 13px;
     font-family: 'Roboto', sans-serif;
     margin-top: 0.2rem;
     margin-bottom: 0.2rem;
+  }
+
+  .form-line-label {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 400;
   }
 
   #wrapper {
@@ -97,7 +119,7 @@ body {
   .dekl-text-area {
     display: flex;
     text-align: left;
-    font-weight: 200;
+    font-weight: 400;
     font-size: 12px;
     font-family: 'Roboto', sans-serif;
   }
@@ -167,7 +189,7 @@ body {
     padding-left: 20px;
     margin-bottom: 5px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 14px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -219,11 +241,17 @@ body {
   .form-line {
     display: grid;
     text-align: left;
-    font-weight: 200;
-    font-size: 12px;
+    font-weight: 300;
+    font-size: 14px;
     font-family: 'Roboto', sans-serif;
     margin-top: 0.2rem;
     margin-bottom: 0.2rem;
+  }
+
+  .form-line-label {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 400;
   }
 
   .text-grid {
@@ -247,8 +275,8 @@ body {
 
   .dekl-text-label {
     text-align: left;
-    font-weight: 200;
-    font-size: 12px;
+    font-weight: 400;
+    font-size: 15px;
     font-family: 'Roboto', sans-serif;
   }
 
@@ -313,11 +341,177 @@ body {
 
 
 /* Desktop */
-@media (min-width:900px) {}
+@media (min-width:900px) {
+
+  /* .container {
+    margin-top: 1rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
+  } */
+
+  .container {
+    padding-left: 25rem;
+    padding-right: 25rem;
+  }
+
+  .label-container {
+    display: flex;
+    position: sticky;
+    padding-left: 20px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 7rem;
+
+  }
+
+  .registration-grid {
+    font-family: 'Roboto', sans-serif;
+    border-style: solid;
+    border-color: #c1c1c1;
+    border-width: 0.1rem;
+    border-radius: 0.2rem;
+    padding: 0.5rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 2px 2px 7px var(--darkest);
+    background-color: #f8f8f8;
+    min-width: 14rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .registration-grid h4 {
+    position: relative;
+    margin-bottom: 20px;
+    margin-top: 0px;
+  }
+
+  .regions {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 275px;
+    justify-content: flex-start;
+    align-content: flex-start;
+    margin: 0.3rem;
+  }
+
+  .checkboxes {
+    flex-wrap: wrap;
+    display: flex;
+    flex-grow: 1;
+
+
+  }
+
+  .form-line {
+    display: grid;
+    text-align: left;
+    font-weight: 300;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    margin: 0.2rem;
+    resize: none;
+  }
+
+  .form-line-label {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 400;
+  }
+
+  .text-grid {
+    font-family: 'Roboto', sans-serif;
+    border-style: solid;
+    border-color: #c1c1c1;
+    border-width: 0.1rem;
+    border-radius: 0.2rem;
+    padding: 0.5rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    place-self: center;
+    text-align: center;
+    box-shadow: 2px 2px 7px var(--darkest);
+    background-color: #f8f8f8;
+    margin-top: 10px;
+  }
+
+  .dekl-text-label {
+    flex-direction: column;
+    text-align: left;
+    font-weight: 400;
+    font-size: 17px;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .dekl-text-area {
+    display: flex;
+    text-align: left;
+    font-weight: 400;
+    font-size: 12px;
+    font-family: 'Roboto', sans-serif;
+    resize: none;
+  }
+
+  #wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+  }
+
+  div .submit {
+    margin-right: 15px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+
+  .submit {
+
+    height: 50px;
+    width: 100px;
+    background-color: #ea4c4c;
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    outline: none;
+    padding: 10px 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+
+  }
+
+  .submit:hover,
+  .submit:focus {
+    background-color: #c22222;
+  }
+}
 
 /* CHECK MARK */
-.label-container {
-  /* display: block; */
+/* .label-container {
   display: flex;
   position: sticky;
   padding-left: 20px;
@@ -329,7 +523,7 @@ body {
   -ms-user-select: none;
   user-select: none;
 
-}
+} */
 
 /* Hide the browser's default checkbox */
 .label-container input {

@@ -46,7 +46,7 @@ export function openCreate (){
                                 input.name = `${each}`
                                 i+=1;
                                 input.onclick = function(){
-                                    showStolarniaBox(`${lab}`, input.id);
+                                    showTextBox(`${lab}`, input.id);
                                 }
                             
                             
@@ -66,15 +66,20 @@ export function openCreate (){
 
                 const txtField = document.createElement('div');
                     txtField.classList.add('form-line');
-                const inputField = document.createElement('textarea');
+                    const txtFieldLab = document.createElement('p');
+                    txtFieldLab.innerText = `${lab}`;
+                    txtFieldLab.hidden = true;
+                    txtFieldLab.id = 'label-'+`${lab}`;
+                    txtFieldLab.classList.add('form-line-label')
+                    const inputField = document.createElement('textarea');
                     
                 inputField.hidden = true;
-                // inputField.type = 'text';
                 inputField.name = `${lab}`;
                 inputField.cols = '40';
                 inputField.rows = '6';
                 inputField.placeholder = `${lab}`;
                 
+                txtField.appendChild(txtFieldLab)
                 txtField.appendChild(inputField)
                 return txtField
                 
@@ -84,10 +89,7 @@ export function openCreate (){
         const CheckboxField = document.createElement('div')
             CheckboxField.classList.add('registration-grid')
             for(const [key, value] of Object.entries(regioList)){
-                console.log(key)
-                console.log(value)
                 var region = show(key, value);
-                console.log(region)
                 CheckboxField.appendChild(region);
                 
             }      
@@ -99,25 +101,34 @@ export function openCreate (){
             RaportTextField.id = 'RaportTextField'
             RaportTextField.style.display = "none"
             for(const key in regioList){
-                var textField = textFields(key)
+                let textField = textFields(key)
                 RaportTextField.appendChild(textField);
             }
             CheckList.appendChild(RaportTextField);
             
-            function showStolarniaBox(name, checkbox_id) {
-                console.log(name)
+            function showTextBox(name, checkbox_id) {
                 let checkBoxTriggered = document.getElementById(checkbox_id);
+                let textField = document.getElementById('RaportTextField')
+                let textLabel = document.getElementById('label-'+name)
                 let text = document.getElementsByName(name);
                 let result = checkIfAnyCheckbox(name)
-                console.log(text[0])
+
                 if (checkBoxTriggered.checked){
-                    text[0].value += checkBoxTriggered.name +" : \n"
+                    textField.style.display = 'Flex'
+                    if (text[0].value != ''){
+                        text[0].value += "\n"+checkBoxTriggered.name +" : "
+                    }else{
+                        text[0].value += checkBoxTriggered.name +" : "
+                    }
+                    
                 }
                 if (result == true){
                 text[0].hidden = false;
+                textLabel.hidden = false;
                 text[0].classList.add('form-line')
                 } else {
                 text[0].hidden = true;
+                textLabel.hidden = true;
                 text[0].value = ''
                 text[0].classList.remove('form-line')
                 }
@@ -137,10 +148,8 @@ export function openCreate (){
                         rtfTrigger = true;
                     } 
                 }
-                if (rtfTrigger == true){
-                    rtf.style.display = 'block';
-                }else{
-                    rtf.style.display = 'none'  
+                if (rtfTrigger == false){
+                    rtf.style.display = 'none';
                 }
                 
                 return checkboxTrigger;

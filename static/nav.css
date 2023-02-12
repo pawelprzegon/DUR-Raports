@@ -80,9 +80,9 @@ body {
         display: grid;
         align-content: center;
         font-family: 'Montserrat', sans-serif;
-        font-weight: 200;
+        font-weight: 600;
         text-decoration: none;
-        color: #b8b8b8;
+        color: #ffffff;
         transition: font-size 0.3s;
         border-color: #ffffff;
         border-style: solid;
@@ -168,9 +168,9 @@ body {
         display: grid;
         align-content: center;
         font-family: 'Montserrat', sans-serif;
-        font-weight: 200;
+        font-weight: 600;
         text-decoration: none;
-        color: #b8b8b8;
+        color: #ffffff;
         transition: font-size 0.3s;
         border-color: #ffffff;
         border-style: solid;
@@ -261,9 +261,9 @@ body {
         display: grid;
         align-content: center;
         font-family: 'Montserrat', sans-serif;
-        font-weight: 200;
+        font-weight: 600;
         text-decoration: none;
-        color: #b8b8b8;
+        color: #ffffff;
         transition: font-size 0.3s;
         border-color: #ffffff;
         border-style: solid;
