@@ -7,7 +7,7 @@
   --light: #EEE;
   --pink: #EC4899;
   --purple: #8B5Cf6;
-  --bckg: #9f9f9f;
+  --bckg: #000000;
 }
 
 body {
@@ -22,11 +22,12 @@ body {
 
 /* Mobile */
 @media (max-width:600px) {
-  .container {
+
+  /* .container {
     margin-top: 1rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-  }
+  } */
 
   .registration-grid {
     font-family: 'Roboto', sans-serif;
@@ -153,11 +154,11 @@ body {
 /* Tablet */
 @media (min-width:600px) {
 
-  .container {
+  /* .container {
     margin-top: 1rem;
     padding-left: 5rem;
     padding-right: 5rem;
-  }
+  } */
 
   .label-container {
     /* display: block; */

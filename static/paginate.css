@@ -22,12 +22,9 @@ h1 {
 }
 
 .pagination-container {
-    width: calc(100% - 2rem);
     display: flex;
-    align-items: center;
-    bottom: 0;
-    padding: 1rem 0;
     justify-content: center;
+    bottom: 0;
 }
 
 .pagination-number,
@@ -57,8 +54,12 @@ h1 {
 }
 
 .pagination-button {
-    color: var(--btn);
+    color: rgb(125, 125, 125);
     border-style: solid;
     border-width: 1px;
     border-color: var(--btn);
+}
+
+.paginateBox {
+    width: 400px;
 }
