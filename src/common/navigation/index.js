@@ -1,6 +1,7 @@
 import {openStat} from '../../../js/statist.js';
 import {openCreate} from '../../../js/create.js';
 
+
 export function navBar(){
     const header = document.getElementById("app-header")
 

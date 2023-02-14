@@ -1,9 +1,8 @@
 import {navBar} from '../src/common/navigation/index.js';
 import {navBehav} from '../src/common/navigation/index.js';
 // import '../src/common/navigation/style.css';
-import {openRaport} from '../js/raport.js';
 import {addPaginate} from '../src/common/paginate/index.js'
-import {addBrick} from '../src/features/brick/index.js'
+import {Brick} from '../src/features/brick/index.js'
 
 
 
@@ -32,8 +31,9 @@ window.onload=function(){
 
     data.items.forEach(each => {
 
-        let raportInfoGrid = addBrick(each)
-        raportList.appendChild(raportInfoGrid);
+        let raportInfoGrid = new Brick(each)
+        let brick = raportInfoGrid.getBrick()
+        raportList.appendChild(brick);
 
     });
 
