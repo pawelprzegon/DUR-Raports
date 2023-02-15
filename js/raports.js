@@ -29,7 +29,7 @@ window.onload=function(){
     raportList.classList.remove('single')
     raportList.innerHTML = '';
 
-    data.items.forEach(each => {
+    data.forEach(each => {
 
         let raportInfoGrid = new Brick(each)
         let brick = raportInfoGrid.getBrick()
@@ -39,7 +39,7 @@ window.onload=function(){
 
     }
     const api_url = 
-        "https://mocki.io/v1/1f2aff46-ef0b-4c2c-9863-1dc3c02a1665";
+        "https://mocki.io/v1/a0e2c838-c640-49ec-9111-2eb40f9296df";
 
     // Defining async function
     async function getapi(url) {

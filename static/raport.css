@@ -63,24 +63,32 @@ body {
         border-color: var(--brdr);
         color: var(--fntColor);
         border-width: 0.1rem;
-        border-radius: 0.2rem;
+        border-radius: 1rem;
         padding: 0.5rem;
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 3fr;
         place-self: center;
         text-align: center;
         box-shadow: 2px 2px 7px var(--darkest);
         background-color: var(--bridge);
+        max-width: 23rem;
         min-width: 14rem;
     }
 
     .raport-regions {
-        display: flex;
-        flex-wrap: wrap;
-        flex-grow: 2;
-        justify-content: space-evenly;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
         margin: 0.3rem;
         font-size: 15px;
         text-align: center;
+    }
+
+    .regio-circle-box {
+        max-height: 35px;
+        display: grid;
+        justify-items: center;
+        align-items: start;
+
     }
 
     .regions-headers {
@@ -94,13 +102,7 @@ body {
         text-align: center;
     }
 
-    .regio-circle-box {
-        max-height: 35px;
-        display: grid;
-        justify-items: center;
-        align-items: start;
 
-    }
 
 
 
@@ -135,7 +137,6 @@ body {
 
 
 /* Tablet */
-/* Tablet */
 @media (min-width:600px) {
 
     .container {
@@ -160,15 +161,17 @@ body {
     }
 
     .raport-info-grid {
+
         flex-grow: 1;
         font-family: 'Roboto', sans-serif;
         border-style: solid;
         border-color: var(--brdr);
         color: var(--fntColor);
         border-width: 0.1rem;
-        border-radius: 0.2rem;
+        border-radius: 1rem;
         padding: 0.5rem;
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
         max-width: 255px;
         place-self: center;
         text-align: center;
@@ -186,10 +189,8 @@ body {
         flex-direction: column;
         margin: 0.3rem;
         margin-bottom: 2rem;
-        /* margin-right: 3rem; */
         font-size: 15px;
         text-align: center;
-        /* width: 110px; */
     }
 
     .regions-headers {
@@ -248,13 +249,12 @@ body {
 @media (min-width:900px) {
 
     .container {
-        /* width: 260px; */
         display: inline;
         height: 100%;
         margin-top: 1rem;
         margin-top: 5rem;
-        padding-left: 25rem;
-        padding-right: 25rem;
+        padding-left: 20rem;
+        padding-right: 20rem;
     }
 
     .raport-grid {
@@ -279,26 +279,18 @@ body {
         border-width: 0.1rem;
         border-radius: 1.7rem;
         padding: 0.5rem;
-        /* display: grid; */
         display: flex;
-        max-width: 400px;
-        /* grid-row-start: auto; */
-        /* justify-content: space-between; */
         place-self: center;
         text-align: center;
         box-shadow: 2px 2px 7px var(--darkest);
         background-color: var(--bridge);
-        min-width: 14rem;
-        /* margin-top: 10px; */
-
+        min-width: 22rem;
+        max-width: 23rem;
     }
 
     .raport-regions {
-        display: flex;
-        flex-wrap: wrap;
-        flex-grow: 2;
-        justify-content: space-evenly;
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
         margin: 0.3rem;
         text-align: center;
     }
@@ -428,16 +420,6 @@ body {
     font-weight: var(--fntWeight);
 }
 
-.bold {
-    font-weight: 700;
-}
-
-
-.hover-btn {
-    color: var(--btn);
-    background-color: rgb(0, 0, 0);
-    font-size: 14;
-}
 
 .raport-btn:focus {
     color: black;
@@ -463,4 +445,18 @@ body {
     background-color: #f8f8f8;
     min-width: 14rem;
     margin-bottom: 0.8rem;
+}
+
+.raport-info-grid:hover .raport-details {
+    font-weight: 700;
+}
+
+.raport-info-grid:hover .regions-headers {
+    font-weight: 700;
+}
+
+.raport-info-grid:hover .raport-btn {
+    color: var(--btn);
+    background-color: rgb(0, 0, 0);
+    font-size: 14;
 }
