@@ -1,4 +1,4 @@
-import {openRaport} from '../../../js/raport.js';
+import {openRaport} from '../../templates/single_raport/index.js';
 
 export class Brick {
 

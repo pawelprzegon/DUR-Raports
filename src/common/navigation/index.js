@@ -1,5 +1,6 @@
-import {openStat} from '../../../js/statist.js';
-import {openCreate} from '../../../js/create.js';
+import {openStat} from '../../templates/statistics/index.js';
+import {openCreate} from '../../templates/create/index.js';
+import {raports} from '../../templates/all_raports/index.js'
 
 
 export function navBar(){
@@ -40,8 +41,12 @@ export function navBar(){
         // tutaj forEach
             const home = document.createElement('a');
             home.classList.add('nav-link')
-            home.href = 'raports.html'
+            home.href = '#'
             home.innerText = 'home'
+            home.onclick=function(){
+                raports();
+                navClose();
+            }
 
             const stat = document.createElement('a')
             stat.classList.add('nav-link')

@@ -31,7 +31,6 @@ export function addPaginate(){
 
 
 
-
     let paginationLimit = 0;
 
     if ( $(window).width() <= 600) {     

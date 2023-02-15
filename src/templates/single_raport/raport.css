@@ -14,7 +14,7 @@
     --glow: #000000;
 
     --btn: #d2b43b;
-    --border: #101010;
+    --border: #000000;
     --btnTxt: #030303;
     --fntWeight: 300;
 }
@@ -110,7 +110,7 @@ body {
         margin-top: 30px;
         width: 80px;
         background-color: var(--btn);
-        border: 1px solid rgb(209, 213, 219);
+        border: 1px solid var(--border);
         border-radius: .5rem;
         box-sizing: border-box;
         color: var(--btnTxt);
@@ -218,7 +218,7 @@ body {
         margin-top: 90px;
         width: 80px;
         background-color: var(--btn);
-        border: 1px solid rgb(209, 213, 219);
+        border: 1px solid var(--border);
         border-radius: .5rem;
         box-sizing: border-box;
         color: var(--btnTxt);
@@ -277,7 +277,7 @@ body {
         border-color: var(--brdr);
         color: var(--fntColor);
         border-width: 0.1rem;
-        border-radius: 1.7rem;
+        border-radius: 1rem;
         padding: 0.5rem;
         display: flex;
         place-self: center;
@@ -321,7 +321,7 @@ body {
         margin-top: 30px;
         width: 80px;
         background-color: var(--btn);
-        border: 1px solid rgb(0, 0, 0);
+        border: 1px solid var(--border);
         border-radius: .5rem;
         box-sizing: border-box;
         color: var(--btnTxt);
@@ -456,6 +456,7 @@ body {
 }
 
 .raport-info-grid:hover .raport-btn {
+    border-color: #000000;
     color: var(--btn);
     background-color: rgb(0, 0, 0);
     font-size: 14;
