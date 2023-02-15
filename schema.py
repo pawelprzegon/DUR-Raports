@@ -48,3 +48,7 @@ class RaportsOut(Raport):
     units: List[Unit]
     dekl: List[Dekl]
     plexi: List[Plexi]
+
+
+class RaportsSmall(Raport):
+    units: List[Unit]

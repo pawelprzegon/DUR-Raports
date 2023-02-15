@@ -5,27 +5,26 @@ from fastapi import APIRouter, Request
 from models import Raport, Unit, Plexi, Dekl, User
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import or_
-from fastapi_pagination import Page, paginate
+from sqlalchemy import func
 from collections import defaultdict
+from typing import List
 
 raporty = APIRouter()
 
 
-@raporty.get("/raports", response_model=Page[schema.RaportsOut])
+@raporty.get("/raports", response_model=List[schema.RaportsSmall])
 async def root():
-    resoults = db.session.query(Raport).order_by(
+    return db.session.query(Raport).order_by(
         Raport.date_created.desc()).all()
-    return paginate(resoults)
 
 
-@raporty.get("/raports/{username}", response_model=Page[schema.RaportsOut])
+@raporty.get("/raports/{username}", response_model=List[schema.RaportsOut])
 async def user_raports(username: str):
-    resoults = db.session.query(Raport).join(User).filter(
+    return db.session.query(Raport).join(User).filter(
         User.username == username).all()
-    return paginate(resoults)
 
 
-@raporty.get("/raport/{raport_id}", response_model=schema.RaportsOut)
+@raporty.get("/raport/{raport_id}", response_model=List[schema.RaportsOut])
 async def raport(raport_id: int):
     return db.session.query(Raport).filter(
         Raport.id == raport_id).first()
@@ -112,10 +111,10 @@ def fillFormAndRelpaceDb(form, raport_id=None):
                 }
 
 
-@raporty.get('/search/', response_model=Page[schema.RaportsOut])
+@raporty.get('/search/', response_model=List[schema.RaportsOut])
 def update_raport(request: Request):
     params = dict(request.query_params)
-    return paginate(search(params['query']))
+    return search(params['query'])
 
 
 def search(query):
@@ -200,6 +199,7 @@ def statistics(resoults):
                     month = 'gru'
 
             lab[month].append(regio.region)
+
     units['stolarnia'] = search_statistics(resoults, 'stolarnia')
     units['drukarnia'] = search_statistics(resoults, 'drukarnia')
     units['bibeloty'] = search_statistics(resoults, 'bibeloty')
@@ -236,5 +236,24 @@ def statistics(resoults):
         },
     },
         'user_raport': user_raport,
-        'resoults': resoults
+        # 'resoults': resoults - wszystkie raporty - dla statystyk zbędne
     }
+
+
+def units_statistics(temp_raports, query):
+    elem = {}
+    for raport in temp_raports:
+        for regio in raport.units:
+            if regio.region == query:
+                if regio.unit in elem:
+                    elem[regio.unit] += 1
+                else:
+                    elem[regio.unit] = 1
+
+            elif regio.unit == query:
+                if regio.unit in elem:
+                    elem[regio.unit] += 1
+                else:
+                    elem[regio.unit] = 1
+
+    return dict(sorted(elem.items(), key=lambda item: item[1], reverse=True))
