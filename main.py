@@ -10,6 +10,7 @@ from auth_api.routers import auth
 
 from fastapi import FastAPI
 from models import Base
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv(".env")
 SQLALCHEMY_DATABASE_URL = os.environ["DATABASE_URL"]
