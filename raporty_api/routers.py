@@ -1,11 +1,10 @@
 import urllib.parse
 from fastapi_sqlalchemy import db
 import schema
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, HTTPException
 from models import Raport, Unit, Plexi, Dekl, User
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import or_
-from sqlalchemy import func
 from collections import defaultdict
 from typing import List
 
@@ -42,9 +41,10 @@ async def delete_raport(raport_id: int):
                 'message': f"Raport z dnia {date} został usunięty"
                 }
     except SQLAlchemyError as e:
-        return {'category': 'error',
-                'message': e
-                }
+        raise HTTPException(
+            status_code=404,
+            detail=f"Raport o numerze {raport_id} nie istnieje",
+        ) from e
 
 
 @raporty.put('/create/{form}')
