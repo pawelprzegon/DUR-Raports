@@ -23,7 +23,7 @@ async def user_raports(username: str):
         User.username == username).all()
 
 
-@raporty.get("/raport/{raport_id}", response_model=List[schema.RaportsOut])
+@raporty.get("/raport/{raport_id}", response_model=schema.RaportsOut)
 async def raport(raport_id: int):
     return db.session.query(Raport).filter(
         Raport.id == raport_id).first()
@@ -47,9 +47,11 @@ async def delete_raport(raport_id: int):
         ) from e
 
 
-@raporty.put('/create/{form}')
-def create_raport(form):
+@raporty.put('/create/')
+async def create_raport(request: Request):
+    form = await request.json()
     return fillFormAndRelpaceDb(form)
+    # return fillFormAndRelpaceDb(form)
 
 
 @raporty.put('/update/')
@@ -59,41 +61,62 @@ def update_raport(request: Request):
 
 
 def fillFormAndRelpaceDb(form, raport_id=None):
+    print(form)
     try:
         raport = db.session.query(Raport).filter(
             Raport.id == raport_id).first()
-        data = urllib.parse.parse_qs(form, keep_blank_values=True)
+        # data = urllib.parse.parse_qs(form, keep_blank_values=True)
         author = db.session.query(User).filter_by(
-            id=int(data['user_id'][0])).first()
+            id=int(form['user_id'])).first()
         rap = Raport(author=author)
         to_update = [rap]
-        for fieldname, value in data.items():
+        for key, value in form.items():
             if value:
-                match fieldname.split('_')[0]:
-                    case 'stolarnia':
-                        if fieldname.split('_')[1] != 'Text':
-                            fieldname = Unit(unit=fieldname.split('_')[
-                                1], info=data['stolarnia_Text'][0], region=fieldname.split('_')[0], raport=rap)
-                            to_update.append(fieldname)
-                    case 'drukarnia':
-                        if fieldname.split('_')[1] != 'Text':
-                            fieldname = Unit(unit=fieldname.split(
-                                '_')[1], info=data['drukarnia_Text'][0], region=fieldname.split('_')[0], raport=rap)
-                            to_update.append(fieldname)
-                    case 'bibeloty':
-                        if fieldname.split('_')[1] != 'Text':
-                            fieldname = Unit(unit=fieldname.split(
-                                '_')[1], info=data['bibeloty_Text'][0], region=fieldname.split('_')[0], raport=rap)
-                            to_update.append(fieldname)
+                match key:
+                    case 'Stolarnia' | 'Drukarnia' | 'Bibeloty':
+                        for each in value['units']:
+                            print(value['text'])
+                            data = Unit(unit=each, info=value['text'], region=key, raport=rap)
+                        to_update.append(data)
                     case 'plexi':
-                        if 'plexi_' in data:
-                            fieldname = Plexi(
-                                plexi=data['plexi_Text'][0], raport=rap)
-                            to_update.append(fieldname)
+                        data = Plexi(
+                            plexi=value, raport=rap)
+                        to_update.append(data)
+                        
+                match key.split('-')[0]:
                     case 'dekl':
-                        fieldname = Dekl(dekl=value[0], raport=rap,
-                                         name=fieldname.split('_')[1])
-                        to_update.append(fieldname)
+                        data = Dekl(dekl=value, raport=rap,
+                                         name=key.split('-')[1])
+                        to_update.append(data)
+                    
+        print(to_update)
+        # for fieldname, value in form.items():
+        #     if value:
+        #         match fieldname.split('_')[0]:
+        #             case 'stolarnia':
+        #                 if fieldname.split('_')[1] != 'Text':
+        #                     fieldname = Unit(unit=fieldname.split('_')[
+        #                         1], info=data['stolarnia_Text'][0], region=fieldname.split('_')[0], raport=rap)
+        #                     to_update.append(fieldname)
+        #             case 'drukarnia':
+        #                 if fieldname.split('_')[1] != 'Text':
+        #                     fieldname = Unit(unit=fieldname.split(
+        #                         '_')[1], info=data['drukarnia_Text'][0], region=fieldname.split('_')[0], raport=rap)
+        #                     to_update.append(fieldname)
+        #             case 'bibeloty':
+        #                 if fieldname.split('_')[1] != 'Text':
+        #                     fieldname = Unit(unit=fieldname.split(
+        #                         '_')[1], info=data['bibeloty_Text'][0], region=fieldname.split('_')[0], raport=rap)
+        #                     to_update.append(fieldname)
+        #             case 'plexi':
+        #                 if 'plexi_' in data:
+        #                     fieldname = Plexi(
+        #                         plexi=data['plexi_Text'][0], raport=rap)
+        #                     to_update.append(fieldname)
+        #             case 'dekl':
+        #                 fieldname = Dekl(dekl=value[0], raport=rap,
+        #                                  name=fieldname.split('_')[1])
+        #                 to_update.append(fieldname)
         if raport_id:
             message = f"zaktualizowano raport z dnia {raport.date_created}"
             db.session.delete(raport)
@@ -111,10 +134,10 @@ def fillFormAndRelpaceDb(form, raport_id=None):
                 }
 
 
-@raporty.get('/search/', response_model=List[schema.RaportsOut])
-def update_raport(request: Request):
-    params = dict(request.query_params)
-    return search(params['query'])
+@raporty.get('/search/{searching}', response_model=List[schema.RaportsOut])
+def search_raport(searching):
+    print(searching)
+    return search(searching)
 
 
 def search(query):
