@@ -79,13 +79,18 @@ export  class Auth {
 
 
         async getapi(formDataObj) {
-            let data = JSON.stringify(formDataObj)
-            console.log('wysyłam')
-            console.log(data)
+            let data = JSON.stringify(formDataObj);
+            console.log(data);
+            let h = new Headers();
+            h.append('Accept', 'application/json');
+            let encoded = window.btoa(`${data['email']}`+':'+`${data['password']}`);
+            let auth = 'Basic ' + encoded;
+            h.append('Authorization', auth)
+            console.log(auth)
             fetch('https://ghsdfgh.onrender.com/login/', {
                 method: "PUT",
-                headers: {"content-type" : "application/json"},
-                body: data,
+                headers: h,
+                // body: data,
             })
             .then(res => res.json())
             .then(data => console.log(data))
