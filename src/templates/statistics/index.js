@@ -1,10 +1,17 @@
 
 export function openStat (){
 
+  document.getElementById('loading').style.visibility = 'visible';
+
+
+  let theme = document.getElementById('theme')
+  theme.setAttribute('href', "/src/templates/statistics/statist.css");
+
+
   const raportList = document.querySelector('#raport');
-        raportList.innerHTML = '';
+  raportList.innerHTML = '';
   const createClear = document.querySelector('#form-data');
-        createClear.innerHTML = '';
+  createClear.innerHTML = '';
 
   $("body").css("overflow", "hidden");
   // api url
@@ -48,7 +55,7 @@ export function openStat (){
     
   // Function to hide the loader
   function hideloader() {
-      document.getElementById('loading').style.display = 'none';
+    document.getElementById('loading').style.visibility = 'hidden';
   }
 
 

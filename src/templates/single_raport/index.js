@@ -1,24 +1,26 @@
+import {url} from "../../common/data/index.js"
 
-export function openRaport (){
+export function openRaport (id){
+
+    document.getElementById('loading').style.visibility = 'visible';
+
+    let theme = document.getElementById('theme')
+    theme.setAttribute('href', "/src/templates/single_raport/raport.css");
     
     const raportList = document.querySelector('#raport');
         raportList.innerHTML = '';
     $("body").css("overflow", "initial");
-    // api url
-    const api_url = 
-        "https://mocki.io/v1/561b989e-58c0-48dd-a631-3bb55958b69d";
-
-    // import api_url from '../data.json' assert {type: "json"};
 
     
     // Defining async function
     async function getapi(url) {
         
         // Storing response
-        const response = await fetch(url);
+        const response = await fetch(url+id);
         
         // Storing data in form of JSON
         var data = await response.json();
+        console.log(data)
 
         
         if (response) {
@@ -28,11 +30,11 @@ export function openRaport (){
 
     }
     // Calling that async function
-    getapi(api_url);
+    getapi(url+"raport/");
     
     // Function to hide the loader
     function hideloader() {
-        document.getElementById('loading').style.display = 'none';
+        document.getElementById('loading').style.visibility = 'hidden';
     }
 
 
@@ -84,7 +86,7 @@ export function openRaport (){
             
             raportList.appendChild(Dekl)
 
-            if (data.dekl){
+            if ((data.dekl).length>0){
                 DeklInfo.innerText = "Deklaracje";
                 namePawel.innerText = 'Paweł';
                 todoPawel.innerText = `${data.dekl[0].dekl}`;
@@ -127,12 +129,12 @@ export function openRaport (){
                             const RegionUnit = document.createElement('p');
                             RegionUnit.innerText = `${each[0]}`;
                             RegionHeader.appendChild(RegionUnit);
-
-                            const RegionText = document.createElement('p');
-                            RegionText.innerText = `${each[1]}`;
-                            RegionText.classList.add('tresc-raportu')
-                            RegionTextHeader.appendChild(RegionText);
                         })
+                        console.log(value)
+                        const RegionText = document.createElement('p');
+                        RegionText.innerText = `${value[0][1]}`;
+                        RegionText.classList.add('tresc-raportu')
+                        RegionTextHeader.appendChild(RegionText);
                         
                         // const RegionUnit = document.createElement('p');
                     

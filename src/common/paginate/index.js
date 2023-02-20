@@ -33,14 +33,36 @@ export function addPaginate(){
 
     let paginationLimit = 0;
 
+
     if ( $(window).width() <= 600) {     
-        paginationLimit = 3;
+        if (window.matchMedia("(orientation: landscape)").matches) {
+            paginationLimit = 1;
         }
-        else if (( $(window).width() > 600) && ( $(window).width() <= 900)){
+        if (window.matchMedia("(orientation: portrait)").matches) {
+            paginationLimit = 3;
+        }
+    }
+    else if (( $(window).width() > 600) && ( $(window).width() <= 900)){
+        
+        if (window.matchMedia("(orientation: landscape)").matches) {
+            paginationLimit = 4;
+            }
+            if (window.matchMedia("(orientation: portrait)").matches) {
             paginationLimit = 6;
-        }else{
-            paginationLimit = 12;
-        }
+            }
+        
+    }
+    else if (( $(window).width() > 900) && ( $(window).width() <= 1140)){
+
+        if (window.matchMedia("(orientation: landscape)").matches) {
+            paginationLimit = 4;
+            }
+            if (window.matchMedia("(orientation: portrait)").matches) {
+            paginationLimit = 8;
+            }
+    }else{
+        paginationLimit = 12;
+    }
 
     const paginationNumbers = document.getElementById("pagination-numbers");
     const paginatedList = document.getElementById("raport");
@@ -48,7 +70,6 @@ export function addPaginate(){
     const nextButton = document.getElementById("next-button");
     const prevButton = document.getElementById("prev-button");
 
-    
     const pageCount = Math.ceil(listItems.length / paginationLimit);
 
     let currentPage = 1;

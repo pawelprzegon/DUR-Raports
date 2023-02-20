@@ -1,6 +1,16 @@
 export function openCreate (){
 
+
+    let theme = document.getElementById('theme')
+    theme.setAttribute('href', "/src/templates/create/create.css");
+
     $("body").css("overflow", "initial");
+
+    const raportList = document.querySelector('#raport');
+        raportList.innerHTML = '';
+        
+    const CheckList = document.querySelector('#form-data');
+    CheckList.innerHTML='';
     
     let regioList = new Object();
     regioList = {}
@@ -11,22 +21,21 @@ export function openCreate (){
 
 
     function showForm () {
-        const raportList = document.querySelector('#raport');
-        raportList.innerHTML = '';
         
-        const CheckList = document.querySelector('#form-data');
-        CheckList.innerHTML='';
+
+        const formField = document.createElement('form')
+            formField.action = "#"
+            formField.id = "form"
+            formField.method = "post"
 
             //dodawanie checkboxów
             function show(lab, data) {
-                // hideloader();
-
-
+                
                 const region = document.createElement('div');
                     region.classList.add('regions')
                     const LabelBox = document.createElement('div');
                         const StolarniaLabel = document.createElement('h4');
-                        StolarniaLabel.innerText = `${lab}`;
+                        StolarniaLabel.innerText = lab;
                         LabelBox.appendChild(StolarniaLabel);
                         region.appendChild(LabelBox)
                     const CheckBoxesBox = document.createElement('div');
@@ -35,18 +44,19 @@ export function openCreate (){
                         data.forEach(each => {
                             const element = document.createElement('label');
                                 element.classList.add('label-container');
-                                element.innerText = `${each}`; 
+                                element.innerText = each; 
                         
                             const span = document.createElement('span');
                                 span.classList.add('checkmark');
 
                             const input = document.createElement('input');
                                 input.type = 'checkbox';
-                                input.id = `${lab}`+i;
-                                input.name = `${each}`
+                                input.id = lab+i;
+                                input.name = each;
+                                input.value = lab;
                                 i+=1;
                                 input.onclick = function(){
-                                    showTextBox(`${lab}`, input.id);
+                                    showTextBox(lab, input.id);
                                 }
                             
                             
@@ -67,17 +77,17 @@ export function openCreate (){
                 const txtField = document.createElement('div');
                     txtField.classList.add('form-line');
                     const txtFieldLab = document.createElement('p');
-                    txtFieldLab.innerText = `${lab}`;
+                    txtFieldLab.innerText = lab;
                     txtFieldLab.hidden = true;
-                    txtFieldLab.id = 'label-'+`${lab}`;
+                    txtFieldLab.id = 'label-'+lab;
                     txtFieldLab.classList.add('form-line-label')
                     const inputField = document.createElement('textarea');
                     
                 inputField.hidden = true;
-                inputField.name = `${lab}`;
+                inputField.name = lab;
                 inputField.cols = '40';
-                inputField.rows = '6';
-                inputField.placeholder = `${lab}`;
+                inputField.rows = '10';
+                inputField.placeholder = lab;
                 
                 txtField.appendChild(txtFieldLab)
                 txtField.appendChild(inputField)
@@ -93,7 +103,7 @@ export function openCreate (){
                 CheckboxField.appendChild(region);
                 
             }      
-        CheckList.appendChild(CheckboxField);
+        formField.appendChild(CheckboxField);
         
         // wywołanie tworzenia pól tekstowych
         const RaportTextField = document.createElement('div')
@@ -104,7 +114,7 @@ export function openCreate (){
                 let textField = textFields(key)
                 RaportTextField.appendChild(textField);
             }
-            CheckList.appendChild(RaportTextField);
+            formField.appendChild(RaportTextField);
             
             function showTextBox(name, checkbox_id) {
                 let checkBoxTriggered = document.getElementById(checkbox_id);
@@ -114,7 +124,7 @@ export function openCreate (){
                 let result = checkIfAnyCheckbox(name)
 
                 if (checkBoxTriggered.checked){
-                    textField.style.display = 'Flex'
+                    textField.style.display = 'grid'
                     if (text[0].value != ''){
                         text[0].value += "\n"+checkBoxTriggered.name +" : "
                     }else{
@@ -158,38 +168,39 @@ export function openCreate (){
 
         // wywołanie tworzenia delkaracji
         const DeklTextField = document.createElement('div')
-            DeklTextField.classList.add('text-grid', "dekl-text-label")
+            DeklTextField.classList.add('text-grid')
 
             users.forEach(user => {
                 const label = document.createElement('span');
-                    label.classList.add('DeklTextField');
-                    label.innerText = `${user}`;
+                    label.classList.add('form-line-label');
+                    label.innerText = user;
                 const inputField = document.createElement('textarea');
-                    inputField.classList.add("dekl-text-area")
+                    inputField.classList.add("form-line")
+                    inputField.required = true;
                     // inputField.type = 'text';
-                    inputField.name = 'dekl-'+`${user}`;
+                    inputField.name = 'dekl-'+user;
                     inputField.cols = '40';
-                    inputField.rows = '8';
+                    inputField.rows = '12';
 
                 DeklTextField.appendChild(label)
                 DeklTextField.appendChild(inputField)
                 
             }) 
         
-        CheckList.appendChild(DeklTextField)
+        formField.appendChild(DeklTextField)
 
         // wywołanie tworzenia plexi
         
         const today = new Date();
-        if (today.getDay() == 2 ){
+        if (today.getDay() == 0 ){
             const PlexiTextField = document.createElement('div')
-                PlexiTextField.classList.add('text-grid', "dekl-text-area")
+                PlexiTextField.classList.add('text-grid', "form-line")
                 const label = document.createElement('span');
                     label.classList.add('DeklTextField');
                     label.innerText = "raport plexi";
                 const inputField = document.createElement('textarea');
-                    inputField.classList.add("dekl-text-area")
-                    inputField.type = 'text';
+                    inputField.classList.add("form-line");
+                    inputField.required = true;
                     inputField.name = 'plexi';
                     inputField.cols = '40';
                     inputField.rows = '8';
@@ -198,7 +209,7 @@ export function openCreate (){
 
         PlexiTextField.appendChild(label)
         PlexiTextField.appendChild(inputField)
-        CheckList.appendChild(PlexiTextField)
+        formField.appendChild(PlexiTextField)
 
         }
 
@@ -206,15 +217,93 @@ export function openCreate (){
         const SubmitField = document.createElement('div');
             SubmitField.id = 'wrapper'
             const submitButton = document.createElement('button');
-            submitButton.classList.add('submit')
-            submitButton.type = "button";
-            submitButton.innerText = "Zapisz"
+            submitButton.classList.add('submit');
+            submitButton.type = "submit";
+            submitButton.innerText = "Zapisz";
 
-            SubmitField.appendChild(submitButton)
+            SubmitField.appendChild(submitButton);
+
+        formField.appendChild(SubmitField);
+        CheckList.appendChild(formField)
+
         
-        CheckList.appendChild(SubmitField)
-                
+        
     }
-    showForm()
+
+    
+
+
+    showForm();
+    
+    let form = document.getElementById('form')
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const formDataObj = {};
+        let st = {}
+        let dr = {}
+        let bib = {}
+        let stUnits = []
+        let drUnits = []
+        let bibUnits = []
+        formData.forEach((key, value) => {
+            if (key=='Stolarnia'){
+                stUnits.push(value)
+                st['units'] = stUnits
+            }else if(value=='Stolarnia'){
+                if (key != ""){
+                    st['text'] = key
+                }
+            }
+            else if (key=='Drukarnia'){
+                drUnits.push(value)
+                dr['units'] = drUnits
+            }else if(value=='Drukarnia'){
+                if (key != ""){
+                    dr['text'] = key
+                }
+            }
+            else if (key=='Bibeloty'){
+                bibUnits.push(value)
+                bib['units'] = bibUnits
+            }else if(value=='Bibeloty'){
+                if (key != ""){
+                    bib['text'] = key
+                }
+            }
+            else{
+                formDataObj[value] = key
+            }
+            
+        });
+
+
+        if (!$.isEmptyObject(st)){
+            formDataObj['Stolarnia'] = st
+        }
+        if (!$.isEmptyObject(dr)){
+            formDataObj['Drukarnia'] = dr
+        }
+        if (!$.isEmptyObject(bib)){
+            formDataObj['Bibeloty'] = bib
+        }
+        
+        formDataObj['user_id'] = 2;
+        console.log(formDataObj);
+        let data = JSON.stringify(formDataObj)
+        console.log(data)
+        fetch('https://ghsdfgh.onrender.com/create/', {
+            method: "PUT",
+            headers: {"content-type" : "application/json"},
+            body: data,
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
+    }) 
+    
+    
 
 }

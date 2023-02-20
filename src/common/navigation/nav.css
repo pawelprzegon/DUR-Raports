@@ -364,7 +364,7 @@ min-width: 14rem;
 
 @keyframes fadeIn {
     0% {
-        opacity: 0;
+        opacity: 1;
     }
 
     100% {

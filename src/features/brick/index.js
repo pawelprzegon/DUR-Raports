@@ -4,15 +4,15 @@ export class Brick {
 
     constructor(each){
         this.each = each;
+        this.id = each.id;
         this.date = each.date_created;
         this.username = each.author.username;
         
-        this.build(each);
+        this.build();
         this.brickEvents();
-        
 
     }
-    build(each){
+    build(){
         this.raportInfoGrid = document.createElement('li');
         this.raportDataUser = document.createElement('div');
         this.detailsDate = document.createElement('p');
@@ -20,7 +20,7 @@ export class Brick {
         this.btnL = document.createElement('a');
         this.moreButton = document.createElement('button');
 
-        let regions = this.regions(each.units);
+        let regions = this.regions(this.each.units);
 
         this.raportInfoGrid.classList.add('raport-info-grid');
         this.raportDataUser.classList.add('raport-data-user');
@@ -87,14 +87,16 @@ export class Brick {
     }
     
 
-
+    
 
     brickEvents(){
-
+        let test = parseInt(this.id, 10)
         this.btnL.onclick = function(){
-            openRaport();
+            openRaport(test);
         }
     }
+
+
 
 
     getBrick(){

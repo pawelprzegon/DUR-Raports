@@ -1,0 +1,87 @@
+REGISTRATION
+:root {
+    --dark: #374151;
+    --darker: #1F2937;
+    --darkest: #111827;
+    --gray: #6B7280;
+    --light: #EEE;
+    --pink: #EC4899;
+    --purple: #8B5Cf6;
+    --bckg: #000000;
+    --bridge: #d2b43b;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-height: 300vh;
+    background: var(--bckg);
+    background-color: var(--bckg);
+    color: #000000;
+  }
+  
+  .spinner-border{
+    display: flex;
+    justify-content: center;
+  }
+  
+  .lds-ring {
+    display: flex;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border: 8px solid var(--bridge);
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: var(--bridge) transparent transparent transparent;
+  }
+  .lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+  }
+  .lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+  .lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+  }
+  @keyframes lds-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Mobile */
+  @media (max-width:600px) {
+
+  }
+  
+  /* Tablet */
+  @media (min-width:600px) {
+  
+    
+  }
+  
+  /* Desktop */
+  @media (min-width:900px) {
+  
+  
+    .container {
+      padding-left: 25rem;
+      padding-right: 25rem;
+    }
+  
+    
+  }
+  

@@ -61,5 +61,6 @@ h1 {
 }
 
 .paginateBox {
-    width: 400px;
+    display: grid;
+    width: 100%;
 }

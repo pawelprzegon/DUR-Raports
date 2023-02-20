@@ -62,8 +62,9 @@ export function navBar(){
             moje.href = '#'
             moje.innerText = 'moje'
             moje.onclick = function(){
-                // openStat();
-                console.log('moje')
+                let username = "ania";
+                raports(username);
+                navClose();
             } 
             const dodaj = document.createElement('a')
             dodaj.classList.add('nav-link')

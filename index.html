@@ -4,35 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
     <title>
         Raporty
     </title>
+    <link rel="stylesheet" href="/src/common/style/style.css">
     <link rel="icon" type="image/png" href="/static/images/artgeist.png" />
     <link rel="stylesheet" href="/src/common/navigation/nav.css">
-    <link rel="stylesheet" href="/src/templates/statistics/statist.css">
-    <link rel="stylesheet" href="/src/templates/single_raport/raport.css">
-    <link rel="stylesheet" href="/src/common/paginate/paginate.css">
-    <link rel="stylesheet" href="/src/templates/create/create.css">
-
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-      <script type="module" src="/index.js"></script>
-      <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-
-
+    <link rel="stylesheet" href="/src/templates/all_raports/style.css" id="theme">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    
 </head>
 <body>
+    <link rel="stylesheet" href="/src/common/paginate/paginate.css">
     <header id="app-header"></header>
     <div class="container" id="cont">
         
         <div class="d-flex justify-content-center">
             <div class="spinner-border" 
                  role="status" id="loading">
-                <span class="sr-only">Loading...</span>
+                 <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
             </div>
         </div>
         <div id="form-data">
@@ -44,5 +41,7 @@
           
         </ul>
     </div>
+    
+    <script type="module" src="/index.js"></script>
 </body>
 </html>
