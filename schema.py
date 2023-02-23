@@ -3,6 +3,9 @@ from datetime import date as date_type
 from typing import List
 
 
+
+
+
 class Unit(BaseModel):
     unit: str
     info: str
@@ -25,10 +28,19 @@ class Plexi(BaseModel):
 
     class Config:
         orm_mode = True
+        
+
+class UserOut(BaseModel):
+    username: str
+    date_created: date_type
+    id: int
 
 
 class User(BaseModel):
+    email: str
     username: str
+    password: str
+    date_created: date_type
     id: int
 
     class Config:
@@ -52,3 +64,4 @@ class RaportsOut(Raport):
 
 class RaportsSmall(Raport):
     units: List[Unit]
+

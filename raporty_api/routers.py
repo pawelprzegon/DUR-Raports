@@ -1,18 +1,19 @@
 import urllib.parse
 from fastapi_sqlalchemy import db
 import schema
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, Request, HTTPException, Depends
 from models import Raport, Unit, Plexi, Dekl, User
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import or_
 from collections import defaultdict
 from typing import List
+from auth_api.routers import get_current_user
 
 raporty = APIRouter()
 
 
 @raporty.get("/raports", response_model=List[schema.RaportsSmall])
-async def root():
+async def root(user: schema.UserOut = Depends(get_current_user)):
     return db.session.query(Raport).order_by(
         Raport.date_created.desc()).all()
 
@@ -90,33 +91,7 @@ def fillFormAndRelpaceDb(form, raport_id=None):
                         to_update.append(data)
                     
         print(to_update)
-        # for fieldname, value in form.items():
-        #     if value:
-        #         match fieldname.split('_')[0]:
-        #             case 'stolarnia':
-        #                 if fieldname.split('_')[1] != 'Text':
-        #                     fieldname = Unit(unit=fieldname.split('_')[
-        #                         1], info=data['stolarnia_Text'][0], region=fieldname.split('_')[0], raport=rap)
-        #                     to_update.append(fieldname)
-        #             case 'drukarnia':
-        #                 if fieldname.split('_')[1] != 'Text':
-        #                     fieldname = Unit(unit=fieldname.split(
-        #                         '_')[1], info=data['drukarnia_Text'][0], region=fieldname.split('_')[0], raport=rap)
-        #                     to_update.append(fieldname)
-        #             case 'bibeloty':
-        #                 if fieldname.split('_')[1] != 'Text':
-        #                     fieldname = Unit(unit=fieldname.split(
-        #                         '_')[1], info=data['bibeloty_Text'][0], region=fieldname.split('_')[0], raport=rap)
-        #                     to_update.append(fieldname)
-        #             case 'plexi':
-        #                 if 'plexi_' in data:
-        #                     fieldname = Plexi(
-        #                         plexi=data['plexi_Text'][0], raport=rap)
-        #                     to_update.append(fieldname)
-        #             case 'dekl':
-        #                 fieldname = Dekl(dekl=value[0], raport=rap,
-        #                                  name=fieldname.split('_')[1])
-        #                 to_update.append(fieldname)
+        
         if raport_id:
             message = f"zaktualizowano raport z dnia {raport.date_created}"
             db.session.delete(raport)

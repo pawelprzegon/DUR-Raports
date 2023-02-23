@@ -17,7 +17,7 @@ class User(Base):
     raport = relationship('Raport', backref='author', lazy=True)
 
     def __repr__(self) -> str:
-        return f"User('{self.username}', '{self.email}')"
+        return f"User('{self.username}', '{self.email}', '{self.date_created}', '{self.password}')"
 
 
 class Raport(Base):

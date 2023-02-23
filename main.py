@@ -20,12 +20,17 @@ SessionLocal.configure(bind=engine)
 session_local = SessionLocal()
 app = FastAPI()
 
-origins = ['*']
+origins = [
+    "http://localhost",
+    "http://localhost:8000",
+    "http://127.0.0.1:5500",
+    
+]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["POST", "GET", "PUT", "DELETE"],
     allow_headers=["*"],
 )
 
