@@ -1,6 +1,7 @@
 import {openStat} from '../../templates/statistics/index.js';
 import {openCreate} from '../../templates/create/index.js';
 import {raports} from '../../templates/all_raports/index.js'
+import {getCookieValue} from '../../features/cookie/index.js'
 
 
 export function navBar(){
@@ -13,14 +14,20 @@ export function navBar(){
         const topElements = document.createElement('div');
         topElements.classList.add('top-elements')
             const topElement = document.createElement('div');
-            topElement.classList.add('topElement')
+            topElement.classList.add('top-element')
                 const navBtn = document.createElement('button');
                 navBtn.classList.add('nav-btn')
                     const link = document.createElement('span');
                     link.classList.add('material-icon')
                     link.innerText = 'menu'
+
+
             const logoBox = document.createElement('div')
             logoBox.classList.add('top-element')
+                const userLabel = document.createElement('span');
+                userLabel.classList.add('nav-user')
+                userLabel.id = 'nav-user'
+                userLabel.innerText = 'niezalogowany'
                 const logo = document.createElement('img')
                 logo.src = '/static/images/artgeist.png'
                 logo.alt = 'artgeist'
@@ -29,8 +36,11 @@ export function navBar(){
 
         navBtn.appendChild(link)
         topElement.appendChild(navBtn)
+        // userBox.appendChild(userLabel)
+        logoBox.appendChild(userLabel)
         logoBox.appendChild(logo)
         topElements.appendChild(topElement)
+        // topElements.appendChild(userBox)
         topElements.appendChild(logoBox)
 
         const topElementsBtns = document.createElement('div');
@@ -39,6 +49,7 @@ export function navBar(){
         btnsPics.classList.add('nav', 'nav-close')
         btnsPics.id = 'btns-pics'
         // tutaj forEach
+
             const home = document.createElement('a');
             home.classList.add('nav-link')
             home.href = '#'
@@ -62,8 +73,8 @@ export function navBar(){
             moje.href = '#'
             moje.innerText = 'moje'
             moje.onclick = function(){
-                let username = "ania";
-                raports(username);
+                console.log(getCookieValue('user'))
+                raports(getCookieValue('user'));
                 navClose();
             } 
             const dodaj = document.createElement('a')
@@ -78,6 +89,8 @@ export function navBar(){
             edytuj.classList.add('nav-link')
             edytuj.href = '#'
             edytuj.innerText = 'edytuj'
+            edytuj.id = 'edytuj'
+            edytuj.classList.add('nav-btn-hidden')
             edytuj.onclick = function(){
                 // openStat();
                 console.log('edytuj')
@@ -86,6 +99,8 @@ export function navBar(){
             usun.classList.add('nav-link')
             usun.href = '#'
             usun.innerText = 'usun'
+            usun.id = 'usun'
+            usun.classList.add('nav-btn-hidden')
             usun.onclick = function(){
                 // openStat();
                 console.log('usuń')
@@ -157,7 +172,7 @@ export function navBehav(){
     }
 
 
-function navClose(){
+export function navClose(){
 
     const navOverlay = document.querySelector(".nav-overlay");
     const btns = document.querySelector("nav");
@@ -169,4 +184,15 @@ function navClose(){
     pic.classList.remove('big')
     btns.classList.add("nav-close")
     navOverlay.classList.remove("nav-overlay-open");
+}
+
+export function navUserBehav(raportUser){
+    if (raportUser === getCookieValue('user')){
+        document.querySelectorAll(".nav-btn-hidden").forEach(each =>{
+            each.classList.remove('nav-btn-hidden')
+        })
+    }else{
+        document.getElementsById('edytuj').classList.add('nav-btn-hidden')
+        document.getElementsById('usun').classList.add('nav-btn-hidden')
+    }
 }

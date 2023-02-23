@@ -6,17 +6,19 @@ import {Auth} from './src/features/auth/index.js';
 
 
 
-window.onload=function(){
+window.onload=async function(){
     // MENU
 
 // NAV 
-    navBar();
-    navBehav();
+    // navBar();
+    // navBehav();
 
 
 // BODY SECTION
     // raports();
     let newUser = new Auth();
-    newUser.login();
-
+    //tutaj sprawdzać czy jest token w cookies i jeśli tak to validować 
+    // newUser.login();
+    newUser.register();
+    
 }

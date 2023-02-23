@@ -1,14 +1,18 @@
 import {url} from "../../common/data/index.js"
 import {addPaginate} from '../../common/paginate/index.js'
 import {Brick} from '../../features/brick/index.js'
+import {getCookieValue} from '../../features/cookie/index.js'
 
 export function raports (username){
 
+
     document.getElementById('loading').style.visibility = 'visible';
 
-    let api_url = url+"raports/"
-    // api_url = "http://localhost:8000/raports"
-    // api_url = "https://mocki.io/v1/8b49b683-9fea-4932-aac2-6c264b7bc6df"
+    // let api_url = url+"raports/"
+    let api_url = "http://localhost:8000/raports/"
+    if (username){
+        api_url = "http://localhost:8000/raports/"+username
+    }
 
     let theme = document.getElementById('theme')
     theme.setAttribute('href', "/src/templates/all_raports/style.css");
@@ -20,33 +24,48 @@ export function raports (username){
     const CheckList = document.querySelector('#form-data');
     CheckList.innerHTML='';
 
-
-    
-    // const api_url = "http://localhost:8000/raports"
-
     // Defining async function
-    async function getapi(username) {
-        if (username != undefined){
-            api_url = api_url+username
-        }
-        
-        const response = await fetch(api_url);
-        var data = await response.json();
+    async function getapi() {
 
-        if (response) {
+        let token = getCookieValue('access_token')
+        // console.log(token)
+        const myHeaders = new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+token
+        });
+
+        // if (username != undefined){
+        //     api_url = api_url+username
+        // }
+
+        await fetch(api_url, {
+        method: "GET",
+        credentials: 'include',
+        headers: myHeaders,
+        })
+        .then(res => res.json())
+        .then(data => {
+
             hideloader();
-        }
-            console.log(data);
+            console.log('data: '+data);
             show(data);
             addPaginate();
+        })
+        .catch(err => console.log(err))
+
+        
+        
+        // const response = await fetch(api_url);
+        
 
     }
-    getapi(username);
+    getapi();
 
  
     function hideloader() {
         document.getElementById('loading').style.visibility = 'hidden';
     }
+
 
     function show(data) {
         
@@ -55,7 +74,6 @@ export function raports (username){
     raportList.innerHTML = '';
 
     data.forEach(each => {
-
         let raportInfoGrid = new Brick(each)
         let brick = raportInfoGrid.getBrick()
         raportList.appendChild(brick);
@@ -65,3 +83,4 @@ export function raports (username){
    
 
 }
+

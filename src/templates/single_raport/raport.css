@@ -116,7 +116,15 @@ body {
 }
 
 
+.user-label{
+    display: flex;
+    justify-content: flex-end;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
 
+}
 /* RAPORT */
 .raport-data-user {
     /* display: grid; */

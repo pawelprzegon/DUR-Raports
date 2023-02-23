@@ -79,8 +79,8 @@ body {
         text-align: center;
         display: grid;
         align-content: center;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 600;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
         text-decoration: none;
         color: #ffffff;
         transition: font-size 0.3s;
@@ -122,6 +122,7 @@ body {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
+        align-items: flex-end;
 
     }
 
@@ -130,9 +131,10 @@ body {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        margin: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
         width: 20px;
-        height: 20px;
+        height: 100%;
     }
 
     .big-row {
@@ -158,6 +160,7 @@ body {
         pointer-events: stroke;
     }
 
+
     .nav-link {
         text-align: center;
         margin: 4px;
@@ -167,8 +170,8 @@ body {
         text-align: center;
         display: grid;
         align-content: center;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 600;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
         text-decoration: none;
         color: #ffffff;
         transition: font-size 0.3s;
@@ -195,6 +198,7 @@ body {
         left: 5%;
         width: 85%;
         display: grid;
+        justify-items: center;
         grid-template-rows: [row1-start] 40px [row1-end]auto [last-line];
         height: 40px;
         background: #5c5c5c;
@@ -212,6 +216,7 @@ body {
 
     .top-elements {
         max-height: 40px;
+        width: 100%;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
@@ -221,11 +226,12 @@ body {
     .top-element {
         display: flex;
         flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        margin: 10px;
-        width: 20px;
-        height: 20px;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-left: 10px;
+        margin-right: 10px;
+        width: 100px;
+        height: 100%;
     }
 
     .big-row {
@@ -260,8 +266,8 @@ body {
         text-align: center;
         display: grid;
         align-content: center;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 600;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
         text-decoration: none;
         color: #ffffff;
         transition: font-size 0.3s;
@@ -271,6 +277,16 @@ body {
         border-color: rgb(255, 255, 255);
         /* background-color: #000000; */
     }
+}
+
+.nav-user{
+    display: flex;
+    align-items: center;
+    pointer-events: stroke;
+    font-family: 'Roboto', sans-serif;
+    font-style: 400;
+    color: rgb(255, 255, 255);
+    font-size: 16px;
 }
 
 /* .top-row {
@@ -310,18 +326,9 @@ min-width: 14rem;
     display: inline-block;
 }
 
-/* .nav-btn {
-    width: 90px;
-    background: #b8b8b8;
-    height: var(--top-row-height);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    outline: none;
-    cursor: pointer;
-    border: none;
-} */
-
+.nav-btn-hidden {
+    display: none;
+}
 .nav-btn>span {
 
     color: #ffffff;

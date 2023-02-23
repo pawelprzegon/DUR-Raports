@@ -1,4 +1,6 @@
-import {url} from "../../common/data/index.js"
+// import {url} from "../../common/data/index.js"
+import {getCookieValue} from '../../features/cookie/index.js'
+import {navUserBehav} from '../../common/navigation/index.js'
 
 export function openRaport (id){
 
@@ -14,22 +16,31 @@ export function openRaport (id){
     
     // Defining async function
     async function getapi(url) {
-        
-        // Storing response
-        const response = await fetch(url+id);
-        
-        // Storing data in form of JSON
-        var data = await response.json();
-        console.log(data)
 
-        
-        if (response) {
+        let token = getCookieValue('access_token')
+        const myHeaders = new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+token
+        });
+
+        await fetch(url+id, {
+        method: "GET",
+        credentials: 'include',
+        headers: myHeaders,
+        })
+        .then(res => res.json())
+        .then(data => {
+
             hideloader();
-        }
+            console.log('data: '+data);
+            navUserBehav(data.author.username);
             show(data);
-
+        })
+        .catch(err => console.log(err))
+        
     }
     // Calling that async function
+    let url = 'http://localhost:8000/'
     getapi(url+"raport/");
     
     // Function to hide the loader
@@ -39,9 +50,17 @@ export function openRaport (id){
 
 
     function show(data) {
+        console.log(data)
         const raportList = document.querySelector('#raport');
         raportList.classList.add('single')
         raportList.innerHTML = '';
+        // USER
+            const User = document.createElement('div')
+                const userInfo = document.createElement('span');
+                User.classList.add('user-label')
+                userInfo.innerText = (data.author.username).capitalize()
+                User.appendChild(userInfo)
+                raportList.appendChild(User)
         // DEKLARACJE
             const Dekl = document.createElement('div')
 
@@ -182,6 +201,9 @@ export function openRaport (id){
         txt = txt.replace(chunk, "<b>" + chunk + "</b>");
         item.innerHTML = txt;
         });
+
+       
     }
+    
 
 }

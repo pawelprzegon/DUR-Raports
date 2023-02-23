@@ -1,11 +1,17 @@
 import {url} from "../../common/data/index.js"
+import {raports} from '../../templates/all_raports/index.js';
+import {navBar} from '../../common/navigation/index.js';
+import {navBehav} from '../../common/navigation/index.js';
+
+
+
 
 export  class Auth {
 
 
         constructor() {
 
-            this.data = ["email", "password", "confirm"]
+            this.data = ["email", "username", "password", "confirm"]
             this.form = document.getElementById('form')
 
             this.formField = document.createElement('form')
@@ -78,29 +84,54 @@ export  class Auth {
         }
 
 
-        async getapi(formDataObj) {
-            let data = JSON.stringify(formDataObj);
-            console.log(data);
-            let h = new Headers();
-            h.append('Accept', 'application/json');
-            let encoded = window.btoa(`${data['email']}`+':'+`${data['password']}`);
-            let auth = 'Basic ' + encoded;
-            h.append('Authorization', auth)
-            console.log(auth)
-            fetch('https://ghsdfgh.onrender.com/login/', {
-                method: "PUT",
-                headers: h,
-                // body: data,
+        async createUser(formData) {
+
+
+            await fetch('http://localhost:8000/register', {
+                method: "POST",
+                body: formData,
             })
-            .then(res => res.json())
-            .then(data => console.log(data))
-            .catch(err => console.log(err))
-      
+            .then(res => {
+                // console.log('Fetch - Got response: ', res);
+                return res;
+              })
+            .then(res =>
+                res.json().then(data => ({
+                  status: res.status,
+                  data
+                })
+            ))
+            .then(({ status, data }) => { 
+                if (status == 200){
+                    console.log({ status, data })
+                    
+                    this.login();
+                }else{
+                    this.register();
+                }
+                
+             })
+            .catch(err => console.log(err));
         }
-        
+            
 
 
-        register(){
+
+        register(er){
+
+            if (er){
+                this.response = document.createElement('div');
+                this.responseStatus = document.createElement('p');
+                this.responseStatus.innerText = er.status;
+                this.responseStatus.classList.add('response-error')
+                this.responseData = document.createElement('p');
+                this.responseData.innerText = er.response;
+                this.responseData.classList.add('response-error')
+                
+                this.responseBox.appendChild(this.responseStatus);
+                this.responseBox.appendChild(this.responseData);
+            }
+
             this.header = document.createElement('h1');
             this.header.innerText = "Register"
             this.form.appendChild(this.header)
@@ -147,29 +178,97 @@ export  class Auth {
                 formData.forEach((key, value) => {
                     formDataObj[value] = key;
                 })
-               
+            
                 console.log(formDataObj)
                 let validate = this.validateInputs(formDataObj);
 
                 if (validate === true){
-                    
+                    this.createUser(formData)
                 }else{
                     console.log("błędne dane logowania")
                 }
-
-            })
-            
+            }) 
+    
         }
 
 
-        login(){
 
+        async getToken(formData) {
+            await fetch('http://localhost:8000/token', {
+                method: "POST",
+                body: formData,
+
+                /* teraz trzeba pobrać token a później dodawać go do requesta */
+            })
+            .then(res => {
+                // console.log('Fetch - Got response: ', res);
+                return res;
+              })
+            .then(res =>
+                res.json().then(data => ({
+                  status: res.status,
+                  data
+                })
+            ))
+            .then(({ status, data }) => {
+                if (status == 200){
+                    // token do cookies
+                    
+                    var now = new Date();
+                    var time = now.getTime();
+                    var expireTime = time + data.token_expire*1000;
+                    now.setTime(expireTime - now.getTimezoneOffset()*60*1000);
+
+                    document.cookie='access_token='+data.access_token+
+                    ';expires='+now.toUTCString()+';SameSite=lex';
+                    document.cookie='user='+data.user.username;
+
+                    // NAV
+                    navBar();
+                    navBehav();
+                    document.getElementById('nav-user').innerText = data.user.username.capitalize();
+
+                    // Raports
+                    raports();
+                }else{
+                    this.login({
+                        'response': data.detail,
+                        'status': status,
+                            })
+                }
+                
+             })
+            .catch(err => console.log(err));
+        }
+
+
+        login(er){
+
+            let CheckList = document.querySelector('#form');
+            CheckList.innerHTML='';
+
+            if (er){
+
+                this.response = document.createElement('div');
+                this.responseStatus = document.createElement('p');
+                this.responseStatus.innerText = er.status;
+                this.responseStatus.classList.add('response-error')
+                this.responseData = document.createElement('p');
+                this.responseData.innerText = er.response;
+                this.responseData.classList.add('response-error')
+                
+                this.responseBox.appendChild(this.responseStatus);
+                this.responseBox.appendChild(this.responseData);
+                
+            }
             this.header = document.createElement('h1');
             this.header.innerText = "Login"
             this.form.appendChild(this.header)
+            this.responseBox = document.createElement('div');
+            this.form.appendChild(this.responseBox)
 
             this.data.forEach(each => {
-                if (each !== "confirm"){
+                if (each !== "confirm" && each !== "email"){
                     this.elemBox = document.createElement('div');
                     this.elemBox.classList.add('input-control')
                     this.elemLabel = document.createElement('p');
@@ -211,17 +310,20 @@ export  class Auth {
                 formData.forEach((key, value) => {
                     formDataObj[value] = key;
                 })
-               
+            
                 console.log(formDataObj)
                 let validate = this.validateInputs(formDataObj);
 
                 if (validate === true){
-                    this.getapi(formDataObj);
-                    
+                    /* jeżeli validacja ok to wysyłamy do API cały FormData */
+                    this.getToken(formData);
                 }else{
                     console.log("błędne dane logowania")
                 }
 
             })
+            
+
+            
         }
 }

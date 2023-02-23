@@ -145,3 +145,7 @@
     font-size: 9px;
     height: 13px;
 }
+
+.response-error{
+  color: #ff3860;
+}
