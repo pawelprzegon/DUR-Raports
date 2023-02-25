@@ -93,4 +93,4 @@ async def register(request: Request):
         return {'status': 'success'}
 
     except SQLAlchemyError as e:
-        return e
+        return {'status':  e.orig.args}
