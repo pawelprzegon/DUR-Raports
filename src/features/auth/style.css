@@ -133,7 +133,8 @@
 }
 
 .input-control.success input {
-    border-color: #09c372;
+    border-color: #a5dac3;
+    border-width: 1px;
 }
 
 .input-control.error input {
@@ -148,4 +149,26 @@
 
 .response-error{
   color: #ff3860;
+}
+
+.create-account{
+  display: grid;
+  justify-content: end;
+  padding: 3px;
+}
+
+#form a,button{
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: rgb(95, 102, 114);
+}
+#form a:hover{
+  font-weight: 500;
+  color: rgb(26, 60, 123);
+}
+
+.hidden-element{
+  display: none;
 }

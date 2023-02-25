@@ -1,3 +1,5 @@
+import {url} from "../../common/data/index.js"
+
 export function openCreate (){
 
 
@@ -294,7 +296,7 @@ export function openCreate (){
         console.log(formDataObj);
         let data = JSON.stringify(formDataObj)
         console.log(data)
-        fetch('https://ghsdfgh.onrender.com/create/', {
+        fetch(url+'create/', {
             method: "PUT",
             headers: {"content-type" : "application/json"},
             body: data,

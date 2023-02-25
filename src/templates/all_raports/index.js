@@ -9,9 +9,9 @@ export function raports (username){
     document.getElementById('loading').style.visibility = 'visible';
 
     // let api_url = url+"raports/"
-    let api_url = "http://localhost:8000/raports/"
+    let api_url = url+"raports/"
     if (username){
-        api_url = "http://localhost:8000/raports/"+username
+        api_url = url+"raports/"+username
     }
 
     let theme = document.getElementById('theme')
