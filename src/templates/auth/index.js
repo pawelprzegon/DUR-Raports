@@ -1,10 +1,10 @@
 import {url} from "../../common/data/index.js"
-import {raports} from '../../templates/all_raports/index.js';
-import {navBar} from '../../common/navigation/index.js';
-import {navBehav} from '../../common/navigation/index.js';
 
 
-
+window.onload=async function(){
+    let newUser = new Auth();
+    newUser.authorize();
+}
 
 export  class Auth {
 
@@ -17,19 +17,8 @@ export  class Auth {
             this.formField.action = "#"
             this.formField.id = "form"
             this.formField.method = "post"
-
-            this.theme();
-        }
-
-        theme(){
-            let theme = document.getElementById('theme')
-            theme.setAttribute('href', "/src/features/auth/style.css");
-
             this.raportList = document.querySelector('#raport');
-            this.raportList.innerHTML = '';
-                
             this.FormList = document.querySelector('#form-data');
-            this.FormList.innerHTML='';
         }
 
     
@@ -211,8 +200,9 @@ export  class Auth {
         }
 
 
-        async createUser(formData) {
 
+
+        async createUser(formData) {
 
             await fetch(url+'register', {
                 method: "POST",
@@ -231,11 +221,13 @@ export  class Auth {
             .then(({ status, data }) => { 
                 console.log({ status, data })
                 if (status == 200 && data.status == 'success'){
+                    // czyszczenie 
                     document.getElementById('responseBox').innerHTML = ''
                     let inputs = document.getElementsByClassName('input-control')
                     Array.from(inputs).forEach(el => {
                         el.children[1].value = ''
                     })
+                    // zmiana labeli oraz ukrycie niepotrzebnych pól, usunięcie statusu validacji
                     let link = document.getElementById('createUserLink')
                     let header = document.getElementById('header')
                     document.getElementById('div-email').classList.add('hidden-element') 
@@ -248,7 +240,6 @@ export  class Auth {
                     header.innerText = 'Login'
                     console.log(data.status=== 'success')
                 }
-                // this.register(data)
                 else{
                     this.responseBox.innerHTML = ''
                     this.response = document.createElement('div');
@@ -267,22 +258,11 @@ export  class Auth {
             .catch(err => console.log(err));
         }
             
-
-
-
-        register(){
-            this.form.innerHTML = ''
-            this.createBody();
-        }
-
-
-
         async getToken(formData) {
-            await fetch(url+'token', {
+            console.log(formData)
+            await fetch(url+'login', {
                 method: "POST",
                 body: formData,
-
-                /* teraz trzeba pobrać token a później dodawać go do requesta */
             })
             .then(res => {
                 // console.log('Fetch - Got response: ', res);
@@ -295,30 +275,27 @@ export  class Auth {
                 })
             ))
             .then(({ status, data }) => {
-                if (status == 200){
+                console.log('status_code' in data)
+                console.log({ status, data })
+                if (status == 200 && !('status_code' in data)){
                     // token do cookies
-                    
+                    console.log(typeof(Date.parse(data.token_expire)))
                     var now = new Date();
-                    var time = now.getTime();
-                    var expireTime = time + data.token_expire*1000;
-                    now.setTime(expireTime - now.getTimezoneOffset()*60*1000);
+                    now.setTime(Date.parse(data.token_expire));
 
                     document.cookie='access_token='+data.access_token+
-                    ';expires='+now.toUTCString()+';SameSite=lex';
+                    ';expires='+now+';SameSite=lex';
+                    document.cookie='refresh_token='+data.refresh_token;
                     document.cookie='user='+data.user.username;
 
-                    // NAV
-                    navBar();
-                    navBehav();
-                    document.getElementById('nav-user').innerText = data.user.username.capitalize();
+                    location.href = 'index.html';
 
-                    // Raports
-                    raports();
+                    
                 }else{
                     this.responseBox.innerHTML = ''
                     this.response = document.createElement('div');
                     this.responseStatus = document.createElement('p');
-                    this.responseStatus.innerText = status;
+                    this.responseStatus.innerText = data.status_code;
                     this.responseStatus.classList.add('response-error')
                     this.responseData = document.createElement('p');
                     this.responseData.innerText = data.detail;
@@ -332,6 +309,9 @@ export  class Auth {
             .catch(err => console.log(err));
         }
 
-   
+        authorize(){
+            this.form.innerHTML = ''
+            this.createBody();
+        }
 
 }

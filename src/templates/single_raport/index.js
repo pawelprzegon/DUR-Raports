@@ -1,6 +1,6 @@
-// import {url} from "../../common/data/index.js"
-import {getCookieValue} from '../../features/cookie/index.js'
+import {url} from "../../common/data/index.js"
 import {navUserBehav} from '../../common/navigation/index.js'
+import {callApi} from '../../features/endpoints/index.js'
 
 export function openRaport (id){
 
@@ -15,32 +15,24 @@ export function openRaport (id){
 
     
     // Defining async function
-    async function getapi(url) {
-
-        let token = getCookieValue('access_token')
-        const myHeaders = new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+token
-        });
-
-        await fetch(url+id, {
-        method: "GET",
-        credentials: 'include',
-        headers: myHeaders,
-        })
-        .then(res => res.json())
-        .then(data => {
-
+    async function getapi() {
+        let [response, status] = await callApi(url+"raport/"+id);
+        console.log(response)
+        console.log(status)
+        if (status == 200){
             hideloader();
-            console.log('data: '+data);
-            navUserBehav(data.author.username);
-            show(data);
-        })
-        .catch(err => console.log(err))
+            navUserBehav(response.author.username);
+            show(response);
+        }else{
+            hideloader();
+            navUserBehav();
+            document.getElementById('err').innerText = status +' Raport '+'id '+response.detail
+        }
+        
         
     }
     // Calling that async function
-    getapi(url+"raport/");
+    getapi();
     
     // Function to hide the loader
     function hideloader() {

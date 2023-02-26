@@ -2,9 +2,10 @@ import {openStat} from '../../templates/statistics/index.js';
 import {openCreate} from '../../templates/create/index.js';
 import {raports} from '../../templates/all_raports/index.js'
 import {getCookieValue} from '../../features/cookie/index.js'
+import {destroyCookieValue} from '../../features/cookie/index.js'
 
 
-export function navBar(){
+export function navBar(user){
     const header = document.getElementById("app-header")
 
 
@@ -27,7 +28,7 @@ export function navBar(){
                 const userLabel = document.createElement('span');
                 userLabel.classList.add('nav-user')
                 userLabel.id = 'nav-user'
-                userLabel.innerText = 'niezalogowany'
+                userLabel.innerText = user.capitalize();
                 const logo = document.createElement('img')
                 logo.src = '/static/images/artgeist.png'
                 logo.alt = 'artgeist'
@@ -111,7 +112,9 @@ export function navBar(){
             wyloguj.innerText = 'wyloguj'
             wyloguj.onclick = function(){
                 // openStat();
-                console.log('wyloguj')
+                destroyCookieValue('access_token')
+                destroyCookieValue('user')
+                destroyCookieValue('refresh_token')
             } 
             
         btnsPics.appendChild(home)
@@ -192,7 +195,7 @@ export function navUserBehav(raportUser){
             each.classList.remove('nav-btn-hidden')
         })
     }else{
-        document.getElementsById('edytuj').classList.add('nav-btn-hidden')
-        document.getElementsById('usun').classList.add('nav-btn-hidden')
+        document.getElementById('edytuj').classList.add('nav-btn-hidden')
+        document.getElementById('usun').classList.add('nav-btn-hidden')
     }
 }

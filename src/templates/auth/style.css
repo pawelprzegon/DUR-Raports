@@ -166,7 +166,8 @@
 }
 #form a:hover{
   font-weight: 500;
-  color: rgb(26, 60, 123);
+  color: rgb(76, 128, 225);
+  text-decoration: underline;
 }
 
 .hidden-element{

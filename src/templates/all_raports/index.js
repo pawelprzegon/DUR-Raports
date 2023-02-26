@@ -2,6 +2,22 @@ import {url} from "../../common/data/index.js"
 import {addPaginate} from '../../common/paginate/index.js'
 import {Brick} from '../../features/brick/index.js'
 import {getCookieValue} from '../../features/cookie/index.js'
+import {navBar, navBehav} from '../../common/navigation/index.js'
+import {callApi, tokenRefresh} from '../../features/endpoints/index.js'
+
+window.onload=async function(){
+    let auth = getCookieValue('access_token')
+    console.log(auth)
+    if (auth){
+        let user = getCookieValue('user')
+        navBar(user);
+        navBehav();
+        raports();
+    }else{
+        location.href = '/src/templates/error/404.html';
+    }
+    
+}   
 
 export function raports (username){
 
@@ -26,41 +42,73 @@ export function raports (username){
 
     // Defining async function
     async function getapi() {
+        let [response, status] = await callApi(api_url);
+        console.log(response)
+        console.log(status)
 
-        let token = getCookieValue('access_token')
-        // console.log(token)
-        const myHeaders = new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+token
-        });
-
-        // if (username != undefined){
-        //     api_url = api_url+username
-        // }
-
-        await fetch(api_url, {
-        method: "GET",
-        credentials: 'include',
-        headers: myHeaders,
-        })
-        .then(res => res.json())
-        .then(data => {
-
+        if (response.detail && response.detail == "Not authenticated"){
+            console.log('refreshing token')
+            let refTokenResponse = tokenRefresh();
+            console.log(refTokenResponse)
+            console.log(username)
+            if (username){
+                raports(username);
+            }else{
+                raports();
+            }
+            
+        }else{
             hideloader();
-            console.log('data: '+data);
-            show(data);
+            console.log('data: '+response);
+            show(response);
             addPaginate();
-        })
-        .catch(err => console.log(err))
+        }
 
-        
-        
+        // let token = getCookieValue('access_token')
+        // console.log(token)
+        // const myHeaders = new Headers({
+        //     'accept': 'application/json',
+        //     'Authorization': 'Bearer '+token
+        // });
+
+
+
+        // let resp = await fetch(api_url, {
+        // method: "GET",
+        // credentials: 'include',
+        // headers: myHeaders,
+        // })
+        // .then(res => res.json())
+        // .then(async data =>{
+        //     console.log(data)
+        //     if (data.detail && data.detail == "Not authenticated"){
+        //         console.log('refreshing token')
+        //         tokenRefresh();
+        //         console.log(username)
+        //         if (username){
+        //             raports(username);
+        //         }else{
+        //             raports();
+        //         }
+                
+
+        //     }else{
+        //         hideloader();
+        //         console.log('data: '+data);
+        //         show(data);
+        //         addPaginate();
+        //     }
+            
+        // })
+        // .catch(err => console.log(err))
+
         // const response = await fetch(api_url);
         
-
     }
-    getapi();
 
+   
+    getapi();
+  
  
     function hideloader() {
         document.getElementById('loading').style.visibility = 'hidden';
