@@ -34,6 +34,11 @@ class UserOut(BaseModel):
     username: str
     date_created: date_type
     id: int
+    
+class UserIn(BaseModel):
+    username: str
+    password: str
+
 
 
 class User(BaseModel):

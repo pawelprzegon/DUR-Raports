@@ -1,37 +1,53 @@
-import urllib.parse
 from fastapi_sqlalchemy import db
 import schema
-from fastapi import APIRouter, Request, HTTPException, Depends
+from fastapi import APIRouter, Request, HTTPException, Security
 from models import Raport, Unit, Plexi, Dekl, User
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import or_
 from collections import defaultdict
 from typing import List
-from auth_api.routers import get_current_user
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from auth_api.auth import Auth
 
+auth_handler = Auth()
+security = HTTPBearer()
 raporty = APIRouter()
 
 
 @raporty.get("/raports", response_model=List[schema.RaportsSmall])
-async def root(user: schema.UserOut = Depends(get_current_user)):
-    return db.session.query(Raport).order_by(
-        Raport.date_created.desc()).all()
+async def root(credentials: HTTPAuthorizationCredentials = Security(security)):
+    token = credentials.credentials
+    print(token)
+    print('PRZECHODZI')
+    if(auth_handler.decode_token(token)):
+        return db.session.query(Raport).order_by(
+            Raport.date_created.desc()).all()
+        
 
 
 @raporty.get("/raports/{username}", response_model=List[schema.RaportsOut])
-async def user_raports(username: str):
+async def user_raports(username: str, credentials: HTTPAuthorizationCredentials = Security(security)):
     return db.session.query(Raport).join(User).filter(
         User.username == username).all()
 
 
 @raporty.get("/raport/{raport_id}", response_model=schema.RaportsOut)
-async def raport(raport_id: int):
-    return db.session.query(Raport).filter(
-        Raport.id == raport_id).first()
+async def raport(raport_id: int, credentials: HTTPAuthorizationCredentials = Security(security)):
+    try:
+        if (
+            raport := db.session.query(Raport)
+            .filter(Raport.id == raport_id)
+            .first()
+        ):
+            return raport
+        else:
+            raise HTTPException(status_code=404, detail="not found")
+    except SQLAlchemyError as e:
+        return e
 
 
 @raporty.get("/delete/{raport_id}")
-async def delete_raport(raport_id: int):
+async def delete_raport(raport_id: int, credentials: HTTPAuthorizationCredentials = Security(security)):
     try:
         resoult = db.session.query(Raport).filter(
             Raport.id == raport_id).first()
@@ -49,14 +65,14 @@ async def delete_raport(raport_id: int):
 
 
 @raporty.put('/create/')
-async def create_raport(request: Request):
+async def create_raport(request: Request, credentials: HTTPAuthorizationCredentials = Security(security)):
     form = await request.json()
     return fillFormAndRelpaceDb(form)
     # return fillFormAndRelpaceDb(form)
 
 
 @raporty.put('/update/')
-def update_raport(request: Request):
+def update_raport(request: Request, credentials: HTTPAuthorizationCredentials = Security(security)):
     params = dict(request.query_params)
     return fillFormAndRelpaceDb(params['data'], params['raport_id'])
 
@@ -110,7 +126,7 @@ def fillFormAndRelpaceDb(form, raport_id=None):
 
 
 @raporty.get('/search/{searching}', response_model=List[schema.RaportsOut])
-def search_raport(searching):
+def search_raport(searching, credentials: HTTPAuthorizationCredentials = Security(security)):
     print(searching)
     return search(searching)
 
@@ -150,7 +166,7 @@ def search_statistics(temp_raports, query):
 
 
 @raporty.get('/statistics')
-def statistics_raport():
+def statistics_raport(credentials: HTTPAuthorizationCredentials = Security(security)):
     resoults = db.session.query(Raport).order_by(
         Raport.date_created.desc()).all()
     response = statistics(resoults)
