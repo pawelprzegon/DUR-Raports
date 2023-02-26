@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#000000">
     <title>
-        404
+        Authorization
     </title>
-    <link rel="stylesheet" href="/src/common/style/style.css">
+    <link rel="stylesheet" href="./src/common/style/style.css">
     <link rel="icon" type="image/png" href="/static/images/artgeist.png" />
-    <link rel="stylesheet" href="/src/templates/error/style.css">
+    <link rel="stylesheet" href="./src/templates/auth/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,11 +19,14 @@
     
 </head>
 <body>
-    <div class="error">
-        <h1>Protected Page</h1>
-        <p>You can view this page because you are signed in.</p>
-        <br>
-        <a href="../../../auth.html">Zaloguj się</a>
-    </div>
+        <div id="form-data">
+            <form action="#" method="post" id="form">
+            
+            </form>
+        </div>
+        <ul class="raport-grid" id="raport">
+          
+        </ul>
+    <script type="module" src="./src/templates/auth/index.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-import {openRaport} from '../../templates/single_raport/index.js';
+// import {openRaport} from '../../templates/single_raport/index.js';
 
 export class Brick {
 
@@ -9,7 +9,7 @@ export class Brick {
         this.username = each.author.username;
         
         this.build();
-        this.brickEvents();
+        // this.brickEvents();
 
     }
     build(){
@@ -19,6 +19,8 @@ export class Brick {
         this.detailsUser = document.createElement('p');
         this.btnL = document.createElement('a');
         this.moreButton = document.createElement('button');
+        this.moreButton.href = '/raport/'+parseInt(this.id, 10)
+        this.moreButton.setAttribute('data-link', '')
 
         let regions = this.regions(this.each.units);
 
@@ -89,12 +91,12 @@ export class Brick {
 
     
 
-    brickEvents(){
-        let test = parseInt(this.id, 10)
-        this.btnL.onclick = function(){
-            openRaport(test);
-        }
-    }
+    // brickEvents(){
+    //     let test = parseInt(this.id, 10)
+    //     this.btnL.onclick = function(){
+    //         openRaport(test);
+    //     }
+    // }
 
 
 

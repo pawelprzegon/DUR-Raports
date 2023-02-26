@@ -1,6 +1,3 @@
-import {openStat} from '../../templates/statistics/index.js';
-import {openCreate} from '../../templates/create/index.js';
-import {raports} from '../../templates/all_raports/index.js'
 import {getCookieValue} from '../../features/cookie/index.js'
 import {destroyCookieValue} from '../../features/cookie/index.js'
 
@@ -8,6 +5,8 @@ import {destroyCookieValue} from '../../features/cookie/index.js'
 export function navBar(user){
     const header = document.getElementById("app-header")
 
+    let theme = document.getElementById('nav-theme')
+    theme.setAttribute('href', "/src/common/navigation/nav.css");
 
     const topRow = document.createElement('div');
     topRow.classList.add('top-row')
@@ -30,7 +29,7 @@ export function navBar(user){
                 userLabel.id = 'nav-user'
                 userLabel.innerText = user.capitalize();
                 const logo = document.createElement('img')
-                logo.src = '/static/images/artgeist.png'
+                logo.src = './static/images/artgeist.png'
                 logo.alt = 'artgeist'
                 logo.id = 'logo'
                 logo.classList.add('logo')
@@ -56,40 +55,40 @@ export function navBar(user){
             home.href = '/'
             home.innerText = 'home'
             home.setAttribute('data-link', '')
-            home.onclick=function(){
-                raports();
-                navClose();
-            }
+            // home.onclick=function(){
+            //     raports();
+            //     navClose();
+            // }
 
             const stat = document.createElement('a')
             stat.classList.add('nav-link')
             stat.href = '/statistics'
             stat.innerText = 'statystyki'
             stat.setAttribute('data-link', '')
-            stat.onclick = function(){
+            // stat.onclick = function(){
                 
-                openStat();
-                navClose();
-            } 
+            //     openStat();
+            //     navClose();
+            // } 
             const moje = document.createElement('a')
             moje.classList.add('nav-link')
-            moje.href = '/my-raports'
+            moje.href = '/'+user
             moje.innerText = 'moje'
             moje.setAttribute('data-link', '')
-            moje.onclick = function(){
-                console.log(getCookieValue('user'))
-                raports(getCookieValue('user'));
-                navClose();
-            } 
+            // moje.onclick = function(){
+            //     console.log(getCookieValue('user'))
+            //     raports(getCookieValue('user'));
+            //     navClose();
+            // } 
             const dodaj = document.createElement('a')
             dodaj.classList.add('nav-link')
             dodaj.href = '/new'
             dodaj.innerText = 'dodaj'
             dodaj.setAttribute('data-link', '')
-            dodaj.onclick = function(){
-                openCreate();
-                navClose();
-            } 
+            // dodaj.onclick = function(){
+            //     openCreate();
+            //     navClose();
+            // } 
             const edytuj = document.createElement('a')
             edytuj.classList.add('nav-link')
             edytuj.href = '/edit'
@@ -97,10 +96,10 @@ export function navBar(user){
             edytuj.setAttribute('data-link', '')
             edytuj.id = 'edytuj'
             edytuj.classList.add('nav-btn-hidden')
-            edytuj.onclick = function(){
-                // openStat();
-                console.log('edytuj')
-            }
+            // edytuj.onclick = function(){
+            //     // openStat();
+            //     console.log('edytuj')
+            // }
             const usun = document.createElement('a')
             usun.classList.add('nav-link')
             usun.href = '/delete'
@@ -108,10 +107,10 @@ export function navBar(user){
             usun.innerText = 'usun'
             usun.id = 'usun'
             usun.classList.add('nav-btn-hidden')
-            usun.onclick = function(){
-                // openStat();
-                console.log('usuń')
-            } 
+            // usun.onclick = function(){
+            //     // openStat();
+            //     console.log('usuń')
+            // } 
             const wyloguj = document.createElement('a')
             wyloguj.classList.add('nav-link')
             wyloguj.href = '/logout'

@@ -1,28 +1,38 @@
 import {url} from "../../common/data/index.js"
-
-export function openCreate (){
-
-
-    let theme = document.getElementById('theme')
-    theme.setAttribute('href', "/src/templates/create/create.css");
-
-    $("body").css("overflow", "initial");
-
-    const raportList = document.querySelector('#raport');
-        raportList.innerHTML = '';
-        
-    const CheckList = document.querySelector('#form-data');
-    CheckList.innerHTML='';
-    
-    let regioList = new Object();
-    regioList = {}
-    regioList['Stolarnia'] = ['Pilarki', 'Zbijarki', 'Kompresor', 'Inne'];
-    regioList['Drukarnia'] = ['Xeikony', 'Mutohy', 'Impale', 'Latex', 'Fotoba', 'Zgrzewarka', 'Kompresor', 'Inne' ]
-    regioList['Bibeloty'] = ['Cuttery', 'Laminarki', 'HotPress', 'EBSy', 'Mieszalnik', 'Dozownik', 'Summa', 'Inne' ]
-    const users = ['Adam', 'Paweł', 'Bartek'];
+import AbstractView from "../AbstractView.js";
 
 
-    function showForm () {
+export default class extends AbstractView{
+    constructor(){
+        super();
+        this.setTitle("New")
+        this.regioList = new Object();
+        this.regioList = {}
+        this.regioList['Stolarnia'] = ['Pilarki', 'Zbijarki', 'Kompresor', 'Inne'];
+        this.regioList['Drukarnia'] = ['Xeikony', 'Mutohy', 'Impale', 'Latex', 'Fotoba', 'Zgrzewarka', 'Kompresor', 'Inne' ]
+        this.regioList['Bibeloty'] = ['Cuttery', 'Laminarki', 'HotPress', 'EBSy', 'Mieszalnik', 'Dozownik', 'Summa', 'Inne' ]
+        this.users = ['Adam', 'Paweł', 'Bartek'];
+
+        this.raportList = document.querySelector('#raport');
+        this.raportList.innerHTML = '';
+            
+        this.CheckList = document.querySelector('#form-data');
+        this.CheckList.innerHTML='';
+    }
+
+    async getData(){
+
+        let theme = document.getElementById('theme')
+        theme.setAttribute('href', "/src/templates/create/create.css");
+
+        $("body").css("overflow", "initial");
+
+        this.showForm();
+        this.events();
+ 
+    }
+
+    showForm () {
         
 
         const formField = document.createElement('form')
@@ -34,42 +44,42 @@ export function openCreate (){
             function show(lab, data) {
                 
                 const region = document.createElement('div');
-                    region.classList.add('regions')
-                    const LabelBox = document.createElement('div');
-                        const StolarniaLabel = document.createElement('h4');
-                        StolarniaLabel.innerText = lab;
-                        LabelBox.appendChild(StolarniaLabel);
-                        region.appendChild(LabelBox)
-                    const CheckBoxesBox = document.createElement('div');
-                    CheckBoxesBox.classList.add('checkboxes')
-                    let i = 1
-                        data.forEach(each => {
-                            const element = document.createElement('label');
-                                element.classList.add('label-container');
-                                element.innerText = each; 
-                        
-                            const span = document.createElement('span');
-                                span.classList.add('checkmark');
+                region.classList.add('regions')
+                const LabelBox = document.createElement('div');
+                const StolarniaLabel = document.createElement('h4');
+                StolarniaLabel.innerText = lab;
+                LabelBox.appendChild(StolarniaLabel);
+                region.appendChild(LabelBox)
+                const CheckBoxesBox = document.createElement('div');
+                CheckBoxesBox.classList.add('checkboxes')
+                let i = 1
+                data.forEach(each => {
+                    const element = document.createElement('label');
+                    element.classList.add('label-container');
+                    element.innerText = each; 
+                
+                    const span = document.createElement('span');
+                    span.classList.add('checkmark');
 
-                            const input = document.createElement('input');
-                                input.type = 'checkbox';
-                                input.id = lab+i;
-                                input.name = each;
-                                input.value = lab;
-                                i+=1;
-                                input.onclick = function(){
-                                    showTextBox(lab, input.id);
-                                }
-                            
-                            
-                            CheckBoxesBox.appendChild(element);
-                            region.appendChild(CheckBoxesBox);
-                            element.appendChild(input);
-                            element.appendChild(span);
-                            
-                        });
+                    const input = document.createElement('input');
+                    input.type = 'checkbox';
+                    input.id = lab+i;
+                    input.name = each;
+                    input.value = lab;
+                    i+=1;
+                    input.onclick = function(){
+                        showTextBox(lab, input.id);
+                    }
+                
+                
+                    CheckBoxesBox.appendChild(element);
+                    region.appendChild(CheckBoxesBox);
+                    element.appendChild(input);
+                    element.appendChild(span);
+                    
+                });
 
-                        return region
+                return region
             
             }
 
@@ -100,7 +110,7 @@ export function openCreate (){
         // wywołanie tworzenia checkboxów
         const CheckboxField = document.createElement('div')
             CheckboxField.classList.add('registration-grid')
-            for(const [key, value] of Object.entries(regioList)){
+            for(const [key, value] of Object.entries(this.regioList)){
                 var region = show(key, value);
                 CheckboxField.appendChild(region);
                 
@@ -112,7 +122,7 @@ export function openCreate (){
             RaportTextField.classList.add('text-grid')
             RaportTextField.id = 'RaportTextField'
             RaportTextField.style.display = "none"
-            for(const key in regioList){
+            for(const key in this.regioList){
                 let textField = textFields(key)
                 RaportTextField.appendChild(textField);
             }
@@ -172,7 +182,7 @@ export function openCreate (){
         const DeklTextField = document.createElement('div')
             DeklTextField.classList.add('text-grid')
 
-            users.forEach(user => {
+            this.users.forEach(user => {
                 const label = document.createElement('span');
                     label.classList.add('form-line-label');
                     label.innerText = user;
@@ -226,86 +236,85 @@ export function openCreate (){
             SubmitField.appendChild(submitButton);
 
         formField.appendChild(SubmitField);
-        CheckList.appendChild(formField)
+        this.CheckList.appendChild(formField)
 
         
         
     }
 
-    
+    events(){
+        let form = document.getElementById('form')
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const formDataObj = {};
+            let st = {}
+            let dr = {}
+            let bib = {}
+            let stUnits = []
+            let drUnits = []
+            let bibUnits = []
+            formData.forEach((key, value) => {
+                if (key=='Stolarnia'){
+                    stUnits.push(value)
+                    st['units'] = stUnits
+                }else if(value=='Stolarnia'){
+                    if (key != ""){
+                        st['text'] = key
+                    }
+                }
+                else if (key=='Drukarnia'){
+                    drUnits.push(value)
+                    dr['units'] = drUnits
+                }else if(value=='Drukarnia'){
+                    if (key != ""){
+                        dr['text'] = key
+                    }
+                }
+                else if (key=='Bibeloty'){
+                    bibUnits.push(value)
+                    bib['units'] = bibUnits
+                }else if(value=='Bibeloty'){
+                    if (key != ""){
+                        bib['text'] = key
+                    }
+                }
+                else{
+                    formDataObj[value] = key
+                }
+                
+            });
 
 
-    showForm();
-    
-    let form = document.getElementById('form')
-    
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const formData = new FormData(form);
-        const formDataObj = {};
-        let st = {}
-        let dr = {}
-        let bib = {}
-        let stUnits = []
-        let drUnits = []
-        let bibUnits = []
-        formData.forEach((key, value) => {
-            if (key=='Stolarnia'){
-                stUnits.push(value)
-                st['units'] = stUnits
-            }else if(value=='Stolarnia'){
-                if (key != ""){
-                    st['text'] = key
-                }
+            if (!$.isEmptyObject(st)){
+                formDataObj['Stolarnia'] = st
             }
-            else if (key=='Drukarnia'){
-                drUnits.push(value)
-                dr['units'] = drUnits
-            }else if(value=='Drukarnia'){
-                if (key != ""){
-                    dr['text'] = key
-                }
+            if (!$.isEmptyObject(dr)){
+                formDataObj['Drukarnia'] = dr
             }
-            else if (key=='Bibeloty'){
-                bibUnits.push(value)
-                bib['units'] = bibUnits
-            }else if(value=='Bibeloty'){
-                if (key != ""){
-                    bib['text'] = key
-                }
-            }
-            else{
-                formDataObj[value] = key
+            if (!$.isEmptyObject(bib)){
+                formDataObj['Bibeloty'] = bib
             }
             
-        });
-
-
-        if (!$.isEmptyObject(st)){
-            formDataObj['Stolarnia'] = st
-        }
-        if (!$.isEmptyObject(dr)){
-            formDataObj['Drukarnia'] = dr
-        }
-        if (!$.isEmptyObject(bib)){
-            formDataObj['Bibeloty'] = bib
-        }
-        
-        formDataObj['user_id'] = 2;
-        console.log(formDataObj);
-        let data = JSON.stringify(formDataObj)
-        console.log(data)
-        fetch(url+'create/', {
-            method: "PUT",
-            headers: {"content-type" : "application/json"},
-            body: data,
+            formDataObj['user_id'] = 2;
+            console.log(formDataObj);
+            let data = JSON.stringify(formDataObj)
+            console.log(data)
+            fetch(url+'create/', {
+                method: "PUT",
+                headers: {"content-type" : "application/json"},
+                body: data,
+            })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.log(err))
         })
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err))
-    }) 
-    
-    
+    }
 
 }
+    
+    
+    
+    
+

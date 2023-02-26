@@ -1,28 +1,37 @@
 import {url} from "../../common/data/index.js"
 
 
-window.onload=async function(){
-    let newUser = new Auth();
-    newUser.authorize();
-}
+// window.onload=async function(){
+//     let newUser = new Auth();
+//     newUser.authorize();
+// }
 
-export  class Auth {
+import AbstractView from "../AbstractView.js";
 
+export default class extends AbstractView{
+    constructor(params){
+        super(params);
+        this.setTitle("Login")
 
-        constructor() {
+        this.form = document.getElementById('form')
 
-            this.form = document.getElementById('form')
+        this.formField = document.createElement('form')
+        this.formField.action = "#"
+        this.formField.id = "form"
+        this.formField.method = "post"
+        this.raportList = document.querySelector('#raport');
+        this.FormList = document.querySelector('#form-data');
 
-            this.formField = document.createElement('form')
-            this.formField.action = "#"
-            this.formField.id = "form"
-            this.formField.method = "post"
-            this.raportList = document.querySelector('#raport');
-            this.FormList = document.querySelector('#form-data');
+        let theme = document.getElementById('theme')
+        theme.setAttribute('href', "../src/templates/auth/style.css");
+
+        
+        
         }
 
     
-        createBody(){
+        async getData(){
+            this.form.innerHTML = ''
             let data = []
             this.header = document.createElement('h1');
             this.header.innerText = 'Login'
@@ -309,9 +318,9 @@ export  class Auth {
             .catch(err => console.log(err));
         }
 
-        authorize(){
-            this.form.innerHTML = ''
-            this.createBody();
-        }
+        // authorize(){
+        //     this.form.innerHTML = ''
+        //     this.createBody();
+        // }
 
 }

@@ -1,46 +1,48 @@
 import {url} from "../../common/data/index.js"
 import {navUserBehav} from '../../common/navigation/index.js'
 import {callApi} from '../../features/endpoints/index.js'
+import {hideloader} from '../../features/loading/loading.js'
 
-export function openRaport (id){
+import AbstractView from "../AbstractView.js";
 
-    document.getElementById('loading').style.visibility = 'visible';
-
-    let theme = document.getElementById('theme')
-    theme.setAttribute('href', "/src/templates/single_raport/raport.css");
-    
-    const raportList = document.querySelector('#raport');
-        raportList.innerHTML = '';
-    $("body").css("overflow", "initial");
-
-    
-    // Defining async function
-    async function getapi() {
-        let [response, status] = await callApi(url+"raport/"+id);
-        console.log(response)
-        console.log(status)
-        if (status == 200){
-            hideloader();
-            navUserBehav(response.author.username);
-            show(response);
-        }else{
-            hideloader();
-            navUserBehav();
-            document.getElementById('err').innerText = status +' Raport '+'id '+response.detail
-        }
-        
-        
-    }
-    // Calling that async function
-    getapi();
-    
-    // Function to hide the loader
-    function hideloader() {
-        document.getElementById('loading').style.visibility = 'hidden';
+export default class extends AbstractView{
+    constructor(params){
+        super(params);
+        this.setTitle("Raport: "+params.id)
     }
 
+    async getData(){
+        console.log(this.params.id)
 
-    function show(data) {
+        document.getElementById('loading').style.visibility = 'visible';
+
+        let theme = document.getElementById('theme')
+        theme.setAttribute('href', "/src/templates/single_raport/raport.css");
+        let paginateTheme = document.getElementById('paginate-theme')
+        paginateTheme.setAttribute('href', "./src/common/paginate/paginate.css");
+        
+        const raportList = document.querySelector('#raport');
+            raportList.innerHTML = '';
+        $("body").css("overflow", "initial");
+
+
+            let [response, status] = await callApi(url+"raport/"+this.params.id);
+            console.log(response)
+            console.log(status)
+            if (status == 200){
+                hideloader();
+                navUserBehav(response.author.username);
+                this.show(response);
+            }else{
+                hideloader();
+                navUserBehav();
+                document.getElementById('err').innerText = status +' Raport '+'id '+response.detail
+            }
+        
+
+    }
+
+    show(data) {
         console.log(data)
         const raportList = document.querySelector('#raport');
         raportList.classList.add('single')
@@ -196,5 +198,4 @@ export function openRaport (id){
        
     }
     
-
 }
