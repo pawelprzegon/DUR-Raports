@@ -1,15 +1,19 @@
-import {url} from "../../common/data/index.js"
-import {addPaginate} from '../../common/paginate/index.js'
-import {Brick} from '../../features/brick/index.js'
-import {callApi, tokenRefresh} from '../../features/endpoints/index.js'
-import {hideloader} from '../../features/loading/loading.js'
+import {url} from "../common/data/index.js"
+import {addPaginate} from '../common/paginate/index.js'
+import {Brick} from '../features/brick/index.js'
+import {callApiGet, tokenRefresh} from '../features/endpoints/index.js'
+import {hideloader} from '../features/loading/loading.js'
 
-import AbstractView from "../AbstractView.js";
+import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView{
     constructor(params){
         super(params);
-        this.setTitle("Raporty")
+        if (this.params.username){
+            this.setTitle("Moje raporty")
+        }else{
+            this.setTitle("Raporty")
+        }
     }
 
     async getData(){
@@ -22,9 +26,9 @@ export default class extends AbstractView{
         }
 
         let theme = document.getElementById('theme')
-        theme.setAttribute('href', "./src/templates/all_raports/style.css");
+        theme.setAttribute('href', "/../src/css/allRaports.css");
         let paginateTheme = document.getElementById('paginate-theme')
-        paginateTheme.setAttribute('href', "./src/common/paginate/paginate.css");
+        paginateTheme.setAttribute('href', "/../src/common/paginate/paginate.css");
 
         
 
@@ -32,11 +36,11 @@ export default class extends AbstractView{
         const raportList = document.querySelector('#raport');
         raportList.innerHTML = '';
             
-        const CheckList = document.querySelector('#form-data');
-        CheckList.innerHTML='';
+        const clearForm = document.querySelector('#form');
+        clearForm.innerHTML='';
 
 
-        let [response, status] = await callApi(api_url);
+        let [response, status] = await callApiGet(api_url);
         console.log(response)
         console.log(status)
 

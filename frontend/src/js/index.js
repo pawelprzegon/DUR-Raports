@@ -1,10 +1,12 @@
 import {getCookieValue} from '../features/cookie/index.js'
-import all_raports  from '../templates/all_raports/index.js';
-import auth  from '../templates/auth/index.js';
-import {navBar, navBehav} from '../common/navigation/index.js'
-import statistics from '../templates/statistics/index.js';
-import create from '../templates/create/index.js';
-import single_raport from '../templates/single_raport/index.js';
+import allRaportsView  from '../templates/allRaportsView.js';
+import authView  from '../templates/authView.js';
+import {navBar, navBehav, navClose} from '../common/navigation/index.js'
+import statisticsView from '../templates/statisticsView.js';
+import createView from '../templates/createView.js';
+import singleRaportView from '../templates/singleRaportView.js';
+import deleteView from '../templates/deleteView.js';
+import logoutView from '../templates/logoutView.js';
 
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -17,7 +19,7 @@ const getParams = match => {
     }));
 }
 
-const navigateTo = url =>{
+export const navigateTo = url =>{
     history.pushState(null, null, url);
     router();
 };
@@ -25,13 +27,14 @@ const navigateTo = url =>{
 
 const router = async() =>{
     const routes = [
-        { path: '/', view: all_raports },
-        { path: '/login', view: auth },
-        { path: '/raport/:id', view: single_raport },
-        { path: '/statistics', view: statistics },
-        { path: '/:username', view: all_raports },
-        { path: '/new', view: create },
-        { path: '/logout', view: () => console.log('wyloguj') }
+        { path: '/', view: allRaportsView },
+        { path: '/login', view: authView },
+        { path: '/raport/:id', view: singleRaportView },
+        { path: '/statistics', view: statisticsView },
+        { path: '/create', view: createView },
+        { path: '/my/:username', view: allRaportsView },
+        { path: '/delete/:id', view: deleteView },
+        { path: '/logout', view: logoutView }
     ]
 
     //Test routs for potential matches
@@ -46,9 +49,10 @@ const router = async() =>{
     let match = potentialMatches.find(potentialMatch => potentialMatch.result !== null);
 
     if (!match){
+        console.log('dont match')
         match = {
             route: routes[0],
-            isMatch: true
+            result: [location.pathname]
         };
     }
 
@@ -65,18 +69,17 @@ document.addEventListener('DOMContentLoaded', () =>{
     document.body.addEventListener("click", e =>{
         if(e.target.matches("[data-link]")){
             e.preventDefault();
+            navClose();
             navigateTo(e.target.href);
+           
         }
     })
     router();
 })
 
 let authorize = getCookieValue('access_token')
-console.log(authorize)
 if (authorize){
     let user = getCookieValue('user')
     navBar(user);
     navBehav();
-}else{
-    navigateTo('/login')
 }

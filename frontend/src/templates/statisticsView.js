@@ -1,5 +1,5 @@
-import AbstractView from "../AbstractView.js";
-import {hideloader} from '../../features/loading/loading.js'
+import AbstractView from "./AbstractView.js";
+import {hideloader} from '../features/loading/loading.js'
 
 
 export default class extends AbstractView{
@@ -14,13 +14,13 @@ export default class extends AbstractView{
 
 
       let theme = document.getElementById('theme')
-      theme.setAttribute('href', "/src/templates/statistics/statist.css");
+      theme.setAttribute('href', "../src/css/statistics.css");
 
 
       const raportList = document.querySelector('#raport');
       raportList.innerHTML = '';
-      const createClear = document.querySelector('#form-data');
-      createClear.innerHTML = '';
+      const clearForm = document.querySelector('#form');
+      clearForm.innerHTML = '';
 
       $("body").css("overflow", "hidden");
       // api url

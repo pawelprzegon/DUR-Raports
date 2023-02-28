@@ -1,11 +1,15 @@
-import {url} from "../../common/data/index.js"
-import AbstractView from "../AbstractView.js";
+import AbstractView from "./AbstractView.js";
+import {url} from "../common/data/index.js"
 
 
 export default class extends AbstractView{
     constructor(){
         super();
         this.setTitle("New")
+
+        
+        console.log('test')
+        
         this.regioList = new Object();
         this.regioList = {}
         this.regioList['Stolarnia'] = ['Pilarki', 'Zbijarki', 'Kompresor', 'Inne'];
@@ -13,17 +17,19 @@ export default class extends AbstractView{
         this.regioList['Bibeloty'] = ['Cuttery', 'Laminarki', 'HotPress', 'EBSy', 'Mieszalnik', 'Dozownik', 'Summa', 'Inne' ]
         this.users = ['Adam', 'Paweł', 'Bartek'];
 
+        
+    }
+
+    async getData(){
+
         this.raportList = document.querySelector('#raport');
         this.raportList.innerHTML = '';
             
         this.CheckList = document.querySelector('#form-data');
         this.CheckList.innerHTML='';
-    }
-
-    async getData(){
 
         let theme = document.getElementById('theme')
-        theme.setAttribute('href', "/src/templates/create/create.css");
+        theme.setAttribute('href', "./src/css/create.css");
 
         $("body").css("overflow", "initial");
 

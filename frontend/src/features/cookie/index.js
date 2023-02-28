@@ -5,5 +5,4 @@ export const getCookieValue = (name) => (
 export const destroyCookieValue = (name) => {
     console.log()
     document.cookie = name+'=; Max-Age=-1;';
-    location.href = 'auth.html';
 }

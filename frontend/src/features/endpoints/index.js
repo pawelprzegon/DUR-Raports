@@ -1,7 +1,7 @@
 import {url} from "../../common/data/index.js"
 import {getCookieValue} from '../../features/cookie/index.js'
 
-export async function callApi(api_url){
+export async function callApiGet(api_url){
     // prepare headers
     let token = getCookieValue('access_token')
     console.log(token)
@@ -11,12 +11,33 @@ export async function callApi(api_url){
     });
 
     try {
-        // let res = await fetch(url);
-        // return await res.json();
         let resp = await fetch(api_url, {
             method: "GET",
             credentials: 'include',
             headers: myHeaders,
+            })
+        return [await resp.json(), resp.status];
+    } catch (error) {
+        return error;
+    }
+
+}
+
+export async function callApiPost(api_url, formData){
+    // prepare headers
+    let token = getCookieValue('access_token')
+    console.log(token)
+    const myHeaders = new Headers({
+        'accept': 'application/json',
+        'Authorization': 'Bearer '+token
+    });
+
+    try {
+        let resp = await fetch(api_url, {
+            method: "POST",
+            credentials: 'include',
+            headers: myHeaders,
+            body: formData,
             })
         return [await resp.json(), resp.status];
     } catch (error) {
@@ -42,8 +63,8 @@ export async function tokenRefresh(){
         headers: myHeaders,
         })
         .then(res => {
-            // console.log('Fetch - Got response: ', res);
-            return res
+            console.log('Fetch - Got response: ', res);
+            return res.json();
         })
         .then(res =>
             res.json().then(data => ({
@@ -61,8 +82,10 @@ export async function tokenRefresh(){
             }
         })
         .catch(err => console.log(err));
+
         return [await resp.json(), resp.status];
     } catch (error) {
+        console.log('error')
         return error;
     }
 }

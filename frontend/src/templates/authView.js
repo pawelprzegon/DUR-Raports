@@ -1,16 +1,14 @@
-import {url} from "../../common/data/index.js"
-
-
-// window.onload=async function(){
-//     let newUser = new Auth();
-//     newUser.authorize();
-// }
-
-import AbstractView from "../AbstractView.js";
+import {url} from "../common/data/index.js"
+import {callApiPost} from '../features/endpoints/index.js'
+import {navigateTo} from '../js/index.js'
+import {navBar, navBehav} from '../common/navigation/index.js'
+ 
+import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView{
     constructor(params){
         super(params);
+        
         this.setTitle("Login")
 
         this.form = document.getElementById('form')
@@ -23,15 +21,14 @@ export default class extends AbstractView{
         this.FormList = document.querySelector('#form-data');
 
         let theme = document.getElementById('theme')
-        theme.setAttribute('href', "../src/templates/auth/style.css");
+        theme.setAttribute('href', "../src/css/auth.css");
 
-        
-        
         }
 
     
         async getData(){
             this.form.innerHTML = ''
+            this.raportList.innerHTML = ''
             let data = []
             this.header = document.createElement('h1');
             this.header.innerText = 'Login'
@@ -137,8 +134,6 @@ export default class extends AbstractView{
             
                 console.log(formDataObj)
                 let validate = this.validateInputs(formDataObj);
-                console.log(validate.valid)
-                console.log(validate.elements)
                 if (validate.valid === true && validate.elements == 2){
                     this.getToken(formData);
                 }else if(validate.valid === true && validate.elements == 4){
@@ -155,8 +150,6 @@ export default class extends AbstractView{
             for (const [key, value] of Object.entries(formDataObj)) {
                 let obj = document.getElementById(key) 
                 value.trim(); 
-                console.log(obj)
-                console.log(key, value) 
                 if (value === ''){
                     this.setError(obj, key+" jest wymagany")
                 }else if((key === 'email') && (!this.isValidEmail(value))){
@@ -172,9 +165,6 @@ export default class extends AbstractView{
                 
             }
             let success = document.getElementsByClassName('success')
-            console.log(success.length)
-            console.log(Object.keys(formDataObj).length)
-
             if ((success.length) === Object.keys(formDataObj).length){
                 return {'valid': true,
                         'elements':  Object.keys(formDataObj).length}
@@ -212,7 +202,6 @@ export default class extends AbstractView{
 
 
         async createUser(formData) {
-
             await fetch(url+'register', {
                 method: "POST",
                 body: formData,
@@ -247,7 +236,7 @@ export default class extends AbstractView{
                     document.getElementById('div-confirm').classList.remove('success')
                     link.innerText = "Utwórz konto"
                     header.innerText = 'Login'
-                    console.log(data.status=== 'success')
+                    console.log(data.status === 'success')
                 }
                 else{
                     this.responseBox.innerHTML = ''
@@ -268,54 +257,87 @@ export default class extends AbstractView{
         }
             
         async getToken(formData) {
-            console.log(formData)
-            await fetch(url+'login', {
-                method: "POST",
-                body: formData,
-            })
-            .then(res => {
-                // console.log('Fetch - Got response: ', res);
-                return res;
-              })
-            .then(res =>
-                res.json().then(data => ({
-                  status: res.status,
-                  data
-                })
-            ))
-            .then(({ status, data }) => {
-                console.log('status_code' in data)
-                console.log({ status, data })
-                if (status == 200 && !('status_code' in data)){
-                    // token do cookies
-                    console.log(typeof(Date.parse(data.token_expire)))
-                    var now = new Date();
-                    now.setTime(Date.parse(data.token_expire));
+            let api_url = url+'login'
+            let [response, status] = await callApiPost(api_url, formData);
+            console.log(response)
+            console.log(status)
+            if (status == 200 && !('status_code' in response)){
 
-                    document.cookie='access_token='+data.access_token+
-                    ';expires='+now+';SameSite=lex';
-                    document.cookie='refresh_token='+data.refresh_token;
-                    document.cookie='user='+data.user.username;
+                var now = new Date();
+                now.setTime(Date.parse(response.token_expire));
 
-                    location.href = 'index.html';
+                document.cookie='access_token='+response.access_token+
+                ';expires='+now+';SameSite=lex';
+                document.cookie='refresh_token='+response.refresh_token;
+                document.cookie='user='+response.user.username;
+                navigateTo('/');
+                navBar(response.user.username);
+                navBehav();
 
-                    
-                }else{
-                    this.responseBox.innerHTML = ''
-                    this.response = document.createElement('div');
-                    this.responseStatus = document.createElement('p');
-                    this.responseStatus.innerText = data.status_code;
-                    this.responseStatus.classList.add('response-error')
-                    this.responseData = document.createElement('p');
-                    this.responseData.innerText = data.detail;
-                    this.responseData.classList.add('response-error')
-                    
-                    this.responseBox.appendChild(this.responseStatus);
-                    this.responseBox.appendChild(this.responseData);
-                }
                 
-             })
-            .catch(err => console.log(err));
+            }else{
+                this.responseBox.innerHTML = ''
+                this.response = document.createElement('div');
+                this.responseStatus = document.createElement('p');
+                this.responseStatus.innerText = response.status_code;
+                this.responseStatus.classList.add('response-error')
+                this.responseData = document.createElement('p');
+                this.responseData.innerText = response.detail;
+                this.responseData.classList.add('response-error')
+                
+                this.responseBox.appendChild(this.responseStatus);
+                this.responseBox.appendChild(this.responseData);
+            }
+                    
+
+
+            // await fetch(url+'login', {
+            //     method: "POST",
+            //     body: formData,
+            // })
+            // .then(res => {
+            //     // console.log('Fetch - Got response: ', res);
+            //     return res;
+            //   })
+            // .then(res =>
+            //     res.json().then(data => ({
+            //       status: res.status,
+            //       data
+            //     })
+            // ))
+            // .then(({ status, data }) => {
+            //     console.log('status_code' in data)
+            //     console.log({ status, data })
+            //     if (status == 200 && !('status_code' in data)){
+            //         // token do cookies
+            //         console.log(typeof(Date.parse(data.token_expire)))
+            //         var now = new Date();
+            //         now.setTime(Date.parse(data.token_expire));
+
+            //         document.cookie='access_token='+data.access_token+
+            //         ';expires='+now+';SameSite=lex';
+            //         document.cookie='refresh_token='+data.refresh_token;
+            //         document.cookie='user='+data.user.username;
+
+            //         location.href = 'index.html';
+
+                    
+            //     }else{
+            //         this.responseBox.innerHTML = ''
+            //         this.response = document.createElement('div');
+            //         this.responseStatus = document.createElement('p');
+            //         this.responseStatus.innerText = data.status_code;
+            //         this.responseStatus.classList.add('response-error')
+            //         this.responseData = document.createElement('p');
+            //         this.responseData.innerText = data.detail;
+            //         this.responseData.classList.add('response-error')
+                    
+            //         this.responseBox.appendChild(this.responseStatus);
+            //         this.responseBox.appendChild(this.responseData);
+            //     }
+                
+            //  })
+            // .catch(err => console.log(err));
         }
 
         // authorize(){

@@ -1,9 +1,9 @@
-import {url} from "../../common/data/index.js"
-import {navUserBehav} from '../../common/navigation/index.js'
-import {callApi} from '../../features/endpoints/index.js'
-import {hideloader} from '../../features/loading/loading.js'
+import {url} from "../common/data/index.js"
+import {navUserBehav} from '../common/navigation/index.js'
+import {callApiGet} from '../features/endpoints/index.js'
+import {hideloader} from '../features/loading/loading.js'
 
-import AbstractView from "../AbstractView.js";
+import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView{
     constructor(params){
@@ -17,7 +17,7 @@ export default class extends AbstractView{
         document.getElementById('loading').style.visibility = 'visible';
 
         let theme = document.getElementById('theme')
-        theme.setAttribute('href', "/src/templates/single_raport/raport.css");
+        theme.setAttribute('href', "/../src/css/singleRaport.css");
         let paginateTheme = document.getElementById('paginate-theme')
         paginateTheme.setAttribute('href', "./src/common/paginate/paginate.css");
         
@@ -26,12 +26,12 @@ export default class extends AbstractView{
         $("body").css("overflow", "initial");
 
 
-            let [response, status] = await callApi(url+"raport/"+this.params.id);
+            let [response, status] = await callApiGet(url+"raport/"+this.params.id);
             console.log(response)
             console.log(status)
             if (status == 200){
                 hideloader();
-                navUserBehav(response.author.username);
+                navUserBehav(response.author.username, response.id);
                 this.show(response);
             }else{
                 hideloader();
