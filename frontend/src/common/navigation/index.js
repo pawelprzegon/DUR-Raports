@@ -23,27 +23,33 @@ export function navBar(user){
                     link.innerText = 'menu'
 
 
-            const logoBox = document.createElement('div')
-            logoBox.classList.add('top-element')
+            const UserBox = document.createElement('div')
+            UserBox.classList.add('top-element')
+                const preUserLabel = document.createElement('span');
+                preUserLabel.classList.add('pre-nav-user')
+                preUserLabel.innerText = 'Logged: '
                 const userLabel = document.createElement('span');
                 userLabel.classList.add('nav-user')
                 userLabel.id = 'nav-user'
                 userLabel.innerText = user.capitalize();
+            const LogoBox = document.createElement('div')
+            LogoBox.classList.add('top-element')
                 const logo = document.createElement('img')
-                logo.src = '/static/images/artgeist.png'
+                logo.src = '/src/static/artgeist.png'
                 logo.alt = 'artgeist'
                 logo.id = 'logo'
                 logo.classList.add('logo')
 
         navBtn.appendChild(link)
         topElement.appendChild(navBtn)
-        logoBox.appendChild(userLabel)
-        logoBox.appendChild(logo)
+        UserBox.appendChild(preUserLabel)
+        UserBox.appendChild(userLabel)
+        LogoBox.appendChild(logo)
         topElements.appendChild(topElement)
-        topElements.appendChild(logoBox)
+        
 
-        const topElementsBtns = document.createElement('div');
-        topElementsBtns.classList.add('top-elements')
+        // const topElementsBtns = document.createElement('div');
+        // topElementsBtns.classList.add('top-elements')
         const btnsPics = document.createElement('nav');
         btnsPics.classList.add('nav', 'nav-close')
         btnsPics.id = 'btns-pics'
@@ -121,10 +127,12 @@ export function navBar(user){
         btnsPics.appendChild(edytuj)
         btnsPics.appendChild(usun)
         btnsPics.appendChild(wyloguj)
-        topElementsBtns.appendChild(btnsPics)
+        topElements.appendChild(btnsPics)
+        topElements.appendChild(UserBox)
+        topElements.appendChild(LogoBox)
     
     topRow.appendChild(topElements)
-    topRow.appendChild(topElementsBtns)
+    // topRow.appendChild(topElementsBtns)
 
     const overlay = document.createElement('div');
     overlay.classList.add('nav-overlay')
@@ -142,27 +150,17 @@ export function navBehav(){
     const elem = document.getElementById("anim-row")
     const navSecondRow = document.getElementById("btns-pics")
     navButton.addEventListener("click", e =>{
-        let navSize = '40px';
-            if ( $(window).width() <= 600) {     
-                navSize = '250px';
-            }
-            else if (( $(window).width() > 600) && ( $(window).width() <= 900)){
-                navSize = '100px';
-            }else{
-                navSize = '100px';
-            }
-        elem.style.height = navSize;
-        elem.classList.add("big-row", "show-anim")
+        elem.classList.add("big-row")
         pic.classList.add('big')
         btns.classList.remove("nav-close")
-        navSecondRow.classList.add("nav-btns")
+        navSecondRow.classList.add("nav-btns", "show-anim")
         navOverlay.classList.add("nav-overlay-open");
     });
     
     
     navOverlay.addEventListener("click", () =>{
-        elem.style.height = "40px";
-        elem.classList.remove("big-row", "show-anim")
+        navSecondRow.classList.remove("show-anim")
+        elem.classList.remove("big-row")
         pic.classList.remove('big')
         btns.classList.add("nav-close")
         navOverlay.classList.remove("nav-overlay-open");
@@ -178,7 +176,6 @@ export function navClose(){
     const pic = document.getElementById("logo")
     const elem = document.getElementById("anim-row")
 
-    elem.style.height = "40px";
     elem.classList.remove("big-row", "show-anim")
     pic.classList.remove('big')
     btns.classList.add("nav-close")

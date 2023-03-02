@@ -5,6 +5,7 @@ import {hideloader} from '../features/loading/loading.js'
 export default class extends AbstractView{
     constructor(){
         super();
+        window.scrollTo(0,0);
         this.setTitle("Statystyki")
     }
 

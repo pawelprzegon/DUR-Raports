@@ -1,5 +1,7 @@
 import AbstractView from "./AbstractView.js";
 import {url} from "../common/data/index.js"
+import {callApiPut, tokenRefresh} from '../features/endpoints/index.js'
+import { navigateTo } from "../js/index.js";
 
 
 export default class extends AbstractView{
@@ -248,9 +250,11 @@ export default class extends AbstractView{
         
     }
 
-    events(){
+    async events(){
+        
         let form = document.getElementById('form')
-        form.addEventListener('submit', function(e) {
+
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const formData = new FormData(form);
@@ -261,7 +265,8 @@ export default class extends AbstractView{
             let stUnits = []
             let drUnits = []
             let bibUnits = []
-            formData.forEach((key, value) => {
+
+            formData.forEach((key, value) =>{
                 if (key=='Stolarnia'){
                     stUnits.push(value)
                     st['units'] = stUnits
@@ -307,14 +312,37 @@ export default class extends AbstractView{
             console.log(formDataObj);
             let data = JSON.stringify(formDataObj)
             console.log(data)
-            fetch(url+'create/', {
-                method: "PUT",
-                headers: {"content-type" : "application/json"},
-                body: data,
-            })
-            .then(res => res.json())
-            .then(data => console.log(data))
-            .catch(err => console.log(err))
+            let api_url = url+'create/'
+
+            try{
+                let [response, status] = await callApiPut(api_url, data);
+                console.log(response)
+
+
+                if (response.detail && response.detail == "Not authenticated"){
+                    console.log('refreshing token')
+                    let refTokenResponse = await tokenRefresh();
+                    console.log(refTokenResponse)
+                    if (refTokenResponse[1] == 200){
+                        let [response, status] = await callApiPut(api_url, data);
+                        console.log(response)
+                        if (status == 200 && response.category == 'success'){
+                            navigateTo('/')
+                        }else{
+                            document.getElementById('err').innerHTML = `
+                            <h1>${status}</h1>
+                            <p>${response}</p>
+                            `
+                        }
+                    }else{
+                        navigateTo('/login')
+                    }
+                }
+
+            }catch(error){
+                console.log(error)
+            }
+            
         })
     }
 

@@ -61,7 +61,7 @@ export function addPaginate(){
             paginationLimit = 8;
             }
     }else{
-        paginationLimit = 12;
+        paginationLimit = 6;
     }
 
     const paginationNumbers = document.getElementById("pagination-numbers");

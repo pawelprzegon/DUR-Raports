@@ -1,14 +1,21 @@
 REGISTRATION
 :root {
-    --dark: #374151;
-    --darker: #1F2937;
     --darkest: #111827;
-    --gray: #6B7280;
-    --light: #EEE;
-    --pink: #EC4899;
-    --purple: #8B5Cf6;
+
     --bckg: #000000;
     --bridge: #d2b43b;
+    --fntColor: #000000;
+    --brdr: #1f1f1f;
+
+    --full: #ca1717;
+    --empty: #817c7c;
+    --glow: #000000;
+
+    --btn: #d2b43b;
+    --border: #000000;
+    --btnTxt: #030303;
+    --fntWeight: 300;
+
   }
   
   body {

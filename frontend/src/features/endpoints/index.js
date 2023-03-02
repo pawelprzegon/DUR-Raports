@@ -4,7 +4,7 @@ import {getCookieValue} from '../../features/cookie/index.js'
 export async function callApiGet(api_url){
     // prepare headers
     let token = getCookieValue('access_token')
-    console.log(token)
+    // console.log(token)
     const myHeaders = new Headers({
         'accept': 'application/json',
         'Authorization': 'Bearer '+token
@@ -26,7 +26,7 @@ export async function callApiGet(api_url){
 export async function callApiPost(api_url, formData){
     // prepare headers
     let token = getCookieValue('access_token')
-    console.log(token)
+    // console.log(token)
     const myHeaders = new Headers({
         'accept': 'application/json',
         'Authorization': 'Bearer '+token
@@ -63,10 +63,10 @@ export async function tokenRefresh(){
         headers: myHeaders,
         })
         .then(res => {
-            console.log('Fetch - Got response: ', res);
-            return res.json();
+            // console.log('Fetch - Got response: ', res);
+            return res;
         })
-        .then(res =>
+        .then(res => 
             res.json().then(data => ({
             status: res.status,
             data
@@ -79,13 +79,30 @@ export async function tokenRefresh(){
                 now.setTime(Date.parse(data.token_expire));
                 document.cookie='access_token='+data.access_token+
                 ';expires='+now+';SameSite=lex';
-            }
+            } 
+            return [data, status];
         })
         .catch(err => console.log(err));
 
-        return [await resp.json(), resp.status];
+        return resp;
+
     } catch (error) {
-        console.log('error')
+        console.log(error)
         return error;
+    }
+}
+
+
+export async function callApiPut(api_url, data){
+    try{
+        let resp = await fetch(api_url, {
+            method: "PUT",
+            headers: {"content-type" : "application/json"},
+            body: data,
+        })
+        return [await resp.json(), resp.status];
+    }catch(error){
+        console.log(error)
+        return error
     }
 }

@@ -93,7 +93,7 @@ export default class extends AbstractView{
 
             document.getElementById('div-email').classList.add('hidden-element') 
             document.getElementById('div-confirm').classList.add('hidden-element') 
-            console.log(this.createUserLink.innerText)
+            // console.log(this.createUserLink.innerText)
 
             this.createUserLink.addEventListener('click', function(){
                 document.getElementById('responseBox').innerHTML = ''
@@ -260,7 +260,7 @@ export default class extends AbstractView{
             let api_url = url+'login'
             let [response, status] = await callApiPost(api_url, formData);
             console.log(response)
-            console.log(status)
+            // console.log(status)
             if (status == 200 && !('status_code' in response)){
 
                 var now = new Date();

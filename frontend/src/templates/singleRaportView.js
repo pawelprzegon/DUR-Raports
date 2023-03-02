@@ -8,6 +8,7 @@ import AbstractView from "./AbstractView.js";
 export default class extends AbstractView{
     constructor(params){
         super(params);
+        window.scrollTo(0,0);
         this.setTitle("Raport: "+params.id)
     }
 
@@ -18,26 +19,30 @@ export default class extends AbstractView{
 
         let theme = document.getElementById('theme')
         theme.setAttribute('href', "/../src/css/singleRaport.css");
-        let paginateTheme = document.getElementById('paginate-theme')
-        paginateTheme.setAttribute('href', "./src/common/paginate/paginate.css");
         
         const raportList = document.querySelector('#raport');
             raportList.innerHTML = '';
         $("body").css("overflow", "initial");
 
-
+        try{
             let [response, status] = await callApiGet(url+"raport/"+this.params.id);
             console.log(response)
             console.log(status)
             if (status == 200){
                 hideloader();
                 navUserBehav(response.author.username, response.id);
-                this.show(response);
+                this.show(response);  
             }else{
                 hideloader();
-                navUserBehav();
-                document.getElementById('err').innerText = status +' Raport '+'id '+response.detail
+                document.getElementById('err').innerHTML = `
+                <h1>${status}</h1>
+                <p>${response}</p>
+                `
             }
+        }catch(error){
+            console.log(error)
+            navigateTo('/') 
+        }
         
 
     }

@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
-:root {
-    --btn: #d2b43b;
-    --border: #101010;
-    --btnTxt: #030303;
-    --fntWeight: 300;
-}
 
 main {
     position: relative;

@@ -82,4 +82,5 @@ if (authorize){
     let user = getCookieValue('user')
     navBar(user);
     navBehav();
+    
 }

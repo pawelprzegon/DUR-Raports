@@ -16,6 +16,7 @@
     background: var(--bckg);
     background-color: var(--bckg);
     color: #5a5a5a;
+    margin-top: 100px;
   }
   
   
@@ -69,7 +70,7 @@
 
   #form {
     width: 300px;
-    margin: 5vh auto 0 auto;
+    margin: 50px auto 0 auto;
     padding: 20px;
     background-color: whitesmoke;
     border-radius: 4px;
