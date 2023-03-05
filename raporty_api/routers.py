@@ -48,6 +48,9 @@ async def raport(raport_id: int, credentials: HTTPAuthorizationCredentials = Sec
 
 @raporty.get("/delete/{raport_id}")
 async def delete_raport(raport_id: int, credentials: HTTPAuthorizationCredentials = Security(security)):
+    print(raport_id)
+    print(credentials)
+    
     try:
         resoult = db.session.query(Raport).filter(
             Raport.id == raport_id).first()
@@ -66,52 +69,59 @@ async def delete_raport(raport_id: int, credentials: HTTPAuthorizationCredential
 
 @raporty.put('/create/')
 async def create_raport(request: Request, credentials: HTTPAuthorizationCredentials = Security(security)):
-    form = await request.json()
-    return fillFormAndRelpaceDb(form)
+    form_data = await request.json()
+    return fillFormAndRelpaceDb(form_data)
     # return fillFormAndRelpaceDb(form)
 
 
 @raporty.put('/update/')
-def update_raport(request: Request, credentials: HTTPAuthorizationCredentials = Security(security)):
-    params = dict(request.query_params)
-    return fillFormAndRelpaceDb(params['data'], params['raport_id'])
+async def update_raport(request: Request, credentials: HTTPAuthorizationCredentials = Security(security)):
+    form_data = await request.json()
+    print(form_data)
+    return fillFormAndRelpaceDb(form_data)
 
 
-def fillFormAndRelpaceDb(form, raport_id=None):
+def fillFormAndRelpaceDb(form):
     print(form)
+    # print(form['id'])
     try:
-        raport = db.session.query(Raport).filter(
-            Raport.id == raport_id).first()
+        if 'id' in form:
+            raport = db.session.query(Raport).filter(
+                Raport.id == form['id']).first()
         # data = urllib.parse.parse_qs(form, keep_blank_values=True)
         author = db.session.query(User).filter_by(
-            id=int(form['user_id'])).first()
+            username=form['username']).first()
         rap = Raport(author=author)
         to_update = [rap]
         for key, value in form.items():
+            print(key, value)
             if value:
                 match key:
                     case 'Stolarnia' | 'Drukarnia' | 'Bibeloty':
-                        for each in value['units']:
-                            print(value['text'])
-                            data = Unit(unit=each, info=value['text'], region=key, raport=rap)
-                        to_update.append(data)
+                        if 'units' in value:
+                            for each in value['units']:
+                                print(value['text'])
+                                data = Unit(unit=each, info=value['text'], region=key, raport=rap)
+                            to_update.append(data)
                     case 'plexi':
                         data = Plexi(
                             plexi=value, raport=rap)
                         to_update.append(data)
                         
-                match key.split('-')[0]:
+                match key.split('_')[0]:
                     case 'dekl':
                         data = Dekl(dekl=value, raport=rap,
-                                         name=key.split('-')[1])
+                                         name=key.split('_')[1])
                         to_update.append(data)
                     
         print(to_update)
         
-        if raport_id:
+        if 'id' in form:
+            print(raport)
             message = f"zaktualizowano raport z dnia {raport.date_created}"
             db.session.delete(raport)
         else:
+            print('DOCIERAM TUTAJ')
             message = 'dodano raport'
             db.session.add_all(to_update)
 

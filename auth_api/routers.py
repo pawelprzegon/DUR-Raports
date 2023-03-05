@@ -50,7 +50,8 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     user_obj = dict(username=user.username, password=user.password)
     access_token, exp = auth_handler.encode_token(user_obj)
     refresh_token = auth_handler.encode_refresh_token(user_obj)
-    
+    print(access_token)
+    print(refresh_token)
     # access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     
     # token = await create_access_token(user_obj, expires_delta=access_token_expires)
