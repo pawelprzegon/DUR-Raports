@@ -6,7 +6,7 @@
     --light: #EEE;
     --pink: #EC4899;
     --purple: #8B5Cf6;
-    --bckg: #000000;
+    --bckg: #ffffff;
   }
   
   body {
@@ -72,10 +72,10 @@
     width: 300px;
     margin: 50px auto 0 auto;
     padding: 20px;
-    background-color: whitesmoke;
     border-radius: 4px;
     font-size: 12px;
     font-family: 'Roboto', sans-serif;
+    border: 0.5px solid rgb(130, 130, 130)
 }
 
 #form h1 {
@@ -87,6 +87,7 @@
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
 }
+
 
 #form button {
     padding: 10px;

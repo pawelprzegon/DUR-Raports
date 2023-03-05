@@ -20,8 +20,8 @@ export default class extends AbstractView{
 
       const raportList = document.querySelector('#raport');
       raportList.innerHTML = '';
-      const clearForm = document.querySelector('#form');
-      clearForm.innerHTML = '';
+      // const clearForm = document.querySelector('#form');
+      // clearForm.innerHTML = '';
 
       $("body").css("overflow", "hidden");
       // api url

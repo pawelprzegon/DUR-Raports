@@ -1,4 +1,5 @@
 // import {openRaport} from '../../templates/single_raport/index.js';
+import {openRaport} from './openRaport.js'
 
 export class Brick {
 
@@ -7,36 +8,54 @@ export class Brick {
         this.id = each.id;
         this.date = each.date_created;
         this.username = each.author.username;
-        
         this.build();
         // this.brickEvents();
 
     }
+
+    openRap(){
+            console.log(this.id)
+            const newView = new openRaport(parseInt(this.id, 10));
+            newView.getData();
+
+    }
+
     build(){
-        this.raportInfoGrid = document.createElement('li');
+        
+        this.raportInfoGrid = document.createElement('div');
         this.raportDataUser = document.createElement('div');
         this.detailsDate = document.createElement('p');
         this.detailsUser = document.createElement('p');
         this.btnL = document.createElement('a');
-        this.moreButton = document.createElement('button');
-        this.moreButton.href = '/raport/'+parseInt(this.id, 10)
-        this.moreButton.setAttribute('data-link', '')
+        this.moreButton = document.createElement('div');
+        this.moreButton.onclick = () => {
+            let animate = document.getElementById('raport-content')
+            animate.classList.add('show-anim')
+            this.openRap();
+            let nowSelected = document.getElementsByClassName('selected')
+            if (nowSelected.length != 0){
+                console.log(nowSelected)
+                nowSelected[0].classList.remove('selected')
+            }
+            this.raportInfoGrid.classList.add('selected')
+            addEventListener("animationend", (event) => {animate.classList.remove('show-anim')});
+            
+        }
+        // this.moreButton.setAttribute('data-link', '')
 
         let regions = this.regions(this.each.units);
 
-        this.raportInfoGrid.classList.add('raport-info-grid');
+        this.raportInfoGrid.classList.add('card', 'swiper-slide');
         this.raportDataUser.classList.add('raport-data-user');
         this.detailsDate.classList.add('raport-details');
         this.detailsDate.classList.add('raport-details');
         this.detailsUser.classList.add('raport-details');
-        this.moreButton.classList.add('raport-btn');
+        this.moreButton.classList.add('arrow');
 
         
-        this.detailsDate.innerText = this.date; //`${each.date_created}`;
-        this.detailsUser.innerText =  this.username.capitalize(); //`${each.author.username.capitalize()}`;
-        this.moreButton.innerText = 'WIĘCEJ';
+        this.detailsDate.innerText = this.date; 
+        this.detailsUser.innerText =  this.username.capitalize(); 
 
-        
         this.raportInfoGrid.appendChild(this.raportDataUser)
         this.raportDataUser.appendChild(this.detailsDate)
         this.raportDataUser.appendChild(this.detailsUser)
@@ -88,18 +107,6 @@ export class Brick {
         return result;
     }
     
-
-    
-
-    // brickEvents(){
-    //     let test = parseInt(this.id, 10)
-    //     this.btnL.onclick = function(){
-    //         openRaport(test);
-    //     }
-    // }
-
-
-
 
     getBrick(){
         return this.raportInfoGrid;

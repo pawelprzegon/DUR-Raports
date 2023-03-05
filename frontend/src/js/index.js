@@ -4,7 +4,6 @@ import authView  from '../templates/authView.js';
 import {navBar, navBehav, navClose} from '../common/navigation/index.js'
 import statisticsView from '../templates/statisticsView.js';
 import createView from '../templates/createView.js';
-import singleRaportView from '../templates/singleRaportView.js';
 import deleteView from '../templates/deleteView.js';
 import logoutView from '../templates/logoutView.js';
 
@@ -29,15 +28,14 @@ const router = async() =>{
     const routes = [
         { path: '/', view: allRaportsView },
         { path: '/login', view: authView },
-        { path: '/raport/:id', view: singleRaportView },
         { path: '/statistics', view: statisticsView },
         { path: '/create', view: createView },
+        { path: '/edit/:id', view: createView },
         { path: '/my/:username', view: allRaportsView },
         { path: '/delete/:id', view: deleteView },
         { path: '/logout', view: logoutView }
     ]
 
-    //Test routs for potential matches
 
     const potentialMatches = routes.map(route => {
         return{
@@ -81,6 +79,11 @@ let authorize = getCookieValue('access_token')
 if (authorize){
     let user = getCookieValue('user')
     navBar(user);
-    navBehav();
-    
+    navBehav();  
 }
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+window.addEventListener('resize', () => {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+});

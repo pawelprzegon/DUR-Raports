@@ -1,8 +1,6 @@
 import {getCookieValue} from '../../features/cookie/index.js'
 
 
-
-
 export function navBar(user){
     const header = document.getElementById("app-header")
 
@@ -48,8 +46,6 @@ export function navBar(user){
         topElements.appendChild(topElement)
         
 
-        // const topElementsBtns = document.createElement('div');
-        // topElementsBtns.classList.add('top-elements')
         const btnsPics = document.createElement('nav');
         btnsPics.classList.add('nav', 'nav-close')
         btnsPics.id = 'btns-pics'
@@ -72,20 +68,13 @@ export function navBar(user){
         moje.href = '/my/'+user
         moje.innerText = 'moje'
         moje.setAttribute('data-link', '')
-        // moje.onclick = function(){
-        //     console.log(getCookieValue('user'))
-        //     raports(getCookieValue('user'));
-        //     navClose();
-        // } 
+
         const dodaj = document.createElement('a')
         dodaj.classList.add('nav-link')
         dodaj.href = '/create'
         dodaj.innerText = 'dodaj'
         dodaj.setAttribute('data-link', '')
-        // dodaj.onclick = function(){
-        //     openCreate();
-        //     navClose();
-        // } 
+ 
         const edytuj = document.createElement('a')
         edytuj.classList.add('nav-link')
         edytuj.href = '/edit'
@@ -93,10 +82,7 @@ export function navBar(user){
         edytuj.setAttribute('data-link', '')
         edytuj.id = 'edytuj'
         edytuj.classList.add('nav-btn-hidden')
-        // edytuj.onclick = function(){
-        //     // openStat();
-        //     console.log('edytuj')
-        // }
+
         const usun = document.createElement('a')
         usun.classList.add('nav-link')
         usun.href = '/delete'
@@ -104,21 +90,13 @@ export function navBar(user){
         usun.innerText = 'usun'
         usun.id = 'usun'
         usun.classList.add('nav-btn-hidden')
-        // usun.onclick = function(){
-        //     // openStat();
-        //     console.log('usuń')
-        // } 
+
         const wyloguj = document.createElement('a')
         wyloguj.classList.add('nav-link')
         wyloguj.href = '/logout'
         wyloguj.setAttribute('data-link', '')
         wyloguj.innerText = 'wyloguj'
-        // wyloguj.onclick = function(){
-        //     // openStat();
-        //     destroyCookieValue('access_token')
-        //     destroyCookieValue('user')
-        //     destroyCookieValue('refresh_token')
-        // } 
+
             
         btnsPics.appendChild(home)
         btnsPics.appendChild(stat)
@@ -183,11 +161,15 @@ export function navClose(){
 }
 
 export function navUserBehav(raportUser, id){
+    console.log(id)
+    console.log(raportUser === getCookieValue('user'))
     if (raportUser === getCookieValue('user')){
-        document.querySelectorAll(".nav-btn-hidden").forEach(each =>{
-            each.classList.remove('nav-btn-hidden')
-            each.href = '/delete/'+id
-        })
+        let usun = document.getElementById('usun')
+        usun.href = '/delete/'+id
+        usun.classList.remove('nav-btn-hidden')
+        let edytuj = document.getElementById('edytuj')
+        edytuj.href = '/edit/'+id
+        edytuj.classList.remove('nav-btn-hidden')
     }else{
         document.getElementById('edytuj').classList.add('nav-btn-hidden')
         document.getElementById('edytuj').href = '#'

@@ -93,12 +93,18 @@ export async function tokenRefresh(){
 }
 
 
-export async function callApiPut(api_url, data){
+export async function callApiPut(api_url, formData){
+    let token = getCookieValue('access_token')
+    const myHeaders = new Headers({
+        'accept': 'application/json',
+        'Authorization': 'Bearer '+token
+    });
     try{
         let resp = await fetch(api_url, {
             method: "PUT",
-            headers: {"content-type" : "application/json"},
-            body: data,
+            credentials: 'include',
+            headers: myHeaders,
+            body: formData,
         })
         return [await resp.json(), resp.status];
     }catch(error){

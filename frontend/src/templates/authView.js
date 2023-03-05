@@ -2,6 +2,7 @@ import {url} from "../common/data/index.js"
 import {callApiPost} from '../features/endpoints/index.js'
 import {navigateTo} from '../js/index.js'
 import {navBar, navBehav} from '../common/navigation/index.js'
+import {hideloader} from '../features/loading/loading.js'
  
 import AbstractView from "./AbstractView.js";
 
@@ -10,19 +11,23 @@ export default class extends AbstractView{
         super(params);
         
         this.setTitle("Login")
-
-        this.form = document.getElementById('form')
+        hideloader();
+        this.form = document.querySelector('#form-data');
 
         this.formField = document.createElement('form')
         this.formField.action = "#"
         this.formField.id = "form"
         this.formField.method = "post"
+
         this.raportList = document.querySelector('#raport');
-        this.FormList = document.querySelector('#form-data');
 
-        let theme = document.getElementById('theme')
-        theme.setAttribute('href', "../src/css/auth.css");
+        this.prepare();
 
+        }
+
+        prepare(){
+            let theme = document.getElementById('theme')
+            theme.setAttribute('href', "../src/css/auth.css");
         }
 
     
@@ -33,10 +38,10 @@ export default class extends AbstractView{
             this.header = document.createElement('h1');
             this.header.innerText = 'Login'
             this.header.id = 'header'
-            this.form.appendChild(this.header)
+            this.formField.appendChild(this.header)
             this.responseBox = document.createElement('div');
             this.responseBox.id = 'responseBox'
-            this.form.appendChild(this.responseBox)
+            this.formField.appendChild(this.responseBox)
 
             // Errors section
             this.responseStatus = document.createElement('p');
@@ -68,7 +73,7 @@ export default class extends AbstractView{
                 this.elemBox.appendChild(this.elemLabel)
                 this.elemBox.appendChild(this.elemText)
                 this.elemBox.appendChild(this.Err)
-                this.form.appendChild(this.elemBox)
+                this.formField.appendChild(this.elemBox)
             })
 
             this.submitButtonBox = document.createElement('div');
@@ -79,7 +84,7 @@ export default class extends AbstractView{
 
 
             this.submitButtonBox.appendChild(this.submitButton)
-            this.form.appendChild(this.submitButtonBox)
+            this.formField.appendChild(this.submitButtonBox)
 
             this.createUserBox = document.createElement('div')
             this.createUserLink =  document.createElement('a')
@@ -88,8 +93,8 @@ export default class extends AbstractView{
             this.createUserLink.classList.add('create-account')
             this.createUserBox.appendChild(this.createUserLink)
 
-            this.form.appendChild(this.createUserBox)
-            this.FormList.appendChild(this.form)
+            this.formField.appendChild(this.createUserBox)
+            this.form.appendChild(this.formField)
 
             document.getElementById('div-email').classList.add('hidden-element') 
             document.getElementById('div-confirm').classList.add('hidden-element') 
@@ -122,7 +127,7 @@ export default class extends AbstractView{
 
                 e.preventDefault();
 
-                const formData = new FormData(this.form);
+                const formData = new FormData(this.formField);
                 const formDataObj = {};
 
                 formData.forEach((key, value) => {
@@ -288,61 +293,6 @@ export default class extends AbstractView{
                 this.responseBox.appendChild(this.responseStatus);
                 this.responseBox.appendChild(this.responseData);
             }
-                    
-
-
-            // await fetch(url+'login', {
-            //     method: "POST",
-            //     body: formData,
-            // })
-            // .then(res => {
-            //     // console.log('Fetch - Got response: ', res);
-            //     return res;
-            //   })
-            // .then(res =>
-            //     res.json().then(data => ({
-            //       status: res.status,
-            //       data
-            //     })
-            // ))
-            // .then(({ status, data }) => {
-            //     console.log('status_code' in data)
-            //     console.log({ status, data })
-            //     if (status == 200 && !('status_code' in data)){
-            //         // token do cookies
-            //         console.log(typeof(Date.parse(data.token_expire)))
-            //         var now = new Date();
-            //         now.setTime(Date.parse(data.token_expire));
-
-            //         document.cookie='access_token='+data.access_token+
-            //         ';expires='+now+';SameSite=lex';
-            //         document.cookie='refresh_token='+data.refresh_token;
-            //         document.cookie='user='+data.user.username;
-
-            //         location.href = 'index.html';
-
-                    
-            //     }else{
-            //         this.responseBox.innerHTML = ''
-            //         this.response = document.createElement('div');
-            //         this.responseStatus = document.createElement('p');
-            //         this.responseStatus.innerText = data.status_code;
-            //         this.responseStatus.classList.add('response-error')
-            //         this.responseData = document.createElement('p');
-            //         this.responseData.innerText = data.detail;
-            //         this.responseData.classList.add('response-error')
-                    
-            //         this.responseBox.appendChild(this.responseStatus);
-            //         this.responseBox.appendChild(this.responseData);
-            //     }
                 
-            //  })
-            // .catch(err => console.log(err));
         }
-
-        // authorize(){
-        //     this.form.innerHTML = ''
-        //     this.createBody();
-        // }
-
 }
