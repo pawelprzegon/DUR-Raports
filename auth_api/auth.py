@@ -7,7 +7,7 @@ from datetime import datetime, timedelta # used to handle expiry time for tokens
 TIME_MIN = 30
 class Auth():
     hasher= CryptContext(schemes=['bcrypt'])
-    secret = "secretKey" #os.getenv("APP_SECRET_STRING")
+    secret = "secretKey" 
 
     def encode_password(self, password):
         return self.hasher.hash(password)
@@ -30,6 +30,7 @@ class Auth():
         ), exp
     
     def decode_token(self, token):
+        print('decode_token')
         try:
             payload = jwt.decode(token, self.secret, algorithms=['HS256'])
             if (payload['scope'] == 'access_token'):
@@ -39,6 +40,7 @@ class Auth():
             raise HTTPException(status_code=401, detail='Token expired') from e
         except jwt.InvalidTokenError as e:
             raise HTTPException(status_code=401, detail='Invalid token') from e
+
 	    
     def encode_refresh_token(self, username):
         payload = {
@@ -55,11 +57,14 @@ class Auth():
     def refresh_token(self, refresh_token):
         try:
             payload = jwt.decode(refresh_token, self.secret, algorithms=['HS256'])
+            print(payload)
             if (payload['scope'] == 'refresh_token'):
                 username = payload['sub']
+                print(username)
                 return self.encode_token(username)
             raise HTTPException(status_code=401, detail='Invalid scope for token')
         except jwt.ExpiredSignatureError as e:
             raise HTTPException(status_code=401, detail='Refresh token expired') from e
         except jwt.InvalidTokenError as e:
             raise HTTPException(status_code=401, detail='Invalid refresh token') from e
+        

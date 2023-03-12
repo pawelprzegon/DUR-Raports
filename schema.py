@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from datetime import date as date_type
 from typing import List
 
@@ -70,3 +70,6 @@ class RaportsOut(Raport):
 class RaportsSmall(Raport):
     units: List[Unit]
 
+
+class EmailSchema(BaseModel):
+    email: List[EmailStr]
