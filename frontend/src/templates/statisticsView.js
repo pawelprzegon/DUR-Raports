@@ -1,46 +1,68 @@
+import {url} from "../common/data/url.js"
+import {callApiGet} from '../features/endpoints/index.js'
+import {showloader, hideloader} from '../features/loading/loading.js'
+import {err} from './error.js'
+
 import AbstractView from "./AbstractView.js";
-import {hideloader} from '../features/loading/loading.js'
+
 
 
 export default class extends AbstractView{
     constructor(){
         super();
-        window.scrollTo(0,0);
         this.setTitle("Statystyki")
+        this.api_url = url+'statistics'
+        document.getElementById('theme').setAttribute('href', "../src/css/statistics.css");
     }
 
     async getData(){
 
-      document.getElementById('loading').style.visibility = 'visible';
-
-
-      let theme = document.getElementById('theme')
-      theme.setAttribute('href', "../src/css/statistics.css");
-
-
-      const raportList = document.querySelector('#raport');
-      raportList.innerHTML = '';
-      // const clearForm = document.querySelector('#form');
-      // clearForm.innerHTML = '';
-
-      $("body").css("overflow", "hidden");
-      // api url
-      const api_url = 
-            "https://mocki.io/v1/5f15194a-ce6e-4ae3-bfb3-69c0b3328f96";
-
-
-      // Storing response
-      const response = await fetch(api_url);
-      
-      // Storing data in form of JSON
-      var data = await response.json();
-
-      if (response) {
-          hideloader();
+      showloader();
+      try {
+        let [response, status] = await callApiGet(this.api_url);
+        if (response.detail && response.detail == "Not authenticated"){
+          let refTokenResponse = await tokenRefresh();
+          if (refTokenResponse[1] == 200){
+              let [response, status] = await callApiGet(this.api_url);
+              if (status == 200){
+                this.layout();
+                this.charts(response);
+              }
+          }else{
+            hideloader();
+            navigateTo('/login')
+          }
+        
+          }else{
+              hideloader();
+              this.layout();
+              this.charts(response);
+          }
       }
-          this.layout();
-          this.charts(data);
+      catch (error){
+          hideloader();
+          err(error)
+      }
 
+
+
+
+
+      // // Storing response
+      // const response = await fetch(api_url);
+      
+      // // Storing data in form of JSON
+      // var data = await response.json();
+
+      // if (response) {
+      //     hideloader();
+      // }
+      //     this.layout();
+      //     this.charts(data);
+
+      }
+
+      calculateChartSize(){
         let chartSize = '350px'
         if ( $(window).width() <= 600) {     
           chartSize = 350
@@ -50,11 +72,7 @@ export default class extends AbstractView{
         }else{
           chartSize = 1000
         }
-
-          let canvas = document.getElementById('charts');
-          canvas.style = 'null';
-          canvas.width = chartSize /*TUTAJ ZNIANA WIELKOSCI WYKRESU*/
-
+        return chartSize
       }
 
       layout() {
@@ -64,6 +82,8 @@ export default class extends AbstractView{
                   ChartsArea.classList.add("chart")
                   const canvas = document.createElement('canvas');
                   canvas.id = 'charts' ;
+                  canvas.style = 'null';
+                  canvas.width = this.calculateChartSize();
               
               ChartsArea.appendChild(canvas);
               statisticsList.appendChild(ChartsArea);
@@ -102,28 +122,28 @@ export default class extends AbstractView{
               {
                   label: "Stolarnia",
                   data: data.chart.stolarnia.values,
-                  backgroundColor: "rgb(255, 153, 153)",
-                  borderColor: "rgb(255, 153, 153)",
+                  backgroundColor: "rgb(12, 143, 3)",
+                  borderColor: "rgb(12, 143, 3)",
                     tension: 0.2,
-                    borderWidth: 1,
-                    fill: true
+                    borderWidth: 2,
+                    fill: false
               }
               ,{
               label: "Bibeloty",
               data: data.chart.bibeloty.values,
-              borderColor: "rgb(255, 255, 179)",
-              backgroundColor: "rgb(255, 255, 179)",
+              borderColor: "rgb(18, 27, 161)",
+              backgroundColor: "rgb(18, 27, 161)",
                 tension: 0.2,
-                borderWidth: 1,
-                fill: true,
+                borderWidth: 2,
+                fill: false,
           },{
               label: "Drukarnia",
               data: data.chart.drukarnia.values,
-              backgroundColor: "rgb(102, 153, 255)",
-              borderColor: "rgb(102, 153, 255)",
+              backgroundColor: "rgb(176, 0, 0)",
+              borderColor: "rgb(176, 0, 0)",
                 tension: 0.2,
-                borderWidth: 1,
-                fill: true,
+                borderWidth: 2,
+                fill: false,
           }
           ]
           },
@@ -153,7 +173,7 @@ export default class extends AbstractView{
               }
             },
             y: {
-              stacked: true,
+              stacked: false,
               title: {
                 display: true,
                 text: 'Value'

@@ -4,8 +4,7 @@ import {getCookieValue} from '../../features/cookie/index.js'
 export function navBar(user){
     const header = document.getElementById("app-header")
 
-    let theme = document.getElementById('nav-theme')
-    theme.setAttribute('href', "/src/common/navigation/nav.css");
+    document.getElementById('nav-theme').setAttribute('href', "/src/common/navigation/navigation.css");
 
     const topRow = document.createElement('div');
     topRow.classList.add('top-row')
@@ -14,6 +13,9 @@ export function navBar(user){
         topElements.classList.add('top-elements')
             const topElement = document.createElement('div');
             topElement.classList.add('top-element')
+                const empty = document.createElement('div')
+                empty.classList.add('top-element')
+                empty.id = 'empty'
                 const navBtn = document.createElement('button');
                 navBtn.classList.add('nav-btn')
                     const link = document.createElement('span');
@@ -43,8 +45,10 @@ export function navBar(user){
         UserBox.appendChild(preUserLabel)
         UserBox.appendChild(userLabel)
         LogoBox.appendChild(logo)
-        topElements.appendChild(topElement)
         
+        topElements.appendChild(topElement)
+        topElements.appendChild(empty)
+
 
         const btnsPics = document.createElement('nav');
         btnsPics.classList.add('nav', 'nav-close')
@@ -97,7 +101,6 @@ export function navBar(user){
         wyloguj.setAttribute('data-link', '')
         wyloguj.innerText = 'wyloguj'
 
-            
         btnsPics.appendChild(home)
         btnsPics.appendChild(stat)
         btnsPics.appendChild(moje)
@@ -131,17 +134,20 @@ export function navBehav(){
         elem.classList.add("big-row")
         pic.classList.add('big')
         btns.classList.remove("nav-close")
-        navSecondRow.classList.add("nav-btns", "show-anim")
+        navSecondRow.classList.add("nav-btns", "show-anim-nav")
         navOverlay.classList.add("nav-overlay-open");
+        document.getElementById('empty').classList.add('nav-close')
     });
     
     
     navOverlay.addEventListener("click", () =>{
-        navSecondRow.classList.remove("show-anim")
+        navSecondRow.classList.remove("show-anim-nav")
         elem.classList.remove("big-row")
         pic.classList.remove('big')
         btns.classList.add("nav-close")
         navOverlay.classList.remove("nav-overlay-open");
+        document.getElementById('empty').classList.remove('nav-close')
+
     })
     
     }
@@ -154,15 +160,13 @@ export function navClose(){
     const pic = document.getElementById("logo")
     const elem = document.getElementById("anim-row")
 
-    elem.classList.remove("big-row", "show-anim")
+    elem.classList.remove("big-row", "show-anim-nav")
     pic.classList.remove('big')
     btns.classList.add("nav-close")
     navOverlay.classList.remove("nav-overlay-open");
 }
 
 export function navUserBehav(raportUser, id){
-    console.log(id)
-    console.log(raportUser === getCookieValue('user'))
     if (raportUser === getCookieValue('user')){
         let usun = document.getElementById('usun')
         usun.href = '/delete/'+id
@@ -176,5 +180,14 @@ export function navUserBehav(raportUser, id){
         document.getElementById('usun').classList.add('nav-btn-hidden')
         document.getElementById('usun').href = '#'
     }
+}
+
+export function navCloseBtns(){
+    let edit = document.getElementById('edytuj')
+    edit.classList.add('nav-btn-hidden')
+    document.getElementById('edytuj').href = '#'
+    let del = document.getElementById('usun')
+    del.classList.add('nav-btn-hidden')
+    document.getElementById('usun').href = '#'
 }
 

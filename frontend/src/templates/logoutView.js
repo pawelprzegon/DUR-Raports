@@ -17,9 +17,8 @@ export default class extends AbstractView{
             destroyCookieValue('access_token')
             destroyCookieValue('user')
             destroyCookieValue('refresh_token')
-            navigateTo('/login')
             document.querySelector('#app-header').innerHTML = ''
-
+            navigateTo('/login')
         }
 
 

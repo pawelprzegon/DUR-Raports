@@ -1,5 +1,5 @@
 import AbstractView from "./AbstractView.js";
-import {url} from "../common/data/index.js"
+import {url} from "../common/data/url.js"
 import {callApiPut, tokenRefresh} from '../features/endpoints/index.js'
 import {navigateTo} from "../js/index.js";
 import {hideloader} from '../features/loading/loading.js'
@@ -20,9 +20,6 @@ export default class extends AbstractView{
             this.api_url = url+'create/'
         }
         
-        window.scrollTo(0,0);
-        $("body").css("overflow", "hidden");
-
         this.regioList = new Object();
         this.regioList = {}
         this.regioList['Stolarnia'] = ['Pilarki', 'Zbijarki', 'Kompresor', 'Inne'];
@@ -30,23 +27,9 @@ export default class extends AbstractView{
         this.regioList['Bibeloty'] = ['Cuttery', 'Laminarki', 'HotPress', 'EBSy', 'Mieszalnik', 'Dozownik', 'Summa', 'Inne' ]
         this.users = ['Adam', 'Paweł', 'Bartek'];
 
-        this.prepare()
-        
+        document.getElementById('theme').setAttribute('href', "../src/css/create.css");
     }
 
-    prepare(){
-        const user = document.querySelector('#user')
-        user.innerHTML = '';
-        const dekl = document.querySelector('#dekl')
-        dekl.innerHTML = '';
-        const issues = document.querySelector('#issues')
-        issues.innerHTML = '';
-        const raportList = document.querySelector('#raport');
-        raportList.innerHTML = '';
-
-        let theme = document.getElementById('theme')
-        theme.setAttribute('href', "../src/css/create.css");
-    }
 
     async getData(){
 
@@ -72,7 +55,7 @@ export default class extends AbstractView{
         this.regions('Bibeloty');
         this.deklaracje();
         this.plexi();
-        this.submit();
+        
         if (this.params.id){
             this.fillData();
             this.events(this.api_url, this.params.id);
@@ -80,8 +63,10 @@ export default class extends AbstractView{
             this.events(this.api_url);
         }
         this.SliderNav();
+        this.submit();
         this.build();
         SliderForm();
+        
 
     }
 
@@ -91,16 +76,22 @@ export default class extends AbstractView{
         this.formField = document.createElement('div')
         this.formField.classList.add('swiper-slide')
 
+
+        // labele
+        function createLabels(lab){
+            const LabelBox = document.createElement('div');
+            const regionLabel = document.createElement('p');
+            regionLabel.innerText = lab;
+            LabelBox.appendChild(regionLabel)
+            return LabelBox
+        }
+
        //dodawanie checkboxów
-       function createCheckboxes(lab, data) {
+       function createCheckboxes(data, lab) {
                 
         const region = document.createElement('div');
         region.classList.add('regions')
-        const LabelBox = document.createElement('div');
-        const regionLabel = document.createElement('h4');
-        regionLabel.innerText = lab;
-        LabelBox.appendChild(regionLabel);
-        region.appendChild(LabelBox)
+        ;
         const CheckBoxesBox = document.createElement('div');
         CheckBoxesBox.classList.add('checkboxes')
         let i = 1
@@ -133,18 +124,12 @@ export default class extends AbstractView{
 
             const txtField = document.createElement('div');
             txtField.classList.add('form-line');
-            // const txtFieldLab = document.createElement('p');
-            // txtFieldLab.id = 'label-'+key;
-            // txtFieldLab.classList.add('form-line-label')
             const inputField = document.createElement('textarea');
             inputField.classList.add('raport-describe')
             inputField.id = 'text_'+key;
             inputField.name = key;
-            inputField.cols = '80';
-            inputField.rows = '20';
-            // inputField.placeholder = key;
-            
-            // txtField.appendChild(txtFieldLab)
+            // inputField.cols = '80';
+            inputField.rows = '25';
             txtField.appendChild(inputField)
             return txtField
             
@@ -155,10 +140,16 @@ export default class extends AbstractView{
         RegionField.classList.add('registration-grid')
         for(const [key, value] of Object.entries(this.regioList)){
             if (key == place){
-                var region = createCheckboxes(key, value);
-                var text = createTextFields(place)
-                RegionField.appendChild(region);
-                RegionField.appendChild(text)
+                let labels = createLabels(key)
+                let checkboxes = createCheckboxes(value, key);
+                let text = createTextFields(place)
+
+                RegionField.appendChild(labels)
+                const elements = document.createElement('div')
+                elements.classList.add('elements')
+                elements.appendChild(checkboxes);
+                elements.appendChild(text)
+                RegionField.appendChild(elements)
             }      
         }
 
@@ -169,15 +160,20 @@ export default class extends AbstractView{
     }
 
     deklaracje(){
+        
 
         const deklTextBox = document.createElement('div')
         deklTextBox.classList.add("swiper-slide", "deklaracje")
+        const RegionField = document.createElement('div')
+        RegionField.classList.add('registration-grid')
+
         const deklLabelBox = document.createElement('div')
-        deklLabelBox.classList.add('regions')
-        const deklLabel = document.createElement('h4')
+        // deklLabelBox.classList.add('regions')
+        const deklLabel = document.createElement('p')
         deklLabel.innerText = 'Deklaracje';
         deklLabelBox.appendChild(deklLabel)
-        deklTextBox.appendChild(deklLabelBox)
+        RegionField.appendChild(deklLabelBox)
+
         const deklTextField = document.createElement('div')
         deklTextField.classList.add('deklaracje-describe-areas')
 
@@ -188,16 +184,18 @@ export default class extends AbstractView{
             label.classList.add('raport-describe-label');
             label.innerText = user;
             const inputField = document.createElement('textarea');
-            inputField.classList.add('raport-describe')
-            inputField.required = true;
+            inputField.classList.add('raport-describe-users')
+            // inputField.required = true;
             inputField.name = 'dekl_'+user;
             inputField.id = 'dekl_'+user;
-            inputField.rows = '18';
+            inputField.rows = '13';
 
             box.appendChild(label)
             box.appendChild(inputField)
             deklTextField.appendChild(box)
-            deklTextBox.appendChild(deklTextField)
+            RegionField.appendChild(deklTextField)
+            deklTextBox.appendChild(RegionField)
+
             this.formWrapper.appendChild(deklTextBox)
         }) 
     
@@ -209,16 +207,20 @@ export default class extends AbstractView{
         if (today.getDay() == 0 ){
             const PlexiTextField = document.createElement('div')
             PlexiTextField.classList.add("swiper-slide",'deklaracje')
-            const plexiLabelBox = document.createElement('div')
-            plexiLabelBox.classList.add('regions')
 
-            const plexiLabel = document.createElement('h4')
+            const RegionField = document.createElement('div')
+            RegionField.classList.add('registration-grid')
+
+            const plexiLabelBox = document.createElement('div')
+            // plexiLabelBox.classList.add('regions')
+
+            const plexiLabel = document.createElement('p')
             plexiLabel.innerText = 'Raport Plexi';
             plexiLabelBox.appendChild(plexiLabel)
 
 
             const box = document.createElement('div')
-            box.classList.add('deklaracje-box')
+            box.classList.add('plexi-box')
             const inputField = document.createElement('textarea');
             inputField.classList.add('raport-describe');
             inputField.required = true;
@@ -229,27 +231,15 @@ export default class extends AbstractView{
             zostało uszkodzonych. Współczynnik w skali miesiąca wynosi: ZZZ"
             box.appendChild(inputField)
 
-        PlexiTextField.appendChild(plexiLabelBox)
-        PlexiTextField.appendChild(box)
+        RegionField.appendChild(plexiLabelBox)
+        RegionField.appendChild(box)
+        PlexiTextField.appendChild(RegionField)
         this.formWrapper.appendChild(PlexiTextField)
         }
 
         
     }
 
-    submit(){
-        const SubmitField = document.createElement('div');
-        SubmitField.id = 'wrapper'
-        const submitButton = document.createElement('button');
-        submitButton.classList.add('submit');
-        submitButton.type = "submit";
-        submitButton.innerText = "Zapisz";
-
-        SubmitField.appendChild(submitButton);
-
-        form.appendChild(SubmitField);
-
-    }
 
     SliderNav(){
         const next = document.createElement('div')
@@ -263,6 +253,19 @@ export default class extends AbstractView{
         this.form.appendChild(prev)
         this.form.appendChild(paginate)
         
+    }
+
+    submit(){
+        const SubmitField = document.createElement('div');
+        SubmitField.classList.add('submitField')
+        SubmitField.id = 'wrapper'
+        const submitButton = document.createElement('button');
+        submitButton.classList.add('submit');
+        submitButton.type = "submit";
+        submitButton.innerText = "Zapisz";
+
+        SubmitField.appendChild(submitButton);
+        this.form.appendChild(SubmitField)
     }
 
     build(){
@@ -388,8 +391,7 @@ export default class extends AbstractView{
         this.data.dekl.forEach(item =>{
             document.getElementById('dekl_'+item.name).value = item.dekl
         })
-
-        if (this.data.plexi){
+        if (this.data.plexi.length > 0){
             document.getElementById('plexi').value = this.data.plexi[0].plexi
         }
     }

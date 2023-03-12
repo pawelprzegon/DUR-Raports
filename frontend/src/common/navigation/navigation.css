@@ -47,9 +47,8 @@
 .top-element {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    
+    align-items: flex-start;
+    justify-content: flex-end;
     margin-left: 0px;
     margin-right: 0px;
     width: 100%;
@@ -61,7 +60,7 @@
 .nav-btn {
     width: 100%;
     background: #00000000;
-    height: 100%;
+    /* height: 100%; */
     /* display: flex;
     flex-wrap: wrap;
     align-items: center; */
@@ -146,8 +145,7 @@
 }
 
 .nav-close {
-    visibility: hidden;
-    display: flex;
+    display: none;
 }
 
 
@@ -161,8 +159,8 @@
 }
 
 
-.show-anim {
-    animation: fadeIn 1s;
+.show-anim-nav {
+    animation: fadeIn 0.5s;
 }
 
 @keyframes fadeIn {
@@ -188,7 +186,7 @@
     left: 0;
     width: 100%;
     height: 100vh;
-    /* background: rgba(3, 3, 3, 0.6); */
+    background: rgba(255, 255, 255, 0.33);
 }
 
 .nav-overlay-open {
@@ -197,7 +195,7 @@
 
 
 /* Tablet */
-@media (max-width:1050px) {
+@media (max-width: 1100px) and (min-width: 901px) {
     .nav-link {
         width: 60px;
         font-size: 14px;
@@ -210,14 +208,38 @@
     .nav-user{
         font-size: 16px;
     }
+    .top-element{
+        align-items: flex-start;
+        justify-content: flex-end;
+    }
+}
+
+/* Tablet small */
+@media (max-width: 900px) and (min-width: 751px){
+    .nav-link {
+        width: 45px;
+        font-size: 12px;
+    }
+
+    .pre-nav-user{
+        font-size: 11px;
+    }
+
+    .nav-user{
+        font-size: 16px;
+    }
+    .top-element{
+        align-items: flex-start;
+        justify-content: flex-end;
+    }
 }
 
 /* Mobile */
-@media (max-width:700px) {
+@media (max-width:750px) {
 
     .nav-link {
-        width: 40px;
-        font-size: 12px;
+        width: 110px;
+        font-size: 19px;
     }
 
     .pre-nav-user{
@@ -227,4 +249,25 @@
     .nav-user{
         font-size: 14px;
     }
+
+    .top-elements {
+        grid-template-columns: 20% 45% 20% 15%;
+    }
+
+    .top-element{
+        align-items: flex-start;
+        justify-content: flex-end;
+    }
+    .nav-btns {
+        flex-direction: column;
+    }
+    .big-row{
+        border-style: solid;
+        border-width: 0.2px;
+        border-color: #e7e7e7;
+        border-radius: 10px;
+    }
+    
 }
+
+

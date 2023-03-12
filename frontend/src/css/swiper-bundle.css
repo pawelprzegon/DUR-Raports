@@ -322,7 +322,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader,
   */
 }
 .swiper-pagination {
-  position: absolute;
+  position: fixed;
   text-align: center;
   transition: 300ms opacity;
   transform: translate3d(0, 0, 0);

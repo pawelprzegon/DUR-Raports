@@ -1,13 +1,16 @@
 
 export function Slider(){
-  var swiper = new Swiper(".slide-content", {
+ new Swiper(".slide-content", {
     slidesPerView: 3,
+    // centeredSlides: true,
     spaceBetween: 25,
-    slidesPerGroup: 3,
     loop: false,
-    centerSlide: 'true',
-    fade: 'true',
-    grabCursor: 'true',
+    
+    fade: false,
+    grabCursor: true,
+    keyboard: {
+      enabled: true,
+    },
     pagination: {
       el: ".swiper-pagination",
       clickable: true,
@@ -23,11 +26,11 @@ export function Slider(){
             slidesPerView: 1,
             slidesPerGroup: 1,
         },
-        700: {
+        750: {
             slidesPerView: 2,
             slidesPerGroup: 2,
         },
-        1050: {
+        1100: {
             slidesPerView: 3,
             slidesPerGroup: 3,
         },
@@ -36,7 +39,7 @@ export function Slider(){
 }
 
 export function SliderForm(){
-  var swiper = new Swiper(".slide-content", {
+new Swiper(".slide-content", {
     slidesPerView: 1,
       spaceBetween: 30,
       loop: true,
@@ -44,7 +47,7 @@ export function SliderForm(){
       pagination: {
         el: ".swiper-pagination",
         clickable: true,
-        dynamicBullets: true,
+        dynamicBullets: false,
       },
       navigation: {
         nextEl: ".swiper-button-next",

@@ -1,9 +1,10 @@
-import {url} from "../common/data/index.js"
+import {url} from "../common/data/url.js"
 import {Slider} from '../features/swiper/slider.js'
-import {Brick} from '../features/brick/index.js'
+import {Brick} from '../features/brick/brick.js'
 import {callApiGet, tokenRefresh} from '../features/endpoints/index.js'
-import {hideloader} from '../features/loading/loading.js'
+import {showloader, hideloader} from '../features/loading/loading.js'
 import {navigateTo} from "../js/index.js"
+import {err} from './error.js'
 
 import AbstractView from "./AbstractView.js";
 
@@ -12,47 +13,33 @@ export default class extends AbstractView{
         super(params);
 
         this.bricks = []
-        window.scrollTo(0,0);
-        $("body").css("overflow", "hidden");
-        
         this.api_url = url+"raports/"
+
         if (this.params.username){
             this.setTitle("Moje raporty")
             this.api_url = url+"raports/"+this.params.username
         }else{
             this.setTitle("Raporty")
         }
-        this.prepare();
+        document.getElementById('theme').setAttribute('href', "/../src/css/allRaports.css");
     }
 
-    prepare(){
-        const FormData = document.querySelector('#form-data');
-        FormData.innerHTML = '';
-
-        let theme = document.getElementById('theme')
-        theme.setAttribute('href', "/../src/css/allRaports.css");
-        
-        document.getElementById('loading').style.visibility = 'visible';
-    }
 
     async getData(){
-
+        showloader();
         try {
             let [response, status] = await callApiGet(this.api_url);
             if (response.detail && response.detail == "Not authenticated"){
-                console.log('refreshing token')
                 let refTokenResponse = await tokenRefresh();
-                console.log(refTokenResponse)
                 if (refTokenResponse[1] == 200){
                     let [response, status] = await callApiGet(this.api_url);
                     if (status == 200){
+                        hideloader();
                         this.show(response);
                         Slider();
                     }else{
-                        document.getElementById('err').innerHTML = `
-                        <h1>${status}</h1>
-                        <p>${response}</p>
-                        `
+                        hideloader();
+                        err(status, response)
                     }
                     
                 }else{
@@ -62,14 +49,12 @@ export default class extends AbstractView{
                 
             }else{
                 hideloader();
-                console.log(response)
                 this.show(response);
                 Slider();
             }
         }catch (error){
             hideloader();
-            console.log(error)
-            navigateTo('/login')
+            err(error)
         }
     }
 
@@ -89,7 +74,7 @@ export default class extends AbstractView{
         
 
         data.forEach(each => {
-            
+
             let raportInfoGrid = new Brick(each)
             let brick = raportInfoGrid.getBrick()
             raportListSwiper.appendChild(brick);

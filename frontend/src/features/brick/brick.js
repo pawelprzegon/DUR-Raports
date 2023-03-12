@@ -14,7 +14,6 @@ export class Brick {
     }
 
     openRap(){
-            console.log(this.id)
             const newView = new openRaport(parseInt(this.id, 10));
             newView.getData();
 
@@ -34,7 +33,6 @@ export class Brick {
             this.openRap();
             let nowSelected = document.getElementsByClassName('selected')
             if (nowSelected.length != 0){
-                console.log(nowSelected)
                 nowSelected[0].classList.remove('selected')
             }
             this.raportInfoGrid.classList.add('selected')

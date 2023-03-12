@@ -10,23 +10,24 @@ export default class{
 
     async getData(){
         return `
-        
-        <div class="d-flex justify-content-center">
+        <div class="alerts">
             <div class="err" id="err"></div>
             <div class="spinner-border" 
-                role="status" id="loading">
-                <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                 role="status" id="loading">
+                 <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
             </div>
         </div>
-        <div id="form-data">
-            <form action="#" method="post" id="form">
-            
-            </form>
+        <div class='content' id="content">
+            <div class="swiper slide-form" id="form-data"></div>
+            <div class="user" id="user"></div>
+            <div class="raport-content" id="raport-content">
+                <div class="dekl" id="dekl"></div>
+                <div class="issues" id="issues"></div>
+            </div>
         </div>
-        <ul class="raport-grid" id="raport">
-        
-        </ul>
-        
+        <div class="slide-container swiper" id="raport">
+          
+        </div>
         `
     }
     

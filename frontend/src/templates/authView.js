@@ -1,8 +1,9 @@
-import {url} from "../common/data/index.js"
+import {url} from "../common/data/url.js"
 import {callApiPost} from '../features/endpoints/index.js'
 import {navigateTo} from '../js/index.js'
-import {navBar, navBehav} from '../common/navigation/index.js'
+import {navBar, navBehav} from '../common/navigation/navigation.js'
 import {hideloader} from '../features/loading/loading.js'
+import {showPassword} from '../features/showPassword/showPassword.js'
  
 import AbstractView from "./AbstractView.js";
 
@@ -11,30 +12,25 @@ export default class extends AbstractView{
         super(params);
         
         this.setTitle("Login")
+        document.getElementById('theme').setAttribute('href', "../src/css/auth.css");
         hideloader();
-        this.form = document.querySelector('#form-data');
-
-        this.formField = document.createElement('form')
-        this.formField.action = "#"
-        this.formField.id = "form"
-        this.formField.method = "post"
-
-        this.raportList = document.querySelector('#raport');
-
-        this.prepare();
-
+        document.getElementById('app-header').setAttribute('style', 'height:0%')
+        document.getElementById('alerts').setAttribute('style', 'height:0%')
         }
-
-        prepare(){
-            let theme = document.getElementById('theme')
-            theme.setAttribute('href', "../src/css/auth.css");
-        }
-
-    
+ 
         async getData(){
+            this.i = 0
+            this.form = document.querySelector('#form-data');
+            this.formField = document.createElement('form')
+            this.formField.action = "#"
+            this.formField.id = "form"
+            this.formField.method = "post"
+
+            this.raportList = document.querySelector('#raport');
+
             this.form.innerHTML = ''
             this.raportList.innerHTML = ''
-            let data = []
+            
             this.header = document.createElement('h1');
             this.header.innerText = 'Login'
             this.header.id = 'header'
@@ -55,6 +51,7 @@ export default class extends AbstractView{
             this.responseBox.appendChild(this.responseData);
 
             // inputs section
+            let data = []
             data = ["email", "username", "password", "confirm"]
 
             data.forEach(each => {
@@ -64,88 +61,133 @@ export default class extends AbstractView{
                 this.elemLabel = document.createElement('p');
                 this.elemLabel.innerText = each;
                 this.elemText = document.createElement('input');
-                this.elemText.type = 'text'       
+                if (each === 'password' || each === 'confirm'){
+                    this.elemText.type = 'password' 
+                    this.checkbox = document.createElement('input') 
+                    this.checkbox.type = 'checkbox'
+                    this.checkbox.innerHTML = '<strong>Show Password</strong>'
+                    this.checkbox.onclick = function (){showPassword(each)}
+                }else{
+                    this.elemText.type = 'text'
+                }   
                 this.elemText.name = each
                 this.elemText.id = each
                 this.Err = document.createElement('div')
                 this.Err.classList.add('error')
-
                 this.elemBox.appendChild(this.elemLabel)
                 this.elemBox.appendChild(this.elemText)
+                if (this.checkbox != undefined) this.elemBox.appendChild(this.checkbox)
                 this.elemBox.appendChild(this.Err)
                 this.formField.appendChild(this.elemBox)
             })
 
+
             this.submitButtonBox = document.createElement('div');
             this.submitButton = document.createElement('button');
             this.submitButton.classList.add('submit');
-            this.submitButton.type = "submit";
+            // this.submitButton.type = "submit";
             this.submitButton.innerText = 'Login';
 
 
             this.submitButtonBox.appendChild(this.submitButton)
             this.formField.appendChild(this.submitButtonBox)
 
-            this.createUserBox = document.createElement('div')
-            this.createUserLink =  document.createElement('a')
-            this.createUserLink.innerText = "Utwórz konto"
-            this.createUserLink.id = 'createUserLink'
-            this.createUserLink.classList.add('create-account')
-            this.createUserBox.appendChild(this.createUserLink)
+            this.loginSignupBox = document.createElement('div')
+            this.loginSignupBox.classList.add('loginSignup-box')
+            this.prefix = document.createElement('p')
+            this.prefix.innerText = "Don't have an account?"
+            this.loginSignupLink =  document.createElement('a')
+            this.loginSignupLink.innerText = "SignUp"
+            this.loginSignupLink.id = 'loginSignup'
+            this.loginSignupLink.classList.add('loginSignup')
+            this.loginSignupBox.appendChild(this.prefix)
+            this.loginSignupBox.appendChild(this.loginSignupLink)
 
-            this.formField.appendChild(this.createUserBox)
+            this.formField.appendChild(this.loginSignupBox)
+
+            this.resetPasswdBox = document.createElement('div')
+            this.resetPasswdBox.classList.add('resetPasswdBox')
+            this.resetPasswdBox.id = 'resetPasswdBox'
+            this.resetPasswdLink = document.createElement('a')
+            this.resetPasswdLink.innerText='Forget password?'
+            this.resetPasswdBox.appendChild(this.resetPasswdLink)
+            this.formField.appendChild(this.resetPasswdBox)
+
             this.form.appendChild(this.formField)
 
             document.getElementById('div-email').classList.add('hidden-element') 
             document.getElementById('div-confirm').classList.add('hidden-element') 
-            // console.log(this.createUserLink.innerText)
+            // console.log(this.loginSignupLink.innerText)
 
-            this.createUserLink.addEventListener('click', function(){
+            //Login SignUp
+            this.loginSignupLink.addEventListener('click', (e) => {
                 document.getElementById('responseBox').innerHTML = ''
                 let inputs = document.getElementsByClassName('input-control')
                 Array.from(inputs).forEach(el => {
                     el.children[1].value = ''
                 })
-                let link = document.getElementById('createUserLink')
-                let header = document.getElementById('header')
-                if (link.innerText == "Utwórz konto"){
+                
+                if (this.loginSignupLink.innerText == "SignUp"){
                     document.getElementById('div-email').classList.remove('hidden-element') 
-                    document.getElementById('div-confirm').classList.remove('hidden-element') 
-                    link.innerText = "Zaloguj się"
-                    header.innerText = 'Register'
+                    document.getElementById('div-confirm').classList.remove('hidden-element')
+                    document.getElementById('div-username').classList.remove('hidden-element')
+                    document.getElementById('div-password').classList.remove('hidden-element')
+                    this.header.innerText = 'Register'
+                    this.submitButton.innerText = 'Register'
+                    this.prefix.innerText = "Already have an account?"
+                    this.loginSignupLink.innerText = "Login"
                 }else{
                     document.getElementById('div-email').classList.add('hidden-element') 
                     document.getElementById('div-confirm').classList.add('hidden-element') 
-                    link.innerText = "Utwórz konto"
-                    header.innerText = 'Login'
+                    document.getElementById('div-username').classList.remove('hidden-element')
+                    document.getElementById('div-password').classList.remove('hidden-element')
+                    document.getElementById('resetPasswdBox').classList.remove('hidden-element')
+                    this.header.innerText = 'Login'
+                    this.submitButton.innerText = 'Login'
+                    this.prefix.innerText = "Don't have an account?"
+                    this.loginSignupLink.innerText = "SignUp"
                 }
                 
 
             }, false)
 
-            this.form.addEventListener('submit', (e) => {
+            //odzyskiwanie hasła
+            this.resetPasswdLink.addEventListener('click', (e) => {
+                document.getElementById('responseBox').innerHTML = ''
+                let inputs = document.getElementsByClassName('input-control')
+                Array.from(inputs).forEach(el => {
+                    el.children[1].value = ''
+                })
+                document.getElementById('div-username').classList.add('hidden-element') 
+                document.getElementById('div-password').classList.add('hidden-element') 
+                document.getElementById('div-confirm').classList.add('hidden-element') 
+                document.getElementById('div-email').classList.remove('hidden-element') 
+                this.header.innerText = 'Reset'
+                this.submitButton.innerText = 'Reset'
+                this.loginSignupLink.innerText = "Login"
 
+            })
+
+            //Submit
+            this.submitButton.addEventListener('click', (e) => {
                 e.preventDefault();
-
                 const formData = new FormData(this.formField);
                 const formDataObj = {};
-
                 formData.forEach((key, value) => {
                     let obj = document.getElementById('div-'+value)
                     if(!obj.classList.contains('hidden-element')){
                         formDataObj[value] = key;
                     }
                 })
-            
-                console.log(formDataObj)
                 let validate = this.validateInputs(formDataObj);
                 if (validate.valid === true && validate.elements == 2){
                     this.getToken(formData);
                 }else if(validate.valid === true && validate.elements == 4){
                     this.createUser(formData)
+                }else if (validate.valid === true && validate.elements == 1){
+                    this.resetPassword(formData)
                 }else{
                     console.log("błędne dane")
-
                 }
             })
         }
@@ -204,68 +246,53 @@ export default class extends AbstractView{
         }
 
 
-
+        // TODO: createUser przerobić używając funkcji call callApiPost jak getToken
 
         async createUser(formData) {
-            await fetch(url+'register', {
-                method: "POST",
-                body: formData,
-            })
-            .then(res => {
-                // console.log('Fetch - Got response: ', res);
-                return res;
-              })
-            .then(res =>
-                res.json().then(data => ({
-                  status: res.status,
-                  data
+            const formDataObj = Object.fromEntries(formData.entries());
+            let api_url = url+'register'
+            let [response, status] = await callApiPost(api_url, formData);
+            console.log(response)
+            console.log(status)
+            if (status == 200 && response.message == `${formDataObj.username}`+' registered'){
+                // czyszczenie 
+                document.getElementById('responseBox').innerHTML = ''
+                let inputs = document.getElementsByClassName('input-control')
+                Array.from(inputs).forEach(el => {
+                    el.children[1].value = ''
                 })
-            ))
-            .then(({ status, data }) => { 
-                console.log({ status, data })
-                if (status == 200 && data.status == 'success'){
-                    // czyszczenie 
-                    document.getElementById('responseBox').innerHTML = ''
-                    let inputs = document.getElementsByClassName('input-control')
-                    Array.from(inputs).forEach(el => {
-                        el.children[1].value = ''
-                    })
-                    // zmiana labeli oraz ukrycie niepotrzebnych pól, usunięcie statusu validacji
-                    let link = document.getElementById('createUserLink')
-                    let header = document.getElementById('header')
-                    document.getElementById('div-email').classList.add('hidden-element') 
-                    document.getElementById('div-confirm').classList.add('hidden-element')
-                    document.getElementById('div-email').classList.remove('success')
-                    document.getElementById('div-username').classList.remove('success')
-                    document.getElementById('div-password').classList.remove('success')
-                    document.getElementById('div-confirm').classList.remove('success')
-                    link.innerText = "Utwórz konto"
-                    header.innerText = 'Login'
-                    console.log(data.status === 'success')
-                }
-                else{
-                    this.responseBox.innerHTML = ''
-                    this.response = document.createElement('div');
-                    this.responseStatus = document.createElement('p');
-                    this.responseStatus.innerText = status;
-                    this.responseStatus.classList.add('response-error')
-                    this.responseData = document.createElement('p');
-                    this.responseData.innerText = data.status[0];
-                    this.responseData.classList.add('response-error')
-                    
-                    this.responseBox.appendChild(this.responseStatus);
-                    this.responseBox.appendChild(this.responseData);
-                }
+                // zmiana labeli oraz ukrycie niepotrzebnych pól, usunięcie statusu validacji
+                document.getElementById('div-email').classList.add('hidden-element') 
+                document.getElementById('div-confirm').classList.add('hidden-element')
+                document.getElementById('div-email').classList.remove('success')
+                document.getElementById('div-username').classList.remove('success')
+                document.getElementById('div-password').classList.remove('success')
+                document.getElementById('div-confirm').classList.remove('success')
+                this.loginSignupLink.innerText = "SignUp"
+                this.header.innerText = 'Login'
+                this.submitButton.innerText = 'Login';
+            }
+            else{
+                this.responseBox.innerHTML = ''
+                this.response = document.createElement('div');
+                this.responseStatus = document.createElement('p');
+                this.responseStatus.innerText = status;
+                this.responseStatus.classList.add('response-error')
+                this.responseData = document.createElement('p');
+                this.responseData.innerText = data.status[0];
+                this.responseData.classList.add('response-error')
                 
-             })
-            .catch(err => console.log(err));
+                this.responseBox.appendChild(this.responseStatus);
+                this.responseBox.appendChild(this.responseData);
+            }
+
         }
             
         async getToken(formData) {
             let api_url = url+'login'
             let [response, status] = await callApiPost(api_url, formData);
             console.log(response)
-            // console.log(status)
+            console.log(status)
             if (status == 200 && !('status_code' in response)){
 
                 var now = new Date();
@@ -275,6 +302,8 @@ export default class extends AbstractView{
                 ';expires='+now+';SameSite=lex';
                 document.cookie='refresh_token='+response.refresh_token;
                 document.cookie='user='+response.user.username;
+                document.getElementById('app-header').removeAttribute('style')
+                document.getElementById('alerts').removeAttribute('style')
                 navigateTo('/');
                 navBar(response.user.username);
                 navBehav();
@@ -294,5 +323,23 @@ export default class extends AbstractView{
                 this.responseBox.appendChild(this.responseData);
             }
                 
+        }
+
+        async resetPassword(formData){
+            let api_url = url+'reset_password_link'
+
+            const formDataObj = {};
+            formData.forEach((key, value) => {
+                let obj = document.getElementById('div-'+value)
+                if(!obj.classList.contains('hidden-element')){
+                    formDataObj[value] = [key];
+                }
+            })
+            let [response, status] = await callApiPost(api_url, JSON.stringify(formDataObj));
+            console.log(response)
+            console.log(status)
+            if (status == 200){
+                alert(response.message)
+            }
         }
 }

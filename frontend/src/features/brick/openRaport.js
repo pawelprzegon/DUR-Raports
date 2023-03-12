@@ -1,8 +1,9 @@
-import {url} from "../../common/data/index.js"
-import {navUserBehav} from '../../common/navigation/index.js'
-import {callApiGet} from '../endpoints/index.js'
-import {hideloader} from '../loading/loading.js'
+import {url} from "../../common/data/url.js"
+import {navUserBehav} from '../../common/navigation/navigation.js'
+import {callApiGet, tokenRefresh} from '../endpoints/index.js'
+import {showloader, hideloader} from '../loading/loading.js'
 import { navigateTo } from "../../js/index.js"
+import {err} from "../../templates/error.js"
 
 export class openRaport{
 
@@ -20,7 +21,7 @@ export class openRaport{
     }
 
     async getData(){
-        console.log(this.id)
+        showloader();
         try{
             let [response, status] = await callApiGet(url+"raport/"+this.id);
             if (response.detail && response.detail == "Not authenticated"){
@@ -36,25 +37,21 @@ export class openRaport{
                         localStorage.setItem('active_raport', JSON.stringify(response))
                     }else{
                         hideloader();
-                        document.getElementById('err').innerHTML = `
-                        <h1>${status}</h1>
-                        <p>${response}</p>
-                        `
+                        err(status, response)
                     }
                 }else{
+                    hideloader();
                     navigateTo('/login')
                 }   
             }else{
                 hideloader();
-                console.log(this.id)
-                console.log(response.author.username)
                 navUserBehav(response.author.username, this.id);
                 this.buildStructure(response);
                 localStorage.setItem('active_raport', JSON.stringify(response))
             }
         }catch(error){
-            console.log(error)
-            navigateTo('/') 
+            hideloader();
+            err(error)
         }
     }
 
@@ -92,12 +89,12 @@ export class openRaport{
         Adam.classList.add('raport-text', 'one')
         
         
-        namePawel.classList.add('header', 'tresc-raportu')
-        nameAdam.classList.add('header', 'tresc-raportu')
-        nameBartek.classList.add('header', 'tresc-raportu')
-        todoPawel.classList.add('tresc-raportu')
-        todoAdam.classList.add('tresc-raportu')
-        todoBartek.classList.add('tresc-raportu')
+        namePawel.classList.add('header', 'tresc-dekl')
+        nameAdam.classList.add('header', 'tresc-dekl')
+        nameBartek.classList.add('header', 'tresc-dekl')
+        todoPawel.classList.add('tresc-dekl')
+        todoAdam.classList.add('tresc-dekl')
+        todoBartek.classList.add('tresc-dekl')
 
         DeklHeader.appendChild(DeklInfo)
         Pawel.appendChild(namePawel)
@@ -208,10 +205,10 @@ export class openRaport{
 
         let conts = document.querySelectorAll(".tresc-raportu");
         conts.forEach(item => {
-        let txt = item.innerHTML;
-        let chunk = txt.substr(0, txt.indexOf(":"));
-        txt = txt.replace(chunk, "<b>" + chunk + "</b>");
-        item.innerHTML = txt;
+            let txt = item.innerHTML;
+            let regex = /[a-zA-Z]+\s?[0-9]?:/g
+            txt = txt.replace(regex, "<b>$&</b>");
+            item.innerHTML = txt;
         });
     
         

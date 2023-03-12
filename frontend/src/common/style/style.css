@@ -22,6 +22,7 @@ REGISTRATION
   }
   
   body {
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     height: calc(var(--vh, 1vh) * 100);
@@ -32,18 +33,26 @@ REGISTRATION
 }
 
 .container {
-  height: 80%;
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  margin-top: 80px;
   padding-left: 8%;
   padding-right: 8%;
+
 }
 
-.app-header{
+/* .app-header{
   height: 10%;
-}
+} */
 
 .alerts{
-  height: 10%
+  height: 0%
+}
+
+.content{
+  height: fit-content;
 }
   
 .spinner-border{
@@ -61,13 +70,13 @@ REGISTRATION
   box-sizing: border-box;
   display: block;
   position: absolute;
-  width: 50px;
-  height: 50px;
-  margin: 8px;
-  border: 8px solid var(--bridge);
+  width: 55px;
+  height: 55px;
+  margin: 6px;
+  border: 6px solid var(--gray);
   border-radius: 50%;
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: var(--bridge) transparent transparent transparent;
+  border-color: var(--gray) transparent transparent transparent;
 }
 .lds-ring div:nth-child(1) {
   animation-delay: -0.45s;
@@ -90,7 +99,6 @@ REGISTRATION
 .err{
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  color: white;
   font-size: 20px;
 }
 

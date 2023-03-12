@@ -10,6 +10,25 @@
   --bckg: #ffffff;
 }
 
+.container {
+  display: block;
+  padding-left: 8%;
+  padding-right: 8%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+}
+
+.content{
+  margin-top: 80px
+}
+
+.slide-form{
+  max-width: 1000px;
+  width: 100%;
+  padding: 0;
+}
+
 .raport-describe-label{
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
@@ -21,34 +40,48 @@
   font-family: 'Roboto', sans-serif;
   padding: 0.5rem;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   align-content: center;
-  background-color: #f8f8f8;
+  background-color: #ffffff;
   min-height: 20rem;
   margin-bottom: 0.8rem;
+  margin-top: 40px;
 }
 
-.registration-grid h4 {
-  position: relative;
+p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
   margin-bottom: 20px;
   margin-top: 0px;
   padding: 5px;
   text-align: center;
-  border-color: #000000;
-  border-width: 0.5px;
-  border-style: solid;
   border-radius: 20px;
+  color: #FFF;
+  background-color: #6B7280;
 }
 
+.elements{
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+}
 .regions {
   display: flex;
   flex-direction: column;
   margin: 0.1rem;
+  width: 30%;
+}
+
+.checkboxes{
+  margin-top: 40px;
 }
 
 .form-line{
-  width: 60%;
+  display: flex;
+  justify-content: space-around;
+  width: 70%;
   margin-top: 40px;
 }
 
@@ -56,13 +89,21 @@
   display: flex;
   position: sticky;
   padding-left: 20px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   width: 4rem;
+}
+
+.label-container input {
+  margin-bottom: 2px;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
 
 .raport-describe{
@@ -72,27 +113,25 @@
   border-width: 0.5px;
   border-style: solid;
   border-color: #bababa;
-  width: 100%;
+  width: 70%;
+  padding: 10px;
+}
+
+.raport-describe-users{
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  border-radius: 5px;
+  border-width: 0.5px;
+  border-style: solid;
+  border-color: #bababa;
+  width: 90%;
+  padding: 10px;
 }
 
 .deklaracje{
   display: flex;
   flex-direction: column;
-}
-
-.deklaracje h4{
-  margin:0;
-  margin-left: 90px;
-  margin-bottom: 10px;
-  width: 6rem;
-  font-family: 'Roboto', sans-serif;
-  font-size: 15px;
-  padding: 5px;
-  text-align: center;
-  border-color: #000000;
-  border-width: 0.5px;
-  border-style: solid;
-  border-radius: 20px;
+  /* align-items: center; */
 }
 
 .deklaracje-describe-areas{
@@ -102,9 +141,15 @@
 }
 
 .deklaracje-box{
+  margin: 10px
+}
+
+.plexi-box{
   display: flex;
   flex-direction: column;
-  width: 25%;
+  align-items: center;
+  width: 80%;
+  margin-top: 40px;
 }
 
 
@@ -113,13 +158,14 @@
 
 
 
-
-
-div .submit {
+.submitField{
+  display: flex;
+  justify-content: center;
   margin-right: 15px;
   margin-top: 20px;
   margin-bottom: 30px;
 }
+
 
 .submit {
   height: 50px;
@@ -148,7 +194,6 @@ div .submit {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-
 }
 
 .submit:hover,
@@ -157,17 +202,6 @@ div .submit {
 }
 
 
-
-
-
-
-.label-container input {
-  margin-bottom: 2px;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
 
 .checkmark {
   position: absolute;
@@ -208,39 +242,64 @@ div .submit {
   transform: rotate(45deg);
 }
 
+.swiper-button-prev, .swiper-button-next {
+  color:rgb(182, 182, 182);
+}
+
+.swiper-button-prev:hover, .swiper-button-next:hover{
+  color:#000000
+}
+.swiper-pagination{
+  position: static;
+}
+.swiper-pagination-bullet-active {
+  background: #000000;
+}
+
+
+
 
 /* Mobile */
-@media (max-width:600px) {
-
-  .label-container {
-    font-size: 12px;
+@media (max-width:750px) {
+  /* body{
+      overflow: visible;
+  } */
+  .container{
+    margin-top: 20px;
   }
+  .registration-grid{
+    margin:0;
+    flex-direction: column;
+    align-content: center; 
+  }
+  .deklaracje-describe-areas{
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .deklaracje-box{
+    width: 80%;
+  }
+  .raport-describe{
+    width: 100%;
+  }
+  .raport-describe-users{
+    height: 150px;
+  }
+
 }
 
-
-
-
-
-
-/* Tablet */
-@media (min-width:600px) {
-
-
-  .label-container {
-    font-size: 14px;
-  }
-
-  
-}
-
-
-
-
-/* Desktop */
-@media (min-width:900px) {
-
-  .label-container {
-    font-size: 16px;
-  }
-
+@media (max-width:550px) {
+ .elements{
+  flex-direction: column;
+ }
+ .form-line{
+  width: 100%
+ }
+ .checkboxes{
+  margin: 0
+ }
+ .regions{
+  width: 100%;
+ }
 }

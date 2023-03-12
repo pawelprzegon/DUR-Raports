@@ -1,11 +1,12 @@
 import {getCookieValue} from '../features/cookie/index.js'
 import allRaportsView  from '../templates/allRaportsView.js';
 import authView  from '../templates/authView.js';
-import {navBar, navBehav, navClose} from '../common/navigation/index.js'
+import {navBar, navClose, navCloseBtns, navBehav} from '../common/navigation/navigation.js'
 import statisticsView from '../templates/statisticsView.js';
 import createView from '../templates/createView.js';
 import deleteView from '../templates/deleteView.js';
 import logoutView from '../templates/logoutView.js';
+import resetPassword from '../templates/resetPassword.js';
 
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -19,6 +20,13 @@ const getParams = match => {
 }
 
 export const navigateTo = url =>{
+    clearAll();
+    let menubar =  document.getElementById('anim-row');
+    if (typeof(menubar) != 'undefined' && menubar != null){
+        navCloseBtns();
+    }
+    window.scrollTo(0,0);
+    // $("body").css("overflow", "hidden");
     history.pushState(null, null, url);
     router();
 };
@@ -33,7 +41,9 @@ const router = async() =>{
         { path: '/edit/:id', view: createView },
         { path: '/my/:username', view: allRaportsView },
         { path: '/delete/:id', view: deleteView },
-        { path: '/logout', view: logoutView }
+        { path: '/logout', view: logoutView },
+        { path: '/reset-password', view: resetPassword }
+
     ]
 
 
@@ -43,7 +53,6 @@ const router = async() =>{
             result: location.pathname.match(pathToRegex(route.path))
         };
     });
-
     let match = potentialMatches.find(potentialMatch => potentialMatch.result !== null);
 
     if (!match){
@@ -69,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () =>{
             e.preventDefault();
             navClose();
             navigateTo(e.target.href);
-           
+            
         }
     })
     router();
@@ -79,11 +88,15 @@ let authorize = getCookieValue('access_token')
 if (authorize){
     let user = getCookieValue('user')
     navBar(user);
-    navBehav();  
+    navBehav(); 
+    window.scrollTo(0,0);
+    // $("body").css("overflow", "hidden");
 }
-let vh = window.innerHeight * 0.01;
-document.documentElement.style.setProperty('--vh', `${vh}px`);
-window.addEventListener('resize', () => {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-});
+
+function clearAll(){
+    document.querySelector('#user').innerHTML = '';
+    document.querySelector('#dekl').innerHTML = '';
+    document.querySelector('#issues').innerHTML = '';
+    document.querySelector('#raport').innerHTML = '';
+    document.querySelector('#form-data').innerHTML = '';
+}

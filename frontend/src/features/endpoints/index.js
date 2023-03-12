@@ -1,4 +1,4 @@
-import {url} from "../../common/data/index.js"
+import {url} from "../../common/data/url.js"
 import {getCookieValue} from '../../features/cookie/index.js'
 
 export async function callApiGet(api_url){
@@ -23,15 +23,27 @@ export async function callApiGet(api_url){
 
 }
 
-export async function callApiPost(api_url, formData){
+export async function callApiPost(api_url, formData, reset_token){
     // prepare headers
     let token = getCookieValue('access_token')
-    // console.log(token)
-    const myHeaders = new Headers({
-        'accept': 'application/json',
-        'Authorization': 'Bearer '+token
-    });
-
+    let address = lastWord(api_url)
+    let myHeaders = new Headers()
+    switch (address){
+        case "login":
+        case "register":
+            myHeaders = {
+                'accept': 'application/json',
+                'Authorization': 'Bearer '+token, 
+            };
+            break;
+        default: 
+            myHeaders = {
+                'accept': 'application/json',
+                'Authorization': 'Bearer '+reset_token,
+                'Content-Type': 'application/json',
+            };
+    }   
+    
     try {
         let resp = await fetch(api_url, {
             method: "POST",
@@ -82,12 +94,11 @@ export async function tokenRefresh(){
             } 
             return [data, status];
         })
-        .catch(err => console.log(err));
+        .catch(err => {return err});
 
         return resp;
 
     } catch (error) {
-        console.log(error)
         return error;
     }
 }
@@ -108,7 +119,12 @@ export async function callApiPut(api_url, formData){
         })
         return [await resp.json(), resp.status];
     }catch(error){
-        console.log(error)
         return error
     }
 }
+
+
+function lastWord(words) {
+    var n = words.split(/[/]+/);
+    return n[n.length - 1];
+  }

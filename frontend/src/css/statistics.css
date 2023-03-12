@@ -17,6 +17,10 @@
     --btnTxt: #030303;
 }
 
+.container{
+    justify-content: normal;
+}
+
 
 /* Mobile */
 @media (max-width:600px) {
