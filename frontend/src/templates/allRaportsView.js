@@ -11,7 +11,16 @@ import AbstractView from "./AbstractView.js";
 export default class extends AbstractView{
     constructor(params){
         super(params);
+    }
 
+    css(){
+        document.getElementById('theme').setAttribute('href', "/../src/css/allRaports.css");
+    }
+
+
+    async getData(){
+        this.css();
+        showloader();
         this.bricks = []
         this.api_url = url+"raports/"
 
@@ -21,12 +30,7 @@ export default class extends AbstractView{
         }else{
             this.setTitle("Raporty")
         }
-        document.getElementById('theme').setAttribute('href', "/../src/css/allRaports.css");
-    }
 
-
-    async getData(){
-        showloader();
         try {
             let [response, status] = await callApiGet(this.api_url);
             if (response.detail && response.detail == "Not authenticated"){

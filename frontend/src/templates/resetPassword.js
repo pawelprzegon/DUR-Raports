@@ -8,24 +8,26 @@ import AbstractView from "./AbstractView.js";
 export default class extends AbstractView{
     constructor(params){
         super(params);
-
-        this.actualAddress = new URL(window.location.href); 
         console.log(this.actualAddress)
         this.token = this.actualAddress.searchParams.get("token")
         console.log(this.token)
+    }
 
-        this.bricks = []
-        this.api_url = url+"reset_password/"
-        this.setTitle("Reset password")
+    css(){
         document.getElementById('theme').setAttribute('href', "../src/css/auth.css");
-        document.querySelector('#app-header').innerHTML = ''
-        hideloader();
         document.getElementById('app-header').setAttribute('style', 'height:0%')
         document.getElementById('alerts').setAttribute('style', 'height:0%')
     }
 
 
     async getData(){
+        this.css();
+        hideloader();
+        this.actualAddress = new URL(window.location.href);
+        this.bricks = []
+        this.api_url = url+"reset_password/"
+        this.setTitle("Reset password")
+        document.querySelector('#app-header').innerHTML = ''
         this.form = document.querySelector('#form-data');
             this.formField = document.createElement('form')
             this.formField.action = "#"

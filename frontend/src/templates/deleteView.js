@@ -8,13 +8,12 @@ import AbstractView from "./AbstractView.js";
 export default class extends AbstractView{
     constructor(params){
         super(params);
-        
         this.setTitle("Delete: "+params.id)
-        this.api_url = url+"delete/"+this.params.id
         }
 
     
         async getData(){
+            this.api_url = url+"delete/"+this.params.id
             try{
                 let [response, status] = await callApiGet(this.api_url);
                 if (response.detail && response.detail == "Not authenticated"){

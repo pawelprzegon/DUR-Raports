@@ -10,13 +10,16 @@ import AbstractView from "./AbstractView.js";
 export default class extends AbstractView{
     constructor(){
         super();
-        this.setTitle("Statystyki")
-        this.api_url = url+'statistics'
-        document.getElementById('theme').setAttribute('href', "../src/css/statistics.css");
     }
 
-    async getData(){
 
+    css(){
+      document.getElementById('theme').setAttribute('href', "../src/css/statistics.css");
+    }
+    async getData(){
+      this.css();
+      this.setTitle("Statystyki")
+      this.api_url = url+'statistics'
       showloader();
       try {
         let [response, status] = await callApiGet(this.api_url);

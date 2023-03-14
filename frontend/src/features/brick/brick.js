@@ -16,7 +16,6 @@ export class Brick {
     openRap(){
             const newView = new openRaport(parseInt(this.id, 10));
             newView.getData();
-
     }
 
     build(){

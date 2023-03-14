@@ -25,7 +25,6 @@ REGISTRATION
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: calc(var(--vh, 1vh) * 100);
     background: var(--bckg);
     background-color: var(--bckg);
     color: #000000;
@@ -36,8 +35,7 @@ REGISTRATION
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
-  margin-top: 80px;
+  min-height: calc(var(--vh, 1vh) * 85);
   padding-left: 8%;
   padding-right: 8%;
 
@@ -48,12 +46,10 @@ REGISTRATION
 } */
 
 .alerts{
-  height: 0%
+  height: 0%;
+  margin-top: 80px;
 }
 
-.content{
-  height: fit-content;
-}
   
 .spinner-border{
   display: flex;

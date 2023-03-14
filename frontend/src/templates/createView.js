@@ -27,12 +27,16 @@ export default class extends AbstractView{
         this.regioList['Bibeloty'] = ['Cuttery', 'Laminarki', 'HotPress', 'EBSy', 'Mieszalnik', 'Dozownik', 'Summa', 'Inne' ]
         this.users = ['Adam', 'Paweł', 'Bartek'];
 
+        
+    }
+
+    css(){
         document.getElementById('theme').setAttribute('href', "../src/css/create.css");
     }
 
 
     async getData(){
-
+        this.css();
         this.content = document.querySelector('#content');
         this.formBody = document.querySelector('#form-data')
 

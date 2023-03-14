@@ -60,11 +60,16 @@
     .container {
       padding-left: 15%;
       padding-right: 15%;
+      height: auto;
     }
 
   
   }
 
+  .content{
+    display: flex;
+    
+  }
 
 
   #form {
@@ -119,6 +124,11 @@
     background-color: rgb(41, 79, 149);
 }
 
+.show-passwrd{
+  display: flex;
+  align-items: center;
+}
+
 .input-control {
     display: flex;
     flex-direction: column;
@@ -130,7 +140,6 @@
     display: block;
     font-size: 12px;
     padding: 10px;
-    width: 90%;
 }
 
 .input-control input:focus {
@@ -221,4 +230,7 @@
 .hidden-element{
   display: none;
 }
+
+
+
 

@@ -21,6 +21,7 @@ export class openRaport{
     }
 
     async getData(){
+        console.log('test')
         showloader();
         try{
             let [response, status] = await callApiGet(url+"raport/"+this.id);

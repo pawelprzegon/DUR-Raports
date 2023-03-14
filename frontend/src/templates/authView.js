@@ -10,15 +10,18 @@ import AbstractView from "./AbstractView.js";
 export default class extends AbstractView{
     constructor(params){
         super(params);
-        
-        this.setTitle("Login")
-        document.getElementById('theme').setAttribute('href', "../src/css/auth.css");
-        hideloader();
-        document.getElementById('app-header').setAttribute('style', 'height:0%')
-        document.getElementById('alerts').setAttribute('style', 'height:0%')
+        }
+
+        css(){
+            document.getElementById('theme').setAttribute('href', "../src/css/auth.css");
+            document.getElementById('app-header').setAttribute('style', 'height:0%')
+            document.getElementById('alerts').setAttribute('style', 'height:0%')
         }
  
         async getData(){
+            this.setTitle("Login")
+            this.css();
+            hideloader();
             this.i = 0
             this.form = document.querySelector('#form-data');
             this.formField = document.createElement('form')
@@ -63,10 +66,16 @@ export default class extends AbstractView{
                 this.elemText = document.createElement('input');
                 if (each === 'password' || each === 'confirm'){
                     this.elemText.type = 'password' 
+                    this.checkboxBox = document.createElement('div')
+                    this.checkboxBox.classList.add('show-passwrd')
                     this.checkbox = document.createElement('input') 
+                    
                     this.checkbox.type = 'checkbox'
-                    this.checkbox.innerHTML = '<strong>Show Password</strong>'
                     this.checkbox.onclick = function (){showPassword(each)}
+                    this.checkboxText = document.createElement('small')
+                    this.checkboxText.innerText = 'Show '+each
+                    this.checkboxBox.appendChild(this.checkbox)
+                    this.checkboxBox.appendChild(this.checkboxText)
                 }else{
                     this.elemText.type = 'text'
                 }   
@@ -76,7 +85,10 @@ export default class extends AbstractView{
                 this.Err.classList.add('error')
                 this.elemBox.appendChild(this.elemLabel)
                 this.elemBox.appendChild(this.elemText)
-                if (this.checkbox != undefined) this.elemBox.appendChild(this.checkbox)
+                if (this.checkbox != undefined) {
+                    this.elemBox.appendChild(this.checkboxBox)
+
+                }
                 this.elemBox.appendChild(this.Err)
                 this.formField.appendChild(this.elemBox)
             })

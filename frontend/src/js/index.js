@@ -62,36 +62,34 @@ const router = async() =>{
             result: [location.pathname]
         };
     }
-
+    
     const view = new match.route.view(getParams(match));
     await view.getData();
 
-    // console.log(match.route.view())
+    console.log(view)
 }
 
-window.addEventListener("popstate", router);
+window.addEventListener("popstate", ()=> {
+    document.querySelector('#content').innerHTML = ''
+    router();
+});
 
 document.addEventListener('DOMContentLoaded', () =>{
+
 
     document.body.addEventListener("click", e =>{
         if(e.target.matches("[data-link]")){
             e.preventDefault();
             navClose();
-            navigateTo(e.target.href);
-            
+            navigateTo(e.target.href); 
         }
     })
+    auth();
     router();
 })
 
-let authorize = getCookieValue('access_token')
-if (authorize){
-    let user = getCookieValue('user')
-    navBar(user);
-    navBehav(); 
-    window.scrollTo(0,0);
-    // $("body").css("overflow", "hidden");
-}
+
+
 
 function clearAll(){
     document.querySelector('#user').innerHTML = '';
@@ -99,4 +97,14 @@ function clearAll(){
     document.querySelector('#issues').innerHTML = '';
     document.querySelector('#raport').innerHTML = '';
     document.querySelector('#form-data').innerHTML = '';
+}
+
+function auth(){
+    let authorize = getCookieValue('access_token')
+    if (authorize){
+        let user = getCookieValue('user')
+        navBar(user);
+        navBehav(); 
+        window.scrollTo(0,0);
+    }
 }
