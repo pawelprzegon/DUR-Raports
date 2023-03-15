@@ -17,10 +17,12 @@ export default class extends AbstractView{
       document.getElementById('theme').setAttribute('href', "../src/css/statistics.css");
     }
     async getData(){
-      this.css();
+      showloader();
+      this.container = document.querySelector('#cont')
+      this.container.innerHTML = ''
       this.setTitle("Statystyki")
       this.api_url = url+'statistics'
-      showloader();
+
       try {
         let [response, status] = await callApiGet(this.api_url);
         if (response.detail && response.detail == "Not authenticated"){
@@ -48,22 +50,7 @@ export default class extends AbstractView{
       }
 
 
-
-
-
-      // // Storing response
-      // const response = await fetch(api_url);
-      
-      // // Storing data in form of JSON
-      // var data = await response.json();
-
-      // if (response) {
-      //     hideloader();
-      // }
-      //     this.layout();
-      //     this.charts(data);
-
-      }
+    }
 
       calculateChartSize(){
         let chartSize = '350px'
@@ -79,17 +66,17 @@ export default class extends AbstractView{
       }
 
       layout() {
-          const statisticsList = document.querySelector('#raport');
-          statisticsList.innerHTML = '';
-              const ChartsArea = document.createElement('div');
-                  ChartsArea.classList.add("chart")
-                  const canvas = document.createElement('canvas');
-                  canvas.id = 'charts' ;
-                  canvas.style = 'null';
-                  canvas.width = this.calculateChartSize();
-              
-              ChartsArea.appendChild(canvas);
-              statisticsList.appendChild(ChartsArea);
+        this.css();
+        
+        const ChartsArea = document.createElement('div');
+        ChartsArea.classList.add("chart")
+        const canvas = document.createElement('canvas');
+        canvas.id = 'charts' ;
+        canvas.style = 'null';
+        canvas.width = this.calculateChartSize();
+            
+        ChartsArea.appendChild(canvas);
+        this.container.appendChild(ChartsArea);
       }
 
       charts(data){
@@ -125,28 +112,28 @@ export default class extends AbstractView{
               {
                   label: "Stolarnia",
                   data: data.chart.stolarnia.values,
-                  backgroundColor: "rgb(12, 143, 3)",
-                  borderColor: "rgb(12, 143, 3)",
+                  backgroundColor: "rgba(12, 143, 3, 0.3)",
+                  borderColor: "rgba(12, 143, 3, 0.3",
                     tension: 0.2,
                     borderWidth: 2,
-                    fill: false
+                    fill: true
               }
               ,{
               label: "Bibeloty",
               data: data.chart.bibeloty.values,
-              borderColor: "rgb(18, 27, 161)",
-              backgroundColor: "rgb(18, 27, 161)",
+              borderColor: "rgba(18, 27, 161, 0.3)",
+              backgroundColor: "rgba(18, 27, 161, 0.3)",
                 tension: 0.2,
                 borderWidth: 2,
-                fill: false,
+                fill: true,
           },{
               label: "Drukarnia",
               data: data.chart.drukarnia.values,
-              backgroundColor: "rgb(176, 0, 0)",
-              borderColor: "rgb(176, 0, 0)",
+              backgroundColor: "rgba(176, 0, 0,0.3)",
+              borderColor: "rgba(176, 0, 0,0.3)",
                 tension: 0.2,
                 borderWidth: 2,
-                fill: false,
+                fill: true,
           }
           ]
           },

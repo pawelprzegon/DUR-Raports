@@ -27,7 +27,8 @@ export default class extends AbstractView{
         this.bricks = []
         this.api_url = url+"reset_password/"
         this.setTitle("Reset password")
-        document.querySelector('#app-header').innerHTML = ''
+
+        // document.querySelector('#app-header').innerHTML = ''
         this.form = document.querySelector('#form-data');
             this.formField = document.createElement('form')
             this.formField.action = "#"

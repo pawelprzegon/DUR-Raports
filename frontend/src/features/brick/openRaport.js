@@ -10,18 +10,22 @@ export class openRaport{
     constructor(id){
         this.id = id;
         this.content = document.querySelector('#content');
-        this.user = document.querySelector('#user')
-        this.user.innerHTML = ''
-        this.raportContent = document.querySelector('#raport-content')
-        this.deklContent = document.querySelector('#dekl');
-        this.deklContent.innerHTML = '';
-        this.issuesContent = document.querySelector('#issues');
-        this.issuesContent.innerHTML = '';
+        this.content.innerHTML = ''
+
+        this.user = document.createElement('div')
+        this.user.id = 'user'
+        this.raportContent = document.createElement('div')
+        this.raportContent.id = 'raport-content'
+        this.raportContent.classList.add('raport-content')
+        this.deklContent = document.createElement('div');
+        this.deklContent.id = 'dekl';
+        this.issuesContent = document.createElement('div');
+        this.issuesContent.id = 'issues';
 
     }
 
     async getData(){
-        console.log('test')
+        console.log(this.id)
         showloader();
         try{
             let [response, status] = await callApiGet(url+"raport/"+this.id);
@@ -60,11 +64,11 @@ export class openRaport{
 
         // USER
         const User = document.createElement('div')
-            const userInfo = document.createElement('span');
-            User.classList.add('user-label')
-            userInfo.innerText = (data.author.username).capitalize()
-            User.appendChild(userInfo)
-            this.user.appendChild(User)
+        const userInfo = document.createElement('span');
+        User.classList.add('user-label')
+        userInfo.innerText = (data.author.username).capitalize()
+        User.appendChild(userInfo)
+        this.user.appendChild(User)
     // DEKLARACJE
         const Dekl = document.createElement('div')
 
@@ -195,11 +199,17 @@ export class openRaport{
             Plexi.appendChild(PlexiTextHeader)
             this.issuesContent.appendChild(Plexi)
 
-            this.raportContent.appendChild(this.deklContent)
-            this.raportContent.appendChild(this.issuesContent)
-            this.content.appendChild(this.user)
-            this.content.appendChild(this.raportContent)
+            // this.raportContent.appendChild(this.deklContent)
+            // this.raportContent.appendChild(this.issuesContent)
+            // this.content.appendChild(this.user)
+            // this.content.appendChild(this.raportContent)
         }
+        
+        this.raportContent.appendChild(this.deklContent)
+        this.raportContent.appendChild(this.issuesContent)
+        this.content.appendChild(this.user)
+        this.content.appendChild(this.raportContent)
+        
 
 
         

@@ -19,7 +19,7 @@ export default class extends AbstractView{
 
 
     async getData(){
-        this.css();
+        
         showloader();
         this.bricks = []
         this.api_url = url+"raports/"
@@ -30,7 +30,7 @@ export default class extends AbstractView{
         }else{
             this.setTitle("Raporty")
         }
-
+        
         try {
             let [response, status] = await callApiGet(this.api_url);
             if (response.detail && response.detail == "Not authenticated"){
@@ -40,6 +40,7 @@ export default class extends AbstractView{
                     if (status == 200){
                         hideloader();
                         this.show(response);
+                        
                         Slider();
                     }else{
                         hideloader();
@@ -54,6 +55,7 @@ export default class extends AbstractView{
             }else{
                 hideloader();
                 this.show(response);
+                
                 Slider();
             }
         }catch (error){
@@ -64,16 +66,22 @@ export default class extends AbstractView{
 
 
     show(data) {
+        this.css();
+        let container = document.querySelector('#cont')
+        container.innerHTML = ''
 
-        const swiperContent = document.createElement('div')
+        let content = document.createElement('div')
+        content.classList.add('content')
+        content.id = 'content'
+
+        let slideConteiner = document.createElement('div');
+        slideConteiner.classList.add('slide-container', 'swiper')
+
+        let swiperContent = document.createElement('div')
         swiperContent.classList.add('slide-content')
 
-        const raportList = document.querySelector('#raport');
-        raportList.classList.remove('single')
-        raportList.innerHTML = '';
-
-        const raportListSwiper = document.createElement('div')
-        raportListSwiper.innerHTML=''
+    
+        let raportListSwiper = document.createElement('div')
         raportListSwiper.classList.add('swiper-wrapper')
         
 
@@ -84,11 +92,11 @@ export default class extends AbstractView{
             raportListSwiper.appendChild(brick);
         });
 
-        const next = document.createElement('div')
+        let next = document.createElement('div')
         next.classList.add('swiper-button-next')
-        const prev = document.createElement('div')
+        let prev = document.createElement('div')
         prev.classList.add('swiper-button-prev')
-        const paginate = document.createElement('div')
+        let paginate = document.createElement('div')
         paginate.classList.add('swiper-pagination')
 
         
@@ -98,7 +106,10 @@ export default class extends AbstractView{
         swiperContent.appendChild(paginate)
         
 
-        raportList.appendChild(swiperContent)
+        slideConteiner.appendChild(swiperContent)
+
+        container.appendChild(content)
+        container.appendChild(slideConteiner)
 
     }
 

@@ -38,7 +38,6 @@ REGISTRATION
   min-height: calc(var(--vh, 1vh) * 85);
   padding-left: 8%;
   padding-right: 8%;
-
 }
 
 /* .app-header{

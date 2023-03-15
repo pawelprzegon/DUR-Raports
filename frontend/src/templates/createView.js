@@ -37,8 +37,13 @@ export default class extends AbstractView{
 
     async getData(){
         this.css();
-        this.content = document.querySelector('#content');
-        this.formBody = document.querySelector('#form-data')
+        this.container = document.querySelector('#cont')
+        this.container.innerHTML = ''
+
+        this.content = document.createElement('div');
+        this.content.id = 'content'
+        this.formBody = document.createElement('div')
+        this.formBody.id = 'form-data'
 
         this.form = document.createElement('form')
         this.form.action = "#"
@@ -51,6 +56,9 @@ export default class extends AbstractView{
 
         this.form.appendChild(this.formWrapper)
         this.formBody.appendChild(this.form)
+        this.content.appendChild(this.formBody)
+
+        this.container.appendChild(this.content)
 
 
         hideloader();

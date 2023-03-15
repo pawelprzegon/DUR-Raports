@@ -18,7 +18,7 @@
 }
 
 .container{
-    justify-content: normal;
+    align-items: center
 }
 
 
@@ -26,7 +26,7 @@
 @media (max-width:600px) {
 
     .chart {
-        width: 380;
+        width: 380px;
         padding: 10px;
         margin-top: 5px;
         border-radius: 10px;
@@ -44,7 +44,7 @@
 /* Tablet */
 @media (min-width:600px) {
     .chart {
-        width: 600;
+        width: 400px;
         height: auto;
         padding: 10px;
         margin-top: 5px;
@@ -61,7 +61,7 @@
 /* Desktop */
 @media (min-width:900px) {
     .chart {
-        width: 1000;
+        width: 700px;
         height: auto;
         padding: 10px;
         margin-top: 5px;

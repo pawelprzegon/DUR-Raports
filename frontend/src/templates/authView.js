@@ -23,16 +23,18 @@ export default class extends AbstractView{
             this.css();
             hideloader();
             this.i = 0
-            this.form = document.querySelector('#form-data');
+            this.container = document.querySelector('#cont')
+            this.container.innerHTML = ''
+            
             this.formField = document.createElement('form')
             this.formField.action = "#"
             this.formField.id = "form"
             this.formField.method = "post"
+            
+            // this.raportList = document.querySelector('#raport');
 
-            this.raportList = document.querySelector('#raport');
-
-            this.form.innerHTML = ''
-            this.raportList.innerHTML = ''
+            // this.form.innerHTML = ''
+            // this.raportList.innerHTML = ''
             
             this.header = document.createElement('h1');
             this.header.innerText = 'Login'
@@ -125,7 +127,7 @@ export default class extends AbstractView{
             this.resetPasswdBox.appendChild(this.resetPasswdLink)
             this.formField.appendChild(this.resetPasswdBox)
 
-            this.form.appendChild(this.formField)
+            this.container.appendChild(this.formField)
 
             document.getElementById('div-email').classList.add('hidden-element') 
             document.getElementById('div-confirm').classList.add('hidden-element') 

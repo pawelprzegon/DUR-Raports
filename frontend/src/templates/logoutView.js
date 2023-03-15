@@ -10,12 +10,12 @@ export default class extends AbstractView{
         }
 
         async getData(){
+            document.querySelector('#app-header').innerHTML = ''
             window.scrollTo(0,0);
             this.setTitle("Logout")
             destroyCookieValue('access_token')
             destroyCookieValue('user')
             destroyCookieValue('refresh_token')
-            document.querySelector('#app-header').innerHTML = ''
             navigateTo('/login')
         }
 

@@ -27,7 +27,7 @@ export class Brick {
         this.btnL = document.createElement('a');
         this.moreButton = document.createElement('div');
         this.moreButton.onclick = () => {
-            let animate = document.getElementById('raport-content')
+            let animate = document.getElementById('content')
             animate.classList.add('show-anim')
             this.openRap();
             let nowSelected = document.getElementsByClassName('selected')

@@ -20,7 +20,7 @@ const getParams = match => {
 }
 
 export const navigateTo = url =>{
-    clearAll();
+    // clearAll();
     let menubar =  document.getElementById('anim-row');
     if (typeof(menubar) != 'undefined' && menubar != null){
         navCloseBtns();
@@ -66,11 +66,10 @@ const router = async() =>{
     const view = new match.route.view(getParams(match));
     await view.getData();
 
-    console.log(view)
+    // console.log(view)
 }
 
 window.addEventListener("popstate", ()=> {
-    document.querySelector('#content').innerHTML = ''
     router();
 });
 
