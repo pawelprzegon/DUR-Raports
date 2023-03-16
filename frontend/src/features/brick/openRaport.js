@@ -14,6 +14,7 @@ export class openRaport{
 
         this.user = document.createElement('div')
         this.user.id = 'user'
+        this.user.classList.add('user')
         this.raportContent = document.createElement('div')
         this.raportContent.id = 'raport-content'
         this.raportContent.classList.add('raport-content')
@@ -51,6 +52,7 @@ export class openRaport{
             }else{
                 hideloader();
                 navUserBehav(response.author.username, this.id);
+                // console.log(response)
                 this.buildStructure(response);
                 localStorage.setItem('active_raport', JSON.stringify(response))
             }
@@ -63,12 +65,13 @@ export class openRaport{
     buildStructure(data){
 
         // USER
-        const User = document.createElement('div')
+        const dateInfo = document.createElement('small')
         const userInfo = document.createElement('span');
-        User.classList.add('user-label')
+        dateInfo.innerText = data.date_created
         userInfo.innerText = (data.author.username).capitalize()
-        User.appendChild(userInfo)
-        this.user.appendChild(User)
+        this.user.appendChild(dateInfo)
+        this.user.appendChild(userInfo)
+
     // DEKLARACJE
         const Dekl = document.createElement('div')
 

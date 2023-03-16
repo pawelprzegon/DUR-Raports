@@ -40,6 +40,7 @@ export default class extends AbstractView{
         
           }else{
               hideloader();
+              console.log(response)
               this.layout();
               this.charts(response);
           }
@@ -107,11 +108,11 @@ export default class extends AbstractView{
           window.chart = new Chart(ctx, {
               type: 'line',
           data: {
-          labels: data.chart.bibeloty.labels,
+          labels: data.chart.bibeloty.chartLabels,
           datasets: [
               {
                   label: "Stolarnia",
-                  data: data.chart.stolarnia.values,
+                  data: data.chart.stolarnia.chartValues,
                   backgroundColor: "rgba(12, 143, 3, 0.3)",
                   borderColor: "rgba(12, 143, 3, 0.3",
                     tension: 0.2,
@@ -120,7 +121,7 @@ export default class extends AbstractView{
               }
               ,{
               label: "Bibeloty",
-              data: data.chart.bibeloty.values,
+              data: data.chart.bibeloty.chartValues,
               borderColor: "rgba(18, 27, 161, 0.3)",
               backgroundColor: "rgba(18, 27, 161, 0.3)",
                 tension: 0.2,
@@ -128,7 +129,7 @@ export default class extends AbstractView{
                 fill: true,
           },{
               label: "Drukarnia",
-              data: data.chart.drukarnia.values,
+              data: data.chart.drukarnia.chartValues,
               backgroundColor: "rgba(176, 0, 0,0.3)",
               borderColor: "rgba(176, 0, 0,0.3)",
                 tension: 0.2,
