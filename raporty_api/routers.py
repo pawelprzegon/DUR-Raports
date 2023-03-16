@@ -149,8 +149,9 @@ def fillFormAndRelpaceDb(form):
 
 
 @raporty.get('/search/{searching}', response_model=List[schema.RaportsOut])
-def search_raport(searching, credentials: HTTPAuthorizationCredentials = Security(security)):
+def search_raport(searching: str, credentials: HTTPAuthorizationCredentials = Security(security)):
     
+    print(searching)
     token = credentials.credentials
     if(auth_handler.decode_token(token)):
         return search(searching)
@@ -192,7 +193,6 @@ def search_statistics(temp_raports, query):
     elem = {}
     for raport in temp_raports:
         for regio in raport.units:
-            print(regio.region, query)
             if (
                 regio.region == query
                 and regio.unit in elem
@@ -200,10 +200,8 @@ def search_statistics(temp_raports, query):
                 and regio.unit == query
                 and regio.unit in elem
             ):
-                print(1)
                 elem[regio.unit] += 1
             elif regio.region == query or regio.unit == query:
-                print(2)
                 elem[regio.unit] = 1
                 
     return dict(sorted(elem.items(), key=lambda item: item[1], reverse=True))
@@ -254,38 +252,47 @@ def createLabels(resoults):
 
 
 def _packToDictAndSort(lab, units, user_raport):
-    labels = defaultdict(list)
-    values = defaultdict(list)
+    chartLabels = defaultdict(list)
+    chartValues = defaultdict(list)
+    proportions = defaultdict(list)
     for key, val in lab.items():
-        labels['stolarnia'].append(key)
-        values['stolarnia'].append(val.count('Stolarnia'))
-        labels['drukarnia'].append(key)
-        values['drukarnia'].append(val.count('Drukarnia'))
-        labels['bibeloty'].append(key)
-        values['bibeloty'].append(val.count('Bibeloty'))
-        for val in labels.values():
+        chartLabels['stolarnia'].append(key)
+        chartValues['stolarnia'].append(val.count('Stolarnia'))
+        chartLabels['drukarnia'].append(key)
+        chartValues['drukarnia'].append(val.count('Drukarnia'))
+        chartLabels['bibeloty'].append(key)
+        chartValues['bibeloty'].append(val.count('Bibeloty'))
+        for val in chartLabels.values():
             val.reverse()
-        for val in values.values():
+        for val in chartValues.values():
             val.reverse()
-        
+
+    for k,v in units.items():
+        temp = {}
+        temp ['sum'] = sum(chartValues[k])
+        for key, value in v.items():
+            temp[key] = round(value/sum(chartValues[k])*100, 0)
+        proportions[k] = temp
+            
     return {'chart': {
                 'stolarnia': {
-                    'labels': labels['stolarnia'],
-                    'values': values['stolarnia'],
+                    'chartLabels': chartLabels['stolarnia'],
+                    'chartValues': chartValues['stolarnia'],
                     'units': units['stolarnia'],
-                    'sum': sum(values['stolarnia'])
+                    'proportions %': proportions['stolarnia'],
                 },
                 'drukarnia': {
-                    'labels': labels['drukarnia'],
-                    'values': values['drukarnia'],
+                    'chartLabels': chartLabels['drukarnia'],
+                    'chartValues': chartValues['drukarnia'],
                     'units': units['drukarnia'],
-                    'sum': sum(values['drukarnia'])
+                    'proportions %': proportions['drukarnia'],
                 },
                 'bibeloty': {
-                    'labels': labels['bibeloty'],
-                    'values': values['bibeloty'],
+                    'chartLabels': chartLabels['bibeloty'],
+                    'chartValues': chartValues['bibeloty'],
                     'units': units['bibeloty'],
-                    'sum': sum(values['bibeloty'])
+                    'proportions %': proportions['bibeloty'],
+
                 },
             },
                 'user_raport': user_raport,
