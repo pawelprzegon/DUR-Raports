@@ -16,15 +16,18 @@ class Unit(BaseModel):
 
 
 class Dekl(BaseModel):
-    name: str
-    dekl: str
+    adam: str
+    pawel: str
+    bartek: str
 
     class Config:
         orm_mode = True
 
 
 class Plexi(BaseModel):
-    plexi: str
+    printed: int
+    wrong: int
+    factor: str
 
     class Config:
         orm_mode = True

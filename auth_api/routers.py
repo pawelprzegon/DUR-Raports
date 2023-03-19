@@ -47,7 +47,6 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
             
 
 
-
 @auth.post('/register/')
 async def register(request: Request):
 
@@ -152,5 +151,10 @@ async def resetPassword(request: Request, credentials: HTTPAuthorizationCredenti
     except SQLAlchemyError as e:
         return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content={"message":  e.orig.args})
         
+@auth.get('/auth')
+async def authorize(credentials: HTTPAuthorizationCredentials = Security(security)):
+    token = credentials.credentials
+    if(auth_handler.decode_token(token)):
+        return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content={"detail":  'authenticated'})
 
     

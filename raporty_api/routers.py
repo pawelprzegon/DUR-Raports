@@ -46,6 +46,7 @@ async def raport(raport_id: int, credentials: HTTPAuthorizationCredentials = Sec
                 .filter(Raport.id == raport_id)
                 .first()
             ):
+                print(raport)
                 return raport
             else:
                 raise HTTPException(
@@ -96,6 +97,30 @@ async def update_raport(request: Request, credentials: HTTPAuthorizationCredenti
     if(auth_handler.decode_token(token)):
         form_data = await request.json()
         return fillFormAndRelpaceDb(form_data)
+    
+def getPlexiData(data):
+    for each in data:
+        for key,value in each.items():
+            match key:
+                case 'Wydrukowano':
+                    printed = value
+                case 'Błędnie':
+                    wrong = value
+                case 'Współczynnik':
+                    factor = value
+    return printed, wrong, factor
+
+def getDeklData(data):
+    for each in data:
+        for key,value in each.items():
+            match key:
+                case 'Adam':
+                    adam = value
+                case 'Paweł':
+                    pawel = value
+                case 'Bartek':
+                    bartek = value
+    return adam, pawel, bartek
 
 
 def fillFormAndRelpaceDb(form):
@@ -116,16 +141,20 @@ def fillFormAndRelpaceDb(form):
                             for each in value['units']:
                                 data = Unit(unit=each, info=value['text'], region=key, raport=rap)
                             to_update.append(data)
+                            
                     case 'plexi':
+                        printed, wrong, factor = getPlexiData(value)
                         data = Plexi(
-                            plexi=value, raport=rap)
+                            printed=printed, wrong=wrong, factor=factor,  raport=rap)
                         to_update.append(data)
                         
-                match key.split('_')[0]:
                     case 'dekl':
-                        data = Dekl(dekl=value, raport=rap,
-                                         name=key.split('_')[1])
+                        adam, pawel, bartek = getDeklData(value)
+                        data = Dekl(adam=adam, pawel=pawel, bartek=bartek, 
+                                    raport=rap)
                         to_update.append(data)
+                        
+                    
                     
         print(to_update)
         
@@ -175,38 +204,99 @@ def search(query):
 
 @raporty.get('/statistics')
 def statistics_raport(credentials: HTTPAuthorizationCredentials = Security(security)):
-    # sourcery skip: merge-dict-assign, move-assign
-    units = {}
+    
     token = credentials.credentials
     if(auth_handler.decode_token(token)):
         resoults = db.session.query(Raport).order_by(
             Raport.date_created.desc()).all()
-        units['stolarnia'] = search_statistics(resoults, 'Stolarnia')
-        units['drukarnia'] = search_statistics(resoults, 'Drukarnia')
-        units['bibeloty'] = search_statistics(resoults, 'Bibeloty')
-        labels = createLabels(resoults)
+        places = ['Stolarnia', 'Drukarnia', 'Bibeloty']
+        chartData = chartLabelsAndValues(resoults, places)
+        units = getRaportedUnits(resoults, places)
         users = splitUsers(resoults)
         
-        return _packToDictAndSort(labels, units, users)
-    
-def search_statistics(temp_raports, query):
-    elem = {}
-    for raport in temp_raports:
-        for regio in raport.units:
-            if (
-                regio.region == query
-                and regio.unit in elem
-                or regio.region != query
-                and regio.unit == query
-                and regio.unit in elem
-            ):
-                elem[regio.unit] += 1
-            elif regio.region == query or regio.unit == query:
-                elem[regio.unit] = 1
-                
-    return dict(sorted(elem.items(), key=lambda item: item[1], reverse=True))
+        return _packToDictAndSort(chartData, units, users)
 
-def splitUsers(resoults):
+
+def chartLabelsAndValues(resoults: list, places: list) -> dict:
+    chartData = {}
+    for place in places:
+        chartValues = {}
+        for raport in resoults:
+            for regio in raport.units:
+                if regio.region == place:
+                    mnth = raport.date_created.strftime('%m')
+                    if place in chartData and mnth in chartData[place]:
+                        chartValues[mnth] += 1
+                    else:
+                        chartValues[mnth] = 1
+                    chartData[place] = dict(sorted(chartValues.items(), reverse=False))
+        for key in reversed(list(chartValues.keys())):
+            chartValues[dateToStr(key)] = chartValues.pop(key) 
+        chartData[place] = chartValues  
+
+    return chartData
+
+def dateToStr(date) -> str:
+    month = ''
+    match date:
+        case '01':
+            month = 'sty'
+        case '02':
+            month = 'lut'
+        case '03':
+            month = 'mar'
+        case '04':
+            month = 'kwi'
+        case '05':
+            month = 'maj'
+        case '06':
+            month = 'cze'
+        case '07':
+            month = 'lip'
+        case '08':
+            month = 'sie'
+        case '09':
+            month = 'wrz'
+        case '10':
+            month = 'paz'
+        case '11':
+            month = 'lis'
+        case '12':
+            month = 'gru'
+    return month
+    
+def getRaportedUnits(resoults: list, places: list) -> dict:
+    raportedUnits = {}
+    for place in places:
+        elem = {}
+        for raport in resoults:
+            for regio in raport.units:
+                if regio.region == place:
+                    if 'sum' in elem:
+                        elem['sum'] += 1
+                    else:
+                        elem['sum'] = 1
+                        
+                    if regio.unit in elem:
+                        elem[regio.unit] += 1
+                    else:
+                        elem[regio.unit] = 1
+        raportedUnits[place] = dict(
+                sorted(elem.items(), key=lambda item: item[1], reverse=False))
+        raportedUnits[place] = proportionsRaportedUnits(raportedUnits[place])
+        
+    return raportedUnits
+
+def proportionsRaportedUnits(units: dict) -> dict:
+    return {
+        key: [value, str(int(round(value / units['sum'] * 100, 0))) +'%']
+        for key, value in units.items()
+        if key != 'sum'
+    }
+
+    
+
+def splitUsers(resoults: list) -> dict:
     user_raport = defaultdict(list)
     for raport in resoults:
         if raport.author.username in user_raport:
@@ -216,82 +306,23 @@ def splitUsers(resoults):
     return user_raport
     
 
-def createLabels(resoults):
-    lab = defaultdict(list)
-    month = ''
-    for raport in resoults:
-        for regio in raport.units:
-            match raport.date_created.strftime('%m'):
-                case '01':
-                    month = 'sty'
-                case '02':
-                    month = 'lut'
-                case '03':
-                    month = 'mar'
-                case '04':
-                    month = 'kwi'
-                case '05':
-                    month = 'maj'
-                case '06':
-                    month = 'cze'
-                case '07':
-                    month = 'lip'
-                case '08':
-                    month = 'sie'
-                case '09':
-                    month = 'wrz'
-                case '10':
-                    month = 'paz'
-                case '11':
-                    month = 'lis'
-                case '12':
-                    month = 'gru'
-
-            lab[month].append(regio.region)
-    return lab
 
 
-def _packToDictAndSort(lab, units, user_raport):
-    chartLabels = defaultdict(list)
-    chartValues = defaultdict(list)
-    proportions = defaultdict(list)
-    for key, val in lab.items():
-        chartLabels['stolarnia'].append(key)
-        chartValues['stolarnia'].append(val.count('Stolarnia'))
-        chartLabels['drukarnia'].append(key)
-        chartValues['drukarnia'].append(val.count('Drukarnia'))
-        chartLabels['bibeloty'].append(key)
-        chartValues['bibeloty'].append(val.count('Bibeloty'))
-        for val in chartLabels.values():
-            val.reverse()
-        for val in chartValues.values():
-            val.reverse()
 
-    for k,v in units.items():
-        temp = {}
-        temp ['sum'] = sum(chartValues[k])
-        for key, value in v.items():
-            temp[key] = round(value/sum(chartValues[k])*100, 0)
-        proportions[k] = temp
-            
-    return {'chart': {
+def _packToDictAndSort(chartData, units, user_raport):
+
+    return {'statistics': {
                 'stolarnia': {
-                    'chartLabels': chartLabels['stolarnia'],
-                    'chartValues': chartValues['stolarnia'],
-                    'units': units['stolarnia'],
-                    'proportions %': proportions['stolarnia'],
+                    'chart': chartData['Stolarnia'],
+                    'items': units['Stolarnia'],
                 },
                 'drukarnia': {
-                    'chartLabels': chartLabels['drukarnia'],
-                    'chartValues': chartValues['drukarnia'],
-                    'units': units['drukarnia'],
-                    'proportions %': proportions['drukarnia'],
+                    'chart': chartData['Drukarnia'],
+                    'items': units['Drukarnia'],
                 },
                 'bibeloty': {
-                    'chartLabels': chartLabels['bibeloty'],
-                    'chartValues': chartValues['bibeloty'],
-                    'units': units['bibeloty'],
-                    'proportions %': proportions['bibeloty'],
+                    'chart': chartData['Bibeloty'],
+                    'items': units['Bibeloty'],
 
                 },
             },
