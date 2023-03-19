@@ -1,8 +1,8 @@
 import {url} from "../common/data/url.js"
-import {callApiGet} from '../features/endpoints/index.js'
+import {callApiGet, checkAuth} from '../features/endpoints/endpoints.js'
 import {navigateTo} from '../js/index.js'
-import {err} from './error.js'
-
+import {err} from '../features/errors/error.js'
+import {hideloader} from '../features/loading/loading.js'
 import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView{
@@ -14,31 +14,23 @@ export default class extends AbstractView{
     
         async getData(){
             this.api_url = url+"delete/"+this.params.id
+            console.log(this.api_url)
             try{
-                let [response, status] = await callApiGet(this.api_url);
-                if (response.detail && response.detail == "Not authenticated"){
-                    let refTokenResponse = await tokenRefresh();
-                    if (refTokenResponse){
-                        let [response, status] = await callApiGet(this.api_url);
-                        alert(response.message)
-                        console.log('usunięto')
-                        navigateTo('/');
-                    }else{
-                        navigateTo('/login')
-                    }
-                }else{
+                let [re, st] = await checkAuth(url+'auth');
+                if (st == 202 && re.detail == "authenticated"){
+                    let [response, status] = await callApiGet(this.api_url);
                     if (status == 200){
-                        
                         console.log('usunięto')
                         navigateTo('/');
                         alert(response.message)
                     }else{
+                        hideloader();
                         err(status, response)
                     }
                 }
             }catch (error){
-                console.log(error)
-                navigateTo('/login')
+                hideloader();
+                err(error)
             }
         }
 

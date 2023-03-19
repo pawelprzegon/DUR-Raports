@@ -120,9 +120,7 @@
     display: inline-block;
 }
 
-.nav-btn-hidden {
-    display: none;
-}
+
 .nav-btn>span {
 
     color: #020202;

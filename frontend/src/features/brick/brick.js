@@ -22,9 +22,9 @@ export class Brick {
         
         this.raportInfoGrid = document.createElement('div');
         this.raportDataUser = document.createElement('div');
+        this.detailsBox = document.createElement('div')
         this.detailsDate = document.createElement('p');
         this.detailsUser = document.createElement('p');
-        this.btnL = document.createElement('a');
         this.moreButton = document.createElement('div');
         this.moreButton.onclick = () => {
             let animate = document.getElementById('content')
@@ -35,16 +35,15 @@ export class Brick {
                 nowSelected[0].classList.remove('selected')
             }
             this.raportInfoGrid.classList.add('selected')
-            addEventListener("animationend", (event) => {animate.classList.remove('show-anim')});
+            addEventListener("animationend", () => {animate.classList.remove('show-anim')});
             
         }
-        // this.moreButton.setAttribute('data-link', '')
 
         let regions = this.regions(this.each.units);
 
         this.raportInfoGrid.classList.add('card', 'swiper-slide');
         this.raportDataUser.classList.add('raport-data-user');
-        this.detailsDate.classList.add('raport-details');
+        this.detailsBox.classList.add('raport-detail-box');
         this.detailsDate.classList.add('raport-details');
         this.detailsUser.classList.add('raport-details');
         this.moreButton.classList.add('arrow');
@@ -54,15 +53,12 @@ export class Brick {
         this.detailsUser.innerText =  this.username.capitalize(); 
 
         this.raportInfoGrid.appendChild(this.raportDataUser)
-        this.raportDataUser.appendChild(this.detailsDate)
-        this.raportDataUser.appendChild(this.detailsUser)
-        this.btnL.appendChild(this.moreButton)
-        this.raportDataUser.appendChild(this.btnL)
+        this.detailsBox.appendChild(this.detailsDate)
+        this.detailsBox.appendChild(this.detailsUser)
+        this.raportDataUser.appendChild(this.detailsBox)
+        this.raportDataUser.appendChild(this.moreButton)
         this.raportInfoGrid.appendChild(regions)
-    
-        
-    
-        
+ 
     }
     regions(units){
 

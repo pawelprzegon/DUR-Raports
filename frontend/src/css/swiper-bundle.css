@@ -43,7 +43,7 @@ swiper-container {
 .swiper-wrapper {
   position: relative;
   width: 100%;
-  /* height: 100%; */
+  height: 80%;
   z-index: 1;
   display: flex;
   transition-property: transform;
@@ -64,7 +64,7 @@ swiper-container {
 swiper-slide {
   flex-shrink: 0;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   position: relative;
   transition-property: transform;
   display: block;

@@ -1,7 +1,7 @@
 import {getCookieValue} from '../features/cookie/index.js'
 import allRaportsView  from '../templates/allRaportsView.js';
 import authView  from '../templates/authView.js';
-import {navBar, navClose, navCloseBtns, navBehav} from '../common/navigation/navigation.js'
+import {navBar, navClose,  navBehav} from '../common/navigation/navigation.js'
 import statisticsView from '../templates/statisticsView.js';
 import createView from '../templates/createView.js';
 import deleteView from '../templates/deleteView.js';
@@ -22,9 +22,9 @@ const getParams = match => {
 export const navigateTo = url =>{
     // clearAll();
     let menubar =  document.getElementById('anim-row');
-    if (typeof(menubar) != 'undefined' && menubar != null){
-        navCloseBtns();
-    }
+    // if (typeof(menubar) != 'undefined' && menubar != null){
+    //     navCloseBtns();
+    // }
     window.scrollTo(0,0);
     // $("body").css("overflow", "hidden");
     history.pushState(null, null, url);
@@ -90,13 +90,7 @@ document.addEventListener('DOMContentLoaded', () =>{
 
 
 
-function clearAll(){
-    document.querySelector('#user').innerHTML = '';
-    document.querySelector('#dekl').innerHTML = '';
-    document.querySelector('#issues').innerHTML = '';
-    document.querySelector('#raport').innerHTML = '';
-    document.querySelector('#form-data').innerHTML = '';
-}
+
 
 function auth(){
     let authorize = getCookieValue('access_token')

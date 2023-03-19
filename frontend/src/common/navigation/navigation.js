@@ -1,5 +1,3 @@
-import {getCookieValue} from '../../features/cookie/index.js'
-
 
 export function navBar(user){
     const header = document.getElementById("app-header")
@@ -79,21 +77,21 @@ export function navBar(user){
         dodaj.innerText = 'dodaj'
         dodaj.setAttribute('data-link', '')
  
-        const edytuj = document.createElement('a')
-        edytuj.classList.add('nav-link')
-        edytuj.href = '/edit'
-        edytuj.innerText = 'edytuj'
-        edytuj.setAttribute('data-link', '')
-        edytuj.id = 'edytuj'
-        edytuj.classList.add('nav-btn-hidden')
+        // const edytuj = document.createElement('a')
+        // edytuj.classList.add('nav-link')
+        // edytuj.href = '/edit'
+        // edytuj.innerText = 'edytuj'
+        // edytuj.setAttribute('data-link', '')
+        // edytuj.id = 'edytuj'
+        // edytuj.classList.add('nav-btn-hidden')
 
-        const usun = document.createElement('a')
-        usun.classList.add('nav-link')
-        usun.href = '/delete'
-        usun.setAttribute('data-link', '')
-        usun.innerText = 'usun'
-        usun.id = 'usun'
-        usun.classList.add('nav-btn-hidden')
+        // const usun = document.createElement('a')
+        // usun.classList.add('nav-link')
+        // usun.href = '/delete'
+        // usun.setAttribute('data-link', '')
+        // usun.innerText = 'usun'
+        // usun.id = 'usun'
+        // usun.classList.add('nav-btn-hidden')
 
         const wyloguj = document.createElement('a')
         wyloguj.classList.add('nav-link')
@@ -105,8 +103,8 @@ export function navBar(user){
         btnsPics.appendChild(stat)
         btnsPics.appendChild(moje)
         btnsPics.appendChild(dodaj)
-        btnsPics.appendChild(edytuj)
-        btnsPics.appendChild(usun)
+        // btnsPics.appendChild(edytuj)
+        // btnsPics.appendChild(usun)
         btnsPics.appendChild(wyloguj)
         topElements.appendChild(btnsPics)
         topElements.appendChild(UserBox)
@@ -166,28 +164,28 @@ export function navClose(){
     navOverlay.classList.remove("nav-overlay-open");
 }
 
-export function navUserBehav(raportUser, id){
-    if (raportUser === getCookieValue('user')){
-        let usun = document.getElementById('usun')
-        usun.href = '/delete/'+id
-        usun.classList.remove('nav-btn-hidden')
-        let edytuj = document.getElementById('edytuj')
-        edytuj.href = '/edit/'+id
-        edytuj.classList.remove('nav-btn-hidden')
-    }else{
-        document.getElementById('edytuj').classList.add('nav-btn-hidden')
-        document.getElementById('edytuj').href = '#'
-        document.getElementById('usun').classList.add('nav-btn-hidden')
-        document.getElementById('usun').href = '#'
-    }
-}
+// export function navUserBehav(raportUser, id){
+//     if (raportUser === getCookieValue('user')){
+//         let usun = document.getElementById('usun')
+//         usun.href = '/delete/'+id
+//         usun.classList.remove('nav-btn-hidden')
+//         let edytuj = document.getElementById('edytuj')
+//         edytuj.href = '/edit/'+id
+//         edytuj.classList.remove('nav-btn-hidden')
+//     }else{
+//         document.getElementById('edytuj').classList.add('nav-btn-hidden')
+//         document.getElementById('edytuj').href = '#'
+//         document.getElementById('usun').classList.add('nav-btn-hidden')
+//         document.getElementById('usun').href = '#'
+//     }
+// }
 
-export function navCloseBtns(){
-    let edit = document.getElementById('edytuj')
-    edit.classList.add('nav-btn-hidden')
-    document.getElementById('edytuj').href = '#'
-    let del = document.getElementById('usun')
-    del.classList.add('nav-btn-hidden')
-    document.getElementById('usun').href = '#'
-}
+// export function navCloseBtns(){
+//     let edit = document.getElementById('edytuj')
+//     edit.classList.add('nav-btn-hidden')
+//     document.getElementById('edytuj').href = '#'
+//     let del = document.getElementById('usun')
+//     del.classList.add('nav-btn-hidden')
+//     document.getElementById('usun').href = '#'
+// }
 

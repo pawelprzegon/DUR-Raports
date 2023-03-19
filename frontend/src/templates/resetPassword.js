@@ -1,5 +1,5 @@
 import {url} from "../common/data/url.js"
-import {callApiPost} from '../features/endpoints/index.js'
+import {callApiPost} from '../features/endpoints/endpoints.js'
 import {hideloader} from '../features/loading/loading.js'
 import { navigateTo } from "../js/index.js";
 

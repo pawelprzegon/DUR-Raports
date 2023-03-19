@@ -1,10 +1,9 @@
 import {url} from "../common/data/url.js"
 import {Slider} from '../features/swiper/slider.js'
 import {Brick} from '../features/brick/brick.js'
-import {callApiGet, tokenRefresh} from '../features/endpoints/index.js'
+import {callApiGet, checkAuth} from '../features/endpoints/endpoints.js'
 import {showloader, hideloader} from '../features/loading/loading.js'
-import {navigateTo} from "../js/index.js"
-import {err} from './error.js'
+import {err} from '../features/errors/error.js'
 
 import AbstractView from "./AbstractView.js";
 
@@ -32,31 +31,17 @@ export default class extends AbstractView{
         }
         
         try {
-            let [response, status] = await callApiGet(this.api_url);
-            if (response.detail && response.detail == "Not authenticated"){
-                let refTokenResponse = await tokenRefresh();
-                if (refTokenResponse[1] == 200){
-                    let [response, status] = await callApiGet(this.api_url);
-                    if (status == 200){
-                        hideloader();
-                        this.show(response);
-                        
-                        Slider();
-                    }else{
-                        hideloader();
-                        err(status, response)
-                    }
-                    
+            let [re, st] = await checkAuth(url+'auth');
+            if (st == 202 && re.detail == "authenticated"){
+                let [response, status] = await callApiGet(this.api_url);
+                if (status == 200){
+                    hideloader();
+                    this.show(response);
+                    Slider();
                 }else{
                     hideloader();
-                    navigateTo('/login')
+                    err(status, response)
                 }
-                
-            }else{
-                hideloader();
-                this.show(response);
-                
-                Slider();
             }
         }catch (error){
             hideloader();

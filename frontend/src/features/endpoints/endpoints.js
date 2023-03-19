@@ -1,5 +1,6 @@
 import {url} from "../../common/data/url.js"
-import {getCookieValue} from '../../features/cookie/index.js'
+import {getCookieValue} from '../cookie/index.js'
+import {navigateTo} from "../../js/index.js"
 
 export async function callApiGet(api_url){
     // prepare headers
@@ -18,6 +19,7 @@ export async function callApiGet(api_url){
             })
         return [await resp.json(), resp.status];
     } catch (error) {
+        console.log(error)
         return error;
     }
 
@@ -94,7 +96,10 @@ export async function tokenRefresh(){
             } 
             return [data, status];
         })
-        .catch(err => {return err});
+        .catch(err => {
+            console.log(err)
+            return err
+        });
 
         return resp;
 
@@ -121,6 +126,49 @@ export async function callApiPut(api_url, formData){
     }catch(error){
         return error
     }
+}
+
+
+export async function checkAuth(api_url){
+    // prepare headers
+    let token = getCookieValue('access_token')
+    let myHeaders = new Headers()
+    myHeaders = {
+        'accept': 'application/json',
+        'Authorization': 'Bearer '+token, 
+    };
+    try {
+        let resp = await fetch(api_url, {
+            method: "GET",
+            credentials: 'include',
+            headers: myHeaders,
+           })
+           .then(res => 
+                res.json().then(data => ({
+                status: res.status,
+                data
+                })
+            ))
+            .then(async ({ status, data }) => {
+                console.log({ status, data })
+                if (data.detail && data.detail == "Not authenticated"){
+                    let refTokenResponse = await tokenRefresh();
+                    if (refTokenResponse[1] == 200){
+                        return [data, status]
+                    }else{
+                        navigateTo('/logout');
+                        return [data, status];
+                    }
+                }else{
+                    return [data, status];
+                }
+            }) 
+            return resp;
+        // return [await resp.json(), resp.status];
+    } catch (error) {
+        return error;
+    }
+
 }
 
 

@@ -43,11 +43,14 @@ new Swiper(".slide-content", {
     slidesPerView: 1,
       spaceBetween: 30,
       loop: true,
-      grabCursor: 'true',
+      grabCursor: false,
       pagination: {
         el: ".swiper-pagination",
         clickable: true,
         dynamicBullets: false,
+      },
+      keyboard: {
+        enabled: true,
       },
       navigation: {
         nextEl: ".swiper-button-next",

@@ -1,9 +1,11 @@
 import {url} from "../../common/data/url.js"
-import {navUserBehav} from '../../common/navigation/navigation.js'
-import {callApiGet, tokenRefresh} from '../endpoints/index.js'
+// import {navUserBehav} from '../../common/navigation/navigation.js'
+import {callApiGet, checkAuth} from '../endpoints/endpoints.js'
 import {showloader, hideloader} from '../loading/loading.js'
-import { navigateTo } from "../../js/index.js"
-import {err} from "../../templates/error.js"
+import {navigateTo} from "../../js/index.js"
+import {err} from "../errors/error.js"
+import {capitalized} from "../upperCase/upperCase.js"
+import {getCookieValue} from '../../features/cookie/index.js'
 
 export class openRaport{
 
@@ -19,58 +21,75 @@ export class openRaport{
         this.raportContent.id = 'raport-content'
         this.raportContent.classList.add('raport-content')
         this.deklContent = document.createElement('div');
+        this.deklContent.classList.add('dekl');
         this.deklContent.id = 'dekl';
         this.issuesContent = document.createElement('div');
+        this.issuesContent.classList.add('issues');
         this.issuesContent.id = 'issues';
 
     }
 
     async getData(){
-        console.log(this.id)
         showloader();
-        try{
-            let [response, status] = await callApiGet(url+"raport/"+this.id);
-            if (response.detail && response.detail == "Not authenticated"){
-                console.log('refreshing token')
-                let refTokenResponse = await tokenRefresh();
-                console.log(refTokenResponse)
-                if (refTokenResponse[1] == 200){
-                    let [response, status] = await callApiGet(url+"raport/"+this.id);
-                    if (status == 200){
-                        hideloader();
-                        navUserBehav(response.author.username, this.id);
-                        this.buildStructure(response);  
-                        localStorage.setItem('active_raport', JSON.stringify(response))
-                    }else{
-                        hideloader();
-                        err(status, response)
-                    }
+        try {
+            let [re, st] = await checkAuth(url+'auth');
+            if (st == 202 && re.detail == "authenticated"){
+                let [response, status] = await callApiGet(url+"raport/"+this.id);
+                if (status == 200){
+                    hideloader();
+                    this.buildStructure(response);  
+                    this.boldImportant();
+                    localStorage.setItem('active_raport', JSON.stringify(response))
                 }else{
                     hideloader();
-                    navigateTo('/login')
-                }   
-            }else{
-                hideloader();
-                navUserBehav(response.author.username, this.id);
-                // console.log(response)
-                this.buildStructure(response);
-                localStorage.setItem('active_raport', JSON.stringify(response))
+                    err(status, response)
+                }
             }
-        }catch(error){
+        }catch (error){
             hideloader();
             err(error)
         }
+        
     }
 
     buildStructure(data){
 
-        // USER
-        const dateInfo = document.createElement('small')
-        const userInfo = document.createElement('span');
+    // USER $ BUTTONS
+        let buttonsBox = document.createElement('div', 'nav-btn-hidden')
+        buttonsBox.classList.add('buttons-box', 'btn-hidden')
+        let editIconBox = document.createElement('div')
+        editIconBox.classList.add('edit-delete-box')
+        let editIcon = document.createElement('img')
+        editIcon.src = "/src/static/raport_icons/edit.png"
+        editIcon.addEventListener("click", () => {navigateTo('/edit/'+ this.id)})
+
+        let deleteIconBox = document.createElement('div')
+        deleteIconBox.classList.add('edit-delete-box')
+        let deleteIcon = document.createElement('img')
+        deleteIcon.src = "/src/static/raport_icons/delete.png"
+        deleteIcon.addEventListener("click", () => {navigateTo('/delete/'+ this.id)})
+
+        editIconBox.appendChild(editIcon)
+        deleteIconBox.appendChild(deleteIcon)
+        buttonsBox.appendChild(editIconBox)
+        buttonsBox.appendChild(deleteIconBox)
+        this.user.appendChild(buttonsBox)
+
+        let dateUserBox = document.createElement('div')
+        dateUserBox.classList.add('date-user-box')
+        let dateInfo = document.createElement('small')
+        let userInfo = document.createElement('span');
         dateInfo.innerText = data.date_created
         userInfo.innerText = (data.author.username).capitalize()
-        this.user.appendChild(dateInfo)
-        this.user.appendChild(userInfo)
+        dateUserBox.appendChild(dateInfo)
+        dateUserBox.appendChild(userInfo)
+        this.user.appendChild(dateUserBox)
+
+        if (data.author.username === getCookieValue('user')){
+            buttonsBox.classList.remove('btn-hidden')
+        }else{
+            this.user.style.justifyContent = 'flex-end'
+        }
 
     // DEKLARACJE
         const Dekl = document.createElement('div')
@@ -81,12 +100,16 @@ export class openRaport{
             const DeklText = document.createElement('div');
                 const Pawel = document.createElement('div');
                     const namePawel = document.createElement('p');
+                    namePawel.innerText = 'Paweł'
                     const todoPawel = document.createElement('p');
+                    
                 const Adam = document.createElement('div');
                     const nameAdam = document.createElement('p');
+                    nameAdam.innerText = 'Adam'
                     const todoAdam = document.createElement('p');
                 const Bartek = document.createElement('div');
                     const nameBartek = document.createElement('p');
+                    nameBartek.innerText = 'Bartek'
                     const todoBartek = document.createElement('p');
 
         Dekl.classList.add('single-raport-info-grid')
@@ -118,23 +141,16 @@ export class openRaport{
         Dekl.appendChild(DeklText)
         
         this.deklContent.appendChild(Dekl)
-
+        console.log(data)
         if ((data.dekl).length>0){
             DeklInfo.innerText = "Deklaracje";
-            namePawel.innerText = 'Paweł';
-            todoPawel.innerText = `${data.dekl[0].dekl}`;
-            nameBartek.innerText = 'Bartek'
-            todoBartek.innerText = `${data.dekl[1].dekl}`;
-            nameAdam.innerText = 'Adam'
-            todoAdam.innerText = `${data.dekl[2].dekl}`;
+            let [adam, pawel, bartek ] = this.splitDeklData(data.dekl[0])
+                todoAdam.innerText = adam;
+                todoPawel.innerText = pawel
+                todoBartek.innerText = bartek;
         }  
 
         // URZĄDZENIA
-        function capitalized(word) {
-            const capitalized = word.charAt(0).toUpperCase()
-            + word.slice(1)
-            return capitalized
-        }
 
         let urzadzenia = {}
 
@@ -163,11 +179,7 @@ export class openRaport{
                 RegionText.classList.add('tresc-raportu')
                 RegionTextHeader.appendChild(RegionText);
                 
-                // const RegionUnit = document.createElement('p');
-            
-            
-                
-                    
+        
             Region.classList.add('single-raport-info-grid')
             RegionHeader.classList.add('raport-label')
             RegionTextHeader.classList.add('raport-text', 'one')
@@ -179,7 +191,6 @@ export class openRaport{
 
         // PLEXI
             
-
         if ((data.plexi).length > 0){
             const Plexi = document.createElement('div')
             const PlexiHeader = document.createElement('div');
@@ -191,21 +202,17 @@ export class openRaport{
             Plexi.classList.add('single-raport-info-grid')
             PlexiHeader.classList.add('raport-label')
             PlexiTextHeader.classList.add('raport-text', 'one')
-            PlexiText.classList.add('tresc-raportu')
-            data.plexi.forEach(each => {
-                PlexiInfo.innerText = capitalized(`${Object.keys(each)}`)
-                PlexiText.innerText = (`${each['plexi']}`)
-            })
+            PlexiText.classList.add('tresc-dekl')
+            PlexiInfo.innerText = 'Raport Plexi'
+            let  [printed, wrong, factor]  = this.splitPlexiData(data.plexi[0])
+            PlexiText.innerText = `W ostatnim tygodniu wydrukowano ${printed} sztuk plexi, 
+            z czego ${wrong} zostało uszkodzonych. Współczynnik w skali miesiąca wynosi: ${factor}%`
             PlexiHeader.appendChild(PlexiInfo)
             PlexiTextHeader.appendChild(PlexiText)
             Plexi.appendChild(PlexiHeader)
             Plexi.appendChild(PlexiTextHeader)
             this.issuesContent.appendChild(Plexi)
 
-            // this.raportContent.appendChild(this.deklContent)
-            // this.raportContent.appendChild(this.issuesContent)
-            // this.content.appendChild(this.user)
-            // this.content.appendChild(this.raportContent)
         }
         
         this.raportContent.appendChild(this.deklContent)
@@ -213,10 +220,43 @@ export class openRaport{
         this.content.appendChild(this.user)
         this.content.appendChild(this.raportContent)
         
+    }
 
+    splitPlexiData(data){
+        let printed = ''
+        let wrong = ''
+        let factor = ''
+        for (const [key, value] of Object.entries(data)) {
+            switch (key){
+                case 'printed':
+                    printed = value
+                case 'wrong':
+                    wrong = value
+                case 'factor':
+                    factor = value
+            }
+        }
+        return [printed, wrong, factor]
+    }
 
-        
+    splitDeklData(data){
+        let adam = ''
+        let pawel = ''
+        let bartek = ''
+        for (const [key, value] of Object.entries(data)){
+            switch (key){
+                case 'adam':
+                    adam = value;
+                case 'pawel':
+                    pawel = value;
+                case 'bartek':
+                    bartek = value;
+            }
+        }
+        return [adam, pawel, bartek]
+    }
 
+    boldImportant(){
         let conts = document.querySelectorAll(".tresc-raportu");
         conts.forEach(item => {
             let txt = item.innerHTML;
@@ -224,9 +264,9 @@ export class openRaport{
             txt = txt.replace(regex, "<b>$&</b>");
             item.innerHTML = txt;
         });
-    
-        
     }
+
+    
 
 
 

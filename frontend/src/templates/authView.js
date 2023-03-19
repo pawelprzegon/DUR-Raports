@@ -1,5 +1,5 @@
 import {url} from "../common/data/url.js"
-import {callApiPost} from '../features/endpoints/index.js'
+import {callApiPost} from '../features/endpoints/endpoints.js'
 import {navigateTo} from '../js/index.js'
 import {navBar, navBehav} from '../common/navigation/navigation.js'
 import {hideloader} from '../features/loading/loading.js'
@@ -8,8 +8,8 @@ import {showPassword} from '../features/showPassword/showPassword.js'
 import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView{
-    constructor(params){
-        super(params);
+    constructor(){
+        super();
         }
 
         css(){
@@ -31,10 +31,6 @@ export default class extends AbstractView{
             this.formField.id = "form"
             this.formField.method = "post"
             
-            // this.raportList = document.querySelector('#raport');
-
-            // this.form.innerHTML = ''
-            // this.raportList.innerHTML = ''
             
             this.header = document.createElement('h1');
             this.header.innerText = 'Login'

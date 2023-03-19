@@ -1,10 +1,12 @@
 import AbstractView from "./AbstractView.js";
 import {url} from "../common/data/url.js"
-import {callApiPut, tokenRefresh} from '../features/endpoints/index.js'
+import {callApiPut, tokenRefresh} from '../features/endpoints/endpoints.js'
 import {navigateTo} from "../js/index.js";
 import {hideloader} from '../features/loading/loading.js'
 import {SliderForm} from '../features/swiper/slider.js'
 import {getCookieValue} from '../features/cookie/index.js'
+import {checkAuth} from '../features/endpoints/endpoints.js'
+import {err} from '../features/errors/error.js'
 
 
 export default class extends AbstractView{
@@ -36,13 +38,31 @@ export default class extends AbstractView{
 
 
     async getData(){
+        try {
+            let [re, st] = await checkAuth(url+'auth');
+            console.log(re, st)
+            if (st == 202 && re.detail == "authenticated"){
+                hideloader();
+                this.show();
+            }
+        }catch (error){
+            hideloader();
+            err(error)
+        }
+        
+    }
+
+    show(){
+        console.log('tet')
         this.css();
         this.container = document.querySelector('#cont')
         this.container.innerHTML = ''
 
         this.content = document.createElement('div');
+        this.content.classList = 'content'
         this.content.id = 'content'
         this.formBody = document.createElement('div')
+        this.formBody.classList.add('form-body', 'swiper')
         this.formBody.id = 'form-data'
 
         this.form = document.createElement('form')
@@ -61,7 +81,6 @@ export default class extends AbstractView{
         this.container.appendChild(this.content)
 
 
-        hideloader();
         this.regions('Stolarnia');
         this.regions('Drukarnia');
         this.regions('Bibeloty');
@@ -78,8 +97,6 @@ export default class extends AbstractView{
         this.submit();
         this.build();
         SliderForm();
-        
-
     }
 
 
@@ -92,6 +109,7 @@ export default class extends AbstractView{
         // labele
         function createLabels(lab){
             const LabelBox = document.createElement('div');
+            LabelBox.classList.add('label-box')
             const regionLabel = document.createElement('p');
             regionLabel.innerText = lab;
             LabelBox.appendChild(regionLabel)
@@ -148,26 +166,28 @@ export default class extends AbstractView{
         }
 
 
-        const RegionField = document.createElement('div')
-        RegionField.classList.add('registration-grid')
+        // const RegionField = document.createElement('div')
+        // RegionField.classList.add('registration-grid')
         for(const [key, value] of Object.entries(this.regioList)){
             if (key == place){
                 let labels = createLabels(key)
                 let checkboxes = createCheckboxes(value, key);
                 let text = createTextFields(place)
 
-                RegionField.appendChild(labels)
+                // RegionField.appendChild(labels)
                 const elements = document.createElement('div')
                 elements.classList.add('elements')
                 elements.appendChild(checkboxes);
                 elements.appendChild(text)
-                RegionField.appendChild(elements)
+                // RegionField.appendChild(elements)
+                this.formField.appendChild(labels);
+                this.formField.appendChild(elements);
             }      
         }
 
         
 
-        this.formField.appendChild(RegionField);
+        
         this.formWrapper.appendChild(this.formField)
     }
 
@@ -176,15 +196,15 @@ export default class extends AbstractView{
 
         const deklTextBox = document.createElement('div')
         deklTextBox.classList.add("swiper-slide", "deklaracje")
-        const RegionField = document.createElement('div')
-        RegionField.classList.add('registration-grid')
+        // const RegionField = document.createElement('div')
+        // RegionField.classList.add('registration-grid')
 
         const deklLabelBox = document.createElement('div')
-        // deklLabelBox.classList.add('regions')
+        deklLabelBox.classList.add('label-box')
         const deklLabel = document.createElement('p')
         deklLabel.innerText = 'Deklaracje';
         deklLabelBox.appendChild(deklLabel)
-        RegionField.appendChild(deklLabelBox)
+        // RegionField.appendChild(deklLabelBox)
 
         const deklTextField = document.createElement('div')
         deklTextField.classList.add('deklaracje-describe-areas')
@@ -205,8 +225,9 @@ export default class extends AbstractView{
             box.appendChild(label)
             box.appendChild(inputField)
             deklTextField.appendChild(box)
-            RegionField.appendChild(deklTextField)
-            deklTextBox.appendChild(RegionField)
+            // RegionField.appendChild(deklTextField)
+            deklTextBox.appendChild(deklLabelBox)
+            deklTextBox.appendChild(deklTextField)
 
             this.formWrapper.appendChild(deklTextBox)
         }) 
@@ -220,11 +241,11 @@ export default class extends AbstractView{
             const PlexiTextField = document.createElement('div')
             PlexiTextField.classList.add("swiper-slide",'deklaracje')
 
-            const RegionField = document.createElement('div')
-            RegionField.classList.add('registration-grid')
+            // const RegionField = document.createElement('div')
+            // RegionField.classList.add('registration-grid')
 
             const plexiLabelBox = document.createElement('div')
-            // plexiLabelBox.classList.add('regions')
+            plexiLabelBox.classList.add('label-box')
 
             const plexiLabel = document.createElement('p')
             plexiLabel.innerText = 'Raport Plexi';
@@ -233,19 +254,25 @@ export default class extends AbstractView{
 
             const box = document.createElement('div')
             box.classList.add('plexi-box')
-            const inputField = document.createElement('textarea');
-            inputField.classList.add('raport-describe');
-            inputField.required = true;
-            inputField.name = 'plexi';
-            inputField.id = 'plexi';
-            inputField.rows = '18';
-            inputField.value = "W ostatnim tygodniu wydrukowano: XXX formatek plexi z czego YYY \
-            zostało uszkodzonych. Współczynnik w skali miesiąca wynosi: ZZZ"
-            box.appendChild(inputField)
+            let boxes = ['Wydrukowano (szt)', 'Błędnie wydrukowano (szt)', 'Współczynnik (%)']
 
-        RegionField.appendChild(plexiLabelBox)
-        RegionField.appendChild(box)
-        PlexiTextField.appendChild(RegionField)
+            boxes.forEach(_box =>{
+                let boxN = document.createElement('div')
+                boxN.classList.add('input-data')
+                let label = document.createElement('p')
+                label.classList.add('plexi-input-label')
+                label.innerText = _box
+                let inputPlace = document.createElement('input')
+                inputPlace.name = 'plexi_'+_box.split(' ')[0]
+                inputPlace.classList.add('plexi-input')
+    
+                boxN.appendChild(label)
+                boxN.appendChild(inputPlace)
+                box.appendChild(boxN)
+            })
+
+        PlexiTextField.appendChild(plexiLabelBox)
+        PlexiTextField.appendChild(box)
         this.formWrapper.appendChild(PlexiTextField)
         }
 
@@ -301,7 +328,10 @@ export default class extends AbstractView{
             let stUnits = []
             let drUnits = []
             let bibUnits = []
+            let plexi = []
+            let dekl = []
             formData.forEach((key, value) =>{
+                console.log(key, value)
                 if (key=='Stolarnia'){
                     stUnits.push(value)
                     st['units'] = stUnits
@@ -327,7 +357,16 @@ export default class extends AbstractView{
                     }
                 }
                 else{
-                    formDataObj[value] = key
+                    if (value.split('_')[0] == 'plexi'){
+                        var data = new Object();
+                        data[value.split('_')[1]] = key
+                        plexi.push(data)
+                    }else if(value.split('_')[0] == 'dekl'){
+                        var data = new Object();
+                        data[value.split('_')[1]] = key
+                        dekl.push(data)
+                    }
+                    // formDataObj[value] = key
                 }
                 
             });
@@ -342,6 +381,13 @@ export default class extends AbstractView{
             if (!$.isEmptyObject(bib)){
                 formDataObj['Bibeloty'] = bib
             }
+            if (!$.isEmptyObject(plexi)){
+                formDataObj['plexi'] = plexi
+            }
+            if (!$.isEmptyObject(dekl)){
+                formDataObj['dekl'] = dekl
+            }
+
             
             let username = getCookieValue('user')
             formDataObj['username'] = username;
