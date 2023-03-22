@@ -9,6 +9,7 @@ from typing import List
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from auth_api.auth import Auth
 from starlette.responses import JSONResponse
+from datetime import datetime
 
 auth_handler = Auth()
 security = HTTPBearer()
@@ -67,16 +68,19 @@ async def delete_raport(raport_id: int, credentials: HTTPAuthorizationCredential
     token = credentials.credentials
     if(auth_handler.decode_token(token)):
         try:
-            resoult = db.session.query(Raport).filter(
-                Raport.id == raport_id).first()
-            date = resoult.date_created
-            db.session.delete(resoult)
-            db.session.commit()
-            return JSONResponse(status_code=status.HTTP_200_OK, content={"message": f"Raport z dnia {date} został usunięty"})
+            if (resoult := db.session.query(Raport).filter(
+                Raport.id == raport_id).first()):
+                date = (resoult.date_created).strftime('%d-%m-%Y')
+                shortDate = date
+                db.session.delete(resoult)
+                db.session.commit()
+                return JSONResponse(status_code=status.HTTP_200_OK, content={"message": f"Raport z dnia {date} został usunięty"})
+            
+            return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"message": f"Nie znaleziono raportu nr: {raport_id}"})
         
         except SQLAlchemyError as e:
             raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=e.orig.args,
             ) from e
 
@@ -111,6 +115,7 @@ def getPlexiData(data):
     return printed, wrong, factor
 
 def getDeklData(data):
+    adam, pawel, bartek = '', '', ''
     for each in data:
         for key,value in each.items():
             match key:
@@ -160,10 +165,9 @@ def fillFormAndRelpaceDb(form):
         
         if 'id' in form:
             print(raport)
-            message = f"zaktualizowano raport z dnia {raport.date_created}"
+            message = f"zaktualizowano raport z dnia {(raport.date_created).strftime('%d-%m-%Y')}"
             db.session.delete(raport)
         else:
-            print('DOCIERAM TUTAJ')
             message = 'dodano raport'
             db.session.add_all(to_update)
 

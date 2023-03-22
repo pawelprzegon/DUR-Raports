@@ -79,15 +79,14 @@ def refresh_token(credentials: HTTPAuthorizationCredentials = Security(security)
     try:
         refresh_token = credentials.credentials
         new_token, exp = auth_handler.refresh_token(refresh_token)
+        print(new_token, exp)
         return JSONResponse(status_code=status.HTTP_200_OK, content={
             'access_token': new_token, 
             'token_expire' : str(exp),
             })
     except BaseException as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-            detail=e
-        ) from e
+        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+                            content={"message":  e})
 
 
 
