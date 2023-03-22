@@ -1,8 +1,8 @@
 import {url} from "../common/data/url.js"
-import {callApiGet, tokenRefresh} from '../features/endpoints/endpoints.js'
+import {callApiGet, tokenRefresh, checkAuth} from '../features/endpoints/endpoints.js'
 import {showloader, hideloader} from '../features/loading/loading.js'
 import {navigateTo} from "../js/index.js"
-import {err} from '../features/errors/error.js'
+import {alerts} from '../features/alerts/alerts.js'
 import {capitalized} from "../features/upperCase/upperCase.js"
 import {statisticsBox} from "../features/statisticsBox/statisticsBox.js"
 
@@ -27,50 +27,41 @@ export default class extends AbstractView{
       this.api_url = url+'statistics'
 
       try {
-        let [response, status] = await callApiGet(this.api_url);
-        if (response.detail && response.detail == "Not authenticated"){
-          let refTokenResponse = await tokenRefresh();
-          if (refTokenResponse[1] == 200){
-              let [response, status] = await callApiGet(this.api_url);
-              if (status == 200){
-                hideloader();
-                this.layout();
-                this.charts(response);
-                this.users(response);
-                this.statistics(response);
-              }
-          }else{
-            hideloader();
-            navigateTo('/login')
-          }
-        
-          }else{
+        let [re, st] = await checkAuth(url+'auth');
+          console.log(re, st)
+          if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
+            let [response, status] = await callApiGet(this.api_url);
+            if (status == 200){
               hideloader();
               this.layout();
               this.charts(response);
               this.users(response);
               this.statistics(response);
+            }else{
+            hideloader();
+            alerts(status, response, 'alert-orange')
+            }
           }
-      }
-      catch (error){
+        }
+        catch (error){
           hideloader();
-          err(error)
+          alerts('error', error, 'alert-red')
+        }
       }
-
-
-    }
 
     calculateChartSize(){
-      let chartSize = '350px'
+      let chartWidth = '500px'
       if ( $(window).width() <= 600) {     
-        chartSize = 350
+        chartWidth = '450px'
       }
       else if (( $(window).width() > 600) && ( $(window).width() <= 900)){
-        chartSize = 600
+        chartWidth = '550px'
+      }else if (( $(window).width() > 900) && ( $(window).width() <= 1500)){
+          chartWidth = '750px'
       }else{
-        chartSize = 1000
+        chartWidth = '900px'
       }
-      return chartSize
+      return chartWidth
     }
 
     layout() {
@@ -78,18 +69,17 @@ export default class extends AbstractView{
       
       const ChartsArea = document.createElement('div');
       ChartsArea.classList.add("chart")
+      ChartsArea.style.width = this.calculateChartSize();
       const canvas = document.createElement('canvas');
       canvas.id = 'charts' ;
       canvas.style = 'null';
-      canvas.width = this.calculateChartSize();
-          
+      
       ChartsArea.appendChild(canvas);
       this.container.appendChild(ChartsArea);
       
     }
 
     max(data){
-      console.log(typeof(data))
       let max = 0
       for (const value of Object.values(data.statistics)){
         for (let v of Object.values(value.chart)){
@@ -101,7 +91,6 @@ export default class extends AbstractView{
     };
 
     max += 1;
-    console.log(max)
     return max
     }
 

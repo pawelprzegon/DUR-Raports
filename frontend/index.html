@@ -8,13 +8,15 @@
     <title>
         Raporty
     </title>
+    
     <link rel="stylesheet" href="./src/common/style/style.css">
+    <link rel="stylesheet" href="/../src/css/alerts.css">
     <link rel="icon" type="image/png" href="./static/images/artgeist.png" />
     <link rel="stylesheet" href="../src/css/swiper-bundle.css">
     <link rel="stylesheet" href="" id="nav-theme">
     <link rel="stylesheet" href="" id="theme">
     
-    <!-- <link rel="stylesheet" href="/../src/common/paginate/paginate.css"> -->
+    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,21 +31,17 @@
     
     <header class="app-header" id="app-header"></header>
     <div class="alerts" id="alerts">
-        <div class="err" id="err"></div>
         <div class="spinner-border" 
              role="status" id="loading">
              <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
         </div>
+        <div class="alert hidden" id="alert">
+            
+            <span class="alert-close" data-close="alert" title="Close"><span id="timer"></span>&times;</span>
+            <div id="alert-message"></div>
+        </div>
     </div>
     <div class="container" id="cont">
-        <!-- <div class='content' id="content">
-            <div class="swiper slide-form" id="form-data"></div>
-            <div class="user" id="user"></div>
-            <div class="raport-content" id="raport-content">
-                <div class="dekl" id="dekl"></div>
-                <div class="issues" id="issues"></div>
-            </div>
-        </div> -->
         <div class="slide-container swiper" id="raport">
           
         </div>
@@ -52,5 +50,7 @@
 
     <script type="module" src="../src/js/index.js"></script>
     <script src="../src/features/swiper/swiper-bundle.min.js"></script>
+    <script src="../src/common/alerts/alerts.js"></script>
+
 </body>
 </html>

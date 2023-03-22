@@ -3,7 +3,7 @@ import {Slider} from '../features/swiper/slider.js'
 import {Brick} from '../features/brick/brick.js'
 import {callApiGet, checkAuth} from '../features/endpoints/endpoints.js'
 import {showloader, hideloader} from '../features/loading/loading.js'
-import {err} from '../features/errors/error.js'
+import {alerts} from '../features/alerts/alerts.js'
 
 import AbstractView from "./AbstractView.js";
 
@@ -32,7 +32,7 @@ export default class extends AbstractView{
         
         try {
             let [re, st] = await checkAuth(url+'auth');
-            if (st == 202 && re.detail == "authenticated"){
+            if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
                 let [response, status] = await callApiGet(this.api_url);
                 if (status == 200){
                     hideloader();
@@ -40,12 +40,13 @@ export default class extends AbstractView{
                     Slider();
                 }else{
                     hideloader();
-                    err(status, response)
+                    alerts(status, response, 'alert-orange')
                 }
             }
         }catch (error){
             hideloader();
-            err(error)
+            alerts('error', error, 'alert-red')
+            
         }
     }
 

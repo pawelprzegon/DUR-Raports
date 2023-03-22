@@ -4,8 +4,8 @@ import authView  from '../templates/authView.js';
 import {navBar, navClose,  navBehav} from '../common/navigation/navigation.js'
 import statisticsView from '../templates/statisticsView.js';
 import createView from '../templates/createView.js';
-import deleteView from '../templates/deleteView.js';
-import logoutView from '../templates/logoutView.js';
+// import deleteView from '../templates/deleteView.js';
+// import logoutView from '../templates/logoutView.js';
 import resetPassword from '../templates/resetPassword.js';
 
 
@@ -38,10 +38,10 @@ const router = async() =>{
         { path: '/login', view: authView },
         { path: '/statistics', view: statisticsView },
         { path: '/create', view: createView },
-        { path: '/edit/:id', view: createView },
+        { path: '/edit', view: createView },
         { path: '/my/:username', view: allRaportsView },
-        { path: '/delete/:id', view: deleteView },
-        { path: '/logout', view: logoutView },
+        // { path: '/delete/:id', view: deleteView },
+        // { path: '/logout', view: logoutView },
         { path: '/reset-password', view: resetPassword }
 
     ]

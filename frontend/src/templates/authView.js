@@ -4,7 +4,7 @@ import {navigateTo} from '../js/index.js'
 import {navBar, navBehav} from '../common/navigation/navigation.js'
 import {hideloader} from '../features/loading/loading.js'
 import {showPassword} from '../features/showPassword/showPassword.js'
- 
+import {alerts} from '../features/alerts/alerts.js'
 import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView{
@@ -349,7 +349,9 @@ export default class extends AbstractView{
             console.log(response)
             console.log(status)
             if (status == 200){
-                alert(response.message)
+                alerts('Success', response.message, 'alert-green')
+            }else{
+                alerts('Failed', response.message, 'alert-red')
             }
         }
 }

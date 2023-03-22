@@ -10,16 +10,14 @@
   --gray: #767676;
 }
 
-html, body {
+/* html, body {
   margin:0;
   padding:0;
   height:100%;
-}
+} */
 
 .container {
   display: flex;
-  padding-left: 8%;
-  padding-right: 8%;
   flex-direction: column;
   flex-wrap: nowrap;
   align-content: center;
@@ -169,7 +167,9 @@ html, body {
 }
 
 .deklaracje-box{
-  margin: 10px
+  width: 100%;
+  margin: 10px;
+  text-align: center;
 }
 
 .plexi-box{
@@ -308,10 +308,21 @@ html, body {
   border-radius: 0.4rem;
     box-shadow: inset 0px 0px 0px 1px rgb(221, 221, 221);
     box-sizing: border-box;
+    background-color:  lightgray;
 }
 
 
+/* Desktop big */
+@media (min-width:1500px) {}
 
+/* Desktop small */
+@media (min-width: 1101px) and (max-width: 1500px) {}
+
+/* Tablet */
+@media (min-width: 901px) and (max-width: 1100px) {}
+
+/* Tablet small */
+@media (min-width: 750px) and (max-width: 900px) {}
 
 /* Mobile */
 @media (max-width:750px) {
@@ -332,6 +343,7 @@ html, body {
     width: 100%;
   }
   .deklaracje-box{
+
     width: 80%;
   }
   
@@ -341,7 +353,7 @@ html, body {
 
 }
 
-@media (max-width:550px) {
+/* @media (max-width:550px) {
  .elements{
   flex-direction: column;
  }
@@ -354,4 +366,4 @@ html, body {
  .regions{
   width: 100%;
  }
-}
+} */

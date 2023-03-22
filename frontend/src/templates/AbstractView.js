@@ -10,24 +10,20 @@ export default class{
 
     async getData(){
         return `
-        <div class="alerts">
-            <div class="err" id="err"></div>
-            <div class="spinner-border" 
-                 role="status" id="loading">
-                 <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
-            </div>
+        <div class="alerts" id="alerts">
+        <div class="spinner-border" 
+             role="status" id="loading">
+             <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
         </div>
-        <div class='content' id="content">
-            <div class="swiper slide-form" id="form-data"></div>
-            <div class="user" id="user"></div>
-            <div class="raport-content" id="raport-content">
-                <div class="dekl" id="dekl"></div>
-                <div class="issues" id="issues"></div>
-            </div>
+        <div class="alert" id="alert">
+            <span class="alert-close" data-close="alert" title="Close">&times;</span>
         </div>
+    </div>
+    <div class="container" id="cont">
         <div class="slide-container swiper" id="raport">
           
         </div>
+    </div>
         `
     }
     

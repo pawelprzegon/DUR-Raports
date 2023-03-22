@@ -104,7 +104,6 @@
 
 
 .chart {
-    width: 100%;
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -116,22 +115,39 @@
 
 /* Mobile */
 @media (max-width:600px) {
-    .container{
-        font-size: 11px;
-    }
+    
 }
 
 
 /* Tablet */
 @media (min-width:600px) {
-    .container{
-        font-size: 12px;
-    }
+    
 }
 
 /* Desktop */
 @media (min-width:900px) {
+    
+}
+
+/* Mobile */
+@media (max-width:750px) {
+    .container{
+        font-size: 11px;
+    }
+}
+/* Tablet small */
+@media (min-width: 751px) and (max-width: 900px) {
+    .container{
+        font-size: 12px;
+    }
+}
+/* Tablet */
+@media (min-width: 901px) and (max-width: 1100px){
     .container{
         font-size: 14px;
     }
 }
+
+/* Desktop */
+@media (min-width:1100px) {}
+@media (min-width:1500px) {}

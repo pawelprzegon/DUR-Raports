@@ -1,8 +1,8 @@
 import {url} from "../common/data/url.js"
 import {callApiPost} from '../features/endpoints/endpoints.js'
 import {hideloader} from '../features/loading/loading.js'
-import { navigateTo } from "../js/index.js";
-
+import {navigateTo} from "../js/index.js";
+import {alerts} from '../features/alerts/alerts.js'
 import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView{
@@ -163,11 +163,8 @@ export default class extends AbstractView{
         let [response, status] = await callApiPost(this.api_url, JSON.stringify(formData), this.token);
         console.log(status)
         console.log(response)
-        message : "password for bedziezciebie has been changed"
-        // TODO: napisać odpowiedz klientowi i przekierować do logowania
-        
         if (status == 200){
-            alert(response.message)
+            alerts('Success', response.message, 'alert-green')
             navigateTo('/login')
             }
             else{
@@ -182,6 +179,7 @@ export default class extends AbstractView{
                 
                 this.responseBox.appendChild(this.responseStatus);
                 this.responseBox.appendChild(this.responseData);
+                alerts('Failed', response.message, 'alert-red')
             }
             
     }

@@ -6,16 +6,19 @@ import {hideloader} from '../features/loading/loading.js'
 import {SliderForm} from '../features/swiper/slider.js'
 import {getCookieValue} from '../features/cookie/index.js'
 import {checkAuth} from '../features/endpoints/endpoints.js'
-import {err} from '../features/errors/error.js'
+import {alerts} from '../features/alerts/alerts.js'
+import {logout} from '../features/logout/logout.js'
+import {capitalized} from '../features/upperCase/upperCase.js'
 
 
 export default class extends AbstractView{
-    constructor(params){
-        super(params);
+    constructor(){
+        super();
+        this.lastPart = (window.location.href).split("/").pop();
 
-        if (this.params.id){
-            this.setTitle("Edit "+this.params.id)
-            this.data = JSON.parse(localStorage.getItem('active_raport'));
+        if (this.lastPart == 'edit'){
+            this.currentRaport = JSON.parse(localStorage.getItem('active_raport'));
+            this.setTitle("Edit "+this.currentRaport.id)
             this.api_url = url+'update/'
         }else{
             this.setTitle("New")
@@ -27,7 +30,7 @@ export default class extends AbstractView{
         this.regioList['Stolarnia'] = ['Pilarki', 'Zbijarki', 'Kompresor', 'Inne'];
         this.regioList['Drukarnia'] = ['Xeikony', 'Mutohy', 'Impale', 'Latex', 'Fotoba', 'Zgrzewarka', 'Kompresor', 'Inne' ]
         this.regioList['Bibeloty'] = ['Cuttery', 'Laminarki', 'HotPress', 'EBSy', 'Mieszalnik', 'Dozownik', 'Summa', 'Inne' ]
-        this.users = ['Adam', 'Paweł', 'Bartek'];
+        this.users = ['Adam', 'Pawel', 'Bartek'];
 
         
     }
@@ -40,20 +43,18 @@ export default class extends AbstractView{
     async getData(){
         try {
             let [re, st] = await checkAuth(url+'auth');
-            console.log(re, st)
-            if (st == 202 && re.detail == "authenticated"){
+            if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
                 hideloader();
                 this.show();
             }
         }catch (error){
             hideloader();
-            err(error)
+            alerts('error', error, 'alert-red')
         }
         
     }
 
     show(){
-        console.log('tet')
         this.css();
         this.container = document.querySelector('#cont')
         this.container.innerHTML = ''
@@ -87,9 +88,9 @@ export default class extends AbstractView{
         this.deklaracje();
         this.plexi();
         
-        if (this.params.id){
+        if (this.lastPart == 'edit'){
             this.fillData();
-            this.events(this.api_url, this.params.id);
+            this.events(this.api_url, this.currentRaport.id);
         }else{
             this.events(this.api_url);
         }
@@ -220,7 +221,7 @@ export default class extends AbstractView{
             // inputField.required = true;
             inputField.name = 'dekl_'+user;
             inputField.id = 'dekl_'+user;
-            inputField.rows = '13';
+            inputField.rows = '25';
 
             box.appendChild(label)
             box.appendChild(inputField)
@@ -236,45 +237,48 @@ export default class extends AbstractView{
     }
 
     plexi(){
-        const today = new Date();
-        if (today.getDay() == 0 ){
-            const PlexiTextField = document.createElement('div')
-            PlexiTextField.classList.add("swiper-slide",'deklaracje')
+        // const today = new Date();
+        // if (today.getDay() == 2 ){
+        // }
+       
+        const PlexiTextField = document.createElement('div')
+        PlexiTextField.classList.add("swiper-slide",'deklaracje')
 
-            // const RegionField = document.createElement('div')
-            // RegionField.classList.add('registration-grid')
+        const plexiLabelBox = document.createElement('div')
+        plexiLabelBox.classList.add('label-box')
 
-            const plexiLabelBox = document.createElement('div')
-            plexiLabelBox.classList.add('label-box')
-
-            const plexiLabel = document.createElement('p')
-            plexiLabel.innerText = 'Raport Plexi';
-            plexiLabelBox.appendChild(plexiLabel)
+        const plexiLabel = document.createElement('p')
+        plexiLabel.innerText = 'Raport Plexi';
+        plexiLabelBox.appendChild(plexiLabel)
 
 
-            const box = document.createElement('div')
-            box.classList.add('plexi-box')
-            let boxes = ['Wydrukowano (szt)', 'Błędnie wydrukowano (szt)', 'Współczynnik (%)']
+        const box = document.createElement('div')
+        box.classList.add('plexi-box')
+        let boxes = [{'printed':'Wydrukowano (szt)', 'wrong':'Błędnie wydrukowano (szt)', 'factor':'Współczynnik (%)'}]
 
-            boxes.forEach(_box =>{
+            for (const [key, value] of Object.entries(boxes[0])){
                 let boxN = document.createElement('div')
                 boxN.classList.add('input-data')
                 let label = document.createElement('p')
                 label.classList.add('plexi-input-label')
-                label.innerText = _box
+                label.innerText = value
                 let inputPlace = document.createElement('input')
-                inputPlace.name = 'plexi_'+_box.split(' ')[0]
+                inputPlace.name = value
+                inputPlace.id = key
                 inputPlace.classList.add('plexi-input')
     
                 boxN.appendChild(label)
                 boxN.appendChild(inputPlace)
                 box.appendChild(boxN)
-            })
+            }
+
+            
+
 
         PlexiTextField.appendChild(plexiLabelBox)
         PlexiTextField.appendChild(box)
         this.formWrapper.appendChild(PlexiTextField)
-        }
+ 
 
         
     }
@@ -397,42 +401,29 @@ export default class extends AbstractView{
             let data = JSON.stringify(formDataObj)
 
             console.log(formDataObj)
-            try{
-                let [response, status] = await callApiPut(api_url, data);
-                console.log(response)
 
-
-                if (response.detail && response.detail == "Not authenticated"){
-                    console.log('refreshing token')
-                    let refTokenResponse = await tokenRefresh();
-                    console.log(refTokenResponse)
-                    if (refTokenResponse[1] == 200){
-                        let [response, status] = await callApiPut(api_url, data);
-                        console.log(response)
-                        if (status == 200 && response.category == 'success'){
-                            navigateTo('/')
-                        }else{
-                            document.getElementById('err').innerHTML = `
-                            <h1>${status}</h1>
-                            <p>${response}</p>
-                            `
-                        }
+            try {
+                let [re, st] = await checkAuth(url+'auth');
+                console.log(re, st)
+                if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
+                    let [response, status] = await callApiPut(api_url, data);
+                    console.log(response, status)
+                    if (status == 200 && response.message){
+                        alerts(status, response.message, 'alert-green');
+                        navigateTo('/')
                     }else{
-                        navigateTo('/login')
+                        alerts(status, response, 'alert-red');
                     }
-                }else{
-                    navigateTo('/')
                 }
-
-            }catch(error){
-                console.log(error)
+            }catch (error){
+                hideloader();
+                alerts('error', error, 'alert-red')
             }
-            
         })
     }
 
     fillData(){
-        this.data.units.forEach(item =>{
+        this.currentRaport.units.forEach(item =>{
             switch (item.region){
                 case 'Stolarnia':
                     document.getElementById(`${item.region}`+'_'+`${item.unit}`).checked=true
@@ -446,11 +437,14 @@ export default class extends AbstractView{
             }        
         })
 
-        this.data.dekl.forEach(item =>{
-            document.getElementById('dekl_'+item.name).value = item.dekl
-        })
-        if (this.data.plexi.length > 0){
-            document.getElementById('plexi').value = this.data.plexi[0].plexi
+        for(const[key, value] of Object.entries(this.currentRaport.dekl[0])){
+            document.getElementById(`dekl_${capitalized(key)}`).value = value
+        }
+        
+        if (this.currentRaport.hasOwnProperty('plexi') && this.currentRaport.plexi.length != 0){
+            for (const [key, value] of Object.entries(this.currentRaport.plexi[0])){
+                document.getElementById(key).value = value
+            }
         }
     }
 }

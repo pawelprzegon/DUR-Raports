@@ -3,16 +3,16 @@
 
     --bckg: #ffffff;
     --bridge: #ffffff;
-    --fntColor: #ffffff;
+    --fntColor: #000000;
 
     --full: #ca1717;
 
     --fntWeight: 300;
 }
 
-body{
+/* body{
     overflow: hidden;
-}
+} */
 
 .user{
     display: flex;
@@ -187,7 +187,7 @@ body{
     text-align: left;
     padding: 5px 10px 5px 10px;
     width: calc(100% - 22px);
-    background-color: var(--gray);
+    /* background-color: var(--gray); */
     border-radius: 5px 5px 0 0 ;
     margin-left: 1px;
     height: 30%;
@@ -207,6 +207,7 @@ body{
     text-align: center;
     padding: 0px 20px 0px 20px;
     height: 60%;
+    
 }
 
 .regio-circle-box {
@@ -334,11 +335,12 @@ body{
     box-shadow: inset 0px 0px 0px 1px rgb(221, 221, 221);
     box-sizing: border-box;
     height: 120px;
-    background-size: 100% 0;
-    background-position: 0 0;
-    background-repeat: no-repeat;
-    background-image: linear-gradient(white, white);
-    transition: 0.1s background-size linear;
+    background-color: rgb(189, 189, 189);
+    /* background-size: 100% 0; */
+    /* background-position: 0 0; */
+    /* background-repeat: no-repeat; */
+    /* background-image: linear-gradient(white, rgb(199, 199, 199)); */
+    /* transition: 0.1s background-size linear; */
 }
 
 .card:hover .arrow{
@@ -357,9 +359,10 @@ body{
   }
 
 .selected{
-    background-image: linear-gradient(var(--gray), var(--gray));
+    /* background-image: linear-gradient(var(--gray), var(--gray));
     background-size: 100% 100%;
-    color: var(--fntColor)
+    color: var(--fntColor) */
+    background-color: var(--gray);
 }
 
 .swiper-button-prev, .swiper-button-next {
@@ -378,10 +381,18 @@ body{
     position: relative;
 }
 
+/* Desktop big */
+@media (min-width:1500px) {
 
+  }
+
+/* Desktop small */
+@media (min-width: 1101px) and (max-width: 1500px) {
+
+  }
 
 /* Tablet */
-@media (max-width: 1100px) and (min-width: 901px) {
+@media (min-width: 901px) and (max-width: 1100px) {
     .raport-text{
         font-size: 14px;
     }
@@ -398,7 +409,7 @@ body{
 
 
 /* Tablet small */
-@media (max-width: 900px) and (min-width: 751px) {
+@media (min-width: 750px) and (max-width: 900px) {
     .raport-text{
         font-size: 13px;
     }
@@ -411,8 +422,6 @@ body{
 
     
 }
-
-
 
 /* Mobile */
 @media (max-width:750px) {

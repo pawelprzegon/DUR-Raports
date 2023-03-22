@@ -1,4 +1,4 @@
-
+import {logout} from '../../features/logout/logout.js'
 export function navBar(user){
     const header = document.getElementById("app-header")
 
@@ -95,9 +95,11 @@ export function navBar(user){
 
         const wyloguj = document.createElement('a')
         wyloguj.classList.add('nav-link')
-        wyloguj.href = '/logout'
-        wyloguj.setAttribute('data-link', '')
+        // wyloguj.setAttribute('data-link', '')
         wyloguj.innerText = 'wyloguj'
+        wyloguj.addEventListener("click", () =>{
+            logout();
+        })
 
         btnsPics.appendChild(home)
         btnsPics.appendChild(stat)

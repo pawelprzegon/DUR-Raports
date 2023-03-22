@@ -1,9 +1,9 @@
 import {url} from "../../common/data/url.js"
-// import {navUserBehav} from '../../common/navigation/navigation.js'
+import {navigateTo} from '../../js/index.js'
 import {callApiGet, checkAuth} from '../endpoints/endpoints.js'
 import {showloader, hideloader} from '../loading/loading.js'
-import {navigateTo} from "../../js/index.js"
-import {err} from "../errors/error.js"
+import {deleteRaport} from "../delete/delete.js"
+import {alerts} from "../alerts/alerts.js"
 import {capitalized} from "../upperCase/upperCase.js"
 import {getCookieValue} from '../../features/cookie/index.js'
 
@@ -33,7 +33,7 @@ export class openRaport{
         showloader();
         try {
             let [re, st] = await checkAuth(url+'auth');
-            if (st == 202 && re.detail == "authenticated"){
+            if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
                 let [response, status] = await callApiGet(url+"raport/"+this.id);
                 if (status == 200){
                     hideloader();
@@ -42,12 +42,12 @@ export class openRaport{
                     localStorage.setItem('active_raport', JSON.stringify(response))
                 }else{
                     hideloader();
-                    err(status, response)
+                    alerts(status, response)
                 }
             }
         }catch (error){
             hideloader();
-            err(error)
+            alerts(error)
         }
         
     }
@@ -61,13 +61,17 @@ export class openRaport{
         editIconBox.classList.add('edit-delete-box')
         let editIcon = document.createElement('img')
         editIcon.src = "/src/static/raport_icons/edit.png"
-        editIcon.addEventListener("click", () => {navigateTo('/edit/'+ this.id)})
+        editIcon.addEventListener("click", () => {navigateTo('/edit')})
 
         let deleteIconBox = document.createElement('div')
         deleteIconBox.classList.add('edit-delete-box')
         let deleteIcon = document.createElement('img')
         deleteIcon.src = "/src/static/raport_icons/delete.png"
-        deleteIcon.addEventListener("click", () => {navigateTo('/delete/'+ this.id)})
+        deleteIcon.addEventListener("click", () => {
+            if (confirm('Czy na pewno chcesz usunąć ten raport? ')) {
+                deleteRaport(this.id)
+            }
+        })
 
         editIconBox.appendChild(editIcon)
         deleteIconBox.appendChild(deleteIcon)

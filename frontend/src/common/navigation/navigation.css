@@ -25,13 +25,18 @@
     z-index: 999;
     position: fixed;
     top: 0;
-    left: 5%;
-    width: 85%;
+    left: calc(-50vw + 60%);
+    right: calc(-50vw + 60%);
+    margin-left: auto;
+    margin-right: auto;
+    width: 65%;
+    
     font-family: 'Roboto', sans-serif;
     color: var(--fntColor);
     padding: 0.5rem;
     background-color: var(--bckg);
     box-shadow: 2px 2px 9px var(--bckg);
+
 }
 
 .top-elements {
@@ -47,7 +52,7 @@
 .top-element {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-end;
     margin-left: 0px;
     margin-right: 0px;
@@ -60,10 +65,6 @@
 .nav-btn {
     width: 100%;
     background: #00000000;
-    /* height: 100%; */
-    /* display: flex;
-    flex-wrap: wrap;
-    align-items: center; */
     outline: none;
     cursor: pointer;
     border: none;
@@ -91,6 +92,7 @@
     text-decoration: none;
     color: #929292;
     transition: font-size 0.3s;
+    cursor: pointer;
 }
 .pre-nav-user{
     display: flex;
@@ -191,9 +193,18 @@
     display: block;
 }
 
+/* Desktop big */
+@media (min-width:1500px) {
+
+  }
+
+/* Desktop small */
+@media (min-width: 1100px) and (max-width: 1500px) {
+
+}
 
 /* Tablet */
-@media (max-width: 1100px) and (min-width: 901px) {
+@media (min-width: 900px) and (max-width: 1100px){
     .nav-link {
         width: 60px;
         font-size: 14px;
@@ -210,10 +221,13 @@
         align-items: flex-start;
         justify-content: flex-end;
     }
+    .top-row {
+        width: 70%;
+    }
 }
 
 /* Tablet small */
-@media (max-width: 900px) and (min-width: 751px){
+@media (min-width: 750px) and (max-width: 900px) {
     .nav-link {
         width: 45px;
         font-size: 12px;
@@ -229,6 +243,9 @@
     .top-element{
         align-items: flex-start;
         justify-content: flex-end;
+    }
+    .top-row {
+        width: 75%;
     }
 }
 
@@ -249,7 +266,7 @@
     }
 
     .top-elements {
-        grid-template-columns: 20% 45% 20% 15%;
+        grid-template-columns: 100px 10fr 1fr 1fr;
     }
 
     .top-element{
@@ -264,6 +281,12 @@
         border-width: 0.2px;
         border-color: #e7e7e7;
         border-radius: 10px;
+    }
+
+    .top-row {
+        left: calc(-50vw + 30%);
+        right: calc(-50vw + 30%);
+        width: 85%;
     }
     
 }

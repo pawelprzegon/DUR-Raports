@@ -39,9 +39,6 @@
   
   
   
-  
-
-  
   /* Tablet */
   @media (min-width:600px) {
   
@@ -50,13 +47,8 @@
       padding-left: 10%;
       padding-right: 10%;
     }
-  
-    
     
   }
-  
-  
-  
   
   /* Desktop */
   @media (min-width:900px) {

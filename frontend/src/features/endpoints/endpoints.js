@@ -1,11 +1,10 @@
 import {url} from "../../common/data/url.js"
 import {getCookieValue} from '../cookie/index.js'
-import {navigateTo} from "../../js/index.js"
+import {logout} from "../../features/logout/logout.js"
 
 export async function callApiGet(api_url){
     // prepare headers
     let token = getCookieValue('access_token')
-    // console.log(token)
     const myHeaders = new Headers({
         'accept': 'application/json',
         'Authorization': 'Bearer '+token
@@ -77,7 +76,7 @@ export async function tokenRefresh(){
         headers: myHeaders,
         })
         .then(res => {
-            // console.log('Fetch - Got response: ', res);
+            console.log('Fetch - Got response: ', res);
             return res;
         })
         .then(res => 
@@ -97,10 +96,8 @@ export async function tokenRefresh(){
             return [data, status];
         })
         .catch(err => {
-            console.log(err)
-            return err
+            return ['err', err]
         });
-
         return resp;
 
     } catch (error) {
@@ -150,14 +147,16 @@ export async function checkAuth(api_url){
                 })
             ))
             .then(async ({ status, data }) => {
-                console.log({ status, data })
+                // console.log({ status, data })
                 if (data.detail && data.detail == "Not authenticated"){
-                    let refTokenResponse = await tokenRefresh();
-                    if (refTokenResponse[1] == 200){
-                        return [data, status]
+                    let [tRdata, tRstatus] = await tokenRefresh();
+                    console.log('tokenRefresh result: ')
+                    console.log(tRdata, tRstatus)
+                    if (tRstatus == 200){
+                        return [tRdata, tRstatus];
                     }else{
-                        navigateTo('/logout');
-                        return [data, status];
+                        logout();
+                        return [tRdata, tRstatus];
                     }
                 }else{
                     return [data, status];
