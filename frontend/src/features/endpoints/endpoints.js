@@ -101,7 +101,7 @@ export async function tokenRefresh(){
         return resp;
 
     } catch (error) {
-        return error;
+        return ['error', error];
     }
 }
 
