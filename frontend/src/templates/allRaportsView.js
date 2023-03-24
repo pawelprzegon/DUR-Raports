@@ -18,8 +18,11 @@ export default class extends AbstractView{
 
 
     async getData(){
+
+        const loader = setTimeout(() => {
+            showloader();
+        }, 1000)
         
-        showloader();
         this.bricks = []
         this.api_url = url+"raports/"
 
@@ -35,15 +38,18 @@ export default class extends AbstractView{
             if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
                 let [response, status] = await callApiGet(this.api_url);
                 if (status == 200){
+                    clearTimeout(loader);
                     hideloader();
                     this.show(response);
                     Slider();
                 }else{
+                    clearTimeout(loader);
                     hideloader();
                     alerts(status, response, 'alert-orange')
                 }
             }
         }catch (error){
+            clearTimeout(loader);
             hideloader();
             alerts('error', error, 'alert-red')
             
@@ -55,24 +61,17 @@ export default class extends AbstractView{
         this.css();
         let container = document.querySelector('#cont')
         container.innerHTML = ''
-
         let content = document.createElement('div')
         content.classList.add('content')
         content.id = 'content'
-
         let slideConteiner = document.createElement('div');
         slideConteiner.classList.add('slide-container', 'swiper')
-
         let swiperContent = document.createElement('div')
         swiperContent.classList.add('slide-content')
-
-    
         let raportListSwiper = document.createElement('div')
         raportListSwiper.classList.add('swiper-wrapper')
         
-
         data.forEach(each => {
-
             let raportInfoGrid = new Brick(each)
             let brick = raportInfoGrid.getBrick()
             raportListSwiper.appendChild(brick);
@@ -85,15 +84,11 @@ export default class extends AbstractView{
         let paginate = document.createElement('div')
         paginate.classList.add('swiper-pagination')
 
-        
         swiperContent.appendChild(raportListSwiper)
         swiperContent.appendChild(next)
         swiperContent.appendChild(prev)
         swiperContent.appendChild(paginate)
-        
-
         slideConteiner.appendChild(swiperContent)
-
         container.appendChild(content)
         container.appendChild(slideConteiner)
 

@@ -147,7 +147,6 @@ export async function checkAuth(api_url){
                 })
             ))
             .then(async ({ status, data }) => {
-                // console.log({ status, data })
                 if (data.detail && data.detail == "Not authenticated"){
                     let [tRdata, tRstatus] = await tokenRefresh();
                     console.log('tokenRefresh result: ')
@@ -163,7 +162,6 @@ export async function checkAuth(api_url){
                 }
             }) 
             return resp;
-        // return [await resp.json(), resp.status];
     } catch (error) {
         return error;
     }

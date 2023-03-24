@@ -21,7 +21,7 @@ export default class extends AbstractView{
         async getData(){
             this.setTitle("Login")
             this.css();
-            hideloader();
+            
             this.i = 0
             this.container = document.querySelector('#cont')
             this.container.innerHTML = ''

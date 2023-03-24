@@ -4,8 +4,6 @@ import authView  from '../templates/authView.js';
 import {navBar, navClose,  navBehav} from '../common/navigation/navigation.js'
 import statisticsView from '../templates/statisticsView.js';
 import createView from '../templates/createView.js';
-// import deleteView from '../templates/deleteView.js';
-// import logoutView from '../templates/logoutView.js';
 import resetPassword from '../templates/resetPassword.js';
 
 
@@ -20,13 +18,7 @@ const getParams = match => {
 }
 
 export const navigateTo = url =>{
-    // clearAll();
-    let menubar =  document.getElementById('anim-row');
-    // if (typeof(menubar) != 'undefined' && menubar != null){
-    //     navCloseBtns();
-    // }
     window.scrollTo(0,0);
-    // $("body").css("overflow", "hidden");
     history.pushState(null, null, url);
     router();
 };
@@ -40,8 +32,6 @@ const router = async() =>{
         { path: '/create', view: createView },
         { path: '/edit', view: createView },
         { path: '/my/:username', view: allRaportsView },
-        // { path: '/delete/:id', view: deleteView },
-        // { path: '/logout', view: logoutView },
         { path: '/reset-password', view: resetPassword }
 
     ]
@@ -66,7 +56,6 @@ const router = async() =>{
     const view = new match.route.view(getParams(match));
     await view.getData();
 
-    // console.log(view)
 }
 
 window.addEventListener("popstate", ()=> {

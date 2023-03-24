@@ -1,7 +1,6 @@
 import {url} from "../common/data/url.js"
-import {callApiGet, tokenRefresh, checkAuth} from '../features/endpoints/endpoints.js'
+import {callApiGet, checkAuth} from '../features/endpoints/endpoints.js'
 import {showloader, hideloader} from '../features/loading/loading.js'
-import {navigateTo} from "../js/index.js"
 import {alerts} from '../features/alerts/alerts.js'
 import {capitalized} from "../features/upperCase/upperCase.js"
 import {statisticsBox} from "../features/statisticsBox/statisticsBox.js"
@@ -20,7 +19,9 @@ export default class extends AbstractView{
       document.getElementById('theme').setAttribute('href', "../src/css/statistics.css");
     }
     async getData(){
-      showloader();
+      const loader = setTimeout(() => {
+        showloader();
+      }, 1000)
       this.container = document.querySelector('#cont')
       this.container.innerHTML = ''
       this.setTitle("Statystyki")
@@ -28,23 +29,25 @@ export default class extends AbstractView{
 
       try {
         let [re, st] = await checkAuth(url+'auth');
-          console.log(re, st)
           if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
             let [response, status] = await callApiGet(this.api_url);
             if (status == 200){
               hideloader();
+              clearTimeout(loader);
               this.layout();
               this.charts(response);
               this.users(response);
               this.statistics(response);
             }else{
             hideloader();
+            clearTimeout(loader);
             alerts(status, response, 'alert-orange')
             }
           }
         }
         catch (error){
           hideloader();
+          clearTimeout(loader);
           alerts('error', error, 'alert-red')
         }
       }

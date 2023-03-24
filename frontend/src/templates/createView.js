@@ -44,11 +44,9 @@ export default class extends AbstractView{
         try {
             let [re, st] = await checkAuth(url+'auth');
             if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
-                hideloader();
                 this.show();
             }
         }catch (error){
-            hideloader();
             alerts('error', error, 'alert-red')
         }
         

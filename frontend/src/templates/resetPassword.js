@@ -22,7 +22,6 @@ export default class extends AbstractView{
 
     async getData(){
         this.css();
-        hideloader();
         this.actualAddress = new URL(window.location.href);
         this.bricks = []
         this.api_url = url+"reset_password/"

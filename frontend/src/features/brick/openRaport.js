@@ -30,23 +30,28 @@ export class openRaport{
     }
 
     async getData(){
-        showloader();
+        const loader = setTimeout(() => {
+            showloader();
+        }, 1000)
         try {
             let [re, st] = await checkAuth(url+'auth');
             if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
                 let [response, status] = await callApiGet(url+"raport/"+this.id);
                 if (status == 200){
                     hideloader();
+                    clearTimeout(loader);
                     this.buildStructure(response);  
                     this.boldImportant();
                     localStorage.setItem('active_raport', JSON.stringify(response))
                 }else{
                     hideloader();
+                    clearTimeout(loader);
                     alerts(status, response)
                 }
             }
         }catch (error){
             hideloader();
+            clearTimeout(loader);
             alerts(error)
         }
         
@@ -98,23 +103,23 @@ export class openRaport{
     // DEKLARACJE
         const Dekl = document.createElement('div')
 
-            const DeklHeader = document.createElement('div');
-                const DeklInfo = document.createElement('p');
+        const DeklHeader = document.createElement('div');
+        const DeklInfo = document.createElement('p');
 
-            const DeklText = document.createElement('div');
-                const Pawel = document.createElement('div');
-                    const namePawel = document.createElement('p');
-                    namePawel.innerText = 'Paweł'
-                    const todoPawel = document.createElement('p');
+        const DeklText = document.createElement('div');
+        const Pawel = document.createElement('div');
+        const namePawel = document.createElement('p');
+        namePawel.innerText = 'Paweł'
+        const todoPawel = document.createElement('p');
                     
-                const Adam = document.createElement('div');
-                    const nameAdam = document.createElement('p');
-                    nameAdam.innerText = 'Adam'
-                    const todoAdam = document.createElement('p');
-                const Bartek = document.createElement('div');
-                    const nameBartek = document.createElement('p');
-                    nameBartek.innerText = 'Bartek'
-                    const todoBartek = document.createElement('p');
+        const Adam = document.createElement('div');
+        const nameAdam = document.createElement('p');
+        nameAdam.innerText = 'Adam'
+        const todoAdam = document.createElement('p');
+        const Bartek = document.createElement('div');
+        const nameBartek = document.createElement('p');
+        nameBartek.innerText = 'Bartek'
+        const todoBartek = document.createElement('p');
 
         Dekl.classList.add('single-raport-info-grid')
         DeklHeader.classList.add('raport-label', 'header')
@@ -145,13 +150,12 @@ export class openRaport{
         Dekl.appendChild(DeklText)
         
         this.deklContent.appendChild(Dekl)
-        console.log(data)
         if ((data.dekl).length>0){
             DeklInfo.innerText = "Deklaracje";
             let [adam, pawel, bartek ] = this.splitDeklData(data.dekl[0])
-                todoAdam.innerText = adam;
-                todoPawel.innerText = pawel
-                todoBartek.innerText = bartek;
+            todoAdam.innerText = adam;
+            todoPawel.innerText = pawel
+            todoBartek.innerText = bartek;
         }  
 
         // URZĄDZENIA
@@ -166,24 +170,20 @@ export class openRaport{
                 urzadzenia[each.region].push([each.unit, each.info]);
             }
         })
-        // console.log(urzadzenia)
 
         for (const [key, value] of Object.entries(urzadzenia)) {
 
             const Region = document.createElement('div')
-
             const RegionHeader = document.createElement('div');
-                const RegionInfo = document.createElement('p');
-                RegionInfo.classList.add('header')
-                RegionHeader.appendChild(RegionInfo);
+            const RegionInfo = document.createElement('p');
+            RegionInfo.classList.add('header')
+            RegionHeader.appendChild(RegionInfo);
             const RegionTextHeader = document.createElement('div');
-
-                const RegionText = document.createElement('p');
-                RegionText.innerText = `${value[0][1]}`;
-                RegionText.classList.add('tresc-raportu')
-                RegionTextHeader.appendChild(RegionText);
+            const RegionText = document.createElement('p');
+            RegionText.innerText = `${value[0][1]}`;
+            RegionText.classList.add('tresc-raportu')
+            RegionTextHeader.appendChild(RegionText);
                 
-        
             Region.classList.add('single-raport-info-grid')
             RegionHeader.classList.add('raport-label')
             RegionTextHeader.classList.add('raport-text', 'one')
@@ -198,10 +198,10 @@ export class openRaport{
         if ((data.plexi).length > 0){
             const Plexi = document.createElement('div')
             const PlexiHeader = document.createElement('div');
-                const PlexiInfo = document.createElement('p');
-                PlexiInfo.classList.add('header')
+            const PlexiInfo = document.createElement('p');
+            PlexiInfo.classList.add('header')
             const PlexiTextHeader = document.createElement('div');
-                const PlexiText = document.createElement('p');
+            const PlexiText = document.createElement('p');
 
             Plexi.classList.add('single-raport-info-grid')
             PlexiHeader.classList.add('raport-label')
