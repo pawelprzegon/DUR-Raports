@@ -184,13 +184,13 @@ def fillFormAndRelpaceDb(form):
 @raporty.get('/search/{searching}', response_model=List[schema.RaportsOut])
 def search_raport(searching: str, credentials: HTTPAuthorizationCredentials = Security(security)):
     
-    print(searching)
     token = credentials.credentials
     if(auth_handler.decode_token(token)):
-        return search(searching)
+        return search(searching.capitalize())
 
 
 def search(query):
+    print(query)
     try:
         return (
             db.session.query(Raport)
