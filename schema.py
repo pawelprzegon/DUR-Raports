@@ -14,6 +14,14 @@ class Unit(BaseModel):
     class Config:
         orm_mode = True
 
+class UnitSmall(Unit):
+    unit: str
+    info: str
+    region: str
+
+    class Config:
+        fields = {'info': {'exclude': True}}
+
 
 class Dekl(BaseModel):
     adam: str
@@ -68,10 +76,19 @@ class RaportsOut(Raport):
     units: List[Unit]
     dekl: List[Dekl]
     plexi: List[Plexi]
+    
 
 
 class RaportsSmall(Raport):
-    units: List[Unit]
+    id: int
+    date_created: date_type
+    author: User
+    units: List[UnitSmall]
+    class Config:
+        fields = {'id': {'exclude': True},
+                  'date_created': {'exclude': True},
+                  'author': {'exclude': True}
+                  }
 
 
 class EmailSchema(BaseModel):

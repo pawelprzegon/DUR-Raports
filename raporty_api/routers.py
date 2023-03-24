@@ -9,14 +9,13 @@ from typing import List
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from auth_api.auth import Auth
 from starlette.responses import JSONResponse
-from datetime import datetime
 
 auth_handler = Auth()
 security = HTTPBearer()
 raporty = APIRouter()
 
 
-@raporty.get("/raports", response_model=List[schema.RaportsSmall])
+@raporty.get("/raports", response_model=List[schema.RaportsOut])
 async def root(credentials: HTTPAuthorizationCredentials = Security(security)):
     token = credentials.credentials
     if(auth_handler.decode_token(token)):
@@ -181,7 +180,7 @@ def fillFormAndRelpaceDb(form):
             ) from e
 
 
-@raporty.get('/search/{searching}', response_model=List[schema.RaportsOut])
+@raporty.get('/search/{searching}', response_model=List[schema.RaportsSmall])
 def search_raport(searching: str, credentials: HTTPAuthorizationCredentials = Security(security)):
     
     token = credentials.credentials
