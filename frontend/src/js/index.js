@@ -1,10 +1,11 @@
-import {getCookieValue} from '../features/cookie/index.js'
+import {getCookieValue} from '../features/cookie/index.js';
 import allRaportsView  from '../templates/allRaportsView.js';
 import authView  from '../templates/authView.js';
-import {navBar, navClose,  navBehav} from '../common/navigation/navigation.js'
+import {navBar, navClose,  navBehav, searchBehav} from '../common/navigation/navigation.js'
 import statisticsView from '../templates/statisticsView.js';
 import createView from '../templates/createView.js';
 import resetPassword from '../templates/resetPassword.js';
+import searchView from '../templates/searchView.js';
 
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -31,7 +32,8 @@ const router = async() =>{
         { path: '/statistics', view: statisticsView },
         { path: '/create', view: createView },
         { path: '/edit', view: createView },
-        { path: '/my/:username', view: allRaportsView },
+        { path: '/my', view: allRaportsView },
+        { path: '/search', view: searchView },
         { path: '/reset-password', view: resetPassword }
 
     ]
@@ -68,8 +70,10 @@ document.addEventListener('DOMContentLoaded', () =>{
     document.body.addEventListener("click", e =>{
         if(e.target.matches("[data-link]")){
             e.preventDefault();
+            searchBehav();
             navClose();
             navigateTo(e.target.href); 
+            
         }
     })
     auth();

@@ -4,12 +4,25 @@ import {Brick} from '../features/brick/brick.js'
 import {callApiGet, checkAuth} from '../features/endpoints/endpoints.js'
 import {showloader, hideloader} from '../features/loading/loading.js'
 import {alerts} from '../features/alerts/alerts.js'
+import {getCookieValue} from '../features/cookie/index.js'
 
 import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView{
-    constructor(params){
-        super(params);
+    constructor(){
+        super();
+
+        const username = getCookieValue('user')
+        this.lastPart = (window.location.href).split("/").pop();
+
+        if (this.lastPart == 'my'){
+            this.setTitle("Moje raporty")
+            this.api_url = url+"raports/"+ username
+        }else{
+            this.setTitle("Raporty")
+        }
+        this.bricks = []
+        this.api_url = url+"raports/"
     }
 
     css(){
@@ -18,21 +31,7 @@ export default class extends AbstractView{
 
 
     async getData(){
-
-        const loader = setTimeout(() => {
-            showloader();
-        }, 1000)
-        
-        this.bricks = []
-        this.api_url = url+"raports/"
-
-        if (this.params.username){
-            this.setTitle("Moje raporty")
-            this.api_url = url+"raports/"+this.params.username
-        }else{
-            this.setTitle("Raporty")
-        }
-        
+        const loader = showloader();
         try {
             let [re, st] = await checkAuth(url+'auth');
             if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){

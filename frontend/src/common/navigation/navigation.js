@@ -1,5 +1,5 @@
 import {logout} from '../../features/logout/logout.js'
-import {search} from '../../features/search/search.js'
+import {navigateTo} from '../../js/index.js'
 
 export function navBar(user){
     const header = document.getElementById("app-header")
@@ -26,8 +26,7 @@ export function navBar(user){
     searchInput.addEventListener("keyup", function(event) {
         event.preventDefault();
         if (event.keyCode == 13 && (searchInput.value).trim() != ''){
-            console.log(searchInput.value)
-            search(searchInput.value);
+            navigateTo('/search');
         }
             
     });
@@ -45,6 +44,7 @@ export function navBar(user){
     searchBtn.id = 'searchBtn'
     searchBtn.addEventListener("click", () =>{
         searchForm();
+        searchInput.focus();
     })
 
     
@@ -95,7 +95,7 @@ export function navBar(user){
 
     const moje = document.createElement('a')
     moje.classList.add('nav-link')
-    moje.href = '/my/'+user
+    moje.href = '/my'
     moje.innerText = 'moje'
     moje.setAttribute('data-link', '')
 
@@ -173,7 +173,14 @@ export function navClose(){
     navOverlay.classList.remove("nav-overlay-open");
 }
 
+export function searchBehav(){
+    let empty = document.getElementById('empty')
+    empty.style.visibility = 'hidden'
+    empty.classList.remove('nav-close')
+}
+
 function searchForm(){
+
     const navOverlay = document.querySelector(".nav-overlay");
     const btns = document.querySelector("nav");
     const navSecondRow = document.getElementById("btns-pics")
@@ -184,3 +191,4 @@ function searchForm(){
     empty.classList.remove('nav-close')
     empty.style.visibility = 'visible'
 }
+

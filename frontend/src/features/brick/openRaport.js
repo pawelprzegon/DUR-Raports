@@ -30,9 +30,7 @@ export class openRaport{
     }
 
     async getData(){
-        const loader = setTimeout(() => {
-            showloader();
-        }, 1000)
+        const loader = showloader();
         try {
             let [re, st] = await checkAuth(url+'auth');
             if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){

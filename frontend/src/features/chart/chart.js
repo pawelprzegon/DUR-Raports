@@ -143,7 +143,7 @@ class Animator {
         return this._charts.delete(chart);
     }
 }
-var animator = /* #__PURE__ */ new Animator();
+let animator = /* #__PURE__ */ new Animator();
 
 const transparent = 'transparent';
 const interpolators = {
@@ -2542,7 +2542,7 @@ class ScatterController extends DatasetController {
     }
 }
 
-var controllers = /*#__PURE__*/Object.freeze({
+let controllers = /*#__PURE__*/Object.freeze({
 __proto__: null,
 BarController: BarController,
 BubbleController: BubbleController,
@@ -2606,7 +2606,7 @@ ScatterController: ScatterController
         return abstract();
     }
 }
-var adapters = {
+let adapters = {
     _date: DateAdapterBase
 };
 
@@ -2760,7 +2760,7 @@ function binarySearch(metaset, axis, value, intersect) {
     }
     return items;
 }
- var Interaction = {
+ let Interaction = {
     evaluateInteractionItems,
     modes: {
  index (chart, e, options, useFinalPosition) {
@@ -3062,7 +3062,7 @@ function placeBoxes(boxes, chartArea, params, stacks) {
     chartArea.x = x;
     chartArea.y = y;
 }
-var layouts = {
+let layouts = {
  addBox (chart, item) {
         if (!chart.boxes) {
             chart.boxes = [];
@@ -5029,7 +5029,7 @@ class Registry {
         return item;
     }
 }
-var registry = /* #__PURE__ */ new Registry();
+let registry = /* #__PURE__ */ new Registry();
 
 class PluginService {
     constructor(){
@@ -5464,7 +5464,7 @@ function needContext(proxy, names) {
     return false;
 }
 
-var version = "4.2.0";
+let version = "4.2.0";
 
 const KNOWN_POSITIONS = [
     'top',
@@ -7218,7 +7218,7 @@ class BarElement extends Element {
     }
 }
 
-var elements = /*#__PURE__*/Object.freeze({
+let elements = /*#__PURE__*/Object.freeze({
 __proto__: null,
 ArcElement: ArcElement,
 LineElement: LineElement,
@@ -7281,7 +7281,7 @@ function containsColorsDefinitions(descriptors) {
 function containsColorsDefinition(descriptor) {
     return descriptor && (descriptor.borderColor || descriptor.backgroundColor);
 }
-var plugin_colors = {
+let plugin_colors = {
     id: 'colors',
     defaults: {
         enabled: true,
@@ -7431,7 +7431,7 @@ function getStartAndCountOfVisiblePointsSimplified(meta, points) {
         count
     };
 }
-var plugin_decimation = {
+let plugin_decimation = {
     id: 'decimation',
     defaults: {
         algorithm: 'min-max',
@@ -8011,7 +8011,7 @@ function interpolatedLineTo(ctx, target, point, property) {
     }
 }
 
-var index = {
+let index = {
     id: 'filler',
     afterDatasetsUpdate (chart, _args, options) {
         const count = (chart.data.datasets || []).length;
@@ -8534,7 +8534,7 @@ function isListened(type, opts) {
     }
     return false;
 }
-var plugin_legend = {
+let plugin_legend = {
     id: 'legend',
  _element: Legend,
     start (chart, _args, options) {
@@ -8735,7 +8735,7 @@ function createTitle(chart, titleOpts) {
     layouts.addBox(chart, title);
     chart.titleBlock = title;
 }
-var plugin_title = {
+let plugin_title = {
     id: 'title',
  _element: Title,
     start (chart, _args, options) {
@@ -8773,7 +8773,7 @@ var plugin_title = {
 };
 
 const map = new WeakMap();
-var plugin_subtitle = {
+let plugin_subtitle = {
     id: 'subtitle',
     start (chart, _args, options) {
         const title = new Title({
@@ -9664,7 +9664,7 @@ class Tooltip extends Element {
         return position !== false && (caretX !== position.x || caretY !== position.y);
     }
 }
-var plugin_tooltip = {
+let plugin_tooltip = {
     id: 'tooltip',
     _element: Tooltip,
     positioners,
@@ -9791,7 +9791,7 @@ var plugin_tooltip = {
     ]
 };
 
-var plugins = /*#__PURE__*/Object.freeze({
+let plugins = /*#__PURE__*/Object.freeze({
 __proto__: null,
 Colors: plugin_colors,
 Decimation: plugin_decimation,
@@ -11305,7 +11305,7 @@ class TimeSeriesScale extends TimeScale {
     }
 }
 
-var scales = /*#__PURE__*/Object.freeze({
+let scales = /*#__PURE__*/Object.freeze({
 __proto__: null,
 CategoryScale: CategoryScale,
 LinearScale: LinearScale,

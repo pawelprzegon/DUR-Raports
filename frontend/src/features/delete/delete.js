@@ -12,7 +12,7 @@ export async function deleteRaport(id) {
         try {
             let [re, st] = await checkAuth(url + 'auth');
             console.log(re, st)
-            if (st == 202 && re.detail == "authenticated") {
+            if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
                 let [response, status] = await callApiGet(api_url);
                 if (status == 200) {
                     console.log('usunięto');

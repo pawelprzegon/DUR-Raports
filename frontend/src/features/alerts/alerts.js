@@ -6,8 +6,8 @@ export function alerts(status, response, alertType){
     let alertMessage = document.getElementById('alert-message')
     alertMessage.innerHTML = `<strong> ${status} </strong> - ${response}`
     
-    var sec = 8;
-    var countDown = setInterval( async function() {
+    let sec = 8;
+    let countDown = setInterval( async function() {
         document.getElementById("timer").innerHTML = sec+' ';
         sec--;
         if (sec == 0){

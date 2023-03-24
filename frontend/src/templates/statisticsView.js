@@ -19,9 +19,7 @@ export default class extends AbstractView{
       document.getElementById('theme').setAttribute('href', "../src/css/statistics.css");
     }
     async getData(){
-      const loader = setTimeout(() => {
-        showloader();
-      }, 1000)
+      const loader = showloader();
       this.container = document.querySelector('#cont')
       this.container.innerHTML = ''
       this.setTitle("Statystyki")
@@ -220,6 +218,7 @@ export default class extends AbstractView{
       let statistics = document.createElement('div')
       statistics.classList.add('statistics')
       for(const [key, value] of Object.entries(data.statistics)){
+        console.log(key, value)
         let box = new statisticsBox(key, value).build()
         statistics.appendChild(box)
       }

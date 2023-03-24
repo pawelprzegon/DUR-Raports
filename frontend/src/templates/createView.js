@@ -7,7 +7,6 @@ import {SliderForm} from '../features/swiper/slider.js'
 import {getCookieValue} from '../features/cookie/index.js'
 import {checkAuth} from '../features/endpoints/endpoints.js'
 import {alerts} from '../features/alerts/alerts.js'
-import {logout} from '../features/logout/logout.js'
 import {capitalized} from '../features/upperCase/upperCase.js'
 
 
@@ -360,11 +359,11 @@ export default class extends AbstractView{
                 }
                 else{
                     if (value.split('_')[0] == 'plexi'){
-                        var data = new Object();
+                        let data = new Object();
                         data[value.split('_')[1]] = key
                         plexi.push(data)
                     }else if(value.split('_')[0] == 'dekl'){
-                        var data = new Object();
+                        let data = new Object();
                         data[value.split('_')[1]] = key
                         dekl.push(data)
                     }

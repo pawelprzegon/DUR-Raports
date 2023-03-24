@@ -19,6 +19,7 @@ export default class extends AbstractView{
         }
  
         async getData(){
+            hideloader();
             this.setTitle("Login")
             this.css();
             
@@ -305,7 +306,7 @@ export default class extends AbstractView{
             console.log(status)
             if (status == 200 && !('status_code' in response)){
 
-                var now = new Date();
+                let now = new Date();
                 now.setTime(Date.parse(response.token_expire));
 
                 document.cookie='access_token='+response.access_token+

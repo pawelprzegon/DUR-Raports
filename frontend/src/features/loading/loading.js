@@ -4,5 +4,8 @@ export function hideloader() {
   }
 
 export function showloader() {
-  document.getElementById('loading').style.visibility = 'visible';
+  const loader = setTimeout(() => {
+    document.getElementById('loading').style.visibility = 'visible';
+  }, 1000)
+  return loader
 }

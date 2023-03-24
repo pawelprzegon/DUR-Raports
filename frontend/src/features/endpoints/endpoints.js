@@ -88,7 +88,7 @@ export async function tokenRefresh(){
         .then(({ status, data }) => {
             console.log({ status, data })
             if (status == 200 && !('status_code' in data)){
-                var now = new Date();
+                let now = new Date();
                 now.setTime(Date.parse(data.token_expire));
                 document.cookie='access_token='+data.access_token+
                 ';expires='+now+';SameSite=lex';
@@ -170,6 +170,6 @@ export async function checkAuth(api_url){
 
 
 function lastWord(words) {
-    var n = words.split(/[/]+/);
+    let n = words.split(/[/]+/);
     return n[n.length - 1];
   }
