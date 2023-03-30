@@ -6,6 +6,7 @@ import statisticsView from '../templates/statisticsView.js';
 import createView from '../templates/createView.js';
 import resetPassword from '../templates/resetPassword.js';
 import searchView from '../templates/searchView.js';
+import { openRaport } from '../features/brick/openRaport.js';
 
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -28,12 +29,14 @@ export const navigateTo = url =>{
 const router = async() =>{
     const routes = [
         { path: '/', view: allRaportsView },
+        { path: '/raport/:id', view: allRaportsView },
+        { path: '/user/:user', view: allRaportsView },
         { path: '/login', view: authView },
         { path: '/statistics', view: statisticsView },
+        // { path: '/statistics/:id', view: allRaportsView },
         { path: '/create', view: createView },
-        { path: '/edit', view: createView },
-        { path: '/my', view: allRaportsView },
-        { path: '/search', view: searchView },
+        { path: '/edit/:_id', view: createView },
+        { path: '/search/:query', view: searchView },
         { path: '/reset-password', view: resetPassword }
 
     ]

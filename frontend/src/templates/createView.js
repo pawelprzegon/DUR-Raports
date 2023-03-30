@@ -11,13 +11,13 @@ import {capitalized} from '../features/upperCase/upperCase.js'
 
 
 export default class extends AbstractView{
-    constructor(){
-        super();
-        this.lastPart = (window.location.href).split("/").pop();
-
-        if (this.lastPart == 'edit'){
+    constructor(params){
+        super(params);
+        this.params = params
+        console.log(this.params)
+        if ('_id' in this.params){
             this.currentRaport = JSON.parse(localStorage.getItem('active_raport'));
-            this.setTitle("Edit "+this.currentRaport.id)
+            this.setTitle("Edit "+this.params._id)
             this.api_url = url+'update/'
         }else{
             this.setTitle("New")
@@ -28,7 +28,7 @@ export default class extends AbstractView{
         this.regioList = {}
         this.regioList['Stolarnia'] = ['Pilarki', 'Zbijarki', 'Kompresor', 'Inne'];
         this.regioList['Drukarnia'] = ['Xeikony', 'Mutohy', 'Impale', 'Latex', 'Fotoba', 'Zgrzewarka', 'Kompresor', 'Inne' ]
-        this.regioList['Bibeloty'] = ['Cuttery', 'Laminarki', 'HotPress', 'EBSy', 'Mieszalnik', 'Dozownik', 'Summa', 'Inne' ]
+        this.regioList['Bibeloty'] = ['Cuttery', 'Laminarki', 'Hotpress', 'EBS', 'Mieszalnik', 'Dozownik', 'Summa', 'Inne' ]
         this.users = ['Adam', 'Pawel', 'Bartek'];
 
         
@@ -85,9 +85,9 @@ export default class extends AbstractView{
         this.deklaracje();
         this.plexi();
         
-        if (this.lastPart == 'edit'){
+        if ('_id' in this.params){
             this.fillData();
-            this.events(this.api_url, this.currentRaport.id);
+            this.events(this.api_url, this.params._id);
         }else{
             this.events(this.api_url);
         }
@@ -425,12 +425,15 @@ export default class extends AbstractView{
                 case 'Stolarnia':
                     document.getElementById(`${item.region}`+'_'+`${item.unit}`).checked=true
                     document.getElementById('text_Stolarnia').value = item.info
+                    break;
                 case 'Drukarnia':
                     document.getElementById(`${item.region}`+'_'+`${item.unit}`).checked=true
                     document.getElementById('text_Drukarnia').value = item.info
+                    break;
                 case 'Bibeloty':
                     document.getElementById(`${item.region}`+'_'+`${item.unit}`).checked=true
                     document.getElementById('text_Bibeloty').value = item.info
+                    break;
             }        
         })
 

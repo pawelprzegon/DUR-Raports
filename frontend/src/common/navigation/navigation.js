@@ -26,7 +26,7 @@ export function navBar(user){
     searchInput.addEventListener("keyup", function(event) {
         event.preventDefault();
         if (event.keyCode == 13 && (searchInput.value).trim() != ''){
-            navigateTo('/search');
+            navigateTo('/search/'+searchInput.value);
         }
             
     });
@@ -95,7 +95,7 @@ export function navBar(user){
 
     const moje = document.createElement('a')
     moje.classList.add('nav-link')
-    moje.href = '/my'
+    moje.href = '/user/'+ user
     moje.innerText = 'moje'
     moje.setAttribute('data-link', '')
 

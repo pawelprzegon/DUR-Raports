@@ -1,11 +1,14 @@
 
-export function Slider(){
- new Swiper(".slide-content", {
+export function Slider(id){
+  
+  let indexToGet = $('.swiper .card').index( $(`#${id}`) );
+
+ let mySwiper = new Swiper(".slide-content", {
     slidesPerView: 3,
     // centeredSlides: true,
     spaceBetween: 25,
     loop: false,
-    
+    initialSlide: indexToGet,
     fade: false,
     grabCursor: true,
     keyboard: {
@@ -36,6 +39,7 @@ export function Slider(){
         },
     },
   });
+  return mySwiper
 }
 
 export function SliderForm(){

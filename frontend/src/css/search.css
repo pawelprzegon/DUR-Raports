@@ -9,7 +9,7 @@
     font-size: 14px;
     justify-content: flex-start
 }
-.search{
+.searching{
     display: flex;
     flex-direction: row;
     margin-top: 10px;
@@ -41,6 +41,9 @@
     color: white;
 }
 
+.labelBox h2, h3 {
+    margin: 5px;
+}
 /* .elem-style{
     display: flex;
 } */

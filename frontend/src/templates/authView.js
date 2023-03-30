@@ -19,6 +19,7 @@ export default class extends AbstractView{
         }
  
         async getData(){
+            hideloader();
             this.setTitle("Login")
             this.css();
             

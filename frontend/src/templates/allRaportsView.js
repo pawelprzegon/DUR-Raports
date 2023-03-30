@@ -5,19 +5,20 @@ import {callApiGet, checkAuth} from '../features/endpoints/endpoints.js'
 import {showloader, hideloader} from '../features/loading/loading.js'
 import {alerts} from '../features/alerts/alerts.js'
 import {getCookieValue} from '../features/cookie/index.js'
-
 import AbstractView from "./AbstractView.js";
+import {openRaport} from '../features/brick/openRaport.js'
 
 export default class extends AbstractView{
-    constructor(){
-        super();
-
+    constructor(params){
+        super(params);
+        this.params = params
         const username = getCookieValue('user')
-        this.lastPart = (window.location.href).split("/").pop();
 
-        if (this.lastPart == 'my'){
+        if ('user' in this.params){
             this.setTitle("Moje raporty")
             this.api_url = url+"raports/"+ username
+        }else if ('id' in this.params){
+            this.setTitle("Raport: " + params.id)
         }else{
             this.setTitle("Raporty")
         }
@@ -25,13 +26,14 @@ export default class extends AbstractView{
         this.api_url = url+"raports/"
     }
 
+    
+
     css(){
         document.getElementById('theme').setAttribute('href', "/../src/css/allRaports.css");
     }
 
 
     async getData(){
-        
         try {
             let [re, st] = await checkAuth(url+'auth');
             if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
@@ -41,7 +43,8 @@ export default class extends AbstractView{
                     clearTimeout(loader);
                     hideloader();
                     this.show(response);
-                    Slider();
+                    Slider(this.params.id);
+
                 }else{
                     clearTimeout(loader);
                     hideloader();
@@ -49,8 +52,6 @@ export default class extends AbstractView{
                 }
             }
         }catch (error){
-            clearTimeout(loader);
-            hideloader();
             alerts('error', error, 'alert-red')
             
         }
@@ -92,7 +93,21 @@ export default class extends AbstractView{
         container.appendChild(content)
         container.appendChild(slideConteiner)
 
-    }
+        if ('id' in this.params){
+            const showRaport = new openRaport(parseInt(this.params.id, 10));
+            
+            let animate = document.getElementById('content')
+            animate.classList.add('show-anim')
 
-    
+            showRaport.getData();
+            let nowSelected = document.getElementsByClassName('selected')
+
+            if (nowSelected.length != 0){
+                nowSelected[0].classList.remove('selected')
+                
+            }
+            document.getElementById(this.params.id).classList.add('selected')
+            addEventListener("animationend", () => {animate.classList.remove('show-anim')});
+        }
+    }
 }

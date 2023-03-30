@@ -13,7 +13,6 @@ export class openRaport{
         this.id = id;
         this.content = document.querySelector('#content');
         this.content.innerHTML = ''
-
         this.user = document.createElement('div')
         this.user.id = 'user'
         this.user.classList.add('user')
@@ -31,6 +30,7 @@ export class openRaport{
 
     async getData(){
         const loader = showloader();
+        console.log(this.id)
         try {
             let [re, st] = await checkAuth(url+'auth');
             if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
@@ -41,6 +41,7 @@ export class openRaport{
                     this.buildStructure(response);  
                     this.boldImportant();
                     localStorage.setItem('active_raport', JSON.stringify(response))
+                    console.log(this.id)
                 }else{
                     hideloader();
                     clearTimeout(loader);
@@ -64,7 +65,9 @@ export class openRaport{
         editIconBox.classList.add('edit-delete-box')
         let editIcon = document.createElement('img')
         editIcon.src = "/src/static/raport_icons/edit.png"
-        editIcon.addEventListener("click", () => {navigateTo('/edit')})
+        editIcon.addEventListener("click", () => {
+            console.log(this.id)
+            navigateTo('/edit/'+this.id)})
 
         let deleteIconBox = document.createElement('div')
         deleteIconBox.classList.add('edit-delete-box')
@@ -232,10 +235,13 @@ export class openRaport{
             switch (key){
                 case 'printed':
                     printed = value
+                    break;
                 case 'wrong':
                     wrong = value
+                    break;
                 case 'factor':
                     factor = value
+                    break;
             }
         }
         return [printed, wrong, factor]
@@ -249,10 +255,13 @@ export class openRaport{
             switch (key){
                 case 'adam':
                     adam = value;
+                    break;
                 case 'pawel':
                     pawel = value;
+                    break;
                 case 'bartek':
                     bartek = value;
+                    break;
             }
         }
         return [adam, pawel, bartek]

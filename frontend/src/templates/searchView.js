@@ -3,17 +3,17 @@ import {checkAuth, callApiGet} from '../features/endpoints/endpoints.js'
 import {alerts} from '../features/alerts/alerts.js'
 import {showloader, hideloader} from '../features/loading/loading.js'
 import {searchBehav} from '../common/navigation/navigation.js'
-import {statisticsBox} from "../features/statisticsBox/statisticsBox.js"
-import {capitalized} from '../features/upperCase/upperCase.js'
+import {searchingStatistics} from "../features/statistics/statistics.js"
 
 import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView{
-    constructor(){
-        super();
-        this.searching = document.getElementById('search').value
-        this.setTitle('search: '+ this.searching)
-        this.api_url = url + "search/" + this.searching;
+    constructor(params){
+        super(params);
+        this.params = params
+        // this.searching = document.getElementById('search').value
+        this.setTitle('search: '+ this.params)
+        this.api_url = url + "search/" + this.params.query;
         console.log(this.api_url);
 
     }
@@ -25,7 +25,7 @@ export default class extends AbstractView{
 
     async getData(){
         const loader = showloader();
-        
+        console.log(this.params)
         try {
             let [re, st] = await checkAuth(url + 'auth');
             console.log(re, st)
@@ -33,7 +33,7 @@ export default class extends AbstractView{
                 let [response, status] = await callApiGet(this.api_url);
                 if (status == 200) {
                     searchBehav();
-                    this.show(response)
+                    this.layout(response)
                 } else {
                     hideloader();
                     clearTimeout(loader);
@@ -47,30 +47,41 @@ export default class extends AbstractView{
         }
 
     }
-    show(data){
+
+    calculateChartSize(){
+        let chartWidth = '500px'
+        if ( $(window).width() <= 600) {     
+          chartWidth = '450px'
+        }
+        else if (( $(window).width() > 600) && ( $(window).width() <= 900)){
+          chartWidth = '550px'
+        }else if (( $(window).width() > 900) && ( $(window).width() <= 1500)){
+            chartWidth = '750px'
+        }else{
+          chartWidth = '900px'
+        }
+        return chartWidth
+      }
+
+
+    layout(response){
         this.css();
         this.container = document.querySelector('#cont')
         this.container.innerHTML = ''
-        console.log(data);
+        console.log(response);
 
-        let search = document.createElement('div')
-        search.classList.add('search')
-        data.forEach(element => {
-            for(const [key,value] of Object.entries(element)){
-                value.forEach(element => {
-                    console.log(element)
-                    if (element.region == capitalized(this.searching)){
-                        console.log(element.unit)
-                        let box = new statisticsBox(element.region, element.unit).build()
-                        search.appendChild(box)
-                    }
-                    
-                });
-                
-            }
-            
-            this.container.appendChild(search)  
-        });
+        const ChartsArea = document.createElement('div');
+        ChartsArea.classList.add("chart")
+        ChartsArea.style.width = this.calculateChartSize();
+        const canvas = document.createElement('canvas');
+        canvas.id = 'charts' ;
+        canvas.style = 'null';
+        ChartsArea.appendChild(canvas);
+        this.container.appendChild(ChartsArea);
+        
+        let searching = new searchingStatistics(response, this.params.query)
+        searching.charts();
+        this.container.appendChild(searching.statistics());
         
     }
 }

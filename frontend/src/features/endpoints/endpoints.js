@@ -1,6 +1,7 @@
 import {url} from "../../common/data/url.js"
 import {getCookieValue} from '../cookie/index.js'
 import {logout} from "../../features/logout/logout.js"
+import {hideloader} from "../loading/loading.js"
 
 export async function callApiGet(api_url){
     // prepare headers
@@ -19,7 +20,8 @@ export async function callApiGet(api_url){
         return [await resp.json(), resp.status];
     } catch (error) {
         console.log(error)
-        return error;
+        hideloader();
+        return ['error', error];
     }
 
 }
@@ -54,7 +56,8 @@ export async function callApiPost(api_url, formData, reset_token){
             })
         return [await resp.json(), resp.status];
     } catch (error) {
-        return error;
+        hideloader();
+        return ['error', error];
     }
 
 }
@@ -96,11 +99,13 @@ export async function tokenRefresh(){
             return [data, status];
         })
         .catch(err => {
+            hideloader();
             return ['err', err]
         });
         return resp;
 
     } catch (error) {
+        hideloader();
         return ['error', error];
     }
 }
@@ -121,7 +126,8 @@ export async function callApiPut(api_url, formData){
         })
         return [await resp.json(), resp.status];
     }catch(error){
-        return error
+        hideloader();
+        return ['error', error];
     }
 }
 
@@ -163,7 +169,8 @@ export async function checkAuth(api_url){
             }) 
             return resp;
     } catch (error) {
-        return error;
+        hideloader();
+        return ['error', error];
     }
 
 }

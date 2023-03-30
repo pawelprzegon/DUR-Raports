@@ -1,5 +1,6 @@
 // import {openRaport} from '../../templates/single_raport/index.js';
 import {openRaport} from './openRaport.js'
+import {navigateTo} from '../../js/index.js'
 
 export class Brick {
 
@@ -14,30 +15,20 @@ export class Brick {
     }
 
     openRap(){
-            const newView = new openRaport(parseInt(this.id, 10));
-            newView.getData();
+        const newView = new openRaport(parseInt(this.id, 10));
+        newView.getData();
     }
 
     build(){
         
         this.raportInfoGrid = document.createElement('div');
+        this.raportInfoGrid.id = this.id
         this.raportDataUser = document.createElement('div');
         this.detailsBox = document.createElement('div')
         this.detailsDate = document.createElement('p');
         this.detailsUser = document.createElement('p');
         this.moreButton = document.createElement('div');
-        this.moreButton.onclick = () => {
-            let animate = document.getElementById('content')
-            animate.classList.add('show-anim')
-            this.openRap();
-            let nowSelected = document.getElementsByClassName('selected')
-            if (nowSelected.length != 0){
-                nowSelected[0].classList.remove('selected')
-            }
-            this.raportInfoGrid.classList.add('selected')
-            addEventListener("animationend", () => {animate.classList.remove('show-anim')});
-            
-        }
+        this.moreButton.onclick = () => {navigateTo('/raport/'+this.id);  }
 
         let regions = this.regions(this.each.units);
 
