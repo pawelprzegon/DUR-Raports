@@ -19,11 +19,10 @@ export async function callApiGet(api_url){
             })
         return [await resp.json(), resp.status];
     } catch (error) {
-        console.log(error)
+        console.log('error: '+error)
         hideloader();
         return ['error', error];
     }
-
 }
 
 export async function callApiPost(api_url, formData, reset_token){
@@ -33,17 +32,24 @@ export async function callApiPost(api_url, formData, reset_token){
     let myHeaders = new Headers()
     switch (address){
         case "login":
-        case "register":
             myHeaders = {
                 'accept': 'application/json',
+                'Content-Type': 'application/json',
                 'Authorization': 'Bearer '+token, 
             };
             break;
+        case "register":
+        case "reset_password_link":
+            myHeaders = {
+                'Content-Type': 'application/json',
+            };
+            break;
         default: 
+            console.log('deault')
             myHeaders = {
                 'accept': 'application/json',
-                'Authorization': 'Bearer '+reset_token,
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+reset_token,
             };
     }   
     
@@ -173,6 +179,28 @@ export async function checkAuth(api_url){
         return ['error', error];
     }
 
+}
+
+export async function callApiDelete(api_url){
+    // prepare headers
+    let token = getCookieValue('access_token')
+    const myHeaders = new Headers({
+        'accept': 'application/json',
+        'Authorization': 'Bearer '+token
+    });
+
+    try {
+        let resp = await fetch(api_url, {
+            method: "DELETE",
+            credentials: 'include',
+            headers: myHeaders,
+            })
+        return [await resp.json(), resp.status];
+    } catch (error) {
+        console.log('error: '+error)
+        hideloader();
+        return ['error', error];
+    }
 }
 
 

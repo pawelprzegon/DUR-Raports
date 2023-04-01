@@ -53,10 +53,9 @@ export default class extends AbstractView{
             this.responseBox.appendChild(this.responseData);
 
             // inputs section
-            let data = []
-            data = ["email", "username", "password", "confirm"]
+            this.data = ["email", "username", "password", "confirm"]
 
-            data.forEach(each => {
+            this.data.forEach(each => {
                 this.elemBox = document.createElement('div');
                 this.elemBox.classList.add('input-control')
                 this.elemBox.id = 'div-'+each
@@ -190,11 +189,13 @@ export default class extends AbstractView{
                         formDataObj[value] = key;
                     }
                 })
+                console.log(formDataObj)
                 let validate = this.validateInputs(formDataObj);
+
                 if (validate.valid === true && validate.elements == 2){
-                    this.getToken(formData);
+                    this.Login(JSON.stringify(formDataObj));
                 }else if(validate.valid === true && validate.elements == 4){
-                    this.createUser(formData)
+                    this.createUser(JSON.stringify(formDataObj))
                 }else if (validate.valid === true && validate.elements == 1){
                     this.resetPassword(formData)
                 }else{
@@ -257,15 +258,13 @@ export default class extends AbstractView{
         }
 
 
-        // TODO: createUser przerobić używając funkcji call callApiPost jak getToken
-
         async createUser(formData) {
-            const formDataObj = Object.fromEntries(formData.entries());
+            // const formDataObj = Object.fromEntries(formData.entries());
             let api_url = url+'register'
             let [response, status] = await callApiPost(api_url, formData);
             console.log(response)
             console.log(status)
-            if (status == 200 && response.message == `${formDataObj.username}`+' registered'){
+            if (status == 200 && response.message == `${formData.username}`+' registered'){
                 // czyszczenie 
                 document.getElementById('responseBox').innerHTML = ''
                 let inputs = document.getElementsByClassName('input-control')
@@ -290,7 +289,7 @@ export default class extends AbstractView{
                 this.responseStatus.innerText = status;
                 this.responseStatus.classList.add('response-error')
                 this.responseData = document.createElement('p');
-                this.responseData.innerText = data.status[0];
+                this.responseData.innerText = status
                 this.responseData.classList.add('response-error')
                 
                 this.responseBox.appendChild(this.responseStatus);
@@ -299,7 +298,7 @@ export default class extends AbstractView{
 
         }
             
-        async getToken(formData) {
+        async Login(formData) {
             let api_url = url+'login'
             let [response, status] = await callApiPost(api_url, formData);
             console.log(response)
@@ -349,10 +348,13 @@ export default class extends AbstractView{
             let [response, status] = await callApiPost(api_url, JSON.stringify(formDataObj));
             console.log(response)
             console.log(status)
+            document.getElementById('div-email').classList.remove('success')
             if (status == 200){
+                this.loginSignupLink.click();
                 alerts('Success', response.message, 'alert-green')
             }else{
-                alerts('Failed', response.message, 'alert-red')
+                
+                alerts(status +' Failed', response.message, 'alert-red')
             }
         }
 }

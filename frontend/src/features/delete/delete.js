@@ -1,6 +1,6 @@
 
 import {url} from "../../common/data/url.js"
-import {callApiGet, checkAuth} from '../endpoints/endpoints.js'
+import {callApiDelete, checkAuth} from '../endpoints/endpoints.js'
 import {navigateTo} from '../../js/index.js'
 import {alerts} from '../alerts/alerts.js'
 import {hideloader} from '../loading/loading.js'
@@ -13,7 +13,7 @@ export async function deleteRaport(id) {
             let [re, st] = await checkAuth(url + 'auth');
             console.log(re, st)
             if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
-                let [response, status] = await callApiGet(api_url);
+                let [response, status] = await callApiDelete(api_url);
                 if (status == 200) {
                     console.log('usunięto');
                     navigateTo('/');

@@ -21,11 +21,12 @@ export function navBar(user){
     searchInput.type = 'text'
     searchInput.name = 'search'
     searchInput.id = 'search'
-    searchInput.placeholder="Szukaj..."
+    searchInput.placeholder="2023-01-31, 'Impale', 'Drukarnia'"
     searchInput.classList.add('search-input')
     searchInput.addEventListener("keyup", function(event) {
         event.preventDefault();
         if (event.keyCode == 13 && (searchInput.value).trim() != ''){
+            navClose();
             navigateTo('/search/'+searchInput.value);
         }
             
@@ -191,4 +192,3 @@ function searchForm(){
     empty.classList.remove('nav-close')
     empty.style.visibility = 'visible'
 }
-

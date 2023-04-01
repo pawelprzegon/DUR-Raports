@@ -58,6 +58,10 @@
 }
 .elem-style:nth-child(1){
     width: 45%;
+    cursor: pointer;
+}
+.elem-style:nth-child(1):hover{
+    text-decoration: underline;
 }
 .elem-style:nth-child(2){
     width: 30%;

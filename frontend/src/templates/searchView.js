@@ -4,15 +4,16 @@ import {alerts} from '../features/alerts/alerts.js'
 import {showloader, hideloader} from '../features/loading/loading.js'
 import {searchBehav} from '../common/navigation/navigation.js'
 import {searchingStatistics} from "../features/statistics/statistics.js"
+import {navigateTo} from '../js/index.js'
 
 import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView{
     constructor(params){
         super(params);
+        console.log(params.query)
         this.params = params
-        // this.searching = document.getElementById('search').value
-        this.setTitle('search: '+ this.params)
+        this.setTitle('search: '+ this.params.query)
         this.api_url = url + "search/" + this.params.query;
         console.log(this.api_url);
 
@@ -32,9 +33,24 @@ export default class extends AbstractView{
             if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
                 let [response, status] = await callApiGet(this.api_url);
                 if (status == 200) {
+                    hideloader();
+                    clearTimeout(loader);
                     searchBehav();
-                    this.layout(response)
-                } else {
+                    console.log(response)
+                    if (response == null){
+                        alerts(status, `Nie znaleziono raportu z dnia: ${this.params.query}`, 'alert-orange');
+                    }
+                    else if ('id' in response){
+                        navigateTo('/raport/'+response.id)
+                    }else{
+                        this.layout(response)
+                    }
+                    
+                }else if(status == 404){
+                    hideloader();
+                    clearTimeout(loader);
+                    alerts(status, response.detail, 'alert-orange');
+                } else{
                     hideloader();
                     clearTimeout(loader);
                     alerts(status, response, 'alert-red');
@@ -68,7 +84,7 @@ export default class extends AbstractView{
         this.css();
         this.container = document.querySelector('#cont')
         this.container.innerHTML = ''
-        console.log(response);
+        console.log(response.query);
 
         const ChartsArea = document.createElement('div');
         ChartsArea.classList.add("chart")

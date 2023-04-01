@@ -33,12 +33,10 @@ const router = async() =>{
         { path: '/user/:user', view: allRaportsView },
         { path: '/login', view: authView },
         { path: '/statistics', view: statisticsView },
-        // { path: '/statistics/:id', view: allRaportsView },
         { path: '/create', view: createView },
         { path: '/edit/:_id', view: createView },
         { path: '/search/:query', view: searchView },
         { path: '/reset-password', view: resetPassword }
-
     ]
 
 

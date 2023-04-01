@@ -8,6 +8,8 @@ import AbstractView from "./AbstractView.js";
 export default class extends AbstractView{
     constructor(params){
         super(params);
+
+        this.actualAddress = new URL(window.location.href);
         console.log(this.actualAddress)
         this.token = this.actualAddress.searchParams.get("token")
         console.log(this.token)
@@ -22,98 +24,93 @@ export default class extends AbstractView{
 
     async getData(){
         this.css();
-        this.actualAddress = new URL(window.location.href);
+        
         this.bricks = []
         this.api_url = url+"reset_password/"
         this.setTitle("Reset password")
 
-        // document.querySelector('#app-header').innerHTML = ''
-        this.form = document.querySelector('#form-data');
-            this.formField = document.createElement('form')
-            this.formField.action = "#"
-            this.formField.id = "form"
-            this.formField.method = "post"
+        this.container = document.getElementById('cont');
+        this.formField = document.createElement('form')
+        this.formField.action = "#"
+        this.formField.id = "form"
+        this.formField.method = "post"
 
-            this.raportList = document.querySelector('#raport');
+        
+        this.header = document.createElement('h1');
+        this.header.innerText = 'Reset password'
+        this.header.id = 'header'
+        this.formField.appendChild(this.header)
+        this.responseBox = document.createElement('div');
+        this.responseBox.id = 'responseBox'
+        this.formField.appendChild(this.responseBox)
 
-            this.form.innerHTML = ''
-            this.raportList.innerHTML = ''
-            
-            this.header = document.createElement('h1');
-            this.header.innerText = 'Reset password'
-            this.header.id = 'header'
-            this.formField.appendChild(this.header)
-            this.responseBox = document.createElement('div');
-            this.responseBox.id = 'responseBox'
-            this.formField.appendChild(this.responseBox)
+        // Errors section
+        this.responseStatus = document.createElement('p');
+        this.responseStatus.innerText = '';
+        this.responseStatus.classList.add('response-error')
+        this.responseData = document.createElement('p');
+        this.responseData.innerText = '';
+        this.responseData.classList.add('response-error')
+        
+        this.responseBox.appendChild(this.responseStatus);
+        this.responseBox.appendChild(this.responseData);
 
-            // Errors section
-            this.responseStatus = document.createElement('p');
-            this.responseStatus.innerText = '';
-            this.responseStatus.classList.add('response-error')
-            this.responseData = document.createElement('p');
-            this.responseData.innerText = '';
-            this.responseData.classList.add('response-error')
-            
-            this.responseBox.appendChild(this.responseStatus);
-            this.responseBox.appendChild(this.responseData);
+        // inputs section
+        let data = []
+        data = ["password", "confirm"]
 
-            // inputs section
-            let data = []
-            data = ["password", "confirm"]
+        data.forEach(each => {
+            this.elemBox = document.createElement('div');
+            this.elemBox.classList.add('input-control')
+            this.elemBox.id = 'div-'+each
+            this.elemLabel = document.createElement('p');
+            this.elemLabel.innerText = each;
+            this.elemText = document.createElement('input');
+            this.elemText.type = 'text'       
+            this.elemText.name = each
+            this.elemText.id = each
+            this.Err = document.createElement('div')
+            this.Err.classList.add('error')
 
-            data.forEach(each => {
-                this.elemBox = document.createElement('div');
-                this.elemBox.classList.add('input-control')
-                this.elemBox.id = 'div-'+each
-                this.elemLabel = document.createElement('p');
-                this.elemLabel.innerText = each;
-                this.elemText = document.createElement('input');
-                this.elemText.type = 'text'       
-                this.elemText.name = each
-                this.elemText.id = each
-                this.Err = document.createElement('div')
-                this.Err.classList.add('error')
+            this.elemBox.appendChild(this.elemLabel)
+            this.elemBox.appendChild(this.elemText)
+            this.elemBox.appendChild(this.Err)
+            this.formField.appendChild(this.elemBox)
+        })
 
-                this.elemBox.appendChild(this.elemLabel)
-                this.elemBox.appendChild(this.elemText)
-                this.elemBox.appendChild(this.Err)
-                this.formField.appendChild(this.elemBox)
-            })
-
-            this.submitButtonBox = document.createElement('div');
-            this.submitButton = document.createElement('button');
-            this.submitButton.classList.add('submit');
-            this.submitButton.type = "submit";
-            this.submitButton.innerText = 'Reset';
+        this.submitButtonBox = document.createElement('div');
+        this.submitButton = document.createElement('button');
+        this.submitButton.classList.add('submit');
+        this.submitButton.type = "submit";
+        this.submitButton.innerText = 'Reset';
 
 
-            this.submitButtonBox.appendChild(this.submitButton)
-            this.formField.appendChild(this.submitButtonBox)
-            this.form.appendChild(this.formField)
+        this.submitButtonBox.appendChild(this.submitButton)
+        this.formField.appendChild(this.submitButtonBox)
+        this.container.appendChild(this.formField)
 
-            this.form.addEventListener('submit', (e) => {
+        this.container.addEventListener('submit', (e) => {
 
-                e.preventDefault();
+            e.preventDefault();
 
-                const formData = new FormData(this.formField);
-                const formDataObj = {};
+            const formData = new FormData(this.formField);
+            const formDataObj = {};
 
-                formData.forEach((key, value) => {
-                    let obj = document.getElementById('div-'+value)
-                    if(!obj.classList.contains('hidden-element')){
-                        formDataObj[value] = key;
-                    }
-                })
-            
-                console.log(formDataObj)
-                let validate = this.validateInputs(formDataObj);
-                if (validate.valid === true){
-                    this.resetPassword(formDataObj);
-                }else{
-                    console.log("błędne dane")
+            formData.forEach((key, value) => {
+                let obj = document.getElementById('div-'+value)
+                if(!obj.classList.contains('hidden-element')){
+                    formDataObj[value] = key;
                 }
             })
+        
+            console.log(formDataObj)
+            let validate = this.validateInputs(formDataObj);
+            if (validate.valid === true){
+                this.resetPassword(formDataObj);
+            }else{
+                console.log("błędne dane")
+            }
+        })
     }
 
     validateInputs(formDataObj){

@@ -13,17 +13,18 @@ export default class extends AbstractView{
         super(params);
         this.params = params
         const username = getCookieValue('user')
-
         if ('user' in this.params){
             this.setTitle("Moje raporty")
             this.api_url = url+"raports/"+ username
+
         }else if ('id' in this.params){
-            this.setTitle("Raport: " + params.id)
+            this.setTitle("Raport: " + this.params.id)
+            this.api_url = url+"raports/"
         }else{
             this.setTitle("Raporty")
+            this.api_url = url+"raports/"
         }
         this.bricks = []
-        this.api_url = url+"raports/"
     }
 
     

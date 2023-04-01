@@ -251,16 +251,15 @@ export default class extends AbstractView{
 
         const box = document.createElement('div')
         box.classList.add('plexi-box')
-        let boxes = [{'printed':'Wydrukowano (szt)', 'wrong':'Błędnie wydrukowano (szt)', 'factor':'Współczynnik (%)'}]
-
-            for (const [key, value] of Object.entries(boxes[0])){
+        let boxes = {'printed_plexi':'Wydrukowano (szt)', 'wrong_plexi':'Błędnie wydrukowano (szt)', 'factor_plexi':'Współczynnik (%)'}
+            for (const [key, value] of Object.entries(boxes)){
                 let boxN = document.createElement('div')
                 boxN.classList.add('input-data')
                 let label = document.createElement('p')
                 label.classList.add('plexi-input-label')
                 label.innerText = value
                 let inputPlace = document.createElement('input')
-                inputPlace.name = value
+                inputPlace.name = key
                 inputPlace.id = key
                 inputPlace.classList.add('plexi-input')
     
@@ -358,9 +357,9 @@ export default class extends AbstractView{
                     }
                 }
                 else{
-                    if (value.split('_')[0] == 'plexi'){
+                    if (value.split('_')[1] == 'plexi'){
                         let data = new Object();
-                        data[value.split('_')[1]] = key
+                        data[value.split('_')[0]] = key
                         plexi.push(data)
                     }else if(value.split('_')[0] == 'dekl'){
                         let data = new Object();
@@ -420,6 +419,7 @@ export default class extends AbstractView{
     }
 
     fillData(){
+        console.log(this.currentRaport.plexi.length)
         this.currentRaport.units.forEach(item =>{
             switch (item.region){
                 case 'Stolarnia':
@@ -443,7 +443,8 @@ export default class extends AbstractView{
         
         if (this.currentRaport.hasOwnProperty('plexi') && this.currentRaport.plexi.length != 0){
             for (const [key, value] of Object.entries(this.currentRaport.plexi[0])){
-                document.getElementById(key).value = value
+                console.log(key, value)
+                document.getElementById(key+'_plexi').value = value
             }
         }
     }
