@@ -92,12 +92,14 @@ async def reset_Password_link(email: EmailSchema):
         USE_CREDENTIALS = True,
         VALIDATE_CERTS = True
     )
+    
+    print(email.dict().get("email")[0])
     try:
         if (
             user := db.session.query(User)
             .filter_by(email=email.dict().get("email")[0])
             .first()
-        ):
+            ):
             access_token, exp = auth_handler.encode_token({"username": user.username})
             reset_link = f"http://localhost:3000/reset-password?token={access_token}"
             html = f"<p>To jest link do resetowania hasła: {reset_link}</p> "
@@ -110,12 +112,9 @@ async def reset_Password_link(email: EmailSchema):
 
             fm = FastMail(conf)
             await fm.send_message(mess)
-            return JSONResponse(status_code=status.HTTP_200_OK, content={"message": "email has been sent"})
+            return JSONResponse(status_code=status.HTTP_200_OK, content={"message": "email has been sent, please check your inbox"})
         else:
-            raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, 
-            detail='Username not found'
-            )
+            return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"message": "email not found"})
     except:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 

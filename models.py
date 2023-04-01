@@ -58,7 +58,6 @@ class Dekl(Base):
     adam = Column(String, nullable=False)
     pawel = Column(String, nullable=False)
     bartek = Column(String, nullable=False)
-    # dekl = Column(String, nullable=False)
     date_created = Column(DateTime(timezone=True),
                           default=datetime.datetime.utcnow)
     raport_id = Column(Integer, ForeignKey(

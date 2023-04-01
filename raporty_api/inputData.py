@@ -16,7 +16,7 @@ class InputData:
             author = db.session.query(User).filter_by(
                 username=self.form['username']).first()
             rap = Raport(author=author)
-            to_update = [rap]
+            creating_updating_raport = [rap]
             for key, value in self.form.items():
                 print(key, value)
                 if value:
@@ -25,30 +25,30 @@ class InputData:
                             if 'units' in value and 'text' in value:
                                 for each in value['units']:
                                     data = Unit(unit=each, info=value['text'], region=key, raport=rap)
-                                to_update.append(data)
+                                creating_updating_raport.append(data)
                                 
                         case 'plexi':
                             printed, wrong, factor = self.getPlexiData(value)
                             data = Plexi(
                                 printed=printed, wrong=wrong, factor=factor,  raport=rap)
-                            to_update.append(data)
+                            creating_updating_raport.append(data)
                             
                         case 'dekl':
                             adam, pawel, bartek = self.getDeklData(value)
                             data = Dekl(adam=adam, pawel=pawel, bartek=bartek, 
                                         raport=rap)
-                            to_update.append(data)
+                            creating_updating_raport.append(data)
                             
                         
                         
-            print(to_update)
+            print(creating_updating_raport)
             
             if 'id' in self.form:
                 message = f"zaktualizowano raport z dnia {(raport.date_created).strftime('%d-%m-%Y')}"
                 db.session.delete(raport)
             else:
                 message = 'dodano raport'
-                db.session.add_all(to_update)
+                db.session.add_all(creating_updating_raport)
 
             db.session.commit()
             return JSONResponse(status_code=status.HTTP_200_OK, content={"message": message})
