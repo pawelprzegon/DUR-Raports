@@ -2,10 +2,10 @@ from fastapi_sqlalchemy import db
 from fastapi import APIRouter, Depends, HTTPException, status, Request, Security
 from models import User
 from sqlalchemy.exc import SQLAlchemyError
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm, HTTPAuthorizationCredentials, HTTPBearer
+from fastapi.security import OAuth2PasswordBearer, HTTPAuthorizationCredentials, HTTPBearer
 from starlette.responses import JSONResponse
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
-from schema import EmailSchema
+from schema import EmailSchema, Register, Login, ChangePassword
 
 
 from auth_api.auth import Auth
@@ -19,10 +19,39 @@ JWT_SECRET = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
 
 
+@auth.post('/register/')
+async def register(form_data: Register):
+    '''
+    endpoint: send form with new user information: (email, username, password, confirm(password))
+    '''
+
+    if db.session.query(User).filter_by(username=form_data.username).first() != None:
+        return HTTPException(
+            status_code=status.HTTP_303_SEE_OTHER,
+            detail="User allready exists"
+        )
+    
+    try:
+        email = form_data.email
+        username = form_data.username
+        hashed_password = auth_handler.encode_password(form_data.password)
+        user_obj = User(email=email, username=username, password=hashed_password)
+        db.session.add(user_obj)
+        db.session.commit()
+        return JSONResponse(status_code=status.HTTP_200_OK, 
+                            content={"message": f"{username} registered"})
+
+    except SQLAlchemyError as e:
+        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+                            content={"message":  e.orig.args})
+
+
 
 @auth.post('/login')
-async def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    
+async def login(form_data: Login):
+    '''
+    endpoint: send valid, existing username and password for login
+    '''
     print(form_data)
     user = db.session.query(User).filter_by(username=form_data.username).first()
     if (user is None):
@@ -43,56 +72,14 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
                 'id': user.id,
                 'username' : user.username
             }}
-                        )
+            )
             
 
-
-@auth.post('/register/')
-async def register(request: Request):
-
-    form_data = await request.form()
-    
-    if db.session.query(User).filter_by(username=form_data['username']).first() != None:
-        return HTTPException(
-            status_code=status.HTTP_303_SEE_OTHER,
-            detail="User allready exists"
-        )
-    
-    try:
-        email = form_data['email']
-        username = form_data['username']
-        hashed_password = auth_handler.encode_password(form_data['password'])
-        user_obj = User(email=email, username=username, password=hashed_password)
-        db.session.add(user_obj)
-        db.session.commit()
-        return JSONResponse(status_code=status.HTTP_200_OK, 
-                            content={"message": f"{username} registered"})
-
-    except SQLAlchemyError as e:
-        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-                            content={"message":  e.orig.args})
-
-
-@auth.get('/refresh_token')
-def refresh_token(credentials: HTTPAuthorizationCredentials = Security(security)):
-
-    try:
-        refresh_token = credentials.credentials
-        new_token, exp = auth_handler.refresh_token(refresh_token)
-        print(new_token, exp)
-        return JSONResponse(status_code=status.HTTP_200_OK, content={
-            'access_token': new_token, 
-            'token_expire' : str(exp),
-            })
-    except BaseException as e:
-        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-                            content={"message":  e})
-
-
-
 @auth.post('/reset_password_link')
-async def resetPassword(email: EmailSchema):
-
+async def reset_Password_link(email: EmailSchema):
+    '''
+    endpoint: send email addres for get access link for change password
+    '''
     conf = ConnectionConfig(
         MAIL_USERNAME = "bedziezciebie",
         MAIL_PASSWORD = "ggtzwnhsbgcmwjaa",
@@ -136,12 +123,15 @@ async def resetPassword(email: EmailSchema):
             )
         
 @auth.post('/reset_password')
-async def resetPassword(request: Request, credentials: HTTPAuthorizationCredentials = Security(security)):
-    form_data = await request.json()
+async def reset_Password(form_data: ChangePassword, credentials: HTTPAuthorizationCredentials = Security(security)):
+    '''
+    endpoint: send form with new password for user
+    Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
+    '''
+    
+    # form_data = await request.json()
     token_user = auth_handler.decode_token(credentials.credentials)
-    print(form_data)
-    hashed_new_password = auth_handler.encode_password(form_data['password'])
-    print(token_user)
+    hashed_new_password = auth_handler.encode_password(form_data.password)
     try:
         user = db.session.query(User).filter_by(username=token_user).first()
         user.password = hashed_new_password
@@ -150,10 +140,33 @@ async def resetPassword(request: Request, credentials: HTTPAuthorizationCredenti
     except SQLAlchemyError as e:
         return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content={"message":  e.orig.args})
         
-@auth.get('/auth')
+
+@auth.get('/auth', include_in_schema=False)
 async def authorize(credentials: HTTPAuthorizationCredentials = Security(security)):
     token = credentials.credentials
     if(auth_handler.decode_token(token)):
         return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content={"detail":  'authenticated'})
+
+@auth.get('/refresh_token', include_in_schema=False)
+def refresh_token(credentials: HTTPAuthorizationCredentials = Security(security)):
+    '''
+    endpoint: refresh 'access token' if expired (only when 'refresh token' still valid)
+    access token: 30min
+    refresh token: 2h
+    Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ refresh token)
+    '''
+    
+    try:
+        refresh_token = credentials.credentials
+        new_token, exp = auth_handler.refresh_token(refresh_token)
+        print(new_token, exp)
+        return JSONResponse(status_code=status.HTTP_200_OK, content={
+            'access_token': new_token, 
+            'token_expire' : str(exp),
+            })
+    except BaseException as e:
+        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+                            content={"message":  e})
+
 
     

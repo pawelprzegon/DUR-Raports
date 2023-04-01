@@ -34,7 +34,7 @@ class Raport(Base):
                          lazy='joined', cascade="all, delete-orphan")
 
     def __repr__(self) -> str:
-        return f"Raport('{self.date_created}', '{self.author}', '{self.units}', '{self.dekl}', '{self.plexi}')"
+        return f"Raport('{self.id}, {self.date_created}', '{self.author}', '{self.units}', '{self.dekl}', '{self.plexi}')"
 
 
 class Unit(Base):
@@ -49,7 +49,7 @@ class Unit(Base):
         'raport.id'), nullable=False)
 
     def __repr__(self) -> str:
-        return f"Unit('{self.unit}', '{self.region}', '{self.date_created}')"
+        return f"Unit('{self.id}, {self.unit}', '{self.region}', '{self.date_created}')"
 
 
 class Dekl(Base):

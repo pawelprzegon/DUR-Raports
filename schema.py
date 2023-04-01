@@ -7,6 +7,7 @@ from typing import List
 
 
 class Unit(BaseModel):
+    id = int
     unit: str
     info: str
     region: str
@@ -86,10 +87,22 @@ class RaportsSmall(Raport):
     units: List[UnitSmall]
     class Config:
         fields = {'id': {'exclude': True},
-                  'date_created': {'exclude': True},
+                #   'date_created': {'exclude': False},
                   'author': {'exclude': True}
                   }
 
-
+class Register(BaseModel):
+    email: str
+    username: str
+    password: str
+    confirm: str
+    
+class Login(BaseModel):
+    username: str
+    password: str
+    
 class EmailSchema(BaseModel):
     email: List[EmailStr]
+    
+class ChangePassword(BaseModel):
+    password: str
