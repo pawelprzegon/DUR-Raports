@@ -40,8 +40,6 @@ class InputData:
                             creating_updating_raport.append(data)
                             
                         
-                        
-            print(creating_updating_raport)
             
             if 'id' in self.form:
                 message = f"zaktualizowano raport z dnia {(raport.date_created).strftime('%d-%m-%Y')}"
