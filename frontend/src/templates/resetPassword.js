@@ -1,6 +1,5 @@
 import {url} from "../common/data/url.js"
-import {callApiPost} from '../features/endpoints/endpoints.js'
-import {hideloader} from '../features/loading/loading.js'
+import {checkAuthResetPassword, callApiPost} from '../features/endpoints/endpoints.js'
 import {navigateTo} from "../js/index.js";
 import {alerts} from '../features/alerts/alerts.js'
 import AbstractView from "./AbstractView.js";
@@ -8,6 +7,11 @@ import AbstractView from "./AbstractView.js";
 export default class extends AbstractView{
     constructor(params){
         super(params);
+
+        this.bricks = []
+        this.api_url = url+"reset_password/"
+        this.api_url_auth = url+"auth-reset-password/"
+        this.setTitle("Reset password")
 
         this.actualAddress = new URL(window.location.href);
         console.log(this.actualAddress)
@@ -20,14 +24,19 @@ export default class extends AbstractView{
         document.getElementById('app-header').setAttribute('style', 'height:0%')
         document.getElementById('alerts').setAttribute('style', 'height:0%')
     }
-
-
     async getData(){
+        let [response, status] = await checkAuthResetPassword(this.api_url_auth, this.token);
+        console.log(response, status)
+        if (status == 202 && response.detail && response.detail == "authenticated"){ 
+            console.log('test')
+            this.show();
+        }else{
+            alerts(status, response.detail+': wygeneruj nowy link do zresetowania hasła', 'alert-red')
+        }
+    }
+
+    async show(){
         this.css();
-        
-        this.bricks = []
-        this.api_url = url+"reset_password/"
-        this.setTitle("Reset password")
 
         this.container = document.getElementById('cont');
         this.formField = document.createElement('form')
@@ -66,7 +75,7 @@ export default class extends AbstractView{
             this.elemLabel = document.createElement('p');
             this.elemLabel.innerText = each;
             this.elemText = document.createElement('input');
-            this.elemText.type = 'text'       
+            this.elemText.type = 'password'       
             this.elemText.name = each
             this.elemText.id = each
             this.Err = document.createElement('div')
@@ -103,7 +112,6 @@ export default class extends AbstractView{
                 }
             })
         
-            console.log(formDataObj)
             let validate = this.validateInputs(formDataObj);
             if (validate.valid === true){
                 this.resetPassword(formDataObj);

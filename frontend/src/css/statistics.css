@@ -44,17 +44,8 @@
     color: white;
 }
 
-.labelBox h2 {
+.labelBox h2, h3 {
     margin: 5px;
-}
-
-
-.labelBox h3{
-    cursor: pointer;
-    margin:  5px;
-}
-.labelBox h3:hover {
-    text-decoration: underline;
 }
 
 .elemBox{

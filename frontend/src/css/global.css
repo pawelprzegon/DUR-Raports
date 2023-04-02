@@ -35,7 +35,7 @@ REGISTRATION
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: calc(var(--vh, 1vh) * 80);
+  min-height: calc(var(--vh, 1vh) * 85);
   padding-left: 8%;
   padding-right: 8%;
 }

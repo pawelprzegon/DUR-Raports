@@ -2,10 +2,10 @@ import {url} from "../common/data/url.js"
 import {callApiPost} from '../features/endpoints/endpoints.js'
 import {navigateTo} from '../js/index.js'
 import {navBar, navBehav} from '../common/navigation/navigation.js'
-import {hideloader} from '../features/loading/loading.js'
 import {showPassword} from '../features/showPassword/showPassword.js'
 import {alerts} from '../features/alerts/alerts.js'
 import AbstractView from "./AbstractView.js";
+import {showloader, hideloader} from '../features/loading/loading.js'
 
 export default class extends AbstractView{
     constructor(){
@@ -95,9 +95,7 @@ export default class extends AbstractView{
             this.submitButtonBox = document.createElement('div');
             this.submitButton = document.createElement('button');
             this.submitButton.classList.add('submit');
-            // this.submitButton.type = "submit";
             this.submitButton.innerText = 'Login';
-
 
             this.submitButtonBox.appendChild(this.submitButton)
             this.formField.appendChild(this.submitButtonBox)
@@ -193,9 +191,9 @@ export default class extends AbstractView{
                 let validate = this.validateInputs(formDataObj);
 
                 if (validate.valid === true && validate.elements == 2){
-                    this.Login(JSON.stringify(formDataObj));
+                    this.Login(formDataObj);
                 }else if(validate.valid === true && validate.elements == 4){
-                    this.createUser(JSON.stringify(formDataObj))
+                    this.createUser(formDataObj)
                 }else if (validate.valid === true && validate.elements == 1){
                     this.resetPassword(formData)
                 }else{
@@ -261,10 +259,12 @@ export default class extends AbstractView{
         async createUser(formData) {
             // const formDataObj = Object.fromEntries(formData.entries());
             let api_url = url+'register'
-            let [response, status] = await callApiPost(api_url, formData);
+            let [response, status] = await callApiPost(api_url, JSON.stringify(formData));
             console.log(response)
             console.log(status)
-            if (status == 200 && response.message == `${formData.username}`+' registered'){
+            console.log(formData)
+            console.log(formData['username'])
+            if (status == 200 && response.message == `${formData.username} registered`){
                 // czyszczenie 
                 document.getElementById('responseBox').innerHTML = ''
                 let inputs = document.getElementsByClassName('input-control')
@@ -274,33 +274,32 @@ export default class extends AbstractView{
                 // zmiana labeli oraz ukrycie niepotrzebnych pól, usunięcie statusu validacji
                 document.getElementById('div-email').classList.add('hidden-element') 
                 document.getElementById('div-confirm').classList.add('hidden-element')
-                document.getElementById('div-email').classList.remove('success')
-                document.getElementById('div-username').classList.remove('success')
-                document.getElementById('div-password').classList.remove('success')
-                document.getElementById('div-confirm').classList.remove('success')
+                removeSuccess();
                 this.loginSignupLink.innerText = "SignUp"
                 this.header.innerText = 'Login'
                 this.submitButton.innerText = 'Login';
+                alerts('Success', response.message, 'alert-green')
             }
             else{
                 this.responseBox.innerHTML = ''
                 this.response = document.createElement('div');
                 this.responseStatus = document.createElement('p');
-                this.responseStatus.innerText = status;
+                // this.responseStatus.innerText = status;
                 this.responseStatus.classList.add('response-error')
                 this.responseData = document.createElement('p');
-                this.responseData.innerText = status
+                // this.responseData.innerText = status
                 this.responseData.classList.add('response-error')
                 
                 this.responseBox.appendChild(this.responseStatus);
                 this.responseBox.appendChild(this.responseData);
+                alerts(status +' Failed', response.message, 'alert-red')
             }
 
         }
             
         async Login(formData) {
             let api_url = url+'login'
-            let [response, status] = await callApiPost(api_url, formData);
+            let [response, status] = await callApiPost(api_url, JSON.stringify(formData));
             console.log(response)
             console.log(status)
             if (status == 200 && !('status_code' in response)){
@@ -336,8 +335,9 @@ export default class extends AbstractView{
         }
 
         async resetPassword(formData){
-            let api_url = url+'reset_password_link'
+            const loader = showloader();
 
+            let api_url = url+'reset_password_link'
             const formDataObj = {};
             formData.forEach((key, value) => {
                 let obj = document.getElementById('div-'+value)
@@ -348,8 +348,10 @@ export default class extends AbstractView{
             let [response, status] = await callApiPost(api_url, JSON.stringify(formDataObj));
             console.log(response)
             console.log(status)
-            document.getElementById('div-email').classList.remove('success')
+            removeSuccess();
             if (status == 200){
+                clearTimeout(loader);
+                hideloader();
                 this.loginSignupLink.click();
                 alerts('Success', response.message, 'alert-green')
             }else{
@@ -357,4 +359,11 @@ export default class extends AbstractView{
                 alerts(status +' Failed', response.message, 'alert-red')
             }
         }
+}
+
+function removeSuccess(){
+    document.getElementById('div-email').classList.remove('success')
+    document.getElementById('div-username').classList.remove('success')
+    document.getElementById('div-password').classList.remove('success')
+    document.getElementById('div-confirm').classList.remove('success')
 }

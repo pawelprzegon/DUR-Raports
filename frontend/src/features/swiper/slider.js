@@ -29,11 +29,11 @@ export function Slider(id){
             slidesPerView: 1,
             slidesPerGroup: 1,
         },
-        750: {
+        751: {
             slidesPerView: 2,
             slidesPerGroup: 2,
         },
-        1100: {
+        1101: {
             slidesPerView: 3,
             slidesPerGroup: 3,
         },

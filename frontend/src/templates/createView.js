@@ -357,7 +357,7 @@ export default class extends AbstractView{
                     }
                 }
                 else{
-                    if (value.split('_')[1] == 'plexi'){
+                    if (value.split('_')[1] == 'plexi' && key != ''){
                         let data = new Object();
                         data[value.split('_')[0]] = key
                         plexi.push(data)

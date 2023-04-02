@@ -106,7 +106,7 @@
 .search{
     display: flex;
     height: 30px;
-    margin: auto;
+    margin: 7px;
     cursor: pointer;
 }
 
@@ -235,10 +235,7 @@
     .nav-user{
         font-size: 16px;
     }
-    .top-element{
-        align-items: flex-start;
-        justify-content: flex-end;
-    }
+    
     .top-row {
         width: 70%;
     }
@@ -258,10 +255,7 @@
     .nav-user{
         font-size: 16px;
     }
-    .top-element{
-        align-items: flex-start;
-        justify-content: flex-end;
-    }
+
     .top-row {
         width: 75%;
     }
@@ -287,10 +281,7 @@
         grid-template-columns: 100px 10fr 1fr 1fr 1fr;
     } */
 
-    .top-element{
-        align-items: flex-start;
-        justify-content: flex-end;
-    }
+
     .nav-btns {
         flex-direction: column;
     }

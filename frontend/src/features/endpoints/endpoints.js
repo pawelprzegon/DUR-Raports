@@ -2,6 +2,7 @@ import {url} from "../../common/data/url.js"
 import {getCookieValue} from '../cookie/index.js'
 import {logout} from "../../features/logout/logout.js"
 import {hideloader} from "../loading/loading.js"
+import {alerts} from '../../features/alerts/alerts.js'
 
 export async function callApiGet(api_url){
     // prepare headers
@@ -159,13 +160,14 @@ export async function checkAuth(api_url){
                 })
             ))
             .then(async ({ status, data }) => {
-                if (data.detail && data.detail == "Not authenticated"){
+                if (data.detail && data.detail == "Not authenticated" || data.detail && data.detail == "Token expired"){
                     let [tRdata, tRstatus] = await tokenRefresh();
                     console.log('tokenRefresh result: ')
                     console.log(tRdata, tRstatus)
                     if (tRstatus == 200){
                         return [tRdata, tRstatus];
                     }else{
+                        alerts(tRstatus, tRdata.message, 'alert-orange')
                         logout();
                         return [tRdata, tRstatus];
                     }
@@ -178,7 +180,6 @@ export async function checkAuth(api_url){
         hideloader();
         return ['error', error];
     }
-
 }
 
 export async function callApiDelete(api_url){
@@ -199,6 +200,34 @@ export async function callApiDelete(api_url){
     } catch (error) {
         console.log('error: '+error)
         hideloader();
+        return ['error', error];
+    }
+}
+
+export async function checkAuthResetPassword(api_url, token){
+    // prepare headers
+    let myHeaders = new Headers()
+    myHeaders = {
+        'accept': 'application/json',
+        'Authorization': 'Bearer '+token, 
+    };
+    try {
+        let resp = await fetch(api_url, {
+            method: "GET",
+            credentials: 'include',
+            headers: myHeaders,
+           })
+           .then(res => 
+                res.json().then(data => ({
+                status: res.status,
+                data
+                })
+            ))
+            .then(async ({ status, data }) => {
+                return [data, status];
+            }) 
+            return resp;
+    } catch (error) {
         return ['error', error];
     }
 }

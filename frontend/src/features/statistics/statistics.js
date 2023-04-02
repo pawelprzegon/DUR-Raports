@@ -44,7 +44,7 @@ export class allStatistics{
             {
                 label: "Stolarnia",
                 data: Object.values(this.data.statistics.stolarnia.chart),
-                backgroundColor: "rgba(12, 143, 3, 0.3)",
+                // backgroundColor: "rgba(12, 143, 3, 0.3)",
                 borderColor: "rgba(12, 143, 3, 0.3",
                 tension: 0.2,
                 borderWidth: 2,
@@ -53,7 +53,7 @@ export class allStatistics{
             {
                 label: "Drukarnia",
                 data: Object.values(this.data.statistics.drukarnia.chart),
-                backgroundColor: "rgba(176, 0, 0,0.3)",
+                // backgroundColor: "rgba(176, 0, 0,0.3)",
                 borderColor: "rgba(176, 0, 0,0.3)",
                 tension: 0.2,
                 borderWidth: 2,
@@ -63,7 +63,7 @@ export class allStatistics{
                 label: "Bibeloty",
                 data: Object.values(this.data.statistics.bibeloty.chart),
                 borderColor: "rgba(18, 27, 161, 0.3)",
-                backgroundColor: "rgba(18, 27, 161, 0.3)",
+                // backgroundColor: "rgba(18, 27, 161, 0.3)",
                 tension: 0.2,
                 borderWidth: 2,
                 fill: true,

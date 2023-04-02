@@ -92,16 +92,13 @@
 .single-raport-info-grid {
     font-family: 'Roboto', sans-serif;
     padding: 0.5rem;
-    background-color: #ffffff;
     width: 90%;
-    /* margin-bottom: 0.8rem; */
 }
 
 .raport-label {
     align-content: space-between;
     align-items: start;
     margin: 0.3rem;
-    font-size: 15px;
     text-align: left;
 }
 
@@ -203,10 +200,10 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    /* font-size: 15px; */
+    font-size: 15px;
     text-align: center;
     padding: 0px 20px 0px 20px;
-    height: 60%;
+    /* height: 60%; */
     
 }
 
@@ -387,14 +384,34 @@
   }
 
 /* Desktop small */
-@media (min-width: 1101px) and (max-width: 1500px) {
+@media (min-width: 1301px) and (max-width: 1500px) {
 
+    .raport-text{
+        font-size: 14px;
+    }
+    .raport-data-user p {
+        font-size: 15px;
+    }
   }
+
+/* Tablet */
+@media (min-width: 1101px) and (max-width: 1300px) {
+    .raport-text{
+        font-size: 13px;
+    }
+    .raport-data-user p {
+        font-size: 15px;
+    }
+    .arrow {
+        margin-left: 27px;
+    }
+
+}
 
 /* Tablet */
 @media (min-width: 901px) and (max-width: 1100px) {
     .raport-text{
-        font-size: 14px;
+        font-size: 13px;
     }
     .raport-data-user p {
         font-size: 15px;
@@ -403,13 +420,17 @@
         margin-left: 27px;
     }
     .slide-container{
-        width: 80%;
+        width: 90%;
     }
 }
 
 
 /* Tablet small */
 @media (min-width: 750px) and (max-width: 900px) {
+    .raport-label p {
+        padding: 5px;
+        font-size: 16px;
+    }
     .raport-text{
         font-size: 13px;
     }
@@ -418,6 +439,13 @@
     }
     .arrow {
         margin-left: 25px;
+    }
+
+    .card{
+        height: 110px;
+    }
+    .slide-container {
+        width: 90%;
     }
 
     
@@ -434,6 +462,10 @@
     .slide-container{
         width: 70%;
     }
+    .raport-label p {
+        padding: 5px;
+        font-size: 16px;
+    }
     .raport-content {
         flex-direction: column;
         justify-content: flex-start;
@@ -446,9 +478,16 @@
         flex-direction: column;
         justify-content: flex-start;
     }
+
+    .card{
+        height: 110px;
+    }
     
     .issues{
         width: 100%;
+    }
+    .slide-container {
+        width: 65%;
     }
 }
 
