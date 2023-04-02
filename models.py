@@ -17,7 +17,7 @@ class User(Base):
     raport = relationship('Raport', backref='author', lazy=True)
 
     def __repr__(self) -> str:
-        return f"User('{self.username}', '{self.email}')"
+        return f"User('{self.username}', '{self.email}', '{self.date_created}', '{self.password}')"
 
 
 class Raport(Base):
@@ -34,7 +34,7 @@ class Raport(Base):
                          lazy='joined', cascade="all, delete-orphan")
 
     def __repr__(self) -> str:
-        return f"Raport('{self.date_created}', '{self.author}', '{self.units}', '{self.dekl}', '{self.plexi}')"
+        return f"Raport('{self.id}, {self.date_created}', '{self.author}', '{self.units}', '{self.dekl}', '{self.plexi}')"
 
 
 class Unit(Base):
@@ -49,31 +49,35 @@ class Unit(Base):
         'raport.id'), nullable=False)
 
     def __repr__(self) -> str:
-        return f"Unit('{self.unit}', '{self.region}', '{self.date_created}')"
+        return f"Unit('{self.id}, {self.unit}', '{self.region}', '{self.date_created}')"
 
 
 class Dekl(Base):
     __tablename__ = "dekl"
     id = Column(Integer, primary_key=True)
-    name = Column(String(10), nullable=False)
-    dekl = Column(String, nullable=False)
+    adam = Column(String, nullable=False)
+    pawel = Column(String, nullable=False)
+    bartek = Column(String, nullable=False)
     date_created = Column(DateTime(timezone=True),
                           default=datetime.datetime.utcnow)
     raport_id = Column(Integer, ForeignKey(
         'raport.id'), nullable=False)
 
     def __repr__(self) -> str:
-        return f"Info('{self.dekl}')"
+        return f"Dekl('{self.adam}, {self.pawel}, {self.bartek}')"
 
 
 class Plexi(Base):
     __tablename__ = "plexi"
     id = Column(Integer, primary_key=True)
-    plexi = Column(String, nullable=False)
+    printed = Column(Integer, nullable=False)
+    wrong = Column(Integer, nullable=False)
+    factor = Column(String, nullable=False)
+    # plexi = Column(String, nullable=False)
     date_created = Column(DateTime(timezone=True),
                           default=datetime.datetime.utcnow)
     raport_id = Column(Integer, ForeignKey(
         'raport.id'), nullable=False)
 
     def __repr__(self) -> str:
-        return f"Plexi('{self.plexi}')"
+        return f"Plexi('{self.printed}, {self.wrong}, {self.factor}')"

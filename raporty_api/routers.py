@@ -1,282 +1,189 @@
-import urllib.parse
 from fastapi_sqlalchemy import db
 import schema
-from fastapi import APIRouter, Request, HTTPException
-from models import Raport, Unit, Plexi, Dekl, User
+from fastapi import APIRouter, Request, HTTPException, Security, status
+from models import Raport, Unit, User
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import or_
-from collections import defaultdict
 from typing import List
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from auth_api.auth import Auth
+from starlette.responses import JSONResponse
+from raporty_api.searchAndStatistics import Statistics, Search
+from raporty_api.inputData import InputData
 
+auth_handler = Auth()
+security = HTTPBearer()
 raporty = APIRouter()
 
 
-@raporty.get("/raports", response_model=List[schema.RaportsSmall])
-async def root():
-    return db.session.query(Raport).order_by(
-        Raport.date_created.desc()).all()
+@raporty.get("/raports", response_model=List[schema.RaportsOut])
+async def all_raports(credentials: HTTPAuthorizationCredentials = Security(security)):
+    """
+     endpoint: list all raports
+    """
+    token = credentials.credentials
+    if(auth_handler.decode_token(token)):
+        return db.session.query(Raport).order_by(
+            Raport.date_created.desc()).all()
+    
 
+@raporty.get("/raport/{id}", response_model=schema.RaportsOut)
+async def single_raport(id: int, credentials: HTTPAuthorizationCredentials = Security(security)):
+    '''
+    endpoint: show a specific report
+    Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
+    '''
+    token = credentials.credentials
+    if(auth_handler.decode_token(token)):
+        try:
+            if (
+                raport := db.session.query(Raport)
+                .filter(Raport.id == id)
+                .first()
+            ):
+                print(raport)
+                return raport
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND, 
+                    detail="raport not found"
+                    )
+        except SQLAlchemyError as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=e.orig.args,
+            ) from e
+            
 
 @raporty.get("/raports/{username}", response_model=List[schema.RaportsOut])
-async def user_raports(username: str):
-    return db.session.query(Raport).join(User).filter(
-        User.username == username).all()
-
-
-@raporty.get("/raport/{raport_id}", response_model=schema.RaportsOut)
-async def raport(raport_id: int):
-    return db.session.query(Raport).filter(
-        Raport.id == raport_id).first()
-
-
-@raporty.get("/delete/{raport_id}")
-async def delete_raport(raport_id: int):
-    try:
-        resoult = db.session.query(Raport).filter(
-            Raport.id == raport_id).first()
-        date = resoult.date_created
-        db.session.delete(resoult)
-        db.session.commit()
-        return {'category': 'success',
-                'message': f"Raport z dnia {date} został usunięty"
-                }
-    except SQLAlchemyError as e:
-        raise HTTPException(
-            status_code=404,
-            detail=f"Raport o numerze {raport_id} nie istnieje",
-        ) from e
-
-
-@raporty.put('/create/')
-async def create_raport(request: Request):
-    form = await request.json()
-    return fillFormAndRelpaceDb(form)
-    # return fillFormAndRelpaceDb(form)
-
-
-@raporty.put('/update/')
-def update_raport(request: Request):
-    params = dict(request.query_params)
-    return fillFormAndRelpaceDb(params['data'], params['raport_id'])
-
-
-def fillFormAndRelpaceDb(form, raport_id=None):
-    print(form)
-    try:
-        raport = db.session.query(Raport).filter(
-            Raport.id == raport_id).first()
-        # data = urllib.parse.parse_qs(form, keep_blank_values=True)
-        author = db.session.query(User).filter_by(
-            id=int(form['user_id'])).first()
-        rap = Raport(author=author)
-        to_update = [rap]
-        for key, value in form.items():
-            if value:
-                match key:
-                    case 'Stolarnia' | 'Drukarnia' | 'Bibeloty':
-                        for each in value['units']:
-                            print(value['text'])
-                            data = Unit(unit=each, info=value['text'], region=key, raport=rap)
-                        to_update.append(data)
-                    case 'plexi':
-                        data = Plexi(
-                            plexi=value, raport=rap)
-                        to_update.append(data)
-                        
-                match key.split('-')[0]:
-                    case 'dekl':
-                        data = Dekl(dekl=value, raport=rap,
-                                         name=key.split('-')[1])
-                        to_update.append(data)
-                    
-        print(to_update)
-        # for fieldname, value in form.items():
-        #     if value:
-        #         match fieldname.split('_')[0]:
-        #             case 'stolarnia':
-        #                 if fieldname.split('_')[1] != 'Text':
-        #                     fieldname = Unit(unit=fieldname.split('_')[
-        #                         1], info=data['stolarnia_Text'][0], region=fieldname.split('_')[0], raport=rap)
-        #                     to_update.append(fieldname)
-        #             case 'drukarnia':
-        #                 if fieldname.split('_')[1] != 'Text':
-        #                     fieldname = Unit(unit=fieldname.split(
-        #                         '_')[1], info=data['drukarnia_Text'][0], region=fieldname.split('_')[0], raport=rap)
-        #                     to_update.append(fieldname)
-        #             case 'bibeloty':
-        #                 if fieldname.split('_')[1] != 'Text':
-        #                     fieldname = Unit(unit=fieldname.split(
-        #                         '_')[1], info=data['bibeloty_Text'][0], region=fieldname.split('_')[0], raport=rap)
-        #                     to_update.append(fieldname)
-        #             case 'plexi':
-        #                 if 'plexi_' in data:
-        #                     fieldname = Plexi(
-        #                         plexi=data['plexi_Text'][0], raport=rap)
-        #                     to_update.append(fieldname)
-        #             case 'dekl':
-        #                 fieldname = Dekl(dekl=value[0], raport=rap,
-        #                                  name=fieldname.split('_')[1])
-        #                 to_update.append(fieldname)
-        if raport_id:
-            message = f"zaktualizowano raport z dnia {raport.date_created}"
-            db.session.delete(raport)
+async def user_raports(username: str, credentials: HTTPAuthorizationCredentials = Security(security)):
+    '''
+    endpoint: show user's raports
+    Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
+    '''
+    token = credentials.credentials
+    if(auth_handler.decode_token(token)):
+        response = db.session.query(Raport).join(User).filter(
+            User.username == username).all()
+        print(response)
+        return response
+        
+        
+@raporty.get('/search/{searching}')
+def search(searching: str, credentials: HTTPAuthorizationCredentials = Security(security)):
+    '''
+    endpoint: search (raport(date), unit(Impale, Latex, Xeikony), region(Drukarnia, Stolarnia))
+    Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
+    '''
+    token = credentials.credentials
+    if (auth_handler.decode_token(token)):
+        if searching.capitalize() == 'Ebs':
+            query = searching.upper()
         else:
-            message = 'dodano raport'
-            db.session.add_all(to_update)
+            query = searching.capitalize()
+        print(query)
 
-        db.session.commit()
-        return {'category': 'success',
-                'message': message
-                }
-    except SQLAlchemyError as e:
-        return {'category': 'error',
-                'message': e
-                }
+        try:
+            if results := db.session.query(Unit).order_by(Unit.date_created.desc()).filter(
+                Unit.region == query).all():
+                    search = Search(results, query)
+                    chartData =  search.chartLabelsAndValues()
+                    units = search.getRaportedUnits()
+                    return search._packToDict(chartData, units, query)
 
+            elif results := db.session.query(Unit).order_by(Unit.date_created.desc()).filter(
+                Unit.unit == query).all():
+                    search = Search(results, query)
+                    chartData =  search.chartLabelsAndValues()
+                    units = search.getRaportedDates()
+                    return search._packToDict(chartData, units, query)
 
-@raporty.get('/search/{searching}', response_model=List[schema.RaportsOut])
-def search_raport(searching):
-    print(searching)
-    return search(searching)
-
-
-def search(query):
-    try:
-        return (
-            db.session.query(Raport)
-            .join(Unit)
-            .order_by(Raport.date_created.desc())
-            .filter(or_(Unit.unit == query, Unit.region == query))
-            .all()
-        )
-    except SQLAlchemyError as e:
-        return {'category': 'error',
-                'message': e
-                }
+            elif results := db.session.query(Raport).filter(
+                Raport.date_created == query).first():
+                    return schema.Raport(id=results.id,
+                                             date_created=results.date_created,
+                                             author=results.author)
 
 
-def search_statistics(temp_raports, query):
-    elem = {}
-    for raport in temp_raports:
-        for regio in raport.units:
-            if regio.region == query:
-                if regio.unit in elem:
-                    elem[regio.unit] += 1
-                else:
-                    elem[regio.unit] = 1
+        except SQLAlchemyError as e:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Nie znaleziono '{searching}' w bazie danych",
+            ) from e
 
-            elif regio.unit == query:
-                if regio.unit in elem:
-                    elem[regio.unit] += 1
-                else:
-                    elem[regio.unit] = 1
-
-    return dict(sorted(elem.items(), key=lambda item: item[1], reverse=True))
 
 
 @raporty.get('/statistics')
-def statistics_raport():
-    resoults = db.session.query(Raport).order_by(
-        Raport.date_created.desc()).all()
-    response = statistics(resoults)
-    return statistics(resoults)
+def statistics(credentials: HTTPAuthorizationCredentials = Security(security)):
+    '''
+    endpoint: show statistics
+    Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
+    '''
+    token = credentials.credentials
+    if (auth_handler.decode_token(token)):
+        resoults = db.session.query(Raport).order_by(
+            Raport.date_created.desc()).all()
+        
+        statistics = Statistics(resoults)
+        chartData = statistics.chartLabelsAndValues()
+        units = statistics.getRaportedUnits()
+        users = statistics.splitUsers()
 
 
-def statistics(resoults):
-    lab = defaultdict(list)
-    user_raport = defaultdict(list)
-    labels = defaultdict(list)
-    values = defaultdict(list)
-    units = {}
-    month = ''
-    for raport in resoults:
-        if raport.author.username in user_raport:
-            user_raport[raport.author.username] += 1
-        else:
-            user_raport[raport.author.username] = 1
-        for regio in raport.units:
-            match raport.date_created.strftime('%m'):
-                case '01':
-                    month = 'sty'
-                case '02':
-                    month = 'lut'
-                case '03':
-                    month = 'mar'
-                case '04':
-                    month = 'kwi'
-                case '05':
-                    month = 'maj'
-                case '06':
-                    month = 'cze'
-                case '07':
-                    month = 'lip'
-                case '08':
-                    month = 'sie'
-                case '09':
-                    month = 'wrz'
-                case '10':
-                    month = 'paz'
-                case '11':
-                    month = 'lis'
-                case '12':
-                    month = 'gru'
-
-            lab[month].append(regio.region)
-
-    units['stolarnia'] = search_statistics(resoults, 'stolarnia')
-    units['drukarnia'] = search_statistics(resoults, 'drukarnia')
-    units['bibeloty'] = search_statistics(resoults, 'bibeloty')
-    for key, val in lab.items():
-        labels['stolarnia'].append(key)
-        values['stolarnia'].append(val.count('stolarnia'))
-        labels['drukarnia'].append(key)
-        values['drukarnia'].append(val.count('drukarnia'))
-        labels['bibeloty'].append(key)
-        values['bibeloty'].append(val.count('bibeloty'))
-    for val in labels.values():
-        val.reverse()
-    for val in values.values():
-        val.reverse()
-
-    return {'chart': {
-        'stolarnia': {
-            'labels': labels['stolarnia'],
-            'values': values['stolarnia'],
-            'units': units['stolarnia'],
-            'sum': sum(values['stolarnia'])
-        },
-        'drukarnia': {
-            'labels': labels['drukarnia'],
-            'values': values['drukarnia'],
-            'units': units['drukarnia'],
-            'sum': sum(values['drukarnia'])
-        },
-        'bibeloty': {
-            'labels': labels['bibeloty'],
-            'values': values['bibeloty'],
-            'units': units['bibeloty'],
-            'sum': sum(values['bibeloty'])
-        },
-    },
-        'user_raport': user_raport,
-        # 'resoults': resoults - wszystkie raporty - dla statystyk zbędne
-    }
+        return statistics._packToDict(chartData, units, users)
 
 
-def units_statistics(temp_raports, query):
-    elem = {}
-    for raport in temp_raports:
-        for regio in raport.units:
-            if regio.region == query:
-                if regio.unit in elem:
-                    elem[regio.unit] += 1
-                else:
-                    elem[regio.unit] = 1
+@raporty.put('/create/')
+async def create_raport(request: Request, credentials: HTTPAuthorizationCredentials = Security(security)):
+    '''
+    endpoint: create raport
+    Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
+    '''
+    token = credentials.credentials
+    if(auth_handler.decode_token(token)):
+        form_data = await request.json()
+        return InputData(form_data).fillFormAndRelpaceDb()
 
-            elif regio.unit == query:
-                if regio.unit in elem:
-                    elem[regio.unit] += 1
-                else:
-                    elem[regio.unit] = 1
 
-    return dict(sorted(elem.items(), key=lambda item: item[1], reverse=True))
+@raporty.put('/update/')
+async def update_raport(request: Request, credentials: HTTPAuthorizationCredentials = Security(security)):
+    '''
+    endpoint: update raport
+    Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
+    '''
+    token = credentials.credentials
+    if(auth_handler.decode_token(token)):
+        form_data = await request.json()
+        return InputData(form_data).fillFormAndRelpaceDb()
+    
+@raporty.delete("/delete/{id}")
+async def delete_raport(id: int, credentials: HTTPAuthorizationCredentials = Security(security)):
+    """
+     endpoint: Delete raport
+     Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
+    """
+    token = credentials.credentials
+    if(auth_handler.decode_token(token)):
+        try:
+            if (resoult := db.session.query(Raport).filter(
+                Raport.id == id).first()):
+                date = (resoult.date_created).strftime('%d-%m-%Y')
+                db.session.delete(resoult)
+                db.session.commit()
+                return JSONResponse(status_code=status.HTTP_200_OK, content={"message": f"Raport z dnia {date} został usunięty"})
+            
+            return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"message": f"Nie znaleziono raportu nr: {id}"})
+        
+        except SQLAlchemyError as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=e.orig.args,
+            ) from e
+
+
+
+
+
+
+
+
