@@ -1,5 +1,5 @@
 from fastapi_sqlalchemy import db
-from fastapi import APIRouter, Depends, HTTPException, status, Request, Security
+from fastapi import APIRouter, HTTPException, status, Security
 from models import User
 from sqlalchemy.exc import SQLAlchemyError
 from fastapi.security import OAuth2PasswordBearer, HTTPAuthorizationCredentials, HTTPBearer
@@ -14,7 +14,6 @@ auth_handler = Auth()
 security = HTTPBearer()
 auth = APIRouter()
 
-JWT_SECRET = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
 
@@ -93,7 +92,6 @@ async def reset_Password_link(email: EmailSchema):
         VALIDATE_CERTS = True
     )
     
-    print(email.dict().get("email")[0])
     try:
         if (
             user := db.session.query(User)
@@ -102,7 +100,7 @@ async def reset_Password_link(email: EmailSchema):
             ):
             access_token, exp = auth_handler.encode_token({"username": user.username})
             reset_link = f"http://localhost:3000/reset-password?token={access_token}"
-            html = f"<p>To jest link do resetowania hasła: {reset_link}</p> "
+            html = f"<p>To jest link do resetowania hasła, link wygaśnie {exp} : {reset_link}</p> "
             
             mess = MessageSchema(
                 subject="Reset password",
@@ -142,6 +140,10 @@ async def reset_Password(form_data: ChangePassword, credentials: HTTPAuthorizati
 
 @auth.get('/auth', include_in_schema=False)
 async def authorize(credentials: HTTPAuthorizationCredentials = Security(security)):
+    '''
+    endpoint: check if access token expired
+    Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ access token)
+    '''
     token = credentials.credentials
     if(auth_handler.decode_token(token)):
         return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content={"detail":  'authenticated'})
@@ -158,14 +160,24 @@ def refresh_token(credentials: HTTPAuthorizationCredentials = Security(security)
     try:
         refresh_token = credentials.credentials
         new_token, exp = auth_handler.refresh_token(refresh_token)
-        print(new_token, exp)
         return JSONResponse(status_code=status.HTTP_200_OK, content={
             'access_token': new_token, 
             'token_expire' : str(exp),
             })
     except BaseException as e:
-        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-                            content={"message":  e})
-
+        print(e)
+        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, 
+                            content={"message":  'Refresh token expired'})
+        
+        
+@auth.get('/auth-reset-password', include_in_schema=False)
+async def authorizeResetPassword(credentials: HTTPAuthorizationCredentials = Security(security)):
+    '''
+    endpoint: check if refresh token for reset password expired
+    Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ access token)
+    '''
+    token = credentials.credentials
+    if(auth_handler.decode_token(token)):
+        return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content={"detail":  'authenticated'})
 
     

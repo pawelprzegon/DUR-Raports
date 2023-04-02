@@ -1,14 +1,18 @@
-import jwt # used for encoding and decoding jwt tokens
+import jwt
 from datetime import timezone
-from fastapi import HTTPException # used to handle error handling
-from passlib.context import CryptContext # used for hashing the password 
-from datetime import datetime, timedelta # used to handle expiry time for tokens
+from fastapi import HTTPException
+from passlib.context import CryptContext
+from datetime import datetime, timedelta
+from pytz import timezone as tz
 
-TIME_MIN = 30
+ACCESS_TOKEN_TIME = 1
+REFRESH_TOKEN_TIME = 2
+
 class Auth():
     hasher= CryptContext(schemes=['bcrypt'])
-    secret = "secretKey" 
-
+    # secret = "secretKey" 
+    secret = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+    
     def encode_password(self, password):
         return self.hasher.hash(password)
 
@@ -16,10 +20,9 @@ class Auth():
         return self.hasher.verify(password, encoded_password)
     
     def encode_token(self, username):
-        exp = datetime.now() + timedelta(days=0,hours=0, minutes=TIME_MIN)
         payload = {
-            'exp': exp,
-            'iat': datetime.now(timezone.utc),
+            'exp': datetime.now(tz('Europe/Berlin')) + timedelta(days=0,hours=0, minutes=ACCESS_TOKEN_TIME),
+            'iat': datetime.now(tz('Europe/Berlin')),
             'scope': 'access_token',
             'sub': username['username'],
         }
@@ -27,10 +30,9 @@ class Auth():
             payload, 
             self.secret,
             algorithm='HS256'
-        ), exp
+        ), datetime.now(tz('Europe/Berlin')) + timedelta(days=0,hours=0, minutes=ACCESS_TOKEN_TIME)
     
     def decode_token(self, token):
-        print('decode_token')
         try:
             payload = jwt.decode(token, self.secret, algorithms=['HS256'])
             if (payload['scope'] == 'access_token'):
@@ -44,8 +46,8 @@ class Auth():
 	    
     def encode_refresh_token(self, username):
         payload = {
-            'exp': datetime.now(timezone.utc) + timedelta(days=0, hours=2),
-            'iat': datetime.now(timezone.utc),
+            'exp': datetime.now(tz('Europe/Berlin')) + timedelta(days=0, hours=0, minutes=REFRESH_TOKEN_TIME),
+            'iat': datetime.now(tz('Europe/Berlin')),
             'scope': 'refresh_token',
             'sub': username,
         }
@@ -57,10 +59,8 @@ class Auth():
     def refresh_token(self, refresh_token):
         try:
             payload = jwt.decode(refresh_token, self.secret, algorithms=['HS256'])
-            print(payload)
             if (payload['scope'] == 'refresh_token'):
                 username = payload['sub']
-                print(username)
                 return self.encode_token(username)
             raise HTTPException(status_code=401, detail='Invalid scope for token')
         except jwt.ExpiredSignatureError as e:
