@@ -167,7 +167,7 @@ export async function checkAuth(api_url){
                     if (tRstatus == 200){
                         return [tRdata, tRstatus];
                     }else{
-                        alerts(tRstatus, tRdata.message, 'alert-orange')
+                        // alerts(tRstatus, tRdata.message, 'alert-orange')
                         logout();
                         return [tRdata, tRstatus];
                     }
