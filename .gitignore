@@ -4501,3 +4501,12 @@ __pycache__/schemas.cpython-310.pyc
 .venv/Scripts/pyrsa-priv2pub.exe
 .venv/Scripts/pyrsa-sign.exe
 .venv/Scripts/pyrsa-verify.exe
+auth_api/__pycache__/auth.cpython-310.pyc
+auth_api/__pycache__/routers.cpython-310.pyc
+auth_api/__pycache__/auth.cpython-310.pyc
+auth_api/__pycache__/routers.cpython-310.pyc
+raporty_api/__pycache__/inputData.cpython-310.pyc
+raporty_api/__pycache__/routers.cpython-310.pyc
+raporty_api/__pycache__/searchAndStatistics.cpython-310.pyc
+auth_api/__pycache__/auth.cpython-310.pyc
+auth_api/__pycache__/routers.cpython-310.pyc

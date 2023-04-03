@@ -1,16 +1,13 @@
 import jwt
-from datetime import timezone
 from fastapi import HTTPException
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
-from pytz import timezone as tz
-
-ACCESS_TOKEN_TIME = 1
-REFRESH_TOKEN_TIME = 2
+from pytz import timezone
+ACCESS_TOKEN_TIME = 30
+REFRESH_TOKEN_TIME = 120
 
 class Auth():
     hasher= CryptContext(schemes=['bcrypt'])
-    # secret = "secretKey" 
     secret = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
     
     def encode_password(self, password):
@@ -21,8 +18,8 @@ class Auth():
     
     def encode_token(self, username):
         payload = {
-            'exp': datetime.now(tz('Europe/Berlin')) + timedelta(days=0,hours=0, minutes=ACCESS_TOKEN_TIME),
-            'iat': datetime.now(tz('Europe/Berlin')),
+            'exp': datetime.now(timezone('Europe/Berlin')) + timedelta(days=0,hours=0, minutes=ACCESS_TOKEN_TIME),
+            'iat': datetime.now(timezone('Europe/Berlin')),
             'scope': 'access_token',
             'sub': username['username'],
         }
@@ -30,7 +27,7 @@ class Auth():
             payload, 
             self.secret,
             algorithm='HS256'
-        ), datetime.now(tz('Europe/Berlin')) + timedelta(days=0,hours=0, minutes=ACCESS_TOKEN_TIME)
+        ), datetime.now(timezone('Europe/Berlin')) + timedelta(days=0,hours=0, minutes=ACCESS_TOKEN_TIME)
     
     def decode_token(self, token):
         try:
@@ -46,8 +43,8 @@ class Auth():
 	    
     def encode_refresh_token(self, username):
         payload = {
-            'exp': datetime.now(tz('Europe/Berlin')) + timedelta(days=0, hours=0, minutes=REFRESH_TOKEN_TIME),
-            'iat': datetime.now(tz('Europe/Berlin')),
+            'exp': datetime.now(timezone('Europe/Berlin')) + timedelta(days=0, hours=0, minutes=REFRESH_TOKEN_TIME),
+            'iat': datetime.now(timezone('Europe/Berlin')),
             'scope': 'refresh_token',
             'sub': username,
         }

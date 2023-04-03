@@ -1,5 +1,4 @@
 from collections import defaultdict
-import schema
 
 class Statistics:
     def __init__(self, data) -> None:
@@ -74,6 +73,12 @@ class Statistics:
         
 
     def _packToDict(self, chartData, units, user_raport):
+        
+        places = ['Stolarnia', 'Drukarnia', 'Bibeloty']
+        for each in places:
+            if each not in chartData:
+                chartData[each] = []
+                units[each] = []
 
         return {'statistics': {
                     'stolarnia': {
