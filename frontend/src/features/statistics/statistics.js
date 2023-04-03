@@ -161,9 +161,6 @@ export class allStatistics{
         placeLabelBox.classList.add('labelBox')
         let placeLabel = document.createElement('h2')
         placeLabel.innerText = capitalized(key)
-        // placeLabel.addEventListener("click", () => {
-        //     navigateTo('/search/'+capitalized(key));
-        // })
 
         let placequantity = document.createElement('h3')
         placequantity.innerText = this.placeQuantity(value) +' szt'

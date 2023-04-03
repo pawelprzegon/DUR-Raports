@@ -5,7 +5,6 @@ export function hideloader() {
   }
 
 export function showloader() {
-  console.log('test')
   const loader = setTimeout(() => {
     document.getElementById('loading').style.visibility = 'visible';
     document.getElementById('loading').style.display = '';

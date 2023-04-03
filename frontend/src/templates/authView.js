@@ -336,7 +336,6 @@ export default class extends AbstractView{
 
         async resetPassword(formData){
             const loader = showloader();
-
             let api_url = url+'reset_password_link'
             const formDataObj = {};
             formData.forEach((key, value) => {
