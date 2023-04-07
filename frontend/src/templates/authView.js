@@ -187,7 +187,7 @@ export default class extends AbstractView{
                         formDataObj[value] = key;
                     }
                 })
-                console.log(formDataObj)
+                // console.log(formDataObj)
                 let validate = this.validateInputs(formDataObj);
 
                 if (validate.valid === true && validate.elements == 2){
@@ -300,8 +300,8 @@ export default class extends AbstractView{
         async Login(formData) {
             let api_url = url+'login'
             let [response, status] = await callApiPost(api_url, JSON.stringify(formData));
-            console.log(response)
-            console.log(status)
+            // console.log(response)
+            // console.log(status)
             if (status == 200 && !('status_code' in response)){
 
                 let now = new Date();

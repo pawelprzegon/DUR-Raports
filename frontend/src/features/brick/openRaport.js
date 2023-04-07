@@ -40,7 +40,7 @@ export class openRaport{
                     this.buildStructure(response);  
                     this.boldImportant();
                     localStorage.setItem('active_raport', JSON.stringify(response))
-                    console.log(this.id)
+                    // console.log(this.id)
                 }else{
                     hideloader();
                     clearTimeout(loader);

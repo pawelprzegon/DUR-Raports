@@ -31,7 +31,7 @@ export default class extends AbstractView{
           if (st == 202 && re.detail == "authenticated" || st == 200 && re.access_token){
             let [response, status] = await callApiGet(this.api_url);
             if (status == 200){
-              console.log(response)
+              // console.log(response)
               hideloader();
               clearTimeout(this.loader);
               this.layout(response);

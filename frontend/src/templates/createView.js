@@ -14,7 +14,7 @@ export default class extends AbstractView{
     constructor(params){
         super(params);
         this.params = params
-        console.log(this.params)
+        // console.log(this.params)
         if ('_id' in this.params){
             this.currentRaport = JSON.parse(localStorage.getItem('active_raport'));
             this.setTitle("Edit "+this.params._id)

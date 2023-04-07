@@ -86,7 +86,7 @@ export async function tokenRefresh(){
         headers: myHeaders,
         })
         .then(res => {
-            console.log('Fetch - Got response: ', res);
+            // console.log('Fetch - Got response: ', res);
             return res;
         })
         .then(res => 
@@ -96,7 +96,7 @@ export async function tokenRefresh(){
             })
         ))
         .then(({ status, data }) => {
-            console.log({ status, data })
+            // console.log({ status, data })
             if (status == 200 && !('status_code' in data)){
                 let now = new Date();
                 now.setTime(Date.parse(data.token_expire));
@@ -162,8 +162,8 @@ export async function checkAuth(api_url){
             .then(async ({ status, data }) => {
                 if (data.detail && data.detail == "Not authenticated" || data.detail && data.detail == "Token expired"){
                     let [tRdata, tRstatus] = await tokenRefresh();
-                    console.log('tokenRefresh result: ')
-                    console.log(tRdata, tRstatus)
+                    // console.log('tokenRefresh result: ')
+                    // console.log(tRdata, tRstatus)
                     if (tRstatus == 200){
                         return [tRdata, tRstatus];
                     }else{
