@@ -10,13 +10,13 @@ class Auth():
     hasher= CryptContext(schemes=['bcrypt'])
     secret = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
     
-    def encode_password(self, password):
+    def encode_password(self, password: str) -> str:
         return self.hasher.hash(password)
 
-    def verify_password(self, password, encoded_password):
+    def verify_password(self, password: str, encoded_password: str) -> bool:
         return self.hasher.verify(password, encoded_password)
     
-    def encode_token(self, username):
+    def encode_token(self, username: dict) -> str:
         payload = {
             'exp': datetime.now(timezone('Europe/Berlin')) + timedelta(days=0,hours=0, minutes=ACCESS_TOKEN_TIME),
             'iat': datetime.now(timezone('Europe/Berlin')),
@@ -29,7 +29,7 @@ class Auth():
             algorithm='HS256'
         ), datetime.now(timezone('Europe/Berlin')) + timedelta(days=0,hours=0, minutes=ACCESS_TOKEN_TIME)
     
-    def decode_token(self, token):
+    def decode_token(self, token: str) -> dict:
         try:
             payload = jwt.decode(token, self.secret, algorithms=['HS256'])
             if (payload['scope'] == 'access_token'):
@@ -41,7 +41,7 @@ class Auth():
             raise HTTPException(status_code=401, detail='Invalid token') from e
 
 	    
-    def encode_refresh_token(self, username):
+    def encode_refresh_token(self, username: dict) -> str:
         payload = {
             'exp': datetime.now(timezone('Europe/Berlin')) + timedelta(days=0, hours=0, minutes=REFRESH_TOKEN_TIME),
             'iat': datetime.now(timezone('Europe/Berlin')),
@@ -53,7 +53,7 @@ class Auth():
             self.secret,
             algorithm='HS256'
         )
-    def refresh_token(self, refresh_token):
+    def refresh_token(self, refresh_token: str) -> str:
         try:
             payload = jwt.decode(refresh_token, self.secret, algorithms=['HS256'])
             if (payload['scope'] == 'refresh_token'):

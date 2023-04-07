@@ -18,7 +18,6 @@ class InputData:
             rap = Raport(author=author)
             creating_updating_raport = [rap]
             for key, value in self.form.items():
-                print(key, value)
                 if value:
                     match key:
                         case 'Stolarnia' | 'Drukarnia' | 'Bibeloty':

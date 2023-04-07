@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 class Statistics:
-    def __init__(self, data) -> None:
+    def __init__(self, data: list) -> None:
         self.data = data
         self.places = self._places()
         
@@ -72,7 +72,7 @@ class Statistics:
         return user_raport
         
 
-    def _packToDict(self, chartData, units, user_raport):
+    def _packToDict(self, chartData: dict, units: dict, user_raport: dict) -> dict:
         
         places = ['Stolarnia', 'Drukarnia', 'Bibeloty']
         for each in places:
@@ -99,7 +99,7 @@ class Statistics:
                 }
         
 class Search:
-    def __init__(self, data, searching) -> None:
+    def __init__(self, data: list, searching: str) -> None:
         self.data = data
         self.searching = searching
     
@@ -141,7 +141,7 @@ class Search:
         
         return {self.searching: sorted(elem, key=lambda item: item['date'], reverse=False)}
     
-    def _packToDict(self, chartData, units, searching):
+    def _packToDict(self, chartData: dict, units: dict, searching: str) -> dict:
         return {
                 'searching' : {
                     'query': searching,
@@ -153,7 +153,7 @@ class Search:
         
         
 
-def dateToStr(date) -> str:
+def dateToStr(date: str) -> str:
         month = ''
         match date:
             case '01':

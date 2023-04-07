@@ -3,7 +3,6 @@ import schema
 from fastapi import APIRouter, Request, HTTPException, Security, status
 from models import Raport, Unit, User
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import or_
 from typing import List
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from auth_api.auth import Auth
@@ -41,7 +40,6 @@ async def single_raport(id: int, credentials: HTTPAuthorizationCredentials = Sec
                 .filter(Raport.id == id)
                 .first()
             ):
-                print(raport)
                 return raport
             else:
                 raise HTTPException(
@@ -62,11 +60,13 @@ async def user_raports(username: str, credentials: HTTPAuthorizationCredentials 
     Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
     '''
     token = credentials.credentials
-    if(auth_handler.decode_token(token)):
-        response = db.session.query(Raport).join(User).filter(
-            User.username == username).all()
-        print(response)
-        return response
+    if (auth_handler.decode_token(token)):
+        return (
+            db.session.query(Raport)
+            .join(User)
+            .filter(User.username == username)
+            .all()
+        )
         
         
 @raporty.get('/search/{searching}')
@@ -81,7 +81,6 @@ def search(searching: str, credentials: HTTPAuthorizationCredentials = Security(
             query = searching.upper()
         else:
             query = searching.capitalize()
-        print(query)
 
         try:
             if results := db.session.query(Unit).order_by(Unit.date_created.desc()).filter(

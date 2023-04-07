@@ -51,7 +51,6 @@ async def login(form_data: Login):
     '''
     endpoint: send valid, existing username and password for login
     '''
-    print(form_data)
     user = db.session.query(User).filter_by(username=form_data.username).first()
     if (user is None):
         return HTTPException(status_code=401, detail='Invalid username')
@@ -61,8 +60,6 @@ async def login(form_data: Login):
     user_obj = dict(username=user.username, password=user.password)
     access_token, exp = auth_handler.encode_token(user_obj)
     refresh_token = auth_handler.encode_refresh_token(user_obj)
-    print(access_token)
-    print(refresh_token)
     return JSONResponse(status_code=status.HTTP_200_OK, content={
             'access_token': access_token, 
             'token_expire' : str(exp),
@@ -125,8 +122,6 @@ async def reset_Password(form_data: ChangePassword, credentials: HTTPAuthorizati
     endpoint: send form with new password for user
     Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
     '''
-    
-    # form_data = await request.json()
     token_user = auth_handler.decode_token(credentials.credentials)
     hashed_new_password = auth_handler.encode_password(form_data.password)
     try:
@@ -156,7 +151,6 @@ def refresh_token(credentials: HTTPAuthorizationCredentials = Security(security)
     refresh token: 2h
     Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ refresh token)
     '''
-    
     try:
         refresh_token = credentials.credentials
         new_token, exp = auth_handler.refresh_token(refresh_token)
@@ -164,8 +158,7 @@ def refresh_token(credentials: HTTPAuthorizationCredentials = Security(security)
             'access_token': new_token, 
             'token_expire' : str(exp),
             })
-    except BaseException as e:
-        print(e)
+    except BaseException:
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, 
                             content={"message":  'Refresh token expired'})
         
