@@ -5,9 +5,9 @@ export function hideloader() {
   }
 
 export function showloader() {
-  const loader = setTimeout(() => {
-    document.getElementById('loading').style.visibility = 'visible';
-    document.getElementById('loading').style.display = '';
-  }, 1000)
-  return loader
+  return setTimeout(() => {
+      document.getElementById('loading').style.visibility = 'visible';
+      document.getElementById('loading').style.display = '';
+      document.getElementById('loading').style.height = '30px'
+    }, 1000);
 }

@@ -1,6 +1,6 @@
 import AbstractView from "./AbstractView.js";
 import {url} from "../common/data/url.js"
-import {callApiPut, tokenRefresh} from '../features/endpoints/endpoints.js'
+import {callApiPut} from '../features/endpoints/endpoints.js'
 import {navigateTo} from "../js/index.js";
 import {hideloader} from '../features/loading/loading.js'
 import {SliderForm} from '../features/swiper/slider.js'
@@ -103,89 +103,20 @@ export default class extends AbstractView{
         this.formField = document.createElement('div')
         this.formField.classList.add('swiper-slide')
 
-
-        // labele
-        function createLabels(lab){
-            const LabelBox = document.createElement('div');
-            LabelBox.classList.add('label-box')
-            const regionLabel = document.createElement('p');
-            regionLabel.innerText = lab;
-            LabelBox.appendChild(regionLabel)
-            return LabelBox
-        }
-
-       //dodawanie checkboxów
-       function createCheckboxes(data, lab) {
-                
-        const region = document.createElement('div');
-        region.classList.add('regions')
-        ;
-        const CheckBoxesBox = document.createElement('div');
-        CheckBoxesBox.classList.add('checkboxes')
-        let i = 1
-        data.forEach(each => {
-            const element = document.createElement('label');
-            element.classList.add('label-container');
-            element.innerText = each; 
-        
-            const span = document.createElement('span');
-            span.classList.add('checkmark');
-
-            const input = document.createElement('input');
-            input.type = 'checkbox';
-            input.id = lab+'_'+each;
-            input.name = each;
-            input.value = lab;
-            i+=1;
-        
-            CheckBoxesBox.appendChild(element);
-            region.appendChild(CheckBoxesBox);
-            element.appendChild(input);
-            element.appendChild(span);
-            
-        });
-
-        return region
-        }
-
-        function createTextFields(key) {
-
-            const txtField = document.createElement('div');
-            txtField.classList.add('form-line');
-            const inputField = document.createElement('textarea');
-            inputField.classList.add('raport-describe')
-            inputField.id = 'text_'+key;
-            inputField.name = key;
-            // inputField.cols = '80';
-            inputField.rows = '25';
-            txtField.appendChild(inputField)
-            return txtField
-            
-        }
-
-
-        // const RegionField = document.createElement('div')
-        // RegionField.classList.add('registration-grid')
         for(const [key, value] of Object.entries(this.regioList)){
             if (key == place){
-                let labels = createLabels(key)
-                let checkboxes = createCheckboxes(value, key);
-                let text = createTextFields(place)
-
-                // RegionField.appendChild(labels)
+                let labels = this.createLabels(key)
+                let checkboxes = this.createCheckboxes(value, key);
+                let text = this.createTextFields(place)
                 const elements = document.createElement('div')
                 elements.classList.add('elements')
                 elements.appendChild(checkboxes);
                 elements.appendChild(text)
-                // RegionField.appendChild(elements)
                 this.formField.appendChild(labels);
                 this.formField.appendChild(elements);
             }      
         }
 
-        
-
-        
         this.formWrapper.appendChild(this.formField)
     }
 
@@ -194,15 +125,12 @@ export default class extends AbstractView{
 
         const deklTextBox = document.createElement('div')
         deklTextBox.classList.add("swiper-slide", "deklaracje")
-        // const RegionField = document.createElement('div')
-        // RegionField.classList.add('registration-grid')
 
         const deklLabelBox = document.createElement('div')
         deklLabelBox.classList.add('label-box')
         const deklLabel = document.createElement('p')
         deklLabel.innerText = 'Deklaracje';
         deklLabelBox.appendChild(deklLabel)
-        // RegionField.appendChild(deklLabelBox)
 
         const deklTextField = document.createElement('div')
         deklTextField.classList.add('deklaracje-describe-areas')
@@ -215,7 +143,6 @@ export default class extends AbstractView{
             label.innerText = user;
             const inputField = document.createElement('textarea');
             inputField.classList.add('raport-describe-users')
-            // inputField.required = true;
             inputField.name = 'dekl_'+user;
             inputField.id = 'dekl_'+user;
             inputField.rows = '25';
@@ -234,10 +161,7 @@ export default class extends AbstractView{
     }
 
     plexi(){
-        // const today = new Date();
-        // if (today.getDay() == 2 ){
-        // }
-       
+
         const PlexiTextField = document.createElement('div')
         PlexiTextField.classList.add("swiper-slide",'deklaracje')
 
@@ -269,7 +193,6 @@ export default class extends AbstractView{
             }
 
             
-
 
         PlexiTextField.appendChild(plexiLabelBox)
         PlexiTextField.appendChild(box)
@@ -418,6 +341,8 @@ export default class extends AbstractView{
         })
     }
 
+    
+
     fillData(){
         console.log(this.currentRaport.plexi.length)
         this.currentRaport.units.forEach(item =>{
@@ -447,6 +372,64 @@ export default class extends AbstractView{
                 document.getElementById(key+'_plexi').value = value
             }
         }
+    }
+
+    // labele
+    createLabels(lab){
+        const LabelBox = document.createElement('div');
+        LabelBox.classList.add('label-box')
+        const regionLabel = document.createElement('p');
+        regionLabel.innerText = lab;
+        LabelBox.appendChild(regionLabel)
+        return LabelBox
+    }
+
+    //dodawanie checkboxów
+    createCheckboxes(data, lab) {
+            
+    const region = document.createElement('div');
+    region.classList.add('regions');
+
+    const CheckBoxesBox = document.createElement('div');
+    CheckBoxesBox.classList.add('checkboxes');
+    let i = 1
+    data.forEach(each => {
+        const element = document.createElement('label');
+        element.classList.add('label-container');
+        element.innerText = each; 
+    
+        const span = document.createElement('span');
+        span.classList.add('checkmark');
+
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.id = lab+'_'+each;
+        input.name = each;
+        input.value = lab;
+        i+=1;
+    
+        element.appendChild(input);
+        element.appendChild(span);
+        CheckBoxesBox.appendChild(element);
+        region.appendChild(CheckBoxesBox);
+        
+        
+    });
+
+    return region
+    }
+
+    //tworzenie pól tekstowych
+    createTextFields(key) {
+        const txtField = document.createElement('div');
+        txtField.classList.add('form-line');
+        const inputField = document.createElement('textarea');
+        inputField.classList.add('raport-describe');
+        inputField.id = 'text_'+key;
+        inputField.name = key;
+        inputField.rows = '25';
+        txtField.appendChild(inputField)
+        return txtField  
     }
 }
 

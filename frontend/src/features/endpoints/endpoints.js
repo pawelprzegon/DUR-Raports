@@ -2,7 +2,6 @@ import {url} from "../../common/data/url.js"
 import {getCookieValue} from '../cookie/index.js'
 import {logout} from "../../features/logout/logout.js"
 import {hideloader} from "../loading/loading.js"
-import {alerts} from '../../features/alerts/alerts.js'
 
 export async function callApiGet(api_url){
     // prepare headers
@@ -162,12 +161,9 @@ export async function checkAuth(api_url){
             .then(async ({ status, data }) => {
                 if (data.detail && data.detail == "Not authenticated" || data.detail && data.detail == "Token expired"){
                     let [tRdata, tRstatus] = await tokenRefresh();
-                    // console.log('tokenRefresh result: ')
-                    // console.log(tRdata, tRstatus)
                     if (tRstatus == 200){
                         return [tRdata, tRstatus];
                     }else{
-                        // alerts(tRstatus, tRdata.message, 'alert-orange')
                         logout();
                         return [tRdata, tRstatus];
                     }

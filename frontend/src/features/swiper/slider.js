@@ -48,6 +48,7 @@ new Swiper(".slide-content", {
       spaceBetween: 30,
       loop: true,
       grabCursor: false,
+      allowTouchMove: false,
       pagination: {
         el: ".swiper-pagination",
         clickable: true,

@@ -6,7 +6,6 @@ import statisticsView from '../templates/statisticsView.js';
 import createView from '../templates/createView.js';
 import resetPassword from '../templates/resetPassword.js';
 import searchView from '../templates/searchView.js';
-import { openRaport } from '../features/brick/openRaport.js';
 
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
