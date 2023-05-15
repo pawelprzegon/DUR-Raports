@@ -5,23 +5,14 @@ services:
     container_name: database
     image: postgres:15.1-alpine
     environment:
-      POSTGRES_PASSWORD: docker # environment variable that sets the superuser password for PostgreSQL
-      POSTGRES_USER: docker # variable that will create the specified user
-      POSTGRES_DB: Artgeist_API # the name of your db
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: docker
+      POSTGRES_DB: Artgeist_API
     networks:
       - backend
 
   adminer:
     image: adminer
-    restart: always
-    depends_on: 
-      db:
-        condition: service_healthy
     ports:
       - 8080:8080
     networks:
@@ -35,10 +26,6 @@ services:
       - .:/app
     ports:
       - 8000:8000
-    depends_on: 
-      db:
-        condition: service_healthy
-    restart: always
     networks:
       - backend
 
@@ -46,21 +33,3 @@ services:
 networks:
   backend:
      driver: bridge
-
-
-# ARTGEIST
-# app:
-#     container_name: Artgeist_API
-#     build: .
-#     command: bash -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload --workers 4"
-#     volumes:
-#       - .:/app
-#       - logs:/app/mutoh_api/volumes
-#       - /c/VSC/Impala_DATA:/app/impala_api/volumes
-
-# volumes:
-#   logs:
-#     driver_opts:
-#       type: cifs
-#       o: "username=docker,password=docker4545docker"
-#       device: "//192.168.5.80/production_files/logs/mutoh"
