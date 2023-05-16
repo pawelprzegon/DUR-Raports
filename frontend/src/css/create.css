@@ -371,6 +371,9 @@
   .regions{
     display: block;
   }
+  .form-line{
+    width: 95%;
+  }
 }
 
 /* @media (max-width:550px) {
