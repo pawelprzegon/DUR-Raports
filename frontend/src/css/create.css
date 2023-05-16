@@ -360,6 +360,7 @@
   }
   .elements{
     font-size: 15px;
+    flex-direction: column;
   }
   .checkboxes{
     display: grid;
