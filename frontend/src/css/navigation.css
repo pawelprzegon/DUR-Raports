@@ -243,6 +243,9 @@
 
 /* Tablet small */
 @media (min-width: 750px) and (max-width: 900px) {
+    .top-elements{
+        grid-template-columns: 80px 140fr 1fr 2fr 1fr;
+    }
     .nav-link {
         width: 45px;
         font-size: 12px;
