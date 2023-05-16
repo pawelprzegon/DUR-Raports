@@ -348,7 +348,6 @@
     width: 100%;
   }
   .deklaracje-box{
-
     width: 80%;
   }
   
@@ -356,6 +355,9 @@
     height: 150px;
   }
 
+  .label-box{
+    height: none;
+  }
 }
 
 /* @media (max-width:550px) {
