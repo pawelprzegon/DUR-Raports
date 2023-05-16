@@ -46,7 +46,7 @@
     display: grid;
     grid-template-columns: 100px 10fr 1fr 1fr 1fr;
     justify-items: start;
-    /* align-items: center; */
+    align-items: center;
     
 }
 
@@ -263,6 +263,10 @@
 
 /* Mobile */
 @media (max-width:750px) {
+
+    .top-elements{
+        grid-template-columns: 80px 140fr 1fr 2fr 1fr;
+    }
 
     .nav-link {
         width: 110px;
