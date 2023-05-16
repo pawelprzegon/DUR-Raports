@@ -431,9 +431,6 @@
         padding: 5px;
         font-size: 16px;
     }
-    .slide-container{
-        width: 100%;
-    }
     .raport-text{
         font-size: 13px;
     }
@@ -462,9 +459,6 @@
     .raport-text{
         font-size: 12px;
     }
-    .slide-container{
-        width: 100%;
-    }
     .raport-label p {
         padding: 5px;
         font-size: 16px;
@@ -490,7 +484,7 @@
         width: 100%;
     }
     .slide-container {
-        width: 65%;
+        width: 100%;
     }
 }
 
