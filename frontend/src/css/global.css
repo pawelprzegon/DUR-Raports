@@ -137,6 +137,9 @@ REGISTRATION
   .alerts {
     padding-left: 5%;
     padding-right: 5%;
+  }
+
+  .alerts{
     margin-top: 30px;
   }
 }
