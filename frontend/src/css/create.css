@@ -356,7 +356,19 @@
   }
 
   .label-box{
-    height: none;
+    height: auto;
+  }
+  .elements{
+    font-size: 15px;
+  }
+  .checkboxes{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 3px;
+    justify-items: center;
+  }
+  .regions{
+    display: block;
   }
 }
 
