@@ -374,6 +374,9 @@
   .slide-content{
     margin: 0px 0px;
   }
+  .form{
+    height: 80%;
+  }
 }
 
 /* @media (max-width:550px) {
