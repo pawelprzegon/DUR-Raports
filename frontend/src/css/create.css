@@ -331,12 +331,7 @@
 
 /* Mobile */
 @media (max-width:750px) {
-  /* body{
-      overflow: visible;
-  } */
-  .container{
-    margin-top: 20px;
-  }
+
   .registration-grid{
     margin:0;
     flex-direction: column;
@@ -375,6 +370,9 @@
   }
   .form-line{
     width: 95%;
+  }
+  .slide-content{
+    margin: 0px 0px;
   }
 }
 
