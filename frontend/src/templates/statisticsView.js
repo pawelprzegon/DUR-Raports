@@ -49,31 +49,18 @@ export default class extends AbstractView{
         }
       }
 
-    calculateChartSize(){
-      let chartWidth = '500px'
-      if ( $(window).width() <= 600) {     
-        chartWidth = '450px'
-      }
-      else if (( $(window).width() > 600) && ( $(window).width() <= 900)){
-        chartWidth = '550px'
-      }else if (( $(window).width() > 900) && ( $(window).width() <= 1500)){
-          chartWidth = '750px'
-      }else{
-        chartWidth = '900px'
-      }
-      return chartWidth
-    }
-
     layout(response) {
       this.css();
-      const ChartsArea = document.createElement('div');
-      ChartsArea.classList.add("chart")
-      ChartsArea.style.width = this.calculateChartSize();
+      const ChartArea = document.createElement('div');
+      ChartArea.classList.add("chart-area")
+      const Chart = document.createElement('div')
+      Chart.classList.add('chart')
       const canvas = document.createElement('canvas');
       canvas.id = 'charts' ;
       canvas.style = 'null';
-      ChartsArea.appendChild(canvas);
-      this.container.appendChild(ChartsArea);
+      Chart.appendChild(canvas)
+      ChartArea.appendChild(Chart);
+      this.container.appendChild(ChartArea);
       
       let statistics = new allStatistics(response)
       statistics.charts();
