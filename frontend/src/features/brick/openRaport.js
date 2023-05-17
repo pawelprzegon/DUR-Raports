@@ -205,7 +205,7 @@ export class openRaport{
 
             Plexi.classList.add('single-raport-info-grid')
             PlexiHeader.classList.add('raport-label')
-            PlexiTextHeader.classList.add('raport-text', 'one')
+            PlexiTextHeader.classList.add('content-text', 'one')
             PlexiText.classList.add('tresc-dekl')
             PlexiInfo.innerText = 'Raport Plexi'
             let  [printed, wrong, factor]  = this.splitPlexiData(data.plexi[0])
