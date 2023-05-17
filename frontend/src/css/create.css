@@ -10,11 +10,6 @@
   --gray: #767676;
 }
 
-/* html, body {
-  margin:0;
-  padding:0;
-  height:100%;
-} */
 
 .container {
   display: flex;
@@ -378,18 +373,3 @@
     height: 80%;
   }
 }
-
-/* @media (max-width:550px) {
- .elements{
-  flex-direction: column;
- }
- .form-line{
-  width: 100%
- }
- .checkboxes{
-  margin: 0
- }
- .regions{
-  width: 100%;
- }
-} */

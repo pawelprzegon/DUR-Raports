@@ -124,9 +124,9 @@ export class openRaport{
         Dekl.classList.add('single-raport-info-grid')
         DeklHeader.classList.add('raport-label', 'header')
         DeklText.classList.add('raport-text')
-        Pawel.classList.add('raport-text', 'one')
-        Bartek.classList.add('raport-text', 'one')
-        Adam.classList.add('raport-text', 'one')
+        Pawel.classList.add('content-text', 'one')
+        Bartek.classList.add('content-text', 'one')
+        Adam.classList.add('content-text', 'one')
         
         
         namePawel.classList.add('header', 'tresc-dekl')
@@ -186,7 +186,7 @@ export class openRaport{
                 
             Region.classList.add('single-raport-info-grid')
             RegionHeader.classList.add('raport-label')
-            RegionTextHeader.classList.add('raport-text', 'one')
+            RegionTextHeader.classList.add('content-text', 'one')
             RegionInfo.innerText = capitalized(`${key}`)
             Region.appendChild(RegionHeader);
             Region.appendChild(RegionTextHeader);

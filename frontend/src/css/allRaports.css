@@ -22,7 +22,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 20px;
-    margin: 0 90px 0 30px;
+    margin: 0 40px 0 30px;
 }
 
 .buttons-box{
@@ -63,8 +63,6 @@
     justify-content: space-evenly;
 }
 
-
-
 .show-anim{
     animation: fadeIn 0.6s;
 }
@@ -85,6 +83,7 @@
 .issues{
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 65%;
 }
 
@@ -122,7 +121,14 @@
     justify-content: space-evenly;
     justify-content: flex-start;
     margin: 0.3rem;
-    /* margin-right: 3rem; */
+    font-size: 15px;
+    text-align: left;
+}
+
+.content-text{
+    display: flex;
+    flex-direction: column;
+    margin: 0.3rem;
     font-size: 15px;
     text-align: left;
 }
@@ -386,7 +392,7 @@
 /* Desktop small */
 @media (min-width: 1301px) and (max-width: 1500px) {
 
-    .raport-text{
+    .content-text{
         font-size: 14px;
     }
     .raport-data-user p {
@@ -396,7 +402,7 @@
 
 /* Tablet */
 @media (min-width: 1101px) and (max-width: 1300px) {
-    .raport-text{
+    .content-text{
         font-size: 13px;
     }
     .raport-data-user p {
@@ -410,7 +416,7 @@
 
 /* Tablet */
 @media (min-width: 901px) and (max-width: 1100px) {
-    .raport-text{
+    .content-text{
         font-size: 13px;
     }
     .raport-data-user p {
@@ -431,7 +437,7 @@
         padding: 5px;
         font-size: 16px;
     }
-    .raport-text{
+    .content-text{
         font-size: 13px;
     }
     .raport-data-user p {
@@ -448,6 +454,7 @@
         width: 90%;
     }
 
+
     
 }
 
@@ -457,6 +464,10 @@
         overflow: visible;
     }
     .raport-text{
+        flex-direction: row;
+        justify-content: space-around
+    }
+    .content-text{
         font-size: 12px;
     }
     .raport-label p {
@@ -474,6 +485,7 @@
         width: 100%;
         flex-direction: column;
         justify-content: flex-start;
+        align-items: center;
     }
 
     .card{
