@@ -23,7 +23,7 @@
 }
 
 .form-body{
-  height: 80%;
+  height: 85%;
   max-width: 100%;
 }
 
@@ -185,7 +185,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 35%;
+  width: 70%;
   margin: 10px;
 }
 
@@ -199,9 +199,6 @@
   height: 25px;
   width: 50px;
 }
-
-
-
 
 
 
@@ -339,18 +336,24 @@
     width: 100%;
   }
   .deklaracje-box{
+    margin: 0;
     width: 80%;
   }
   
   .raport-describe-users{
-    height: 150px;
+    height: 70px;
+  }
+
+  .raport-describe{
+    height: 65%;
   }
 
   .label-box{
     height: auto;
   }
   .elements{
-    font-size: 15px;
+    margin-top: 10px;
+    font-size: 13px;
     flex-direction: column;
     align-items: center;
   }
@@ -359,6 +362,17 @@
     grid-template-columns: 1fr 1fr;
     column-gap: 25px;
     justify-items: center;
+  }
+  .checkmark{
+    height: 12px;
+    width: 12px;
+  }
+  .label-container .checkmark:after {
+    left: 4px;
+    top: 1px;
+  }
+  .label-container{
+    margin-bottom: 5px;
   }
   .regions{
     display: block;
