@@ -94,7 +94,7 @@ export class allStatistics{
         ]
     },
     options: {
-        maintainAspectRatio: 2,
+        maintainAspectRatio: false,
         responsive: true,
         plugins: {
         title: {

@@ -33,6 +33,7 @@
 
 .labelBox{
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     margin: 0;
@@ -60,9 +61,9 @@
     width: 45%;
     cursor: pointer;
 }
-.elem-style:nth-child(2){
+/* .elem-style:nth-child(2){
     width: 30%;
-}
+} */
 .elem-style:nth-child(3){
     width: 20%;
 }
@@ -74,6 +75,7 @@
     font-size: 16px;
     display: flex;
     flex-direction: row;
+    justify-content: center;
     padding: 10px;
     margin: 10px;
     width: 100%;
@@ -115,16 +117,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: calc(50vw - 30px);
+  height: calc(40vh - 30px);
   width: 100%;
-  margin: 10px;
-  padding: 16px;
 }
 
 .chart {
     width:100%;
     display: flex;
     flex-grow:1;   
+    min-height:250px;
+    max-height: 400px;
 }
 
 /* Mobile */
@@ -147,6 +149,18 @@
 @media (max-width:750px) {
     .container{
         font-size: 11px;
+    }
+
+    .labelBox h2, h4, p{
+        font-size: 12px;
+    }
+    .elemBox{
+        padding-left: 3px;
+        padding-right: 3px;
+        width: 90%;
+    }
+    .place{
+        margin: 3px
     }
 }
 /* Tablet small */
