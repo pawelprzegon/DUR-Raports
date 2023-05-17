@@ -38,7 +38,7 @@
     align-items: center;
     margin: 0;
     margin-bottom: 10px;
-    width: calc(100% - 20px);
+    /* width: calc(100% - 20px); */
     background-color: #767676;
     border-radius: 10px 10px 0 0;
     padding: 10px;
@@ -153,6 +153,9 @@
 
     .labelBox h2, h4, p{
         font-size: 12px;
+    }
+    .labelBox{
+        padding: 5px;
     }
     .elemBox{
         padding-left: 3px;
