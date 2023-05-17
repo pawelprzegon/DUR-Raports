@@ -145,7 +145,7 @@ export default class extends AbstractView{
             inputField.classList.add('raport-describe-users')
             inputField.name = 'dekl_'+user;
             inputField.id = 'dekl_'+user;
-            inputField.rows = '25';
+            inputField.rows = '15';
 
             box.appendChild(label)
             box.appendChild(inputField)

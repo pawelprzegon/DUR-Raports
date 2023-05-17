@@ -24,6 +24,7 @@
 
 .form-body{
   height: 80%;
+  max-width: 100%;
 }
 
 
@@ -209,7 +210,7 @@
   display: flex;
   justify-content: center;
   margin-right: 15px;
-  margin-top: 50px;
+  margin-top: 15px;
   margin-bottom: 30px;
 }
 
@@ -306,9 +307,9 @@
 
 .swiper-slide{
   border-radius: 0.4rem;
-    box-shadow: inset 0px 0px 0px 1px rgb(221, 221, 221);
-    box-sizing: border-box;
-    background-color:  lightgray;
+  box-shadow: inset 0px 0px 0px 1px rgb(221, 221, 221);
+  box-sizing: border-box;
+  background-color:  lightgray;
 }
 
 
@@ -368,8 +369,5 @@
   }
   .slide-content{
     margin: 0px 0px;
-  }
-  form{
-    height: 80%;
   }
 }
