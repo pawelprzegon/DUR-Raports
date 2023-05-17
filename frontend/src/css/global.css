@@ -22,7 +22,7 @@ REGISTRATION
   }
   
   body {
-    overflow: hidden;
+    /* overflow: hidden; */
     display: flex;
     flex-direction: column;
     background: var(--bckg);
