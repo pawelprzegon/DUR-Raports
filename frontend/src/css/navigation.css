@@ -266,9 +266,11 @@
 
 /* Mobile */
 @media (max-width:750px) {
-
+    .top-row{
+        width: 90%;
+    }
     .top-elements{
-        grid-template-columns: 80px auto 50px 50px 50px;
+        grid-template-columns: 80px 140px 50px 50px 50px;
     }
 
     .nav-link {
