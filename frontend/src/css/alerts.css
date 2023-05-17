@@ -100,7 +100,6 @@ hr {
     color: #000;
 	border-radius: 4px;
 	padding: 20px;
-    margin-bottom: 15px;
 	opacity: 1;
     transition: opacity 0.4s;
 }
@@ -116,3 +115,9 @@ hr {
 .alert-close:hover {
     color: #000;
 } 
+
+@media (max-width:750px) {
+	.alert {
+		padding: 5px;
+	}
+}
