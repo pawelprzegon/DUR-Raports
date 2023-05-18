@@ -118,27 +118,25 @@ export default class extends AbstractView{
         let elemBox = document.createElement('div')
         elemBox.classList.add('elemBox')
         let elemLabelBox = document.createElement('div')
-        
         let elemLabel = document.createElement('p')
-        let elemQuantity = document.createElement('p')
-        let elemQuantityJedn = document.createElement('small')
+        elemLabelBox.appendChild(elemLabel)
+        elemBox.appendChild(elemLabelBox)
         if (obj == true){
             elemLabelBox.classList.add('elem-style')
             elemLabel.innerText = v.date
             elemLabel.addEventListener("click", () => {
-                console.log('test')
                 navigateTo('/raport/'+v.id);
             })
         }else{
+            let elemQuantity = document.createElement('p')
+            let elemQuantityJedn = document.createElement('small')
             elemLabel.innerText = k
             elemQuantity.innerText = v
             elemQuantityJedn.innerText = 'szt'
-
+            elemQuantity.appendChild(elemQuantityJedn)
+            elemBox.appendChild(elemQuantity)
         }
-        elemQuantity.appendChild(elemQuantityJedn)
-        elemLabelBox.appendChild(elemLabel)
-        elemBox.appendChild(elemLabelBox)
-        elemBox.appendChild(elemQuantity)
+        
         return elemBox
     }
 }

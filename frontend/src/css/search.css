@@ -19,7 +19,7 @@
 }
 
 .place{
-    width: 33%;
+    width: 20%;
     margin: 10px;
     padding-bottom: 15px;
     display: flex;
@@ -46,12 +46,11 @@
 }
 
 .elemBox{
-    width: calc(100% - 40px);
-    padding-left: 20px;
-    padding-right: 20px;
+    width: 90%;
     display: flex;
     justify-content: space-between;
     margin: 2px;
+    margin-left: 10px;
 }
 .elem-style:nth-child(1){
     width: 45%;
