@@ -43,7 +43,7 @@ export default class extends AbstractView{
                 if (status == 200){
                     clearTimeout(loader);
                     hideloader();
-                    this.show(response);
+                    this.layout(response);
                     Slider(this.params.id);
 
                 }else{
@@ -59,7 +59,7 @@ export default class extends AbstractView{
     }
 
 
-    show(data) {
+    layout(data) {
         this.css();
         let container = document.querySelector('#cont')
         container.innerHTML = ''

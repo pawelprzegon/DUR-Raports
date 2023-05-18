@@ -3,20 +3,19 @@ import {checkAuth, callApiGet} from '../features/endpoints/endpoints.js'
 import {alerts} from '../features/alerts/alerts.js'
 import {showloader, hideloader} from '../features/loading/loading.js'
 import {searchBehav} from '../common/navigation/navigation.js'
-import {searchingStatistics} from "../features/statistics/statistics.js"
+import {createNewChart} from "../features/chart/createChart.js"
 import {navigateTo} from '../js/index.js'
+import {capitalized} from "../features/upperCase/upperCase.js"
 
 import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView{
     constructor(params){
         super(params);
-        console.log(params.query)
         this.params = params
         this.setTitle('search: '+ this.params.query)
         this.api_url = url + "search/" + this.params.query;
-        console.log(this.api_url);
-
+        this.container = document.querySelector('#cont')
     }
 
     css(){
@@ -64,40 +63,82 @@ export default class extends AbstractView{
 
     }
 
-    calculateChartSize(){
-        let chartWidth = '500px'
-        if ( $(window).width() <= 600) {     
-          chartWidth = '450px'
-        }
-        else if (( $(window).width() > 600) && ( $(window).width() <= 900)){
-          chartWidth = '550px'
-        }else if (( $(window).width() > 900) && ( $(window).width() <= 1500)){
-            chartWidth = '750px'
-        }else{
-          chartWidth = '900px'
-        }
-        return chartWidth
-      }
 
 
     layout(response){
         this.css();
-        this.container = document.querySelector('#cont')
         this.container.innerHTML = ''
-        console.log(response.query);
-
-        const ChartsArea = document.createElement('div');
-        ChartsArea.classList.add("chart")
-        ChartsArea.style.width = this.calculateChartSize();
+        const ChartArea = document.createElement('div');
+        ChartArea.classList.add("chart-area")
+        const Chart = document.createElement('div')
+        Chart.classList.add('chart')
         const canvas = document.createElement('canvas');
         canvas.id = 'charts' ;
         canvas.style = 'null';
-        ChartsArea.appendChild(canvas);
-        this.container.appendChild(ChartsArea);
+
+        let chart = new createNewChart(response, canvas, this.params.query)
+        chart.newChart();
+
+        Chart.appendChild(canvas)
+        ChartArea.appendChild(Chart);
+        this.container.appendChild(ChartArea);
+    
+        this.container.appendChild(this.statistics(response));
+    }
+
+    statistics(response){
+
+        let search = document.createElement('div')
+        search.classList.add('searching')
+
+        let place = document.createElement('div')
+        place.classList.add('place')
+        let placeLabelBox = document.createElement('div')
+        placeLabelBox.classList.add('labelBox')
+        let placeLabel = document.createElement('h2')
+        placeLabel.innerText = capitalized(this.params.query)
+        place.id = Object.keys(response)
+        placeLabelBox.appendChild(placeLabel)
+        place.appendChild(placeLabelBox)
         
-        let searching = new searchingStatistics(response, this.params.query)
-        searching.charts();
-        this.container.appendChild(searching.statistics());
+        for(const value of Object.values(response)){
+            let obj = Array.isArray(value.items)
+            for(const [k,v] of Object.entries(value.items)){
+                let box = this.block(k,v, obj)
+                place.appendChild(box)
+            }
+            
+        }
+
+        search.appendChild(place)
+        return search
+    }
+
+    block(k,v, obj){
+        let elemBox = document.createElement('div')
+        elemBox.classList.add('elemBox')
+        let elemLabelBox = document.createElement('div')
         
+        let elemLabel = document.createElement('p')
+        let elemQuantity = document.createElement('p')
+        let elemQuantityJedn = document.createElement('small')
+        if (obj == true){
+            elemLabelBox.classList.add('elem-style')
+            elemLabel.innerText = v.date
+            elemLabel.addEventListener("click", () => {
+                console.log('test')
+                navigateTo('/raport/'+v.id);
+            })
+        }else{
+            elemLabel.innerText = k
+            elemQuantity.innerText = v
+            elemQuantityJedn.innerText = 'szt'
+
+        }
+        elemQuantity.appendChild(elemQuantityJedn)
+        elemLabelBox.appendChild(elemLabel)
+        elemBox.appendChild(elemLabelBox)
+        elemBox.appendChild(elemQuantity)
+        return elemBox
     }
 }
