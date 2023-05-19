@@ -46,7 +46,7 @@
 }
 
 .labelBox h2, h3 {
-    margin: 5px;
+    margin: 2px;
 }
 
 .elemBox{
@@ -99,7 +99,6 @@
     display: flex;
     justify-content: center;
     color: white;
-    width: 100%;
     background-color: #767676;
     padding: 10px;
     border-radius: 10px 10px 0 0 ;
