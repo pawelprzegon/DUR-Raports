@@ -45,22 +45,22 @@ export function Slider(id){
 export function SliderForm(){
 new Swiper(".slide-content", {
     slidesPerView: 1,
-      spaceBetween: 30,
-      loop: true,
-      grabCursor: false,
-      allowTouchMove: false,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-        dynamicBullets: false,
-      },
-      keyboard: {
-        enabled: true,
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
+    spaceBetween: 30,
+    loop: false,
+    grabCursor: false,
+    allowTouchMove: false,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+      dynamicBullets: false,
+    },
+    keyboard: {
+      enabled: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
   });
 }
 
