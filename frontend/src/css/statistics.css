@@ -167,7 +167,11 @@
         margin: 3px
     }
     .user-style-label{
-    padding: 10px;
+    padding: 5px;
+    }
+    .users h4{
+        margin-top: 0;
+        margin-botttom: 0;
     }
 }
 /* Tablet small */
