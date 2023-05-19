@@ -151,7 +151,6 @@
     .container{
         font-size: 11px;
     }
-
     .labelBox h2, h4, p{
         font-size: 12px;
     }
@@ -172,6 +171,11 @@
     .users h4{
         margin-top: 0;
         margin-botttom: 0;
+    }
+    @media screen and (orientation:landscape){
+        .chart-area{
+            height: calc(80vh - 30px);
+        }
     }
 }
 /* Tablet small */
