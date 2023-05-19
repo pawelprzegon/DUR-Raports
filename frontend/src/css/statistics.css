@@ -96,8 +96,10 @@
     margin: 15px;
 }
 .user-style-label{
+    display: flex;
+    justify-content: center;
     color: white;
-    width: calc(100% - 20px);
+    width: 100%;
     background-color: #767676;
     padding: 10px;
     border-radius: 10px 10px 0 0 ;
@@ -164,6 +166,9 @@
     }
     .place{
         margin: 3px
+    }
+    .user-style-label{
+    padding: 10px;
     }
 }
 /* Tablet small */
