@@ -172,12 +172,13 @@
         margin-top: 0;
         margin-botttom: 0;
     }
-    @media screen and (orientation:landscape){
-        .chart-area{
-            height: calc(80vh - 30px);
-        }
-    }
 }
+ @media (orientation:landscape){
+    .chart-area{
+        height: calc(80vh - 30px);
+    }
+ }
+
 /* Tablet small */
 @media (min-width: 751px) and (max-width: 900px) {
     .container{
