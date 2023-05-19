@@ -46,7 +46,7 @@
 }
 
 .labelBox h2, h3 {
-    margin: 5px;
+    margin: 2px;
 }
 
 .elemBox{
@@ -96,8 +96,9 @@
     margin: 15px;
 }
 .user-style-label{
+    display: flex;
+    justify-content: center;
     color: white;
-    width: calc(100% - 20px);
     background-color: #767676;
     padding: 10px;
     border-radius: 10px 10px 0 0 ;
@@ -150,7 +151,6 @@
     .container{
         font-size: 11px;
     }
-
     .labelBox h2, h4, p{
         font-size: 12px;
     }
@@ -165,7 +165,20 @@
     .place{
         margin: 3px
     }
+    .user-style-label{
+    padding: 5px;
+    }
+    .users h4{
+        margin-top: 0;
+        margin-botttom: 0;
+    }
 }
+ @media (orientation:landscape){
+    .chart-area{
+        height: calc(80vh - 30px);
+    }
+ }
+
 /* Tablet small */
 @media (min-width: 751px) and (max-width: 900px) {
     .container{

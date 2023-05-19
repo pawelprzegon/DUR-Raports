@@ -19,7 +19,7 @@
 }
 
 .place{
-    width: 20%;
+/*     width: 20%; */
     margin: 10px;
     padding-bottom: 15px;
     display: flex;
@@ -46,14 +46,14 @@
 }
 
 .elemBox{
-    width: 90%;
     display: flex;
     justify-content: space-between;
     margin: 2px;
     margin-left: 10px;
+    margin-right: 10px;
 }
 .elem-style:nth-child(1){
-    width: 45%;
+/*     width: 45%; */
     cursor: pointer;
 }
 .elem-style:nth-child(1):hover{
@@ -123,27 +123,17 @@
       max-height: 400px;
   }
 
-/* Mobile */
-@media (max-width:600px) {
-    
-}
 
-
-/* Tablet */
-@media (min-width:600px) {
-    
-}
-
-/* Desktop */
-@media (min-width:900px) {
-    
-}
 
 /* Mobile */
 @media (max-width:750px) {
     .container{
         font-size: 11px;
     }
+    .elemBox{
+    margin-left: 5px;
+    margin-right: 5px;
+}
 }
 /* Tablet small */
 @media (min-width: 751px) and (max-width: 900px) {
