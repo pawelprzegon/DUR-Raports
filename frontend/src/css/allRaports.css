@@ -496,7 +496,7 @@
 }
 
 
-@media (orientation:landscape){
+@media (max-width: 1200px) and (orientation:landscape){
     .card{
         display: flex;
         flex-direction: row;
