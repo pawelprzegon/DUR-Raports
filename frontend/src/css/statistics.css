@@ -99,10 +99,6 @@
     display: flex;
     justify-content: center;
     color: white;
-<<<<<<< HEAD
-=======
-    width: 100%;
->>>>>>> 1c1ff19ef410d00a4d81577efa4415b4c751e58e
     background-color: #767676;
     padding: 10px;
     border-radius: 10px 10px 0 0 ;
@@ -155,7 +151,6 @@
     .container{
         font-size: 11px;
     }
-<<<<<<< HEAD
     .labelBox h2, h4, p{
         font-size: 12px;
     }
@@ -176,10 +171,6 @@
     .users h4{
         margin-top: 0;
         margin-botttom: 0;
-=======
-    .user-style-label{
-    padding: 10px;
->>>>>>> 1c1ff19ef410d00a4d81577efa4415b4c751e58e
     }
 }
  @media (orientation:landscape){
