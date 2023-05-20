@@ -25,7 +25,7 @@
     display: flex;
     flex-direction: column;
     align-content: stretch;
-    border-radius: 10px;
+    border-radius: 5px;
     box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.3);
 }
 
@@ -40,7 +40,7 @@
     margin-bottom: 10px;
     /* width: calc(100% - 20px); */
     background-color: #767676;
-    border-radius: 10px 10px 0 0;
+    border-radius: 5px 5px 0 0;
     padding: 10px;
     color: white;
 }
@@ -91,7 +91,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    border-radius: 10px;
+    border-radius: 5px;
     box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.3);
     margin: 15px;
 }
@@ -101,7 +101,7 @@
     color: white;
     background-color: #767676;
     padding: 10px;
-    border-radius: 10px 10px 0 0 ;
+    border-radius: 5px 5px 0 0 ;
 }
 .user-style{
     display: flex;
@@ -130,21 +130,43 @@
     max-height: 400px;
 }
 
-/* Mobile */
-@media (max-width:600px) {
-    
-}
+
 
 
 /* Tablet */
-@media (min-width:600px) {
-    
+@media (max-width: 1100px){
+    .container{
+        font-size: 14px;
+    }
 }
 
-/* Desktop */
-@media (min-width:900px) {
-    
+/* Mobile landscape */ 
+@media (max-width: 1100px) and (orientation:landscape){
+    .container{
+        font-size: 12px;
+    }
+    .chart-area{
+        height: calc(70vh - 30px);
+    }
+    .user-style-label,
+    .labelBox{
+        padding: 5px;
+    }
+    .users,
+    .statistics{
+        margin: 0;
+        padding: 0;
+    }
+ }
+
+
+ /* Tablet small */
+ @media (max-width: 900px) {
+    .container{
+        font-size: 12px;
+    }
 }
+
 
 /* Mobile */
 @media (max-width:750px) {
@@ -170,28 +192,14 @@
     }
     .users h4{
         margin-top: 0;
-        margin-botttom: 0;
+        margin-bottom: 0;
     }
-}
- @media (orientation:landscape){
-    .chart-area{
-        height: calc(80vh - 30px);
-    }
- }
-
-/* Tablet small */
-@media (min-width: 751px) and (max-width: 900px) {
-    .container{
-        font-size: 12px;
-    }
-}
-/* Tablet */
-@media (min-width: 901px) and (max-width: 1100px){
-    .container{
-        font-size: 14px;
+    .users,
+    .statistics{
+        margin: 0;
+        padding: 0;
     }
 }
 
-/* Desktop */
-@media (min-width:1100px) {}
-@media (min-width:1500px) {}
+
+

@@ -496,7 +496,68 @@
 }
 
 
+@media (orientation:landscape){
+    .card{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        height: 50px;
+    }
+    .raport-data-user p {
+        font-size: 11px;
+    }
+    .raport-data-user {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        padding: 0;
+        width: 100%;
+        /* background-color: var(--gray); */
+        border-radius: 5px 5px 0 0 ;
+        margin-left: 1px;
+        height: 90%;
+    }
+    .raport-detail-box{
+        width: 100%;
+        justify-content: flex-start;
+    }
+    .raport-data-user p {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+    .arrow {
+        margin-left: 5px;
+    }
 
+    .raport-regions {
+        flex-direction: row;
+        align-items: center;
+        font-size: 11px;
+        padding: 0;
+        height: 100%;
+    }
+    .regio-circle-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .regions-headers {
+        margin-left: 0;
+    }
+    .raport-circle-empty {
+        width: 15px;
+        height: 15px;
+        line-height: 17px;
+        font-size: 9px;
+        margin: 1px;
+    }
+    
+
+}
 
 
 
