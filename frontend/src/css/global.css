@@ -1,0 +1,157 @@
+REGISTRATION
+:root {
+    --dark: #374151;
+    --darker: #1F2937;
+    --darkest: #111827;
+    --gray: #6B7280;
+
+    --bckg: #ffffff;
+    --bridge: #ffffff;
+    --fntColor: #000000;
+    --brdr: #1f1f1f;
+
+    --full: #ca1717;
+    --empty: #817c7c;
+    --glow: #000000;
+
+    --btn: #d2b43b;
+    --border: #000000;
+    --btnTxt: #030303;
+    --fntWeight: 300;
+
+  }
+  
+  body {
+    /* overflow: hidden; */
+    display: flex;
+    flex-direction: column;
+    background: var(--bckg);
+    background-color: var(--bckg);
+    color: #000000;
+    --top-row-height: 60px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: calc(var(--vh, 1vh) * 80);
+  padding-left: 8%;
+  padding-right: 8%;
+}
+
+.content{
+  display: grid;
+  width: 70%;
+}
+
+.alerts{
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  font-weight: 200;
+  margin-top: 60px;
+  /* padding-left: 8%;
+  padding-right: 8%; */
+}
+
+  
+.spinner-border{
+  display: flex;
+  justify-content: center;
+}
+
+.lds-ring {
+  display: flex;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  margin: 6px;
+  border: 6px solid var(--gray);
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: var(--gray) transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+/* Desktop big */
+@media (min-width:1500px) {
+  .container,
+  .alerts {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+}
+
+/* Desktop small */
+@media (max-width: 1500px) {
+  .container,
+  .alerts {
+    padding-left: 13%;
+    padding-right: 13%;
+  }
+  .content{
+    width: 80%;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1100px){
+  .container,
+  .alerts {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+  .content{
+    width: 90%;
+  }
+}
+/* Tablet small */
+@media (max-width: 900px) {
+  .container,
+  .alerts {
+    padding-left: 7%;
+    padding-right: 7%;
+  }
+  .content{
+    width: 95%;
+  }
+}
+/* Mobile */
+@media (max-width:750px) {
+  .container,
+  .alerts {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .content{
+    width: 100%;
+  }
+
+}

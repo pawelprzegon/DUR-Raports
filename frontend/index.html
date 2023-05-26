@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <title>
+        Raporty
+    </title>
+    
+    <link rel="stylesheet" href="/../src/css/global.css">
+    <link rel="stylesheet" href="/../src/css/alerts.css">
+    <link rel="icon" type="image/png" href="./static/images/artgeist.png" />
+    <link rel="stylesheet" href="../src/css/swiper-bundle.css">
+    <link rel="stylesheet" href="" id="nav-theme">
+    <link rel="stylesheet" href="" id="theme">
+    
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    
+
+
+</head>
+<body>
+    
+    <header class="app-header" id="app-header"></header>
+    <div class="alerts" id="alerts">
+        <div class="spinner-border" 
+             role="status" id="loading" style="visibility: hidden">
+             <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </div>
+        <div class="alert hidden" id="alert">
+            
+            <span class="alert-close" data-close="alert" title="Close"><span id="timer"></span>&times;</span>
+            <div id="alert-message"></div>
+        </div>
+    </div>
+    <div class="container" id="cont">
+        <div class="slide-container swiper" id="raport">
+          
+        </div>
+    </div>
+    
+
+    <script type="module" src="../src/js/index.js"></script>
+    <script src="../src/features/swiper/swiper-bundle.min.js"></script>
+    <script src="../src/common/alerts/alerts.js"></script>
+
+</body>
+</html>

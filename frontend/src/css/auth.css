@@ -1,0 +1,218 @@
+:root {
+    --dark: #374151;
+    --darker: #1F2937;
+    --darkest: #111827;
+    --gray: #6B7280;
+    --light: #EEE;
+    --pink: #EC4899;
+    --purple: #8B5Cf6;
+    --bckg: #ffffff;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--bckg);
+    background-color: var(--bckg);
+    color: #5a5a5a;
+    margin-top: 100px;
+  }
+
+  .container{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  
+  
+  /* Mobile */
+  @media (max-width:600px) {
+  
+    .container {
+      margin-top: 1rem;
+      padding-left: 5%;
+      padding-right: 5%;
+    }
+  
+}
+  
+  
+  
+  /* Tablet */
+  @media (min-width:600px) {
+  
+    .container {
+      margin-top: 1rem;
+      padding-left: 10%;
+      padding-right: 10%;
+    }
+    
+  }
+  
+  /* Desktop */
+  @media (min-width:900px) {
+  
+  
+    .container {
+      padding-left: 15%;
+      padding-right: 15%;
+      height: auto;
+    }
+
+  
+  }
+
+  #form {
+    width: 300px;
+    margin: 25px 25px 35px 25px;
+    padding: 20px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: 'Roboto', sans-serif;
+    /* border: 0.5px solid rgb(130, 130, 130) */
+    -webkit-box-shadow: 0px 5px 30px -4px rgba(119, 120, 138, 1);
+    -moz-box-shadow: 0px 5px 30px -4px rgba(119, 120, 138, 1);
+    box-shadow: 0px 5px 30px -4px rgba(119, 120, 138, 1);
+}
+
+#form h1 {
+    color: #0f2027;
+    text-align: center;
+}
+
+#form p{
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+}
+
+
+#form button {
+    padding: 10px;
+    margin-top: 10px;
+    width: 100%;
+    color: white;
+    background-color: rgb(90, 134, 215);
+    border: none;
+    border-radius: 4px;
+}
+
+#form button:hover {
+    background-color: rgb(49, 97, 187);
+}
+#form button:active {
+    background-color: rgb(41, 79, 149);
+}
+
+.show-passwrd{
+  display: flex;
+  align-items: center;
+}
+
+.input-control {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-control input {
+    border: 0.5px solid #c3c3c3;
+    border-radius: 4px;
+    display: block;
+    font-size: 12px;
+    padding: 10px;
+}
+
+.input-control input:focus {
+    outline: 0;
+}
+
+.input-control.success input {
+    border-color: #a5dac3;
+    border-width: 1px;
+}
+
+.input-control.error input {
+    border-color: #ff3860;
+}
+
+.input-control .error {
+    color: #ff3860;
+    font-size: 9px;
+    height: 13px;
+}
+
+.response-error{
+  color: #ff3860;
+}
+
+.loginSignup{
+  display: grid;
+  justify-content: end;
+  padding: 3px;
+  color:rgb(41, 79, 149)
+}
+
+#form button{
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  color: rgb(255, 255, 255);
+}
+
+
+
+
+.loginSignup-box {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+.loginSignup-box p{
+  padding: 3px;
+  margin: 0;
+}
+.loginSignup-box a{
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgb(76, 128, 225);
+}
+
+.loginSignup-box a:hover{
+  font-weight: 500;
+  color: rgb(40, 89, 172);
+  text-decoration: underline;
+}
+
+.resetPasswdBox{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+
+.resetPasswdBox a{
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgb(76, 128, 225);
+}
+
+.resetPasswdBox a:hover{
+  font-weight: 500;
+  color: rgb(40, 89, 172);
+  text-decoration: underline;
+}
+
+
+.hidden-element{
+  display: none;
+}
+
+
+
+
