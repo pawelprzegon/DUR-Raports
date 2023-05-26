@@ -1,6 +1,36 @@
 version: "3.8"
 
 services:
+  back:
+    container_name: Raport_BACK
+    build:
+      context: .
+      dockerfile: back/Dockerfile
+    command: bash -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload --workers 4"
+    depends_on:
+      db:
+        condition: service_started
+    restart: on-failure:10
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://docker:docker@db:5432/Artgeist_API
+      - CORS_URL=http://10.60.5.29:3000
+      - DB_TIMEOUT=30
+    # - DATABASE_URL=postgresql://docker:hVD8n17wyTL76XW9NQuFD7fv1tmZsSzG@dpg-ch8i0m6si8uhth7qias0-a.frankfurt-postgres.render.com/artgeist_api
+    ports:
+      - 8000:8000
+    networks:
+      - backend
+
+  front:
+    container_name: Raport_FRONT
+    build:
+      context: .
+      dockerfile: front/Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - backend
+
   db:
     container_name: database
     image: postgres:15.1-alpine
@@ -18,18 +48,6 @@ services:
     networks:
       - backend
 
-  app:
-    container_name: Raport_API
-    build: .
-    command: bash -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload --workers 4"
-    volumes:
-      - .:/app
-    ports:
-      - 8000:8000
-    networks:
-      - backend
-
-      
 networks:
   backend:
-     driver: bridge
+    driver: bridge
