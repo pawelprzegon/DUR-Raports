@@ -384,7 +384,7 @@
 }
 
 /* Tablet */
-@media (min-width: 1101px) and (max-width: 1300px) {
+@media (min-width: 1101px) and (max-width: 1300px) and (pointer: coarse) {
   .content-text {
     font-size: 13px;
   }
@@ -397,7 +397,7 @@
 }
 
 /* Tablet */
-@media (min-width: 901px) and (max-width: 1100px) {
+@media (min-width: 901px) and (max-width: 1100px) and (pointer: coarse) {
   .content-text {
     font-size: 13px;
   }
@@ -413,7 +413,7 @@
 }
 
 /* Tablet small */
-@media (min-width: 750px) and (max-width: 900px) {
+@media (min-width: 750px) and (max-width: 900px) and (pointer: coarse) {
   .raport-label p {
     padding: 5px;
     font-size: 16px;
@@ -437,7 +437,7 @@
 }
 
 /* Mobile */
-@media (max-width: 750px) {
+@media (max-width: 750px) and (pointer: coarse) {
   body {
     overflow: visible;
   }
@@ -473,7 +473,7 @@
   }
 }
 
-@media (max-width: 1200px) and (orientation: landscape) {
+@media (max-width: 1200px) and (orientation: landscape) and (pointer: coarse) {
   .card {
     display: flex;
     flex-direction: row;

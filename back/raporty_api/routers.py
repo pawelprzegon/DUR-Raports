@@ -15,16 +15,20 @@ security = HTTPBearer()
 raporty = APIRouter()
 
 
-@raporty.get("/raports", response_model=List[schema.RaportsOut])
-async def all_raports(credentials: HTTPAuthorizationCredentials = Security(security)):
+@raporty.get("/raports/", response_model=List[schema.RaportsOut])
+async def all_raports(credentials: HTTPAuthorizationCredentials = Security(security), quantity: int | None = None):
     """
      endpoint: list all raports
     """
     token = credentials.credentials
-    if(auth_handler.decode_token(token)):
-        return db.session.query(Raport).order_by(
-            Raport.date_created.desc()).all()
-    
+    if (auth_handler.decode_token(token)):
+        if quantity:
+            return db.session.query(Raport).order_by(
+                Raport.date_created.desc()).limit(quantity).all()
+        else:
+            return db.session.query(Raport).order_by(
+                Raport.date_created.desc()).all()
+
 
 @raporty.get("/raport/{id}", response_model=schema.RaportsOut)
 async def single_raport(id: int, credentials: HTTPAuthorizationCredentials = Security(security)):
@@ -33,7 +37,7 @@ async def single_raport(id: int, credentials: HTTPAuthorizationCredentials = Sec
     Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
     '''
     token = credentials.credentials
-    if(auth_handler.decode_token(token)):
+    if (auth_handler.decode_token(token)):
         try:
             if (
                 raport := db.session.query(Raport)
@@ -43,15 +47,15 @@ async def single_raport(id: int, credentials: HTTPAuthorizationCredentials = Sec
                 return raport
             else:
                 raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND, 
+                    status_code=status.HTTP_404_NOT_FOUND,
                     detail="raport not found"
-                    )
+                )
         except SQLAlchemyError as e:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=e.orig.args,
             ) from e
-            
+
 
 @raporty.get("/raports/{username}", response_model=List[schema.RaportsOut])
 async def user_raports(username: str, credentials: HTTPAuthorizationCredentials = Security(security)):
@@ -67,8 +71,8 @@ async def user_raports(username: str, credentials: HTTPAuthorizationCredentials 
             .filter(User.username == username)
             .all()
         )
-        
-        
+
+
 @raporty.get('/search/{searching}')
 def search(searching: str, credentials: HTTPAuthorizationCredentials = Security(security)):
     '''
@@ -84,32 +88,30 @@ def search(searching: str, credentials: HTTPAuthorizationCredentials = Security(
 
         try:
             if results := db.session.query(Unit).order_by(Unit.date_created.desc()).filter(
-                Unit.region == query).all():
-                    search = Search(results, query)
-                    chartData =  search.chartLabelsAndValues()
-                    units = search.getRaportedUnits()
-                    return search._packToDict(chartData, units, query)
+                    Unit.region == query).all():
+                search = Search(results, query)
+                chartData = search.chartLabelsAndValues()
+                units = search.getRaportedUnits()
+                return search._packToDict(chartData, units, query)
 
             elif results := db.session.query(Unit).order_by(Unit.date_created.desc()).filter(
-                Unit.unit == query).all():
-                    search = Search(results, query)
-                    chartData =  search.chartLabelsAndValues()
-                    units = search.getRaportedDates()
-                    return search._packToDict(chartData, units, query)
+                    Unit.unit == query).all():
+                search = Search(results, query)
+                chartData = search.chartLabelsAndValues()
+                units = search.getRaportedDates()
+                return search._packToDict(chartData, units, query)
 
             elif results := db.session.query(Raport).filter(
-                Raport.date_created == query).first():
-                    return schema.Raport(id=results.id,
-                                             date_created=results.date_created,
-                                             author=results.author)
-
+                    Raport.date_created == query).first():
+                return schema.Raport(id=results.id,
+                                     date_created=results.date_created,
+                                     author=results.author)
 
         except SQLAlchemyError as e:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Nie znaleziono '{searching}' w bazie danych",
             ) from e
-
 
 
 @raporty.get('/statistics')
@@ -122,12 +124,11 @@ def statistics(credentials: HTTPAuthorizationCredentials = Security(security)):
     if (auth_handler.decode_token(token)):
         resoults = db.session.query(Raport).order_by(
             Raport.date_created.desc()).all()
-        
+
         statistics = Statistics(resoults)
         chartData = statistics.chartLabelsAndValues()
         units = statistics.getRaportedUnits()
         users = statistics.splitUsers()
-
 
         return statistics._packToDict(chartData, units, users)
 
@@ -139,7 +140,7 @@ async def create_raport(request: Request, credentials: HTTPAuthorizationCredenti
     Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
     '''
     token = credentials.credentials
-    if(auth_handler.decode_token(token)):
+    if (auth_handler.decode_token(token)):
         form_data = await request.json()
         return InputData(form_data).fillFormAndRelpaceDb()
 
@@ -151,10 +152,11 @@ async def update_raport(request: Request, credentials: HTTPAuthorizationCredenti
     Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
     '''
     token = credentials.credentials
-    if(auth_handler.decode_token(token)):
+    if (auth_handler.decode_token(token)):
         form_data = await request.json()
         return InputData(form_data).fillFormAndRelpaceDb()
-    
+
+
 @raporty.delete("/delete/{id}")
 async def delete_raport(id: int, credentials: HTTPAuthorizationCredentials = Security(security)):
     """
@@ -162,27 +164,19 @@ async def delete_raport(id: int, credentials: HTTPAuthorizationCredentials = Sec
      Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
     """
     token = credentials.credentials
-    if(auth_handler.decode_token(token)):
+    if (auth_handler.decode_token(token)):
         try:
             if (resoult := db.session.query(Raport).filter(
-                Raport.id == id).first()):
+                    Raport.id == id).first()):
                 date = (resoult.date_created).strftime('%d-%m-%Y')
                 db.session.delete(resoult)
                 db.session.commit()
                 return JSONResponse(status_code=status.HTTP_200_OK, content={"message": f"Raport z dnia {date} został usunięty"})
-            
+
             return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"message": f"Nie znaleziono raportu nr: {id}"})
-        
+
         except SQLAlchemyError as e:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=e.orig.args,
             ) from e
-
-
-
-
-
-
-
-

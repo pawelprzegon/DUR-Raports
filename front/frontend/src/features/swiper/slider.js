@@ -1,9 +1,11 @@
+// import { Brick } from "../brick/brick.js";
+// import { url } from "../../common/data/url.js";
+// import { callApiGet } from "../endpoints/endpoints.js";
 
-export function Slider(id){
-  
-  let indexToGet = $('.swiper .card').index( $(`#${id}`) );
+export function Slider(id) {
+  let indexToGet = $(".swiper .card").index($(`#${id}`));
 
- let mySwiper = new Swiper(".slide-content", {
+  let mySwiper = new Swiper(".slide-content", {
     slidesPerView: 3,
     // centeredSlides: true,
     spaceBetween: 25,
@@ -23,27 +25,45 @@ export function Slider(id){
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
     },
+    // on: {
+    //   reachEnd: function () {
+    //     let swiper = document.querySelector(".swiper-wrapper");
+    //     let current_quantity = swiper.children.length;
+    //     console.log(current_quantity);
+    //     if (current_quantity > 3) {
+    //       let new_quantity = current_quantity + 10;
+    //       let api_url = url + `raports/${new_quantity}`;
+    //       let [re, st] = callApiGet(api_url);
+    //       console.log(re);
+    //       re.forEach((each) => {
+    //         let raportInfoGrid = new Brick(each);
+    //         let brick = raportInfoGrid.getBrick();
+    //         swiper.appendChild(brick);
+    //       });
+    //     }
+    //   },
+    // },
 
-    breakpoints:{
-        0: {
-            slidesPerView: 1,
-            slidesPerGroup: 1,
-        },
-        751: {
-            slidesPerView: 2,
-            slidesPerGroup: 2,
-        },
-        1101: {
-            slidesPerView: 3,
-            slidesPerGroup: 3,
-        },
+    breakpoints: {
+      0: {
+        slidesPerView: 1,
+        slidesPerGroup: 1,
+      },
+      751: {
+        slidesPerView: 2,
+        slidesPerGroup: 2,
+      },
+      1101: {
+        slidesPerView: 3,
+        slidesPerGroup: 3,
+      },
     },
   });
-  return mySwiper
+  return mySwiper;
 }
 
-export function SliderForm(){
-new Swiper(".slide-content", {
+export function SliderForm() {
+  new Swiper(".slide-content", {
     slidesPerView: 1,
     spaceBetween: 30,
     loop: false,
@@ -63,4 +83,3 @@ new Swiper(".slide-content", {
     },
   });
 }
-
