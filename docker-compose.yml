@@ -1,15 +1,38 @@
 version: "3.8"
 
 services:
-  db:
-    container_name: database
-    image: postgres:15.1-alpine
+  postgres:
+    container_name: postgres
+    image: postgres:15.3-alpine
     environment:
       POSTGRES_PASSWORD: docker
       POSTGRES_USER: docker
       POSTGRES_DB: Artgeist_API
     networks:
       - backend
+
+  pgbackups:
+    image: prodrigestivill/postgres-backup-local
+    restart: always
+    user: postgres:postgres # Optional: see below
+    volumes:
+      - /var/opt/pgbackups:/backups
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=database
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      #  - POSTGRES_PASSWORD_FILE=/run/secrets/db_password <-- alternative for POSTGRES_PASSWORD (to use with docker secrets)
+      - POSTGRES_EXTRA_OPTS=-Z6 --schema=public --blobs
+      - SCHEDULE=@daily
+      - BACKUP_KEEP_DAYS=7
+      - BACKUP_KEEP_WEEKS=4
+      - BACKUP_KEEP_MONTHS=6
+      - HEALTHCHECK_PORT=8888
 
   adminer:
     container_name: database-adminer
@@ -23,11 +46,11 @@ services:
     container_name: Raport_BACK
     build: ./back
     depends_on:
-      db:
+      postgres:
         condition: service_started
     restart: on-failure:10
     environment:
-      - DATABASE_URL=postgresql+psycopg2://docker:docker@db:5432/Artgeist_API
+      - DATABASE_URL=postgresql+psycopg2://docker:docker@postgres:5432/Artgeist_API
       - CORS_URL=http://localhost:3000
       - DB_TIMEOUT=30
     # - DATABASE_URL=postgresql://docker:hVD8n17wyTL76XW9NQuFD7fv1tmZsSzG@dpg-ch8i0m6si8uhth7qias0-a.frankfurt-postgres.render.com/artgeist_api
