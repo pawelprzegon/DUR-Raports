@@ -1,40 +1,19 @@
 version: "3.8"
 
 services:
-  db:
-    container_name: db
-    image: postgres:15.3-alpine
-    environment:
-      POSTGRES_USER: docker
-      POSTGRES_PASSWORD: docker
-      POSTGRES_DB: Artgeist_API
-    networks:
-      - backend
-
-  adminer:
-    container_name: db-adminer
-    image: adminer
-    ports:
-      - 8080:8080
-    networks:
-      - backend
-
   back:
     container_name: raport_BACK
     build: ./back
-    depends_on:
-      db:
-        condition: service_started
     restart: on-failure:10
     environment:
-      - DATABASE_URL=postgresql+psycopg2://docker:docker@db:5432/Artgeist_API
+      - DATABASE_URL=postgresql+psycopg2://docker:docker@postgres:5432/Artgeist_API
       - CORS_URL=http://localhost:3000
       - DB_TIMEOUT=30
     # - DATABASE_URL=postgresql://docker:hVD8n17wyTL76XW9NQuFD7fv1tmZsSzG@dpg-ch8i0m6si8uhth7qias0-a.frankfurt-postgres.render.com/artgeist_api
     ports:
       - 8000:8000
     networks:
-      - backend
+      - app-network
 
   front:
     container_name: raport_FRONT
@@ -42,8 +21,9 @@ services:
     ports:
       - 3000:3000
     networks:
-      - backend
+      - app-network
 
 networks:
-  backend:
-    driver: bridge
+  app-network:
+    external:
+      name: database-net
