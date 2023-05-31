@@ -16543,3 +16543,13 @@ front/node_modules/yargs-parser/build/lib/string-utils.js
 front/node_modules/yargs-parser/build/lib/tokenize-arg-string.js
 front/node_modules/yargs-parser/build/lib/yargs-parser-types.js
 front/node_modules/yargs-parser/build/lib/yargs-parser.js
+back/__pycache__/db.cpython-310.pyc
+back/__pycache__/descriptions.cpython-310.pyc
+back/__pycache__/main.cpython-310.pyc
+back/__pycache__/models.cpython-310.pyc
+back/__pycache__/schema.cpython-310.pyc
+back/auth_api/__pycache__/auth.cpython-310.pyc
+back/auth_api/__pycache__/routers.cpython-310.pyc
+back/raporty_api/__pycache__/inputData.cpython-310.pyc
+back/raporty_api/__pycache__/routers.cpython-310.pyc
+back/raporty_api/__pycache__/searchAndStatistics.cpython-310.pyc

@@ -15,7 +15,7 @@ export default class extends AbstractView {
     this.params = params;
     // console.log(this.params)
     if ("_id" in this.params) {
-      this.currentRaport = JSON.parse(localStorage.getItem("active_raport"));
+      this.currentRaport = JSON.parse(sessionStorage.getItem("active_raport"));
       this.setTitle("Edit " + this.params._id);
       this.api_url = url + "update/";
     } else {
