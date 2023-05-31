@@ -1,13 +1,8 @@
-// import { Brick } from "../brick/brick.js";
-// import { url } from "../../common/data/url.js";
-// import { callApiGet } from "../endpoints/endpoints.js";
-
 export function Slider(id) {
   let indexToGet = $(".swiper .card").index($(`#${id}`));
 
   let mySwiper = new Swiper(".slide-content", {
     slidesPerView: 3,
-    // centeredSlides: true,
     spaceBetween: 25,
     loop: false,
     initialSlide: indexToGet,
@@ -25,25 +20,6 @@ export function Slider(id) {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
     },
-    // on: {
-    //   reachEnd: function () {
-    //     let swiper = document.querySelector(".swiper-wrapper");
-    //     let current_quantity = swiper.children.length;
-    //     console.log(current_quantity);
-    //     if (current_quantity > 3) {
-    //       let new_quantity = current_quantity + 10;
-    //       let api_url = url + `raports/${new_quantity}`;
-    //       let [re, st] = callApiGet(api_url);
-    //       console.log(re);
-    //       re.forEach((each) => {
-    //         let raportInfoGrid = new Brick(each);
-    //         let brick = raportInfoGrid.getBrick();
-    //         swiper.appendChild(brick);
-    //       });
-    //     }
-    //   },
-    // },
-
     breakpoints: {
       0: {
         slidesPerView: 1,
