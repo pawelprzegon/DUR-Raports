@@ -14,6 +14,8 @@ services:
       - 8000:8000
     networks:
       - app-network
+    volumes:
+      - ./back:/back/
 
   front:
     container_name: raport_FRONT
@@ -22,6 +24,8 @@ services:
       - 3000:3000
     networks:
       - app-network
+    volumes:
+      - ./front:/front/
 
 networks:
   app-network:

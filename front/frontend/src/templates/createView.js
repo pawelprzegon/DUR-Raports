@@ -254,8 +254,8 @@ export default class extends AbstractView {
       let stUnits = [];
       let drUnits = [];
       let bibUnits = [];
-      let plexi = [];
-      let dekl = [];
+      let plexi = {};
+      let dekl = {};
       formData.forEach((key, value) => {
         if (key == "Stolarnia") {
           stUnits.push(value);
@@ -280,15 +280,10 @@ export default class extends AbstractView {
           }
         } else {
           if (value.split("_")[1] == "plexi" && key != "") {
-            let data = new Object();
-            data[value.split("_")[0]] = key;
-            plexi.push(data);
+            plexi[value.split("_")[0]] = key;
           } else if (value.split("_")[0] == "dekl") {
-            let data = new Object();
-            data[value.split("_")[1]] = key;
-            dekl.push(data);
+            dekl[value.split("_")[1]] = key;
           }
-          // formDataObj[value] = key
         }
       });
 

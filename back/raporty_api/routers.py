@@ -1,4 +1,3 @@
-from fastapi_sqlalchemy import db
 import schema
 from fastapi import APIRouter, Request, HTTPException, Security, status
 from models import Raport, Unit, User
@@ -7,8 +6,11 @@ from typing import List
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from auth_api.auth import Auth
 from starlette.responses import JSONResponse
-from raporty_api.searchAndStatistics import Statistics, Search
-from raporty_api.inputData import InputData
+from raporty_api.search import Search
+from raporty_api.statistics import Statistics
+from raporty_api.raports import Raports
+from db import get_session
+from fastapi_sqlalchemy import db
 
 auth_handler = Auth()
 security = HTTPBearer()
@@ -90,16 +92,16 @@ def search(searching: str, credentials: HTTPAuthorizationCredentials = Security(
             if results := db.session.query(Unit).order_by(Unit.date_created.desc()).filter(
                     Unit.region == query).all():
                 search = Search(results, query)
-                chartData = search.chartLabelsAndValues()
-                units = search.getRaportedUnits()
-                return search._packToDict(chartData, units, query)
+                chartData = search.chart_labels_and_values()
+                units = search.get_raported_units()
+                return search._pack_to_dict(chartData, units, query)
 
             elif results := db.session.query(Unit).order_by(Unit.date_created.desc()).filter(
                     Unit.unit == query).all():
                 search = Search(results, query)
-                chartData = search.chartLabelsAndValues()
-                units = search.getRaportedDates()
-                return search._packToDict(chartData, units, query)
+                chartData = search.chart_labels_and_values()
+                units = search.get_raported_dates()
+                return search._pack_to_dict(chartData, units, query)
 
             elif results := db.session.query(Raport).filter(
                     Raport.date_created == query).first():
@@ -126,11 +128,11 @@ def statistics(credentials: HTTPAuthorizationCredentials = Security(security)):
             Raport.date_created.desc()).all()
 
         statistics = Statistics(resoults)
-        chartData = statistics.chartLabelsAndValues()
-        units = statistics.getRaportedUnits()
+        chartData = statistics.chart_labels_and_values()
+        units = statistics.get_raported_units()
         users = statistics.splitUsers()
 
-        return statistics._packToDict(chartData, units, users)
+        return statistics._pack_to_dict(chartData, units, users)
 
 
 @raporty.put('/create/')
@@ -142,7 +144,9 @@ async def create_raport(request: Request, credentials: HTTPAuthorizationCredenti
     token = credentials.credentials
     if (auth_handler.decode_token(token)):
         form_data = await request.json()
-        return InputData(form_data).fillFormAndRelpaceDb()
+        create_new_raport = Raports(form_data)
+        create_new_raport.create_new_model()
+        return create_new_raport.save_raport_in_db()
 
 
 @raporty.put('/update/')
@@ -154,7 +158,9 @@ async def update_raport(request: Request, credentials: HTTPAuthorizationCredenti
     token = credentials.credentials
     if (auth_handler.decode_token(token)):
         form_data = await request.json()
-        return InputData(form_data).fillFormAndRelpaceDb()
+        update_exist_raport = Raports(form_data)
+        update_exist_raport.create_new_model()
+        return update_exist_raport.update_raport_in_db()
 
 
 @raporty.delete("/delete/{id}")
@@ -166,12 +172,13 @@ async def delete_raport(id: int, credentials: HTTPAuthorizationCredentials = Sec
     token = credentials.credentials
     if (auth_handler.decode_token(token)):
         try:
-            if (resoult := db.session.query(Raport).filter(
-                    Raport.id == id).first()):
-                date = (resoult.date_created).strftime('%d-%m-%Y')
-                db.session.delete(resoult)
-                db.session.commit()
-                return JSONResponse(status_code=status.HTTP_200_OK, content={"message": f"Raport z dnia {date} został usunięty"})
+            with get_session() as session:
+                if (resoult := session.query(Raport).filter(
+                        Raport.id == id).first()):
+                    date = (resoult.date_created).strftime('%d-%m-%Y')
+                    session.delete(resoult)
+                    session.commit()
+                    return JSONResponse(status_code=status.HTTP_200_OK, content={"message": f"Raport z dnia {date} został usunięty"})
 
             return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"message": f"Nie znaleziono raportu nr: {id}"})
 
