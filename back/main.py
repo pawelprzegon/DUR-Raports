@@ -18,7 +18,7 @@ def include_routers(app):
 def include_middlewares(app):
     app.add_middleware(DBSessionMiddleware, db_url=os.environ["DATABASE_URL"])
     CORS_URL = os.environ["CORS_URL"]
-    origins = ["https://dur-raports-front.onrender.com"]
+    origins = [CORS_URL]
 
     app.add_middleware(
         CORSMiddleware,
