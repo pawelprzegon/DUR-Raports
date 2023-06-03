@@ -6,8 +6,6 @@ from fastapi.security import OAuth2PasswordBearer, HTTPAuthorizationCredentials,
 from starlette.responses import JSONResponse
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
 from schema import EmailSchema, Register, Login, ChangePassword
-
-
 from auth_api.auth import Auth
 
 auth_handler = Auth()
@@ -26,7 +24,7 @@ async def register(form_data: Register):
 
     if db.session.query(User).filter_by(username=form_data.username).first() != None:
         return HTTPException(
-            status_code=status.HTTP_303_SEE_OTHER,
+            status_code=status.HTTP_403_FORBIDDEN,
             detail="User allready exists"
         )
 
@@ -109,9 +107,11 @@ async def reset_password_link(email: EmailSchema):
 
             fm = FastMail(conf)
             await fm.send_message(mess)
-            return JSONResponse(status_code=status.HTTP_200_OK, content={"message": "email has been sent, please check your inbox"})
+            return JSONResponse(status_code=status.HTTP_200_OK,
+                                content={"message": "email has been sent, please check your inbox"})
         else:
-            return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"message": "email not found"})
+            return JSONResponse(status_code=status.HTTP_404_NOT_FOUND,
+                                content={"message": "email not found"})
     except:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -131,9 +131,11 @@ async def reset_password(form_data: ChangePassword, credentials: HTTPAuthorizati
         user = db.session.query(User).filter_by(username=token_user).first()
         user.password = hashed_new_password
         db.session.commit()
-        return JSONResponse(status_code=status.HTTP_200_OK, content={"message": f"password for {token_user} has been changed"})
+        return JSONResponse(status_code=status.HTTP_200_OK,
+                            content={"message": f"password for {token_user} has been changed"})
     except SQLAlchemyError as e:
-        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content={"message":  e.orig.args})
+        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            content={"message":  e.orig.args})
 
 
 @auth.get('/auth', include_in_schema=False)
@@ -158,10 +160,11 @@ def refresh_token(credentials: HTTPAuthorizationCredentials = Security(security)
     try:
         refresh_token = credentials.credentials
         new_token, exp = auth_handler.refresh_token(refresh_token)
-        return JSONResponse(status_code=status.HTTP_200_OK, content={
-            'access_token': new_token,
-            'token_expire': str(exp),
-        })
+        return JSONResponse(status_code=status.HTTP_200_OK,
+                            content={
+                                'access_token': new_token,
+                                'token_expire': str(exp),
+                            })
     except BaseException:
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED,
                             content={"message":  'Refresh token expired'})
@@ -175,4 +178,5 @@ async def authorization_reset_password(credentials: HTTPAuthorizationCredentials
     '''
     token = credentials.credentials
     if (auth_handler.decode_token(token)):
-        return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content={"detail":  'authenticated'})
+        return JSONResponse(status_code=status.HTTP_202_ACCEPTED,
+                            content={"detail":  'authenticated'})

@@ -1,5 +1,7 @@
 :root {
   --bckg: #ffffff;
+  --mobile-labelBox-padding: 5px;
+  --labelBox-padding: 3px;
 }
 
 .container {
@@ -18,11 +20,12 @@
 }
 
 .place {
-  width: 30%;
+  width: 33%;
   margin: 10px;
   padding-bottom: 15px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   align-content: stretch;
   border-radius: 5px;
   box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.3);
@@ -35,16 +38,23 @@
   align-items: center;
   margin: 0;
   margin-bottom: 10px;
-  /* width: calc(100% - 20px); */
+  width: calc(100% - var(--labelBox-padding) * 2);
   background-color: #767676;
   border-radius: 5px 5px 0 0;
-  padding: 10px;
+  padding: var(--labelBox-padding);
   color: white;
 }
 
 .labelBox h2,
 h3 {
   margin: 2px;
+}
+
+.labelBox :first-child {
+  margin-left: 10px;
+}
+.labelBox :last-child {
+  margin-right: 10px;
 }
 
 .elemBox {
@@ -58,12 +68,14 @@ h3 {
 .elem-style:nth-child(1) {
   width: 45%;
   cursor: pointer;
+  text-align: left;
 }
 /* .elem-style:nth-child(2){
     width: 30%;
 } */
 .elem-style:nth-child(3) {
   width: 20%;
+  text-align: right;
 }
 
 .elem-style:nth-child(1):hover {
@@ -74,8 +86,8 @@ h3 {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 10px;
-  margin: 10px;
+  /* padding: 10px;
+  margin: 10px; */
   width: 100%;
 }
 
@@ -85,6 +97,7 @@ p {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
 .user {
   width: max-content;
   display: flex;
@@ -92,20 +105,20 @@ p {
   justify-content: flex-start;
   border-radius: 5px;
   box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.3);
-  margin: 15px;
+  /* margin: 15px; */
 }
 .user-style-label {
   display: flex;
   justify-content: center;
   color: white;
   background-color: #767676;
-  padding: 10px;
+  padding: 3px;
   border-radius: 5px 5px 0 0;
 }
 .user-style {
   display: flex;
   justify-content: center;
-  width: 110px;
+  width: 65px;
   margin: 2px;
   margin: 5px;
   padding: 5px;
@@ -128,15 +141,40 @@ p {
   max-height: 400px;
 }
 
+/* Display max 750px */
+@media (max-width: 750px) {
+  .elemBox {
+    width: 90%;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+  .labelBox {
+    flex-direction: column;
+  }
+  .labelBox :first-child {
+    margin: 2px;
+  }
+  .labelBox :last-child {
+    margin: 2px;
+  }
+}
+
 /* Tablet */
-@media (max-width: 1100px) {
+@media only screen and (max-device-width: 1100px) {
   .container {
     font-size: 14px;
   }
 }
 
+/* Tablet small */
+@media only screen and (max-device-width: 900px) {
+  .container {
+    font-size: 12px;
+  }
+}
+
 /* Mobile landscape */
-@media (max-width: 1100px) and (orientation: landscape) {
+@media only screen and (max-device-width: 1100px) and (orientation: landscape) {
   .container {
     font-size: 12px;
   }
@@ -145,7 +183,8 @@ p {
   }
   .user-style-label,
   .labelBox {
-    padding: 5px;
+    padding: var(--mobile-labelBox-padding);
+    width: calc(100% - var(--mobile-labelBox-padding) * 2);
   }
   .users,
   .statistics {
@@ -154,34 +193,33 @@ p {
   }
 }
 
-/* Tablet small */
-@media (max-width: 900px) {
-  .container {
-    font-size: 12px;
-  }
-}
-
 /* Mobile */
-@media (max-width: 750px) {
+@media only screen and (max-device-width: 750px) and (orientation: portrait) {
   .container {
     font-size: 11px;
   }
   .labelBox h2,
   h4,
   p {
-    font-size: 12px;
+    font-size: 10px;
   }
   .labelBox {
-    padding: 5px;
+    padding: var(--mobile-labelBox-padding);
+    width: calc(100% - var(--mobile-labelBox-padding) * 2);
   }
   .elemBox {
     padding-left: 3px;
     padding-right: 3px;
-    width: 90%;
+    width: 95%;
   }
   .place {
     margin: 3px;
   }
+  .user-style {
+    margin: 0;
+    padding: 0;
+  }
+
   .user-style-label {
     padding: 5px;
   }
@@ -191,7 +229,7 @@ p {
   }
   .users,
   .statistics {
-    margin: 0;
-    padding: 0;
+    margin: 2px;
+    padding: 2px;
   }
 }

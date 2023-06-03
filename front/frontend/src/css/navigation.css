@@ -87,6 +87,10 @@
   cursor: pointer;
 }
 
+.nav-link:hover {
+  font-weight: 500;
+}
+
 .search-input {
   height: 20px;
   width: 200px;
