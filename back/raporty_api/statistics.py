@@ -1,4 +1,5 @@
 from collections import defaultdict
+from raporty_api.date_conversion import convert_date
 
 
 class Statistics:
@@ -19,11 +20,11 @@ class Statistics:
             for raport in self.data:
                 for regio in raport.units:
                     if regio.region == place:
-                        mnth = raport.date_created.strftime('%B')
-                        if regio.region in chartData and mnth in chartData[regio.region]:
-                            chartValues[mnth] += 1
+                        fixed_mnth = convert_date(raport.date_created)
+                        if regio.region in chartData and fixed_mnth in chartData[regio.region]:
+                            chartValues[fixed_mnth] += 1
                         else:
-                            chartValues[mnth] = 1
+                            chartValues[fixed_mnth] = 1
                         chartData[place] = dict(
                             sorted(chartValues.items(), reverse=False))
             for key in reversed(list(chartValues.keys())):
