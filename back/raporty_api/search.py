@@ -1,4 +1,4 @@
-from collections import defaultdict
+from raporty_api.date_conversion import convert_date
 
 
 class Search:
@@ -10,11 +10,11 @@ class Search:
         chartData = {}
         chartValues = {}
         for unit in self.data:
-            mnth = unit.date_created.strftime('%B')
-            if self.searching in chartData and mnth in chartData[self.searching]:
-                chartValues[mnth] += 1
+            fixed_mnth = convert_date(unit.date_created)
+            if self.searching in chartData and fixed_mnth in chartData[self.searching]:
+                chartValues[fixed_mnth] += 1
             else:
-                chartValues[mnth] = 1
+                chartValues[fixed_mnth] = 1
             chartData[self.searching] = dict(
                 sorted(chartValues.items(), reverse=False))
 
