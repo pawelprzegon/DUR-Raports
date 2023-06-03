@@ -1,1 +1,1 @@
-export let url = "https://dur-raports-back.onrender.com";
+export let url = "https://dur-raports-back.onrender.com/";
