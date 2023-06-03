@@ -13,3 +13,4 @@ starlette==0.27.0
 uvicorn==0.20.0
 passlib[bcrypt]
 psycopg2-binary==2.9.5
+Babel==2.12.2
