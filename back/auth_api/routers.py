@@ -16,7 +16,7 @@ auth = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
 
 
-@auth.post('/register/')
+@auth.post('/register/', tags=['Auth'])
 async def register(form_data: Register):
     '''
     endpoint: send form with new user information: (email, username, password, confirm(password))
@@ -44,7 +44,7 @@ async def register(form_data: Register):
                             content={"message":  e.orig.args})
 
 
-@auth.post('/login')
+@auth.post('/login', tags=['Auth'])
 async def login(form_data: Login):
     '''
     endpoint: send valid, existing username and password for login
@@ -70,7 +70,7 @@ async def login(form_data: Login):
     )
 
 
-@auth.post('/reset_password_link')
+@auth.post('/reset_password_link', tags=['Auth'])
 async def reset_password_link(email: EmailSchema):
     '''
     endpoint: send email addres for get access link for change password
@@ -119,7 +119,7 @@ async def reset_password_link(email: EmailSchema):
         )
 
 
-@auth.post('/reset_password')
+@auth.post('/reset_password', tags=['Auth'])
 async def reset_password(form_data: ChangePassword, credentials: HTTPAuthorizationCredentials = Security(security)):
     '''
     endpoint: send form with new password for user
