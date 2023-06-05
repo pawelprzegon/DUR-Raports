@@ -1,5 +1,6 @@
 import { logout } from "../../features/logout/logout.js";
 import { navigateTo } from "../../js/index.js";
+import { url } from "../data/url.js";
 
 export function navBar(user) {
   const header = document.getElementById("app-header");
