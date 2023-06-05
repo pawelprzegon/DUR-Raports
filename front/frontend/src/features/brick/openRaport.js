@@ -266,7 +266,8 @@ export class openRaport {
     let conts = document.querySelectorAll(".tresc-raportu");
     conts.forEach((item) => {
       let txt = item.innerHTML;
-      let regex = /[a-zA-Z]+\s?[0-9]?:/g;
+      const regex =
+        /[\n]?([A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+\s*?[0-9]*?)([A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9_.-])?:($|\s*)?/g;
       txt = txt.replace(regex, "<b>$&</b>");
       item.innerHTML = txt;
     });

@@ -39,6 +39,7 @@ def start_application():
         title="Artgeist RAPORTS",
         description=description,
         version="0.1.0",
+        swagger_ui_parameters={"defaultModelsExpandDepth": -1},
         contact={
             "name": "Paweł Przegoń",
             "email": "p.przegon@artgeist.com",
