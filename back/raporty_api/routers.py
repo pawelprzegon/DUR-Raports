@@ -17,7 +17,7 @@ security = HTTPBearer()
 raporty = APIRouter()
 
 
-@raporty.get("/raports/", response_model=List[schema.RaportsOut])
+@raporty.get("/raports/", response_model=List[schema.RaportsOut], tags=['Raports'])
 async def all_raports(credentials: HTTPAuthorizationCredentials = Security(security), quantity: int | None = None):
     """
      endpoint: list all raports
@@ -32,7 +32,7 @@ async def all_raports(credentials: HTTPAuthorizationCredentials = Security(secur
                 Raport.date_created.desc()).all()
 
 
-@raporty.get("/raport/{id}", response_model=schema.RaportsOut)
+@raporty.get("/raport/{id}", response_model=schema.RaportsOut, tags=['Raports'])
 async def single_raport(id: int, credentials: HTTPAuthorizationCredentials = Security(security)):
     '''
     endpoint: show a specific report
@@ -59,7 +59,7 @@ async def single_raport(id: int, credentials: HTTPAuthorizationCredentials = Sec
             ) from e
 
 
-@raporty.get("/raports/{username}", response_model=List[schema.RaportsOut])
+@raporty.get("/raports/{username}", response_model=List[schema.RaportsOut], tags=['Raports'])
 async def user_raports(username: str, credentials: HTTPAuthorizationCredentials = Security(security)):
     '''
     endpoint: show user's raports
@@ -75,7 +75,7 @@ async def user_raports(username: str, credentials: HTTPAuthorizationCredentials 
         )
 
 
-@raporty.get('/search/{searching}')
+@raporty.get('/search/{searching}', tags=['Raports'])
 def search(searching: str, credentials: HTTPAuthorizationCredentials = Security(security)):
     '''
     endpoint: search (raport(date), unit(Impale, Latex, Xeikony), region(Drukarnia, Stolarnia))
@@ -116,7 +116,7 @@ def search(searching: str, credentials: HTTPAuthorizationCredentials = Security(
             ) from e
 
 
-@raporty.get('/statistics')
+@raporty.get('/statistics', tags=['Raports'])
 def statistics(credentials: HTTPAuthorizationCredentials = Security(security)):
     '''
     endpoint: show statistics
@@ -135,7 +135,7 @@ def statistics(credentials: HTTPAuthorizationCredentials = Security(security)):
         return statistics._pack_to_dict(chartData, units, users)
 
 
-@raporty.put('/create/')
+@raporty.put('/create/', tags=['Raports'])
 async def create_raport(request: Request, credentials: HTTPAuthorizationCredentials = Security(security)):
     '''
     endpoint: create raport
@@ -149,7 +149,7 @@ async def create_raport(request: Request, credentials: HTTPAuthorizationCredenti
         return create_new_raport.save_raport_in_db()
 
 
-@raporty.put('/update/')
+@raporty.put('/update/', tags=['Raports'])
 async def update_raport(request: Request, credentials: HTTPAuthorizationCredentials = Security(security)):
     '''
     endpoint: update raport
@@ -163,7 +163,7 @@ async def update_raport(request: Request, credentials: HTTPAuthorizationCredenti
         return update_exist_raport.update_raport_in_db()
 
 
-@raporty.delete("/delete/{id}")
+@raporty.delete("/delete/{id}", tags=['Raports'])
 async def delete_raport(id: int, credentials: HTTPAuthorizationCredentials = Security(security)):
     """
      endpoint: Delete raport
