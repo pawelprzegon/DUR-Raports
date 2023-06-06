@@ -15,9 +15,10 @@ Database is a separated repository to build it independent
 
 ## Documentation
 
-Project based on docker containers.\
+Project based on docker containers.
 
 - database container:\
+   external repository [database](https://github.com/pawelprzegon/DUR-DB.git)
 - API container:\
    build with [FastAPI](https://fastapi.tiangolo.com/).
   API got authorization and endpoints to call. User first needs to register to get access into API.
@@ -36,7 +37,7 @@ Project based on docker containers.\
 
 ## How to use
 
-To run project localy we have to install [docker](https://www.docker.com/products/docker-desktop/) first.\
+To run project localy we have to install [docker](https://www.docker.com/products/docker-desktop/) first.
 
 Now clone repositories:
 
@@ -52,7 +53,7 @@ git clone https://github.com/pawelprzegon/DUR-DB.git
 git clone https://github.com/pawelprzegon/DUR-Raports.git
 ```
 
-## Default configuration
+### Default configuration
 
 With current docker-compose.yml file:
 
@@ -62,7 +63,7 @@ With current docker-compose.yml file:
 - app uses network created by database container named "database-net"
 </p>
 
-## Custom configuration
+### Custom configuration
 
 If you like to change ports:
 change ports forwarding in docker-compose.yml file:
@@ -108,11 +109,11 @@ networks:
       name: database-net
 ```
 
-## Running
+## Build and release
 
 After configuration to run app:
 
-if you don't allready runs Docker Desktop - do it now.\
+if you don't allready runs Docker Desktop - do it now.
 
 - Database:\
 database default backup timing is every hour. For change that edit "crontab" file inside localization "./cron/crontab". For more details visit [supercronic](https://github.com/aptible/supercronic).
