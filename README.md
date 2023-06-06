@@ -33,7 +33,8 @@ Project based on docker containers.
    The case was to create one page app with dynamicly created content. \
    Web have login and register start page.
   After login we can see (if some allready created) raports on slider created using [swiperjs](https://swiperjs.com/swiper-api)
-  Using options inside menubar we can crate, update, delete raports and see some statistics about all raports. In menubar we have also search section.
+  Using options inside menubar we can crate, update, delete raports and see some statistics about all raports. In menubar we have also search section.\
+   Working DEMO [Raport-app](https://dur-raports-front.onrender.com/) - patience is required to enter (free server)
 
 ## How to use
 
