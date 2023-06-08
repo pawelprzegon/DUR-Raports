@@ -29,7 +29,7 @@ export function Slider(id) {
         slidesPerView: 2,
         slidesPerGroup: 2,
       },
-      1101: {
+      1501: {
         slidesPerView: 3,
         slidesPerGroup: 3,
       },

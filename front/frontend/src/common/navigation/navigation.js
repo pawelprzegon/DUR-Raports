@@ -16,10 +16,11 @@ export function navBar(user) {
   topElements.classList.add("top-elements");
   const topElement = document.createElement("div");
   topElement.classList.add("top-element");
-  const empty = document.createElement("div");
-  empty.classList.add("top-element");
-  empty.id = "empty";
-  empty.style.visibility = "hidden";
+  const searchBox = document.createElement("div");
+  searchBox.classList.add("top-element-searchBox");
+  searchBox.id = "searchBox";
+  searchBox.style.visibility = "hidden";
+
   const searchInput = document.createElement("input");
   searchInput.type = "text";
   searchInput.name = "search";
@@ -29,19 +30,19 @@ export function navBar(user) {
   searchInput.addEventListener("keyup", function (event) {
     event.preventDefault();
     if (event.keyCode == 13 && searchInput.value.trim() != "") {
-      navClose();
       navigateTo("/search/" + searchInput.value);
+      navClose();
     }
   });
-  empty.appendChild(searchInput);
+  searchBox.appendChild(searchInput);
   const navBtn = document.createElement("button");
   navBtn.classList.add("nav-btn");
   const link = document.createElement("span");
   link.classList.add("material-icon");
   link.innerText = "menu";
 
-  const SearchBox = document.createElement("div");
-  SearchBox.classList.add("search");
+  const searchBtnBox = document.createElement("div");
+  searchBtnBox.classList.add("search");
   const searchBtn = document.createElement("img");
   searchBtn.src = "/src/static/nav_icons/search-line-icon.png";
   searchBtn.id = "searchBtn";
@@ -55,10 +56,12 @@ export function navBar(user) {
   const preUserLabel = document.createElement("span");
   preUserLabel.classList.add("pre-nav-user");
   preUserLabel.innerText = "Logged: ";
+
   const userLabel = document.createElement("span");
   userLabel.classList.add("nav-user");
   userLabel.id = "nav-user";
   userLabel.innerText = user.capitalize();
+
   const ApiBox = document.createElement("div");
   ApiBox.classList.add("top-element");
   const api = document.createElement("img");
@@ -72,13 +75,13 @@ export function navBar(user) {
 
   navBtn.appendChild(link);
   topElement.appendChild(navBtn);
-  SearchBox.appendChild(searchBtn);
+  searchBtnBox.appendChild(searchBtn);
   UserBox.appendChild(preUserLabel);
   UserBox.appendChild(userLabel);
   ApiBox.appendChild(api);
 
   topElements.appendChild(topElement);
-  topElements.appendChild(empty);
+  topElements.appendChild(searchBox);
 
   const btnsPics = document.createElement("nav");
   btnsPics.classList.add("nav", "nav-close");
@@ -121,7 +124,7 @@ export function navBar(user) {
   btnsPics.appendChild(dodaj);
   btnsPics.appendChild(wyloguj);
   topElements.appendChild(btnsPics);
-  topElements.appendChild(SearchBox);
+  topElements.appendChild(searchBtnBox);
   topElements.appendChild(UserBox);
   topElements.appendChild(ApiBox);
 
@@ -135,56 +138,67 @@ export function navBar(user) {
 }
 
 export function navBehav() {
-  const navOverlay = document.querySelector(".nav-overlay");
   const navButton = document.querySelector(".nav-btn");
+  const navOverlay = document.querySelector(".nav-overlay");
   const btns = document.querySelector("nav");
-  const navSecondRow = document.getElementById("btns-pics");
-  const empty = document.getElementById("empty");
-  const searchInput = document.getElementById("search");
 
   navButton.addEventListener("click", (e) => {
-    btns.classList.remove("nav-close");
-    navSecondRow.classList.add("nav-btns", "show-anim-nav");
-    navOverlay.classList.add("nav-overlay-open");
-    empty.classList.add("nav-close");
+    if (btns.classList.contains("nav-close")) {
+      navOpen(navOverlay, btns);
+    } else {
+      navClose();
+    }
   });
 
   navOverlay.addEventListener("click", () => {
-    navSecondRow.classList.remove("show-anim-nav");
-    btns.classList.add("nav-close");
-    navOverlay.classList.remove("nav-overlay-open");
-    empty.classList.remove("nav-close");
-    empty.style.visibility = "hidden";
-    searchInput.value = "";
+    navClose();
   });
+}
+
+function navOpen(navOverlay, btns) {
+  const navSecondRow = document.getElementById("btns-pics");
+  const searchBox = document.getElementById("searchBox");
+  const btnText = document.querySelector(".material-icon");
+  btnText.style.fontWeight = "400";
+  btns.classList.remove("nav-close");
+  navSecondRow.classList.add("nav-btns", "show-anim-nav");
+  navOverlay.classList.add("nav-overlay-open");
+  searchBox.classList.add("nav-close");
 }
 
 export function navClose() {
   const navOverlay = document.querySelector(".nav-overlay");
   const btns = document.querySelector("nav");
-  const pic = document.getElementById("api");
-  const elem = document.getElementById("anim-row");
+  const navSecondRow = document.getElementById("btns-pics");
+  const searchBox = document.getElementById("searchBox");
+  const searchInput = document.getElementById("search");
+  const btnText = document.querySelector(".material-icon");
+  const topRow = document.getElementById("anim-row");
 
-  elem.classList.remove("big-row", "show-anim-nav");
-  pic.classList.remove("big");
+  topRow.classList.remove("big-row", "show-anim-nav");
+  btnText.style.fontWeight = null;
+  navSecondRow.classList.remove("show-anim-nav");
   btns.classList.add("nav-close");
   navOverlay.classList.remove("nav-overlay-open");
+  searchBox.classList.remove("nav-close");
+  searchBox.style.visibility = "hidden";
+  searchInput.value = "";
 }
 
 export function searchBehav() {
-  let empty = document.getElementById("empty");
-  empty.style.visibility = "hidden";
-  empty.classList.remove("nav-close");
+  let searchBox = document.getElementById("searchBox");
+  searchBox.style.visibility = "hidden";
+  searchBox.classList.remove("nav-close");
 }
 
 function searchForm() {
   const navOverlay = document.querySelector(".nav-overlay");
   const btns = document.querySelector("nav");
   const navSecondRow = document.getElementById("btns-pics");
-  const empty = document.getElementById("empty");
+  const searchBox = document.getElementById("searchBox");
   navSecondRow.classList.remove("show-anim-nav");
   btns.classList.add("nav-close");
   navOverlay.classList.add("nav-overlay-open");
-  empty.classList.remove("nav-close");
-  empty.style.visibility = "visible";
+  searchBox.classList.remove("nav-close");
+  searchBox.style.visibility = "visible";
 }

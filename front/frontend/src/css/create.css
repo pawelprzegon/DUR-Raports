@@ -20,7 +20,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin: 0 50px;
+  margin: 0 4rem;
 }
 
 .slide-form {
@@ -32,7 +32,7 @@
 
 .raport-describe-label {
   font-family: "Roboto", sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .registration-grid {
@@ -54,19 +54,19 @@
 
 .label-box p {
   font-family: "Roboto", sans-serif;
-  padding: 7px;
-  margin: 0px;
+  padding: 0.5rem;
+  margin: 0;
   font-weight: 500;
-  font-size: 25px;
+  font-size: 2rem;
 }
 
 .elements {
   font-family: "Roboto", sans-serif;
-  font-size: 18px;
+  font-size: 1.1rem;
   display: flex;
   flex-direction: row;
   height: 85%;
-  margin-top: 40px;
+  margin-top: 2.5rem;
 }
 .regions {
   display: flex;
@@ -93,8 +93,8 @@
 .label-container {
   display: flex;
   position: sticky;
-  padding-left: 20px;
-  margin-bottom: 15px;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -104,7 +104,7 @@
 }
 
 .label-container input {
-  margin-bottom: 2px;
+  margin-bottom: 0.1rem;
   opacity: 0;
   cursor: pointer;
   height: 0;
@@ -113,14 +113,14 @@
 
 .raport-describe {
   font-family: "Roboto", sans-serif;
-  font-size: 15px;
-  border-radius: 5px;
-  border-width: 0.5px;
+  font-size: 1rem;
+  border-radius: 0.3rem;
+  border-width: 0.05rem;
   border-style: solid;
   border-color: #bababa;
   width: 90%;
   height: 95%;
-  padding: 10px;
+  padding: 0.7rem;
 }
 
 .deklaracje {
@@ -141,20 +141,20 @@
   flex-direction: column;
   height: 90%;
   width: 100%;
-  margin: 10px;
+  margin: 0.7rem;
   text-align: left;
 }
 
 .raport-describe-users {
   font-family: "Roboto", sans-serif;
-  font-size: 15px;
-  border-radius: 5px;
-  border-width: 0.5px;
+  font-size: 1rem;
+  border-radius: 0.3rem;
+  border-width: 0.05rem;
   border-style: solid;
   border-color: #bababa;
   width: 90%;
   height: 95%;
-  padding: 10px;
+  padding: 0.7rem;
 }
 
 .plexi-box {
@@ -162,7 +162,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-top: 40px;
+  margin-top: 2.5rem;
 }
 
 .input-data {
@@ -170,47 +170,47 @@
   flex-direction: row;
   justify-content: space-between;
   width: 70%;
-  margin: 10px;
+  margin: 0.7rem;
 }
 
 .plexi-input-label {
   font-family: "Roboto", sans-serif;
-  font-size: 18px;
-  margin: 5px;
+  font-size: 1.1rem;
+  margin: 0.3rem;
 }
 
 .plexi-input {
-  height: 25px;
-  width: 50px;
+  height: 1.8rem;
+  width: 4rem;
 }
 
 .submitField {
   display: flex;
   justify-content: center;
-  margin-right: 15px;
-  margin-top: 15px;
-  margin-bottom: 30px;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 
 .submit {
-  height: 50px;
-  width: 100px;
+  height: 3.2rem;
+  width: 7rem;
   background-color: #ea4c4c;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   border-style: none;
   box-sizing: border-box;
   color: #ffffff;
   cursor: pointer;
   display: inline-block;
   font-family: "Roboto", sans-serif;
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: 500;
-  height: 40px;
-  line-height: 20px;
+  height: 2.5rem;
+  line-height: 1.5rem;
   list-style: none;
   margin: 0;
   outline: none;
-  padding: 10px 16px;
+  padding: 0.7rem 1rem;
   position: relative;
   text-align: center;
   text-decoration: none;
@@ -228,10 +228,10 @@
 
 .checkmark {
   position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 15px;
-  width: 15px;
+  top: 0;
+  left: 0;
+  height: 1rem;
+  width: 1rem;
   background-color: #eee;
 }
 
@@ -254,12 +254,12 @@
 }
 
 .label-container .checkmark:after {
-  left: 5px;
-  top: 3px;
-  width: 2px;
-  height: 5px;
+  left: 0.3rem;
+  top: 0.2rem;
+  width: 0.1rem;
+  height: 0.3rem;
   border: solid white;
-  border-width: 0 3px 3px 0;
+  border-width: 0 0.2rem 0.2rem 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
@@ -285,28 +285,26 @@
   background: #000000;
 }
 
-/* .swiper-slide{
-  border-radius: 0.4rem;
-  box-shadow: inset 0px 0px 0px 1px rgb(221, 221, 221);
-  box-sizing: border-box;
-  background-color:  lightgray;
-} */
-
-/* Desktop big */
-@media (min-width: 1201px) {
+/* Desktop*/
+@media (min-width: 1500px) {
+}
+@media (min-width: 1100px) and (max-width: 1500px) {
 }
 
-/* Desktop small */
-@media (max-width: 1200px) {
+@media (max-width: 1100px) {
   .deklaracje-describe-areas {
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     width: 100%;
+  }
+  .deklaracje-box {
+    height: 30%;
   }
 }
 
-/* Tablet small landscape*/
-@media only screen and (max-device-width: 1200px) and (orientation: landscape) {
+/* Tablet Landscape */
+@media only screen and (hover: none) and (pointer: coarse) and (max-width: 1300px) and (orientation: landscape) {
   .swiper-wrapper {
     height: 45vw;
   }
@@ -318,8 +316,8 @@
   }
 }
 
-/* Tablet small portrait*/
-@media only screen and (max-device-width: 1200px) and (orientation: portrait) {
+/* Tablet portrait */
+@media only screen and (hover: none) and (pointer: coarse) and (max-width: 900px) and (orientation: portrait) {
   .swiper-wrapper {
     height: 100vw;
   }
@@ -331,67 +329,9 @@
 }
 
 /* Mobile */
-@media only screen and (max-device-width: 750px) and (orientation: portrait) {
-  .swiper-wrapper {
-    height: 140vw;
-  }
-
-  .registration-grid {
-    margin: 0;
-    flex-direction: column;
-    align-content: center;
-  }
-  .deklaracje-describe-areas {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  .deklaracje-box {
-    margin: 0;
-    width: 80%;
-    height: 30%;
-  }
-
-  .raport-describe-users {
-    height: 80%;
-  }
-
-  .elements {
-    margin-top: 5px;
-    font-size: 16px;
-    flex-direction: column;
-    align-items: center;
-  }
-  .checkboxes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 25px;
-    justify-items: center;
-  }
-  .checkmark {
-    height: 12px;
-    width: 12px;
-  }
-  .label-container .checkmark:after {
-    left: 4px;
-    top: 1px;
-  }
-  .label-container {
-    margin-bottom: 5px;
-  }
-  .regions {
-    display: block;
-    width: auto;
-  }
-  .slide-content {
-    margin: 0px 0px;
-  }
-}
-
-/* Mobile */
-@media only screen and (max-device-height: 500px) and (orientation: landscape) {
+@media only screen and (hover: none) and (pointer: coarse) and (max-width: 1000px) and (orientation: landscape) {
   .alerts {
-    margin-top: 10px;
+    margin-top: 0.7rem;
   }
   .swiper-wrapper {
     height: 23vw;
@@ -409,7 +349,7 @@
     width: 100%;
   }
   .deklaracje-box {
-    margin: 0;
+    margin: 0.3rem;
     width: 30%;
     height: 80%;
   }
@@ -440,7 +380,7 @@
     top: 1px;
   }
   .label-container {
-    margin-bottom: 5px;
+    margin-bottom: 0.3rem;
   }
   .regions {
     display: block;
@@ -451,8 +391,8 @@
   }
 
   .label-box p {
-    padding: 3px;
-    font-size: 15px;
+    padding: 0.2rem;
+    font-size: 1rem;
     margin-right: 50px;
   }
   .form-line {
@@ -463,10 +403,71 @@
     margin-top: 0;
   }
   .submitField {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
   }
   .label-box {
     margin-bottom: 0;
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    top: 40%;
+  }
+}
+
+@media only screen and (hover: none) and (pointer: coarse) and (max-width: 500px) and (orientation: portrait) {
+  .swiper-wrapper {
+    height: 140vw;
+  }
+
+  .registration-grid {
+    margin: 0;
+    flex-direction: column;
+    align-content: center;
+  }
+  .deklaracje-describe-areas {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .deklaracje-box {
+    margin: 0;
+    width: 80%;
+    height: 30%;
+  }
+
+  .raport-describe-users {
+    height: 80%;
+  }
+
+  .elements {
+    margin-top: 0.3rem;
+    font-size: 1rem;
+    flex-direction: column;
+    align-items: center;
+  }
+  .checkboxes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 25px;
+    justify-items: center;
+  }
+  .checkmark {
+    height: 12px;
+    width: 12px;
+  }
+  .label-container .checkmark:after {
+    left: 4px;
+    top: 1px;
+  }
+  .label-container {
+    margin-bottom: 0.3rem;
+  }
+  .regions {
+    display: block;
+    width: auto;
+  }
+  .slide-content {
+    margin: 0 0;
   }
 }

@@ -17440,3 +17440,10 @@ back/.venv/Lib/site-packages/babel/messages/__pycache__/mofile.cpython-311.pyc
 back/.venv/Lib/site-packages/babel/messages/__pycache__/plurals.cpython-311.pyc
 back/.venv/Lib/site-packages/babel/messages/__pycache__/pofile.cpython-311.pyc
 back/.venv/Scripts/pybabel.exe
+back/raporty_api/__pycache__/__init__.cpython-310.pyc
+back/raporty_api/__pycache__/date_conversion.cpython-310.pyc
+back/raporty_api/__pycache__/raports.cpython-310.pyc
+back/raporty_api/__pycache__/routers.cpython-310.pyc
+back/raporty_api/__pycache__/search.cpython-310.pyc
+back/raporty_api/__pycache__/statistics.cpython-310.pyc
+back/auth_api/__pycache__/routers.cpython-310.pyc

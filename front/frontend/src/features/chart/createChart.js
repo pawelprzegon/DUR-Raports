@@ -60,7 +60,6 @@ export class createNewChart {
   searchData() {
     let color = this.getColors(this.ctx);
     let labels = [];
-    let data = [];
     for (const k of Object.keys(this.data.searching.chart)) {
       if (!labels.includes(k)) {
         labels.push(k);

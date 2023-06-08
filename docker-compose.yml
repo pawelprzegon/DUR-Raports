@@ -9,7 +9,6 @@ services:
       - DATABASE_URL=postgresql+psycopg2://docker:docker@postgres:5432/Artgeist_API
       - CORS_URL=http://localhost:3000
       - DB_TIMEOUT=30
-    # - DATABASE_URL=postgresql://docker:hVD8n17wyTL76XW9NQuFD7fv1tmZsSzG@dpg-ch8i0m6si8uhth7qias0-a.frankfurt-postgres.render.com/artgeist_api
     ports:
       - 8000:8000
     networks:
