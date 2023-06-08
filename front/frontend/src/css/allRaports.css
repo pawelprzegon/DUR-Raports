@@ -248,10 +248,10 @@
   content: "";
   color: rgb(0, 0, 0);
   width: 1.5rem;
-  height: 1rem;
-  top: -0.02rem;
+  /* height: 1.5rem; */
+  top: 47%;
   border-bottom: solid 0.15rem;
-  transform: translatex(4px);
+  transform: translatex(0.3rem);
 }
 
 .arrow:hover:before {
