@@ -1,5 +1,5 @@
 p {
-  margin-bottom: 20px;
+  margin-bottom: 1.3rem;
 }
 p:last-child {
   margin-bottom: 0;
@@ -8,7 +8,7 @@ h1,
 h2,
 h3,
 h4 {
-  margin-bottom: 20px;
+  margin-bottom: 1.3rem;
 }
 hr {
   border: 0;
@@ -17,16 +17,8 @@ hr {
   background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
   background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
   background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-  margin: 20px 0;
+  margin: 1.3rem 0;
 }
-/* .container {
-	background: #fff;
-	margin: 30px auto;
-	max-width: 700px;
-	overflow: hidden;
-	padding: 20px;
-	border-radius: 4px;
-} */
 
 .hidden {
   visibility: hidden;
@@ -107,26 +99,59 @@ hr {
 .alert {
   background-color: #eee;
   color: #000;
-  border-radius: 4px;
-  padding: 5px;
+  border-radius: 0.3rem;
+  padding: 0.4rem;
   opacity: 1;
   transition: opacity 0.4s;
 }
 .alert-close {
-  margin-left: 15px;
+  margin-left: 1rem;
   color: #bbb;
   float: right;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: bold;
-  line-height: 20px;
+  line-height: 1.3rem;
   cursor: pointer;
 }
 .alert-close:hover {
   color: #000;
 }
 
-@media (max-width: 750px) {
+/* Desktop*/
+@media (min-width: 1500px) {
+}
+@media (min-width: 1100px) and (max-width: 1500px) {
+}
+
+@media (min-width: 900px) and (max-width: 1100px) {
+}
+
+@media (max-width: 900px) {
+}
+
+/* Tablet Landscape */
+@media only screen and (hover: none) and (pointer: coarse) and (max-width: 1300px) and (orientation: landscape) {
   .alert {
-    padding: 5px;
+    padding: 0.3rem;
+  }
+}
+
+/* Tablet portrait */
+@media only screen and (hover: none) and (pointer: coarse) and (max-width: 900px) and (orientation: portrait) {
+  .alert {
+    padding: 0.3rem;
+  }
+}
+
+/* Mobile */
+@media only screen and (hover: none) and (pointer: coarse) and (max-width: 1000px) and (orientation: landscape) {
+  .alert {
+    padding: 0.3rem;
+  }
+}
+
+@media only screen and (hover: none) and (pointer: coarse) and (max-width: 500px) and (orientation: portrait) {
+  .alert {
+    padding: 0.3rem;
   }
 }

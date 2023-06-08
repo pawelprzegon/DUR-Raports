@@ -5,50 +5,51 @@
 .container {
   align-items: center;
   font-family: "Roboto", sans-serif;
-  font-size: 14px;
+  font-size: 1rem;
   justify-content: flex-start;
 }
 .searching {
   display: flex;
   flex-direction: row;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 10px;
+  justify-content: center;
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+  padding: 0.7rem;
   width: 100%;
 }
 
 .place {
-  /*     width: 20%; */
-  margin: 10px;
-  padding-bottom: 15px;
+  width: 28%;
+  margin: 0.7rem;
+  padding-bottom: 1rem;
   display: flex;
   flex-direction: column;
   align-content: stretch;
-  border-radius: 5px;
-  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.3);
+  border-radius: 0.3rem;
+  box-shadow: 0 0.2rem 0.3rem 0 rgba(0, 0, 0, 0.3);
 }
 
 .labelBox {
   margin: 0;
-  margin-bottom: 10px;
+  margin-bottom: 0.7rem;
   width: calc(100% - 20px);
   background-color: #767676;
-  border-radius: 5px 5px 0 0;
-  padding: 10px;
+  border-radius: 0.3rem 0.3rem 0 0;
+  padding: 0.7rem;
   color: white;
 }
 
 .labelBox h2,
 h3 {
-  margin: 2px;
+  margin: 0.1rem;
 }
 
 .elemBox {
   display: flex;
   justify-content: space-between;
-  margin: 2px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 0.1rem;
+  margin-left: 0.7rem;
+  margin-right: 0.7rem;
 }
 .elem-style:nth-child(1) {
   /*     width: 45%; */
@@ -64,43 +65,43 @@ h3 {
   width: 20%;
 }
 .users {
-  font-size: 16px;
+  font-size: 1rem;
   display: flex;
   flex-direction: row;
-  padding: 10px;
-  margin: 10px;
+  padding: 0.7rem;
+  margin: 0.7rem;
   width: 100%;
 }
 
 .users h4,
 p {
   margin: 0;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
 }
 .user {
   width: max-content;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  border-radius: 5px;
-  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.3);
-  margin: 15px;
+  border-radius: 0.3rem;
+  box-shadow: 0 0.2rem 0.3rem 0 rgba(0, 0, 0, 0.3);
+  margin: 1rem;
 }
 .user-style-label {
   color: white;
   width: calc(100% - 20px);
   background-color: #767676;
-  padding: 10px;
-  border-radius: 5px 5px 0 0;
+  padding: 0.7rem;
+  border-radius: 0.3rem 0.3rem 0 0;
 }
 .user-style {
   display: flex;
   justify-content: center;
-  width: 110px;
-  margin: 2px;
-  margin: 5px;
-  padding: 5px;
+  width: 0.7rem;
+  margin: 0.1rem;
+  margin: 0.3rem;
+  padding: 0.3rem;
 }
 
 .chart-area {
@@ -108,7 +109,7 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: calc(40vh - 30px);
+  height: 30vh;
   width: 100%;
 }
 
@@ -116,93 +117,152 @@ p {
   width: 100%;
   display: flex;
   flex-grow: 1;
-  min-height: 250px;
-  max-height: 400px;
+  min-height: 20rem;
+  max-height: 32rem;
 }
 
-/* Mobile */
-@media (max-width: 750px) and (orientation: portrait) {
-  .container {
-    font-size: 11px;
-  }
-  .elemBox {
-    margin-left: 5px;
-    margin-right: 5px;
-  }
-  .labelBox h2,
-  h4,
-  p {
-    font-size: 12px;
-  }
-  .users,
-  .statistics {
-    margin: 0;
-    padding: 0;
-  }
-}
-
-/* Mobile */
-@media (max-width: 750px) {
-  .container {
-    font-size: 11px;
-  }
-  .elemBox {
-    margin-left: 5px;
-    margin-right: 5px;
-  }
-  .users,
-  .statistics {
-    margin: 0;
-    padding: 0;
-  }
-}
-/* Tablet small */
-@media (max-width: 900px) and (orientation: landscape) {
-  .container {
-    font-size: 12px;
-  }
-  .labelBox h2,
-  h4,
-  p {
-    font-size: 12px;
-  }
-  .chart-area {
-    height: calc(70vh - 30px);
-  }
-  .users,
-  .statistics {
-    margin: 0;
-    padding: 0;
-  }
-}
-/* Tablet */
-@media (max-width: 1100px) {
-  .container {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 1100px) and (orientation: landscape) {
-  .container {
-    font-size: 14px;
-  }
-  .labelBox h2,
-  h4,
-  p {
-    font-size: 12px;
-  }
-  .chart-area {
-    height: calc(70vh - 30px);
-  }
-  .users,
-  .statistics {
-    margin: 0;
-    padding: 0;
-  }
-}
-
-/* Desktop */
-@media (min-width: 1100px) {
-}
+/* Desktop*/
 @media (min-width: 1500px) {
+  .container,
+  .alerts {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+}
+@media (min-width: 1100px) and (max-width: 1500px) {
+  .container,
+  .alerts {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+  .container {
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1100px) {
+  .container,
+  .alerts {
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+  .container {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .container,
+  .alerts {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+  .container {
+    font-size: 0.7rem;
+  }
+  .elemBox {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+  }
+  .labelBox {
+    flex-direction: column;
+  }
+  .labelBox :first-child {
+    margin: 0.1rem;
+  }
+  .labelBox :last-child {
+    margin: 0.1rem;
+  }
+}
+
+/* Tablet Landscape */
+@media only screen and (hover: none) and (pointer: coarse) and (max-width: 1300px) and (orientation: landscape) {
+  .container,
+  .alerts {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+  .container {
+    font-size: 1rem;
+  }
+  .chart-area {
+    height: 50vh;
+  }
+}
+
+/* Tablet portrait */
+@media only screen and (hover: none) and (pointer: coarse) and (max-width: 900px) and (orientation: portrait) {
+  .container,
+  .alerts {
+    padding-left: 7%;
+    padding-right: 7%;
+  }
+  .container {
+    font-size: 1rem;
+  }
+}
+
+/* Mobile */
+@media only screen and (hover: none) and (pointer: coarse) and (max-width: 1000px) and (orientation: landscape) {
+  .container,
+  .alerts {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  .container {
+    font-size: 0.9rem;
+  }
+  .chart-area {
+    height: 90vh;
+  }
+  .users,
+  .statistics {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@media only screen and (hover: none) and (pointer: coarse) and (max-width: 500px) and (orientation: portrait) {
+  .container,
+  .alerts {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  .container {
+    font-size: 0.8rem;
+  }
+  .chart-area {
+    height: 35vh;
+  }
+  .labelBox h2,
+  h4,
+  p {
+    font-size: 0.7rem;
+  }
+  .elemBox {
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+    width: 80%;
+  }
+  .place {
+    width: 33%;
+    margin: 0.2rem;
+  }
+  .user-style {
+    margin: 0;
+    padding: 0;
+  }
+
+  .user-style-label {
+    padding: 0.3rem;
+  }
+  .users h4 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .users,
+  .statistics {
+    margin: 0.2rem;
+    padding: 0.2rem;
+  }
 }

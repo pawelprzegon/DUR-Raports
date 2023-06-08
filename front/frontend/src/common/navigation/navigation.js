@@ -30,8 +30,8 @@ export function navBar(user) {
   searchInput.addEventListener("keyup", function (event) {
     event.preventDefault();
     if (event.keyCode == 13 && searchInput.value.trim() != "") {
-      navClose();
       navigateTo("/search/" + searchInput.value);
+      navClose();
     }
   });
   searchBox.appendChild(searchInput);
