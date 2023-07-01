@@ -51,7 +51,7 @@ async def login(form_data: Login):
     '''
     user = db.session.query(User).filter_by(
         username=form_data.username).first()
-    if (user is None):
+    if not user:
         return HTTPException(status_code=401, detail='Invalid username')
     if (not auth_handler.verify_password(form_data.password, user.password)):
         return HTTPException(status_code=401, detail='Invalid password')
