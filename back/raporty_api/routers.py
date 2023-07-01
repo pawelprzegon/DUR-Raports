@@ -130,7 +130,7 @@ def statistics(credentials: HTTPAuthorizationCredentials = Security(security)):
         statistics = Statistics(resoults)
         chartData = statistics.chart_labels_and_values()
         units = statistics.get_raported_units()
-        users = statistics.splitUsers()
+        users = statistics.split_users()
 
         return statistics._pack_to_dict(chartData, units, users)
 

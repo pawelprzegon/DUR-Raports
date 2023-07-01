@@ -10,6 +10,7 @@ class Raports:
         self.form = form
 
     def create_new_model(self):
+        '''Creating new raport from input form'''
         with get_session() as session:
             author = session.query(User).filter_by(
                 username=self.form['username']).first()
@@ -39,6 +40,7 @@ class Raports:
                         self.new_raport_model.append(data)
 
     def save_raport_in_db(self) -> JSONResponse:
+        '''Commiting raport into db'''
         try:
             with get_session() as session:
                 message = 'dodano raport'
@@ -53,6 +55,7 @@ class Raports:
             ) from e
 
     def update_raport_in_db(self) -> JSONResponse:
+        '''Updating raport in db'''
         try:
             with get_session() as session:
                 if 'id' in self.form:

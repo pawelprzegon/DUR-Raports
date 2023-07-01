@@ -4,6 +4,8 @@ from sqlalchemy.orm import relationship
 import datetime
 Base = declarative_base()
 
+'''Database models for each table'''
+
 
 class User(Base):
     __tablename__ = "user"

@@ -14,6 +14,7 @@ class Statistics:
         return list(set(places))
 
     def chart_labels_and_values(self) -> dict:
+        '''Filtering data necessary for chart'''
         chartData = {}
         for place in self.places:
             chartValues = {}
@@ -34,6 +35,7 @@ class Statistics:
         return chartData
 
     def get_raported_units(self) -> dict:
+        '''Filtering raported items'''
         raportedUnits = {}
         for place in self.places:
             sum_ = 0
@@ -49,19 +51,21 @@ class Statistics:
                             elem[regio.unit] = 1
             raportedUnits[place] = dict(
                 sorted(elem.items(), key=lambda item: item[1], reverse=False))
-            raportedUnits[place] = self.proportionsRaportedUnits(
+            raportedUnits[place] = self.proportions_raported_units(
                 raportedUnits[place], sum_)
 
         return raportedUnits
 
-    def proportionsRaportedUnits(self, units: dict, sum_: int) -> dict:
+    def proportions_raported_units(self, units: dict, sum_: int) -> dict:
+        '''Creting a dict with list as value'''
         return {
             key: [value, f'{int(round(value / sum_ * 100, 0))}%']
             for key, value in units.items()
             if key != 'sum'
         }
 
-    def splitUsers(self) -> dict:
+    def split_users(self) -> dict:
+        '''create dict with user as key and his raports as a list'''
         user_raport = defaultdict(list)
         for raport in self.data:
             if raport.author.username in user_raport:
@@ -71,7 +75,7 @@ class Statistics:
         return user_raport
 
     def _pack_to_dict(self, chartData: dict, units: dict, user_raport: dict) -> dict:
-
+        '''Collects data into dict'''
         places = ['Stolarnia', 'Drukarnia', 'Bibeloty']
         for each in places:
             if each not in chartData:

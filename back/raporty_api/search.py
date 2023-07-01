@@ -7,6 +7,7 @@ class Search:
         self.searching = searching
 
     def chart_labels_and_values(self) -> dict:
+        '''Filtering data necessary for chart'''
         chartData = {}
         chartValues = {}
         for unit in self.data:
@@ -25,6 +26,7 @@ class Search:
         return chartData
 
     def get_raported_units(self) -> dict:
+        '''Filtering raported items'''
         elem = {}
         for unit in self.data:
             if unit.unit in elem:
@@ -38,6 +40,7 @@ class Search:
         }
 
     def get_raported_dates(self) -> dict:
+        '''Filtering id's and created dates for each item'''
         elem = [{'id': unit.raport_id,
                  'date': unit.date_created.strftime('%d-%m-%Y')}
                 for unit in self.data]
@@ -45,6 +48,7 @@ class Search:
         return {self.searching: sorted(elem, key=lambda item: item['date'], reverse=False)}
 
     def _pack_to_dict(self, chartData: dict, units: dict, searching: str) -> dict:
+        '''Collects data into dict'''
         return {
             'searching': {
                 'query': searching,
