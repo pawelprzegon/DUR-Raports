@@ -37,8 +37,8 @@ class Statistics:
     def get_raported_units(self) -> dict:
         '''Filtering raported items'''
         raportedUnits = {}
+        sum_ = 0
         for place in self.places:
-            sum_ = 0
             elem = {}
             for raport in self.data:
                 for regio in raport.units:
@@ -51,8 +51,10 @@ class Statistics:
                             elem[regio.unit] = 1
             raportedUnits[place] = dict(
                 sorted(elem.items(), key=lambda item: item[1], reverse=False))
-            raportedUnits[place] = self.proportions_raported_units(
-                raportedUnits[place], sum_)
+        raportedUnits['sum'] = sum_
+        # procentage usage of raported unit below (current unused)
+        # raportedUnits[place] = self.proportions_raported_units(
+        #     raportedUnits[place], sum_)
 
         return raportedUnits
 
@@ -66,15 +68,18 @@ class Statistics:
 
     def split_users(self) -> dict:
         '''create dict with user as key and his raports as a list'''
-        user_raport = defaultdict(list)
+        sum_users_raports = 0
+        user_raports = defaultdict(list)
         for raport in self.data:
-            if raport.author.username in user_raport:
-                user_raport[raport.author.username] += 1
+            sum_users_raports += 1
+            if raport.author.username in user_raports:
+                user_raports[raport.author.username] += 1
             else:
-                user_raport[raport.author.username] = 1
-        return user_raport
+                user_raports[raport.author.username] = 1
+        return {'sum': sum_users_raports,
+                'user_raports': user_raports}
 
-    def _pack_to_dict(self, chartData: dict, units: dict, user_raport: dict) -> dict:
+    def _pack_to_dict(self, chartData: dict, units: dict, user: dict) -> dict:
         '''Collects data into dict'''
         places = ['Stolarnia', 'Drukarnia', 'Bibeloty']
         for each in places:
@@ -97,5 +102,6 @@ class Statistics:
 
             },
         },
-            'user_raport': user_raport,
+            'user': user,
+            'sum_all_raports': units['sum']
         }

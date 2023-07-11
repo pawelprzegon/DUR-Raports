@@ -4,30 +4,33 @@
 
 .container {
   align-items: center;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   justify-content: flex-start;
 }
 .statistics {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
-  margin-top: 0.7rem;
-  margin-bottom: 0.7rem;
-  padding: 0.7rem;
   width: 100%;
 }
 
 .place {
-  width: 33%;
-  margin: 0.7rem;
-  padding-bottom: 1rem;
+  width: 29%;
+  margin: 0.5rem;
+  padding: 0.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   align-content: stretch;
   border-radius: 0.3rem;
-  box-shadow: 0 0.3rem 0.3rem 0 rgba(0, 0, 0, 0.3);
+  background-color: #eeeeee6e;
+  box-shadow: 0 0 0.6rem 0 rgba(0, 0, 0, 0.2);
+}
+
+.place-wide {
+  width: 95%;
 }
 
 .labelBox {
@@ -79,14 +82,21 @@ h3 {
 .elem-style:nth-child(1):hover {
   text-decoration: underline;
 }
+.departments {
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+}
+
 .users {
   font-size: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  /* padding: 0.7rem;
-  margin: 0.7rem; */
-  width: 100%;
+  width: 45%;
 }
 
 .users h4,
@@ -121,58 +131,89 @@ p {
   padding: 0.3rem;
 }
 
+.labelBoxChart {
+  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.labelBoxChart h2,
+h4 {
+  margin: 0.1rem;
+  margin-right: 0.3rem;
+  text-align: right;
+}
+.labelBoxChart h4 {
+  font-weight: 300;
+}
+
 .chart-area {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  height: 30vh;
+  align-items: flex-end;
+  /* height: 100%; */
   width: 100%;
 }
 
-.chart {
+.chart-linear {
   width: 100%;
   display: flex;
   flex-grow: 1;
-  min-height: 20rem;
-  max-height: 32rem;
+  min-height: 15rem;
+}
+
+.chart-doughnut {
+  width: 100%;
+  display: flex;
+  flex-grow: 1;
+  min-height: 8rem;
+  justify-content: flex-start;
+}
+
+.chart-bar {
+  width: 100%;
+  display: flex;
+  flex-grow: 1;
+  min-height: 8rem;
+  justify-content: center;
+}
+
+.container,
+.alerts {
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
 /* Desktop*/
-@media (min-width: 1500px) {
-  .container,
-  .alerts {
-    padding-left: 20%;
-    padding-right: 20%;
-  }
-}
-@media (min-width: 1100px) and (max-width: 1500px) {
-  .container,
-  .alerts {
-    padding-left: 20%;
-    padding-right: 20%;
-  }
+
+@media (min-width: 1100px) {
   .container {
     font-size: 0.8rem;
+  }
+  .users {
+    width: 29%;
   }
 }
 
 @media (min-width: 900px) and (max-width: 1100px) {
-  .container,
-  .alerts {
-    padding-left: 15%;
-    padding-right: 15%;
-  }
   .container {
     font-size: 0.8rem;
+  }
+  .place {
+    width: 100%;
+  }
+  .users {
+    width: 45%;
   }
 }
 
 @media (max-width: 900px) {
-  .container,
-  .alerts {
-    padding-left: 10%;
-    padding-right: 10%;
+  .place {
+    width: 100%;
+  }
+  .users {
+    width: 45%;
   }
   .container {
     font-size: 0.7rem;
@@ -191,20 +232,21 @@ p {
   .labelBox :last-child {
     margin: 0.1rem;
   }
+  .users {
+    width: 100%;
+  }
 }
 
 /* Tablet Landscape */
 @media only screen and (hover: none) and (pointer: coarse) and (max-width: 1300px) and (orientation: landscape) {
-  .container,
-  .alerts {
-    padding-left: 10%;
-    padding-right: 10%;
-  }
   .container {
     font-size: 1rem;
   }
+  .users {
+    width: 45%;
+  }
   .chart-area {
-    height: 50vh;
+    height: 30vh;
   }
 }
 
@@ -217,6 +259,9 @@ p {
   }
   .container {
     font-size: 1rem;
+  }
+  .users {
+    width: 45%;
   }
 }
 
@@ -238,6 +283,9 @@ p {
     margin: 0;
     padding: 0;
   }
+  .users {
+    width: 100%;
+  }
 }
 
 @media only screen and (hover: none) and (pointer: coarse) and (max-width: 500px) and (orientation: portrait) {
@@ -250,7 +298,7 @@ p {
     font-size: 0.8rem;
   }
   .chart-area {
-    height: 35vh;
+    height: 25vh;
   }
   .labelBox h2,
   h4,
@@ -281,5 +329,8 @@ p {
   .statistics {
     margin: 0.2rem;
     padding: 0.2rem;
+  }
+  .users {
+    width: 100%;
   }
 }
