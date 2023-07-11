@@ -15,7 +15,7 @@
   flex-direction: row;
   align-items: flex-end;
   justify-content: space-between;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 300;
   font-size: 1.5rem;
   margin: 0 3rem 0 2rem;
@@ -82,7 +82,7 @@
 }
 
 .single-raport-info-grid {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   padding: 0.5rem;
   width: 90%;
 }
@@ -230,7 +230,7 @@
 .arrow:before {
   position: absolute;
   display: block;
-  content: "";
+  content: '';
   color: rgb(0, 0, 0);
   width: 0.5rem;
   height: 0.5rem;
@@ -245,7 +245,7 @@
 .arrow:after {
   position: absolute;
   display: block;
-  content: "";
+  content: '';
   color: rgb(0, 0, 0);
   width: 1.5rem;
   /* height: 1.5rem; */
@@ -306,7 +306,7 @@
 }
 
 .card {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   color: var(--fntColor);
   border-radius: 0.4rem;
   box-sizing: border-box;
@@ -373,7 +373,7 @@
 }
 
 /* Tablet Landscape */
-@media only screen and (hover: none) and (pointer: coarse) and (max-width: 1300px) and (orientation: landscape) {
+@media only screen and (max-width: 1300px) and (orientation: landscape) {
   .card {
     display: flex;
     flex-direction: row;
@@ -426,7 +426,7 @@
 }
 
 /* Tablet portrait */
-@media only screen and (hover: none) and (pointer: coarse) and (max-width: 900px) and (orientation: portrait) {
+@media only screen and (max-width: 900px) and (orientation: portrait) {
   .content-text {
     font-size: 0.8rem;
   }
@@ -449,7 +449,7 @@
 }
 
 /* Mobile */
-@media only screen and (hover: none) and (pointer: coarse) and (max-width: 1000px) and (orientation: landscape) {
+@media only screen and (max-width: 1000px) and (orientation: landscape) {
   .card {
     display: flex;
     flex-direction: row;
@@ -521,7 +521,7 @@
   }
 }
 
-@media only screen and (hover: none) and (pointer: coarse) and (max-width: 500px) and (orientation: portrait) {
+@media only screen and (max-width: 500px) and (orientation: portrait) {
   body {
     overflow: visible;
   }

@@ -34,7 +34,7 @@ body {
   padding: 1.3rem;
   border-radius: 0.3rem;
   font-size: 0.9rem;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   /* border: 0.5px solid rgb(130, 130, 130) */
   -webkit-box-shadow: 0 0.3rem 2rem -0.3rem rgba(119, 120, 138, 1);
   -moz-box-shadow: 0 0.3rem 2rem -0.3rem rgba(119, 120, 138, 1);
@@ -48,7 +48,7 @@ body {
 
 #form p {
   font-size: 1rem;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
 }
 
@@ -119,7 +119,7 @@ body {
 
 #form button {
   cursor: pointer;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.1rem;
   font-weight: 300;
   color: rgb(255, 255, 255);
@@ -136,7 +136,7 @@ body {
 }
 .loginSignup-box a {
   cursor: pointer;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   font-weight: 500;
   color: rgb(76, 128, 225);
@@ -156,7 +156,7 @@ body {
 
 .resetPasswdBox a {
   cursor: pointer;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   font-weight: 500;
   color: rgb(76, 128, 225);
@@ -185,7 +185,7 @@ body {
 }
 
 /* Tablet Landscape */
-@media only screen and (hover: none) and (pointer: coarse) and (max-width: 1300px) and (orientation: landscape) {
+@media only screen and (max-width: 1300px) and (orientation: landscape) {
   .container {
     margin-top: 1rem;
     padding-left: 10%;
@@ -194,7 +194,7 @@ body {
 }
 
 /* Tablet portrait */
-@media only screen and (hover: none) and (pointer: coarse) and (max-width: 900px) and (orientation: portrait) {
+@media only screen and (max-width: 900px) and (orientation: portrait) {
   .container {
     margin-top: 1rem;
     padding-left: 10%;
@@ -203,7 +203,7 @@ body {
 }
 
 /* Mobile */
-@media only screen and (hover: none) and (pointer: coarse) and (max-width: 1000px) and (orientation: landscape) {
+@media only screen and (max-width: 1000px) and (orientation: landscape) {
   .alerts {
     display: none;
   }
@@ -214,7 +214,7 @@ body {
   }
 }
 
-@media only screen and (hover: none) and (pointer: coarse) and (max-width: 500px) and (orientation: portrait) {
+@media only screen and (max-width: 500px) and (orientation: portrait) {
   .alerts {
     display: none;
   }

@@ -130,27 +130,27 @@ hr {
 }
 
 /* Tablet Landscape */
-@media only screen and (hover: none) and (pointer: coarse) and (max-width: 1300px) and (orientation: landscape) {
+@media only screen and (max-width: 1300px) and (orientation: landscape) {
   .alert {
     padding: 0.3rem;
   }
 }
 
 /* Tablet portrait */
-@media only screen and (hover: none) and (pointer: coarse) and (max-width: 900px) and (orientation: portrait) {
+@media only screen and (max-width: 900px) and (orientation: portrait) {
   .alert {
     padding: 0.3rem;
   }
 }
 
 /* Mobile */
-@media only screen and (hover: none) and (pointer: coarse) and (max-width: 1000px) and (orientation: landscape) {
+@media only screen and (max-width: 1000px) and (orientation: landscape) {
   .alert {
     padding: 0.3rem;
   }
 }
 
-@media only screen and (hover: none) and (pointer: coarse) and (max-width: 500px) and (orientation: portrait) {
+@media only screen and (max-width: 500px) and (orientation: portrait) {
   .alert {
     padding: 0.3rem;
   }
