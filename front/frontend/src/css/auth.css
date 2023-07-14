@@ -13,10 +13,13 @@ body {
   display: flex;
   flex-direction: column;
   /* min-height: 100vh; */
-  background: var(--bckg);
-  background-color: var(--bckg);
+  /* background: var(--bckg);
+  background-color: var(--bckg); */
   color: #5a5a5a;
-  /* margin-top: 100px; */
+  background-image: url('../static/login_background.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 .container {
@@ -35,7 +38,7 @@ body {
   border-radius: 0.3rem;
   font-size: 0.9rem;
   font-family: 'Roboto', sans-serif;
-  /* border: 0.5px solid rgb(130, 130, 130) */
+  background-color: white;
   -webkit-box-shadow: 0 0.3rem 2rem -0.3rem rgba(119, 120, 138, 1);
   -moz-box-shadow: 0 0.3rem 2rem -0.3rem rgba(119, 120, 138, 1);
   box-shadow: 0 0.3rem 2rem -0.3rem rgba(119, 120, 138, 1);

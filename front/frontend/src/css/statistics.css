@@ -1,5 +1,7 @@
 :root {
   --bckg: #ffffff;
+  --h2size: 1.3rem;
+  --h4size: 1rem;
 }
 
 .container {
@@ -8,101 +10,65 @@
   font-size: 1rem;
   justify-content: flex-start;
 }
+
+.departments {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+}
+
 .statistics {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-}
-
-.place {
-  width: 29%;
-  margin: 0.5rem;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  align-content: stretch;
-  border-radius: 0.3rem;
-  background-color: #eeeeee6e;
-  box-shadow: 0 0 0.6rem 0 rgba(0, 0, 0, 0.2);
-}
-
-.place-wide {
-  width: 95%;
-}
-
-.labelBox {
-  display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  margin: 0;
   width: 100%;
-  margin-bottom: 0.7rem;
-  background-color: #767676;
-  border-radius: 0.3rem 0.3rem 0 0;
-  color: white;
-}
-
-.labelBox h2,
-h3 {
-  margin: 0.2rem;
-}
-
-.labelBox :first-child {
-  margin-left: 0.7rem;
-}
-.labelBox :last-child {
-  margin-right: 0.7rem;
-}
-
-.elemBox {
-  width: calc(100% - 2.5rem);
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  margin: 0.2rem;
-}
-.elem-style:nth-child(1) {
-  width: 45%;
-  cursor: pointer;
-  text-align: left;
-}
-/* .elem-style:nth-child(2){
-    width: 30%;
-} */
-.elem-style:nth-child(3) {
-  width: 20%;
-  text-align: right;
-}
-
-.elem-style:nth-child(1):hover {
-  text-decoration: underline;
-}
-.departments {
-  font-size: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  align-items: center;
+  margin-top: 1rem;
 }
 
 .users {
-  font-size: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
   width: 45%;
+  margin-top: 1rem;
 }
 
-.users h4,
-p {
-  margin: 0;
-  margin-bottom: 0.3rem;
+.departments h2,
+.statistics h2,
+.users h2 {
+  font-weight: 400;
+  font-size: var(--h2size);
+  margin: 0.1rem;
+  margin-right: 0.7rem;
+  text-align: right;
+}
+.departments h4,
+.statistics h4,
+.users h4 {
+  font-weight: 300;
+  font-size: var(--h4size);
+  margin: 0.1rem;
+  margin-top: 0.3rem;
+  margin-right: 0.7rem;
+  text-align: right;
+}
+
+.place {
+  width: 32%;
+  padding: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  border-radius: 0.3rem;
+  background-color: #eeeeee6e;
+  box-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.2);
+}
+
+.place-wide {
+  width: 100%;
 }
 
 .user {
@@ -114,45 +80,23 @@ p {
   box-shadow: 0px 0.3rem 0.3rem 0px rgba(0, 0, 0, 0.3);
   margin-right: 0.7rem;
 }
-.user-style-label {
-  display: flex;
-  justify-content: center;
-  color: white;
-  background-color: #767676;
-  padding: 0.3rem;
-  border-radius: 0.3rem 0.3rem 0 0;
-}
-.user-style {
-  display: flex;
-  justify-content: center;
-  width: 3rem;
-  margin: 0.2rem;
-  margin: 0.3rem;
-  padding: 0.3rem;
-}
 
 .labelBoxChart {
-  /* width: 100%; */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin: 0;
-}
-
-.labelBoxChart h2,
-h4 {
-  margin: 0.1rem;
-  margin-right: 0.3rem;
-  text-align: right;
-}
-.labelBoxChart h4 {
-  font-weight: 300;
+  h2 {
+    font-size: var(--h2size);
+  }
+  h4 {
+    font-size: var(--h4size);
+  }
 }
 
 .chart-area {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  /* height: 100%; */
   width: 100%;
 }
 
@@ -160,7 +104,8 @@ h4 {
   width: 100%;
   display: flex;
   flex-grow: 1;
-  min-height: 15rem;
+  min-height: 13rem;
+  max-height: 16rem;
 }
 
 .chart-doughnut {
@@ -192,7 +137,7 @@ h4 {
     font-size: 0.8rem;
   }
   .users {
-    width: 29%;
+    width: 32%;
   }
 }
 
@@ -200,37 +145,27 @@ h4 {
   .container {
     font-size: 0.8rem;
   }
+  .statistics {
+    margin-top: 0;
+  }
   .place {
     width: 100%;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
   .users {
-    width: 45%;
+    width: 50%;
   }
 }
 
 @media (max-width: 900px) {
+  .statistics {
+    margin-top: 0;
+  }
   .place {
     width: 100%;
-  }
-  .users {
-    width: 45%;
-  }
-  .container {
-    font-size: 0.7rem;
-  }
-  .elemBox {
-    width: 90%;
-    padding-left: 0.1rem;
-    padding-right: 0.1rem;
-  }
-  .labelBox {
-    flex-direction: column;
-  }
-  .labelBox :first-child {
-    margin: 0.1rem;
-  }
-  .labelBox :last-child {
-    margin: 0.1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
   .users {
     width: 100%;
@@ -257,9 +192,6 @@ h4 {
     padding-left: 7%;
     padding-right: 7%;
   }
-  .container {
-    font-size: 1rem;
-  }
   .users {
     width: 45%;
   }
@@ -272,18 +204,11 @@ h4 {
     padding-left: 5%;
     padding-right: 5%;
   }
-  .container {
-    font-size: 0.9rem;
-  }
   .chart-area {
     height: 90vh;
   }
   .users,
-  .statistics {
-    margin: 0;
-    padding: 0;
-  }
-  .users {
+  .place {
     width: 100%;
   }
 }
@@ -294,43 +219,12 @@ h4 {
     padding-left: 5%;
     padding-right: 5%;
   }
-  .container {
-    font-size: 0.8rem;
-  }
-  .chart-area {
-    height: 25vh;
-  }
-  .labelBox h2,
-  h4,
-  p {
-    font-size: 0.7rem;
-  }
-  .elemBox {
-    padding-left: 0.2rem;
-    padding-right: 0.2rem;
-    width: 95%;
-  }
-  .place {
-    margin: 0.2rem;
-  }
-  .user-style {
-    margin: 0;
-    padding: 0;
-  }
 
-  .user-style-label {
-    padding: 0.3rem;
-  }
-  .users h4 {
-    margin-top: 0;
-    margin-bottom: 0;
+  .chart-area {
+    height: 16vh;
   }
   .users,
-  .statistics {
-    margin: 0.2rem;
-    padding: 0.2rem;
-  }
-  .users {
+  .place {
     width: 100%;
   }
 }

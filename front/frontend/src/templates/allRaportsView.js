@@ -34,10 +34,10 @@ export default class extends AbstractView {
 
   async getData() {
     try {
-      let [re, st] = await checkAuth(url + 'auth');
+      let [auth_response, auth_status] = await checkAuth(url + 'auth');
       if (
-        (st == 202 && re.detail == 'authenticated') ||
-        (st == 200 && re.access_token)
+        (auth_status == 202 && auth_response.detail == 'authenticated') ||
+        (auth_status == 200 && auth_response.access_token)
       ) {
         const loader = showloader();
         let [response, status] = await callApiGet(this.api_url);
@@ -45,7 +45,9 @@ export default class extends AbstractView {
           clearTimeout(loader);
           hideloader();
           this.layout(response);
-          Slider(this.params.id);
+          if (this.params !== undefined) {
+            Slider(this.params.id);
+          }
         } else {
           clearTimeout(loader);
           hideloader();
@@ -61,10 +63,53 @@ export default class extends AbstractView {
     this.css();
     let container = document.querySelector('#cont');
     container.innerHTML = '';
+
+    container.appendChild(this.content());
+    container.appendChild(this.slider(data));
+
+    if (this.params !== undefined && 'id' in this.params) {
+      this.show_raport(this.params.id);
+    } else {
+      let last_raport = this.last_raport(data);
+      this.show_raport(last_raport);
+    }
+  }
+
+  content() {
     let content = document.createElement('div');
     content.classList.add('content');
     content.id = 'content';
-    content.innerText = 'test';
+    return content;
+  }
+
+  last_raport(data) {
+    let last = 0;
+    data.forEach((element) => {
+      if (element.id > last) {
+        last = element.id;
+      }
+    });
+    return last;
+  }
+
+  show_raport(id) {
+    let showRaport = new openRaport(parseInt(id));
+    let animate = document.getElementById('content');
+    animate.classList.add('show-anim');
+
+    showRaport.getData();
+    let nowSelected = document.getElementsByClassName('selected');
+
+    if (nowSelected.length != 0) {
+      nowSelected[0].classList.remove('selected');
+    }
+    document.getElementById(id).classList.add('selected');
+    addEventListener('animationend', () => {
+      animate.classList.remove('show-anim');
+    });
+  }
+
+  slider(data) {
     let slideConteiner = document.createElement('div');
     slideConteiner.classList.add('slide-container', 'swiper');
     let swiperContent = document.createElement('div');
@@ -90,25 +135,6 @@ export default class extends AbstractView {
     swiperContent.appendChild(prev);
     swiperContent.appendChild(paginate);
     slideConteiner.appendChild(swiperContent);
-    container.appendChild(content);
-    container.appendChild(slideConteiner);
-
-    if ('id' in this.params) {
-      const showRaport = new openRaport(parseInt(this.params.id, 10));
-
-      let animate = document.getElementById('content');
-      animate.classList.add('show-anim');
-
-      showRaport.getData();
-      let nowSelected = document.getElementsByClassName('selected');
-
-      if (nowSelected.length != 0) {
-        nowSelected[0].classList.remove('selected');
-      }
-      document.getElementById(this.params.id).classList.add('selected');
-      addEventListener('animationend', () => {
-        animate.classList.remove('show-anim');
-      });
-    }
+    return slideConteiner;
   }
 }

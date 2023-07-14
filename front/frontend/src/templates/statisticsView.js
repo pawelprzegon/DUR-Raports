@@ -2,11 +2,9 @@ import { url } from '../common/data/url.js';
 import { callApiGet, checkAuth } from '../features/endpoints/endpoints.js';
 import { showloader, hideloader } from '../features/loading/loading.js';
 import { alerts } from '../features/alerts/alerts.js';
-import { createNewChart } from '../features/chart/createChart.js';
 import { createCharts } from '../features/chart/createCharts.js';
 import { capitalized } from '../features/upperCase/upperCase.js';
 import AbstractView from './AbstractView.js';
-import { navigateTo } from '../js/index.js';
 
 export default class extends AbstractView {
   constructor() {
@@ -61,10 +59,10 @@ export default class extends AbstractView {
 
   departments(response) {
     let departments = document.createElement('div');
-    departments.classList.add('departments', 'place');
+    departments.classList.add('departments');
     let chartBox = this.chartBox('Raporty na dział', response.sum_all_raports);
     chartBox.appendChild(this.chart(response, 'linear'));
-    chartBox.classList.add('place-wide');
+    chartBox.classList.add('place', 'place-wide');
     departments.appendChild(chartBox);
     this.container.appendChild(departments);
   }
@@ -130,8 +128,6 @@ export default class extends AbstractView {
     canvas.style = 'null';
     if (chartType === 'linear') {
       Chart.classList.add('chart-linear');
-      // let chart = new createNewChart(response, canvas);
-      // chart.newChart();
       let chart = new createCharts(response.statistics, canvas);
       chart.lineChart();
     } else if (chartType === 'doughnut') {
