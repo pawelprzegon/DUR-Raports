@@ -3,10 +3,8 @@ import { checkAuth, callApiGet } from '../features/endpoints/endpoints.js';
 import { alerts } from '../features/alerts/alerts.js';
 import { showloader, hideloader } from '../features/loading/loading.js';
 import { searchBehav } from '../common/navigation/navigation.js';
-import { createNewChart } from '../features/chart/createChart.js';
+import { createCharts } from '../features/chart/createCharts.js';
 import { navigateTo } from '../js/index.js';
-import { capitalized } from '../features/upperCase/upperCase.js';
-
 import AbstractView from './AbstractView.js';
 
 export default class extends AbstractView {
@@ -26,10 +24,8 @@ export default class extends AbstractView {
 
   async getData() {
     const loader = showloader();
-    console.log(this.params);
     try {
       let [re, st] = await checkAuth(url + 'auth');
-      console.log(re, st);
       if (
         (st == 202 && re.detail == 'authenticated') ||
         (st == 200 && re.access_token)
@@ -39,7 +35,6 @@ export default class extends AbstractView {
           hideloader();
           clearTimeout(loader);
           searchBehav();
-          console.log(response);
           if (response == null) {
             alerts(
               status,
@@ -81,7 +76,7 @@ export default class extends AbstractView {
     let placeLabelBox = document.createElement('div');
     placeLabelBox.classList.add('labelBox');
     let placeLabel = document.createElement('h2');
-    placeLabel.innerText = capitalized(this.params.query);
+    placeLabel.innerText = this.params.query.capitalize();
     placeLabelBox.appendChild(placeLabel);
     return placeLabelBox;
   }
@@ -94,9 +89,12 @@ export default class extends AbstractView {
     const canvas = document.createElement('canvas');
     canvas.id = 'charts';
     canvas.style = 'null';
-
-    let chart = new createNewChart(response, canvas, this.params.query);
-    chart.newChart();
+    let chart = new createCharts(
+      response.searching.chart,
+      canvas,
+      this.params.query
+    );
+    chart.barChart();
 
     Chart.appendChild(canvas);
     ChartArea.appendChild(Chart);
@@ -110,7 +108,6 @@ export default class extends AbstractView {
     let place = document.createElement('div');
     place.classList.add('place');
     place.id = Object.keys(response);
-    console.log(response);
     for (const value of Object.values(response)) {
       let obj = Array.isArray(value.items);
       for (const [k, v] of Object.entries(value.items)) {

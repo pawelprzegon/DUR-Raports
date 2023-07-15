@@ -3,7 +3,6 @@ import { callApiGet, checkAuth } from '../features/endpoints/endpoints.js';
 import { showloader, hideloader } from '../features/loading/loading.js';
 import { alerts } from '../features/alerts/alerts.js';
 import { createCharts } from '../features/chart/createCharts.js';
-import { capitalized } from '../features/upperCase/upperCase.js';
 import AbstractView from './AbstractView.js';
 
 export default class extends AbstractView {
@@ -33,7 +32,6 @@ export default class extends AbstractView {
         if (status == 200) {
           hideloader();
           clearTimeout(this.loader);
-          console.log(response);
           this.layout(response);
         } else {
           hideloader();
@@ -109,7 +107,7 @@ export default class extends AbstractView {
     let placeLabelBox = document.createElement('div');
     placeLabelBox.classList.add('labelBoxChart');
     let placeLabelMain = document.createElement('h4');
-    placeLabelMain.innerText = capitalized(label);
+    placeLabelMain.innerText = label.capitalize();
     let placeLabelQuantity = document.createElement('h2');
     placeLabelQuantity.innerText = quantity + 'szt';
 

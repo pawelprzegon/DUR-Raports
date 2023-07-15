@@ -55,7 +55,7 @@
 }
 
 .place {
-  width: 20%;
+  /* width: 20%; */
   margin: 0.7rem;
   display: flex;
   flex-direction: column;

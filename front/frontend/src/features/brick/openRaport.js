@@ -4,7 +4,6 @@ import { callApiGet, checkAuth } from '../endpoints/endpoints.js';
 import { showloader, hideloader } from '../loading/loading.js';
 import { deleteRaport } from '../delete/delete.js';
 import { alerts } from '../alerts/alerts.js';
-import { capitalized } from '../upperCase/upperCase.js';
 import { getCookieValue } from '../../features/cookie/index.js';
 
 export class openRaport {
@@ -185,7 +184,7 @@ export class openRaport {
       Region.classList.add('single-raport-info-grid');
       RegionHeader.classList.add('raport-label');
       RegionTextHeader.classList.add('content-text', 'one');
-      RegionInfo.innerText = capitalized(`${key}`);
+      RegionInfo.innerText = `${key}`.capitalize();
       Region.appendChild(RegionHeader);
       Region.appendChild(RegionTextHeader);
       this.issuesContent.appendChild(Region);

@@ -1,6 +1,5 @@
 // import { getColors } from './colors.js';
 import { navigateTo } from '../../js/index.js';
-import { capitalized } from '../upperCase/upperCase.js';
 
 export class createCharts {
   constructor(data, canvas, department) {
@@ -92,6 +91,7 @@ export class createCharts {
 
   barChart() {
     let color = this.get_department_color();
+    console.log(color);
     this.get_labels_and_data();
     let dataset = this.bar_config(color);
     this.chart = new Chart(this.ctx, {
@@ -202,20 +202,20 @@ export class createCharts {
     );
     if (points.length) {
       const firstPoint = points[0];
-      // console.log(firstPoint);
       const value = this.chart.data.labels[firstPoint.index];
-      console.log(value);
-      navigateTo('/search/' + capitalized(value));
+      navigateTo('/search/' + value.capitalize());
     }
   };
 
   get_department_color() {
-    if (this.department === 'stolarnia') {
+    if (this.department.capitalize() === 'Stolarnia') {
       return this.colors[0];
-    } else if (this.department === 'drukarnia') {
+    } else if (this.department.capitalize() === 'Drukarnia') {
       return this.colors[1];
-    } else {
+    } else if (this.department.capitalize() === 'Bibeloty') {
       return this.colors[2];
+    } else {
+      return '#0084d2';
     }
   }
 }
