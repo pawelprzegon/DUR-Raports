@@ -91,7 +91,7 @@ export default class extends AbstractView {
   department(key, data, placeQuantity) {
     let chartBox = this.chartBox(key, placeQuantity);
     chartBox.classList.add('place');
-    chartBox.appendChild(this.chart(data, 'bar'));
+    chartBox.appendChild(this.chart(data, 'bar', key));
     return chartBox;
   }
 
@@ -119,7 +119,7 @@ export default class extends AbstractView {
     return chartBox;
   }
 
-  chart(response, chartType) {
+  chart(response, chartType, department) {
     const ChartArea = document.createElement('div');
     ChartArea.classList.add('chart-area');
     const Chart = document.createElement('div');
@@ -136,7 +136,7 @@ export default class extends AbstractView {
       chart.doughnutChart();
     } else if (chartType === 'bar') {
       Chart.classList.add('chart-bar');
-      let chart = new createCharts(response, canvas);
+      let chart = new createCharts(response, canvas, department);
       chart.barChart();
     }
     Chart.appendChild(canvas);

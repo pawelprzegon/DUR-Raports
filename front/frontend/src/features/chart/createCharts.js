@@ -3,12 +3,14 @@ import { navigateTo } from '../../js/index.js';
 import { capitalized } from '../upperCase/upperCase.js';
 
 export class createCharts {
-  constructor(data, canvas) {
+  constructor(data, canvas, department) {
     this.data = data;
     this.ctx = canvas;
+    this.department = department;
     this.chart;
     this.labels = [];
     this.dataset = [];
+    this.colors = ['#69e0a3', '#E069c1', '#Ffcf03'];
   }
 
   get_labels_and_data() {
@@ -30,15 +32,14 @@ export class createCharts {
 
   line_config() {
     // let color = getColors(this.ctx);
-    let colors = ['#E069c1', '#69e0a3', '#Ffcf03'];
     for (const [index, [key, value]] of Object.entries(
       Object.entries(this.data)
     )) {
       let data = {
         label: key,
         data: value.chart,
-        pointBackgroundColor: colors[index],
-        borderColor: colors[index],
+        pointBackgroundColor: this.colors[index],
+        borderColor: this.colors[index],
         backgroundColor: '#eeeeee6e',
         tension: 0.2,
         borderWidth: 2,
@@ -51,17 +52,16 @@ export class createCharts {
   doughnut_config() {
     return {
       data: this.dataset,
-      backgroundColor: '#eeeeee6e',
-      borderColor: ['#b3b3b3', '#868686', '#5a5a5a'],
+      backgroundColor: ['#b3b3b3', '#868686', '#5a5a5a'],
       borderWidth: 2,
     };
   }
 
-  bar_config() {
+  bar_config(color) {
     return {
       data: this.dataset,
-      backgroundColor: '#eeeeee6e',
-      borderColor: '#b3b3b3',
+      backgroundColor: color + '3e',
+      borderColor: color,
       borderWidth: 2,
     };
   }
@@ -78,7 +78,6 @@ export class createCharts {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        hoverBackgroundColor: ['#b3b3b3', '#868686', '#5a5a5a'],
         plugins: {
           legend: {
             position: 'left',
@@ -92,8 +91,9 @@ export class createCharts {
   }
 
   barChart() {
+    let color = this.get_department_color();
     this.get_labels_and_data();
-    let dataset = this.bar_config();
+    let dataset = this.bar_config(color);
     this.chart = new Chart(this.ctx, {
       type: 'bar',
       data: {
@@ -103,7 +103,7 @@ export class createCharts {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        hoverBackgroundColor: '#b3b3b3',
+        hoverBackgroundColor: color,
         plugins: {
           legend: {
             position: 'top',
@@ -208,4 +208,14 @@ export class createCharts {
       navigateTo('/search/' + capitalized(value));
     }
   };
+
+  get_department_color() {
+    if (this.department === 'stolarnia') {
+      return this.colors[0];
+    } else if (this.department === 'drukarnia') {
+      return this.colors[1];
+    } else {
+      return this.colors[2];
+    }
+  }
 }
