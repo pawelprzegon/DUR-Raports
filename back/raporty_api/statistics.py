@@ -14,6 +14,7 @@ class Statistics:
         return list(set(places))
 
     def chart_labels_and_values(self) -> dict:
+        '''Filtering data necessary for chart'''
         chartData = {}
         for place in self.places:
             chartValues = {}
@@ -34,9 +35,10 @@ class Statistics:
         return chartData
 
     def get_raported_units(self) -> dict:
+        '''Filtering raported items'''
         raportedUnits = {}
+        sum_ = 0
         for place in self.places:
-            sum_ = 0
             elem = {}
             for raport in self.data:
                 for regio in raport.units:
@@ -49,30 +51,37 @@ class Statistics:
                             elem[regio.unit] = 1
             raportedUnits[place] = dict(
                 sorted(elem.items(), key=lambda item: item[1], reverse=False))
-            raportedUnits[place] = self.proportionsRaportedUnits(
-                raportedUnits[place], sum_)
+        raportedUnits['sum'] = sum_
+        # procentage usage of raported unit below (current unused)
+        # raportedUnits[place] = self.proportions_raported_units(
+        #     raportedUnits[place], sum_)
 
         return raportedUnits
 
-    def proportionsRaportedUnits(self, units: dict, sum_: int) -> dict:
+    def proportions_raported_units(self, units: dict, sum_: int) -> dict:
+        '''Creting a dict with list as value'''
         return {
             key: [value, f'{int(round(value / sum_ * 100, 0))}%']
             for key, value in units.items()
             if key != 'sum'
         }
 
-    def splitUsers(self) -> dict:
-        user_raport = defaultdict(list)
+    def split_users(self) -> dict:
+        '''create dict with user as key and his raports as a list'''
+        sum_users_raports = 0
+        user_raports = defaultdict(list)
         for raport in self.data:
-            if raport.author.username in user_raport:
-                user_raport[raport.author.username] += 1
+            sum_users_raports += 1
+            if raport.author.username in user_raports:
+                user_raports[raport.author.username] += 1
             else:
-                user_raport[raport.author.username] = 1
-        return user_raport
+                user_raports[raport.author.username] = 1
+        return {'sum': sum_users_raports,
+                'user_raports': user_raports}
 
-    def _pack_to_dict(self, chartData: dict, units: dict, user_raport: dict) -> dict:
-
-        places = ['Stolarnia', 'Drukarnia', 'Bibeloty']
+    def _pack_to_dict(self, chartData: dict, units: dict, user: dict) -> dict:
+        '''Collects data into dict'''
+        places = ['stolarnia', 'drukarnia', 'bibeloty']
         for each in places:
             if each not in chartData:
                 chartData[each] = []
@@ -80,18 +89,19 @@ class Statistics:
 
         return {'statistics': {
             'stolarnia': {
-                'chart': chartData['Stolarnia'],
-                'items': units['Stolarnia'],
+                'chart': chartData['stolarnia'],
+                'items': units['stolarnia'],
             },
             'drukarnia': {
-                'chart': chartData['Drukarnia'],
-                'items': units['Drukarnia'],
+                'chart': chartData['drukarnia'],
+                'items': units['drukarnia'],
             },
             'bibeloty': {
-                'chart': chartData['Bibeloty'],
-                'items': units['Bibeloty'],
+                'chart': chartData['bibeloty'],
+                'items': units['bibeloty'],
 
             },
         },
-            'user_raport': user_raport,
+            'user': user,
+            'sum_all_raports': units['sum']
         }

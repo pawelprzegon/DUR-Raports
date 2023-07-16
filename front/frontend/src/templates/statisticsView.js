@@ -1,156 +1,97 @@
-import { url } from "../common/data/url.js";
-import { callApiGet, checkAuth } from "../features/endpoints/endpoints.js";
-import { showloader, hideloader } from "../features/loading/loading.js";
-import { alerts } from "../features/alerts/alerts.js";
-import { createNewChart } from "../features/chart/createChart.js";
-import { capitalized } from "../features/upperCase/upperCase.js";
-import AbstractView from "./AbstractView.js";
-import { navigateTo } from "../js/index.js";
+import { url } from '../common/data/url.js';
+import { callApiGet, checkAuth } from '../features/endpoints/endpoints.js';
+import { showloader, hideloader } from '../features/loading/loading.js';
+import { alerts } from '../features/alerts/alerts.js';
+import { createCharts } from '../features/chart/createCharts.js';
+import AbstractView from './AbstractView.js';
 
 export default class extends AbstractView {
   constructor() {
     super();
 
     this.loader = showloader();
-    this.container = document.querySelector("#cont");
-    this.container.innerHTML = "";
-    this.setTitle("Statystyki");
-    this.api_url = url + "statistics";
+    this.container = document.querySelector('#cont');
+    this.container.innerHTML = '';
+    this.setTitle('Statystyki');
+    this.api_url = url + 'statistics';
   }
 
   css() {
     document
-      .getElementById("theme")
-      .setAttribute("href", "../src/css/statistics.css");
+      .getElementById('theme')
+      .setAttribute('href', '../src/css/statistics.css');
   }
   async getData() {
     try {
-      let [re, st] = await checkAuth(url + "auth");
+      let [re, st] = await checkAuth(url + 'auth');
       if (
-        (st == 202 && re.detail == "authenticated") ||
+        (st == 202 && re.detail == 'authenticated') ||
         (st == 200 && re.access_token)
       ) {
         let [response, status] = await callApiGet(this.api_url);
         if (status == 200) {
-          // console.log(response)
           hideloader();
           clearTimeout(this.loader);
           this.layout(response);
         } else {
           hideloader();
           clearTimeout(this.loader);
-          alerts(status, response, "alert-orange");
+          alerts(status, response, 'alert-orange');
         }
       }
     } catch (error) {
       hideloader();
       clearTimeout(this.loader);
-      alerts("error", error, "alert-red");
+      alerts('error', error, 'alert-red');
     }
   }
 
   layout(response) {
     this.css();
-    const ChartArea = document.createElement("div");
-    ChartArea.classList.add("chart-area");
-    const Chart = document.createElement("div");
-    Chart.classList.add("chart");
-    const canvas = document.createElement("canvas");
-    canvas.id = "charts";
-    canvas.style = "null";
+    console.log(response);
+    this.departments(response);
+    // this.container.appendChild(this.statistics(response));
+    this.statistics(response);
+    // this.container.appendChild(this.users(response));
+    this.users(response);
+  }
 
-    let chart = new createNewChart(response, canvas);
-    chart.newChart();
-
-    Chart.appendChild(canvas);
-    ChartArea.appendChild(Chart);
-    this.container.appendChild(ChartArea);
-
-    this.container.appendChild(this.users(response));
-    this.container.appendChild(this.statistics(response));
+  departments(response) {
+    let departments = document.createElement('div');
+    departments.classList.add('departments');
+    let chartBox = this.chartBox('Raporty na dział', response.sum_all_raports);
+    chartBox.appendChild(this.chart(response, 'linear'));
+    chartBox.classList.add('place', 'place-wide');
+    departments.appendChild(chartBox);
+    this.container.appendChild(departments);
   }
 
   users(response) {
-    let users = document.createElement("div");
-    users.classList.add("users");
-    for (const [key, value] of Object.entries(response.user_raport)) {
-      let user = document.createElement("div");
-      user.classList.add("user");
-      let userLabelBox = document.createElement("div");
-      userLabelBox.classList.add("user-style-label");
-      let userLabel = document.createElement("h4");
-      userLabel.innerText = capitalized(key);
-      let userQuantityBox = document.createElement("div");
-      userQuantityBox.classList.add("user-style");
-      let userQuantity = document.createElement("p");
-      userQuantity.innerText = value + " szt";
-      userLabelBox.appendChild(userLabel);
-      userQuantityBox.appendChild(userQuantity);
-      user.appendChild(userLabelBox);
-      user.appendChild(userQuantityBox);
-      users.appendChild(user);
-    }
-    return users;
+    let users = document.createElement('div');
+    users.classList.add('users', 'place');
+    let chartBox = this.chartBox('Raporty użytkowników', response.user.sum);
+    chartBox.classList.add('chart-area');
+    chartBox.appendChild(this.chart(response.user.user_raports, 'doughnut'));
+    users.appendChild(chartBox);
+    this.container.appendChild(users);
   }
 
   statistics(response) {
-    let statistics = document.createElement("div");
-    statistics.classList.add("statistics");
+    let statistics = document.createElement('div');
+    statistics.classList.add('statistics');
     for (const [key, value] of Object.entries(response.statistics)) {
-      let box = this.block(key, value);
+      let placeQuantity = this.placeQuantity(value);
+      let box = this.department(key, value.items, placeQuantity);
       statistics.appendChild(box);
     }
-    return statistics;
+    this.container.appendChild(statistics);
   }
 
-  block(key, value) {
-    let place = document.createElement("div");
-    place.id = key;
-    place.classList.add("place");
-    let placeLabelBox = document.createElement("div");
-    placeLabelBox.classList.add("labelBox");
-    let placeLabel = document.createElement("h2");
-    placeLabel.innerText = capitalized(key);
-
-    let placequantity = document.createElement("h3");
-    placequantity.innerText = this.placeQuantity(value) + " szt";
-    placeLabelBox.appendChild(placeLabel);
-    placeLabelBox.appendChild(placequantity);
-    place.appendChild(placeLabelBox);
-    for (const [k, v] of Object.entries(value.items)) {
-      let elemBox = document.createElement("div");
-      elemBox.classList.add("elemBox");
-      let elemLabelBox = document.createElement("div");
-      elemLabelBox.classList.add("elem-style");
-      let elemLabel = document.createElement("p");
-      elemLabel.id = k;
-      elemLabel.innerText = k;
-      elemLabel.addEventListener("click", () => {
-        console.log(k);
-        navigateTo("/search/" + capitalized(k));
-      });
-      let elemQuantityBox = document.createElement("div");
-      elemQuantityBox.classList.add("elem-style");
-      let elemQuantity = document.createElement("p");
-      elemQuantity.innerText = v[0];
-      let elemProcentageBox = document.createElement("div");
-      elemProcentageBox.classList.add("elem-style");
-      let elemProcentage = document.createElement("p");
-      elemProcentage.innerText = v[1];
-      let elemQuantityJedn = document.createElement("small");
-      elemQuantityJedn.innerText = "szt";
-
-      elemQuantity.appendChild(elemQuantityJedn);
-      elemLabelBox.appendChild(elemLabel);
-      elemQuantityBox.appendChild(elemQuantity);
-      elemProcentageBox.appendChild(elemProcentage);
-      elemBox.appendChild(elemLabelBox);
-      elemBox.appendChild(elemQuantityBox);
-      elemBox.appendChild(elemProcentageBox);
-
-      place.appendChild(elemBox);
-    }
-    return place;
+  department(key, data, placeQuantity) {
+    let chartBox = this.chartBox(key, placeQuantity);
+    chartBox.classList.add('place');
+    chartBox.appendChild(this.chart(data, 'bar', key));
+    return chartBox;
   }
 
   placeQuantity(value) {
@@ -159,5 +100,46 @@ export default class extends AbstractView {
       x += v;
     }
     return x;
+  }
+
+  chartBox(label, quantity) {
+    let chartBox = document.createElement('div');
+    chartBox.id = label;
+    let placeLabelBox = document.createElement('div');
+    placeLabelBox.classList.add('labelBoxChart');
+    let placeLabelMain = document.createElement('h4');
+    placeLabelMain.innerText = label.capitalize();
+    let placeLabelQuantity = document.createElement('h2');
+    placeLabelQuantity.innerText = quantity + 'szt';
+
+    placeLabelBox.appendChild(placeLabelMain);
+    placeLabelBox.appendChild(placeLabelQuantity);
+    chartBox.appendChild(placeLabelBox);
+    return chartBox;
+  }
+
+  chart(response, chartType, department) {
+    const ChartArea = document.createElement('div');
+    ChartArea.classList.add('chart-area');
+    const Chart = document.createElement('div');
+    const canvas = document.createElement('canvas');
+    canvas.id = 'charts';
+    canvas.style = 'null';
+    if (chartType === 'linear') {
+      Chart.classList.add('chart-linear');
+      let chart = new createCharts(response.statistics, canvas);
+      chart.lineChart();
+    } else if (chartType === 'doughnut') {
+      Chart.classList.add('chart-doughnut');
+      let chart = new createCharts(response, canvas);
+      chart.doughnutChart();
+    } else if (chartType === 'bar') {
+      Chart.classList.add('chart-bar');
+      let chart = new createCharts(response, canvas, department);
+      chart.barChart();
+    }
+    Chart.appendChild(canvas);
+    ChartArea.appendChild(Chart);
+    return ChartArea;
   }
 }

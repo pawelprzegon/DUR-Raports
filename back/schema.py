@@ -3,9 +3,13 @@ from datetime import date as date_type
 from typing import List
 
 
+'''Schemas for responses'''
+
+
 class Unit(BaseModel):
     id = int
     unit: str
+    number: str
     info: str
     region: str
 
@@ -15,6 +19,7 @@ class Unit(BaseModel):
 
 class UnitSmall(Unit):
     unit: str
+    number: str
     info: str
     region: str
 

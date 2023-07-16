@@ -4,6 +4,8 @@ from sqlalchemy.orm import relationship
 import datetime
 Base = declarative_base()
 
+'''Database models for each table'''
+
 
 class User(Base):
     __tablename__ = "user"
@@ -40,6 +42,7 @@ class Unit(Base):
     __tablename__ = "unit"
     id = Column(Integer, primary_key=True)
     unit = Column(String(20), nullable=False)
+    number = Column(String(10))
     info = Column(String, nullable=False)
     region = Column(String(20), nullable=False)
     date_created = Column(DateTime(timezone=True),
@@ -48,7 +51,7 @@ class Unit(Base):
         'raport.id'), nullable=False)
 
     def __repr__(self) -> str:
-        return f"Unit('{self.id}, {self.unit}', '{self.region}', '{self.date_created}')"
+        return f"Unit('{self.id}, {self.unit}', {self.number}', '{self.region}', '{self.date_created}')"
 
 
 class Dekl(Base):

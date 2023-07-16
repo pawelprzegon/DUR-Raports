@@ -11,6 +11,7 @@ DATES_TABLE = {
 
 
 def convert_date(date):
+    '''Converts dates into Polish s'''
     mnth = babel.dates.format_date(
         date, 'MMMM yyyy', locale='pl_PL')
 

@@ -1,94 +1,93 @@
-import AbstractView from "./AbstractView.js";
-import { url } from "../common/data/url.js";
-import { callApiPut } from "../features/endpoints/endpoints.js";
-import { navigateTo } from "../js/index.js";
-import { hideloader } from "../features/loading/loading.js";
-import { SliderForm } from "../features/swiper/slider.js";
-import { getCookieValue } from "../features/cookie/index.js";
-import { checkAuth } from "../features/endpoints/endpoints.js";
-import { alerts } from "../features/alerts/alerts.js";
-import { capitalized } from "../features/upperCase/upperCase.js";
+import AbstractView from './AbstractView.js';
+import { url } from '../common/data/url.js';
+import { callApiPut } from '../features/endpoints/endpoints.js';
+import { navigateTo } from '../js/index.js';
+import { hideloader } from '../features/loading/loading.js';
+import { SliderForm } from '../features/swiper/slider.js';
+import { getCookieValue } from '../features/cookie/index.js';
+import { checkAuth } from '../features/endpoints/endpoints.js';
+import { alerts } from '../features/alerts/alerts.js';
 
 export default class extends AbstractView {
   constructor(params) {
     super(params);
     this.params = params;
     // console.log(this.params)
-    if ("_id" in this.params) {
-      this.currentRaport = JSON.parse(sessionStorage.getItem("active_raport"));
-      this.setTitle("Edit " + this.params._id);
-      this.api_url = url + "update/";
+    if ('_id' in this.params) {
+      this.currentRaport = JSON.parse(sessionStorage.getItem('active_raport'));
+      this.setTitle('Edit ' + this.params._id);
+      this.api_url = url + 'update/';
     } else {
-      this.setTitle("New");
-      this.api_url = url + "create/";
+      this.setTitle('New');
+      this.api_url = url + 'create/';
     }
 
     this.regioList = new Object();
     this.regioList = {};
-    this.regioList["Stolarnia"] = ["Pilarki", "Zbijarki", "Kompresor", "Inne"];
-    this.regioList["Drukarnia"] = [
-      "Xeikony",
-      "Mutohy",
-      "Impale",
-      "Latex",
-      "Fotoba",
-      "Zgrzewarka",
-      "Kompresor",
-      "Inne",
+    this.regioList['stolarnia'] = ['pilarka', 'zbijarka', 'kompresor', 'inne'];
+    this.regioList['drukarnia'] = [
+      'xeikon',
+      'mutoh',
+      'impala',
+      'latex',
+      'fotoba',
+      'zgrzewarka',
+      'kompresor',
+      'inne',
     ];
-    this.regioList["Bibeloty"] = [
-      "Cuttery",
-      "Laminarki",
-      "Hotpress",
-      "EBS",
-      "Mieszalnik",
-      "Dozownik",
-      "Summa",
-      "Inne",
+    this.regioList['bibeloty'] = [
+      'ZUND',
+      'laminarka',
+      'hotpress',
+      'eBS',
+      'mieszalnik',
+      'dozownik',
+      'summa',
+      'inne',
     ];
-    this.users = ["Adam", "Pawel", "Bartek"];
+    this.users = ['Adam', 'Pawel', 'Bartek'];
   }
 
   css() {
     document
-      .getElementById("theme")
-      .setAttribute("href", "../src/css/create.css");
+      .getElementById('theme')
+      .setAttribute('href', '../src/css/create.css');
   }
 
   async getData() {
     try {
-      let [re, st] = await checkAuth(url + "auth");
+      let [auth_response, auth_status] = await checkAuth(url + 'auth');
       if (
-        (st == 202 && re.detail == "authenticated") ||
-        (st == 200 && re.access_token)
+        (auth_status == 202 && auth_response.detail == 'authenticated') ||
+        (auth_status == 200 && auth_response.access_token)
       ) {
         this.show();
       }
     } catch (error) {
-      alerts("error", error, "alert-red");
+      alerts('error', error, 'alert-red');
     }
   }
 
   show() {
     this.css();
-    this.container = document.querySelector("#cont");
-    this.container.innerHTML = "";
+    this.container = document.querySelector('#cont');
+    this.container.innerHTML = '';
 
-    this.content = document.createElement("div");
-    this.content.classList = "content";
-    this.content.id = "content";
-    this.formBody = document.createElement("div");
-    this.formBody.classList.add("form-body", "swiper");
-    this.formBody.id = "form-data";
+    this.content = document.createElement('div');
+    this.content.classList = 'content';
+    this.content.id = 'content';
+    this.formBody = document.createElement('div');
+    this.formBody.classList.add('form-body', 'swiper');
+    this.formBody.id = 'form-data';
 
-    this.form = document.createElement("form");
-    this.form.action = "#";
-    this.form.id = "form";
-    this.form.method = "post";
-    this.form.classList.add("slide-content");
+    this.form = document.createElement('form');
+    this.form.action = '#';
+    this.form.id = 'form';
+    this.form.method = 'post';
+    this.form.classList.add('slide-content');
 
-    this.formWrapper = document.createElement("div");
-    this.formWrapper.classList.add("swiper-wrapper");
+    this.formWrapper = document.createElement('div');
+    this.formWrapper.classList.add('swiper-wrapper');
 
     this.form.appendChild(this.formWrapper);
     this.formBody.appendChild(this.form);
@@ -96,13 +95,13 @@ export default class extends AbstractView {
 
     this.container.appendChild(this.content);
 
-    this.regions("Stolarnia");
-    this.regions("Drukarnia");
-    this.regions("Bibeloty");
+    this.regions('stolarnia');
+    this.regions('drukarnia');
+    this.regions('bibeloty');
     this.deklaracje();
     this.plexi();
 
-    if ("_id" in this.params) {
+    if ('_id' in this.params) {
       this.fillData();
       this.events(this.api_url, this.params._id);
     } else {
@@ -115,18 +114,18 @@ export default class extends AbstractView {
   }
 
   regions(place) {
-    this.formField = document.createElement("div");
-    this.formField.classList.add("swiper-slide");
+    this.formField = document.createElement('div');
+    this.formField.classList.add('swiper-slide');
 
     for (const [key, value] of Object.entries(this.regioList)) {
       if (key == place) {
-        let labels = this.createLabels(key);
+        let labels = this.createLabels(key.capitalize());
         let checkboxes = this.createCheckboxes(value, key);
-        let text = this.createTextFields(place);
-        const elements = document.createElement("div");
-        elements.classList.add("elements");
+        // let text = this.createTextFields(place);
+        const elements = document.createElement('div');
+        elements.classList.add('elements');
         elements.appendChild(checkboxes);
-        elements.appendChild(text);
+        // elements.appendChild(text);
         this.formField.appendChild(labels);
         this.formField.appendChild(elements);
       }
@@ -136,29 +135,29 @@ export default class extends AbstractView {
   }
 
   deklaracje() {
-    const deklTextBox = document.createElement("div");
-    deklTextBox.classList.add("swiper-slide", "deklaracje");
+    const deklTextBox = document.createElement('div');
+    deklTextBox.classList.add('swiper-slide', 'deklaracje');
 
-    const deklLabelBox = document.createElement("div");
-    deklLabelBox.classList.add("label-box");
-    const deklLabel = document.createElement("p");
-    deklLabel.innerText = "Deklaracje";
+    const deklLabelBox = document.createElement('div');
+    deklLabelBox.classList.add('label-box');
+    const deklLabel = document.createElement('p');
+    deklLabel.innerText = 'Deklaracje';
     deklLabelBox.appendChild(deklLabel);
 
-    const deklTextField = document.createElement("div");
-    deklTextField.classList.add("deklaracje-describe-areas");
+    const deklTextField = document.createElement('div');
+    deklTextField.classList.add('deklaracje-describe-areas');
 
     this.users.forEach((user) => {
-      const box = document.createElement("div");
-      box.classList.add("deklaracje-box");
-      const label = document.createElement("span");
-      label.classList.add("raport-describe-label");
+      const box = document.createElement('div');
+      box.classList.add('deklaracje-box');
+      const label = document.createElement('span');
+      label.classList.add('raport-describe-label');
       label.innerText = user;
-      const inputField = document.createElement("textarea");
-      inputField.classList.add("raport-describe-users");
-      inputField.name = "dekl_" + user;
-      inputField.id = "dekl_" + user;
-      inputField.rows = "10";
+      const inputField = document.createElement('textarea');
+      inputField.classList.add('raport-describe-users');
+      inputField.name = 'dekl_' + user;
+      inputField.id = 'dekl_' + user;
+      inputField.rows = '10';
 
       box.appendChild(label);
       box.appendChild(inputField);
@@ -172,33 +171,33 @@ export default class extends AbstractView {
   }
 
   plexi() {
-    const PlexiTextField = document.createElement("div");
-    PlexiTextField.classList.add("swiper-slide", "deklaracje");
+    const PlexiTextField = document.createElement('div');
+    PlexiTextField.classList.add('swiper-slide', 'deklaracje');
 
-    const plexiLabelBox = document.createElement("div");
-    plexiLabelBox.classList.add("label-box");
+    const plexiLabelBox = document.createElement('div');
+    plexiLabelBox.classList.add('label-box');
 
-    const plexiLabel = document.createElement("p");
-    plexiLabel.innerText = "Raport Plexi";
+    const plexiLabel = document.createElement('p');
+    plexiLabel.innerText = 'Raport Plexi';
     plexiLabelBox.appendChild(plexiLabel);
 
-    const box = document.createElement("div");
-    box.classList.add("plexi-box");
+    const box = document.createElement('div');
+    box.classList.add('plexi-box');
     let boxes = {
-      printed_plexi: "Wydrukowano (szt)",
-      wrong_plexi: "Błędnie wydrukowano (szt)",
-      factor_plexi: "Współczynnik (%)",
+      printed_plexi: 'Wydrukowano (szt)',
+      wrong_plexi: 'Błędnie wydrukowano (szt)',
+      factor_plexi: 'Współczynnik (%)',
     };
     for (const [key, value] of Object.entries(boxes)) {
-      let boxN = document.createElement("div");
-      boxN.classList.add("input-data");
-      let label = document.createElement("p");
-      label.classList.add("plexi-input-label");
+      let boxN = document.createElement('div');
+      boxN.classList.add('input-data');
+      let label = document.createElement('p');
+      label.classList.add('plexi-input-label');
       label.innerText = value;
-      let inputPlace = document.createElement("input");
+      let inputPlace = document.createElement('input');
       inputPlace.name = key;
       inputPlace.id = key;
-      inputPlace.classList.add("plexi-input");
+      inputPlace.classList.add('plexi-input');
 
       boxN.appendChild(label);
       boxN.appendChild(inputPlace);
@@ -211,12 +210,12 @@ export default class extends AbstractView {
   }
 
   SliderNav() {
-    const next = document.createElement("div");
-    next.classList.add("swiper-button-next");
-    const prev = document.createElement("div");
-    prev.classList.add("swiper-button-prev");
-    const paginate = document.createElement("div");
-    paginate.classList.add("swiper-pagination");
+    const next = document.createElement('div');
+    next.classList.add('swiper-button-next');
+    const prev = document.createElement('div');
+    prev.classList.add('swiper-button-prev');
+    const paginate = document.createElement('div');
+    paginate.classList.add('swiper-pagination');
 
     this.form.appendChild(next);
     this.form.appendChild(prev);
@@ -224,13 +223,13 @@ export default class extends AbstractView {
   }
 
   submit() {
-    const SubmitField = document.createElement("div");
-    SubmitField.classList.add("submitField");
-    SubmitField.id = "wrapper";
-    const submitButton = document.createElement("button");
-    submitButton.classList.add("submit");
-    submitButton.type = "submit";
-    submitButton.innerText = "Zapisz";
+    const SubmitField = document.createElement('div');
+    SubmitField.classList.add('submitField');
+    SubmitField.id = 'wrapper';
+    const submitButton = document.createElement('button');
+    submitButton.classList.add('submit');
+    submitButton.type = 'submit';
+    submitButton.innerText = 'Zapisz';
 
     SubmitField.appendChild(submitButton);
     this.form.appendChild(SubmitField);
@@ -241,145 +240,136 @@ export default class extends AbstractView {
   }
 
   async events(api_url, id) {
-    let form = document.getElementById("form");
+    let form = document.getElementById('form');
 
-    form.addEventListener("submit", async function (e) {
+    form.addEventListener('submit', async function (e) {
       e.preventDefault();
-
       const formData = new FormData(form);
       const formDataObj = {};
       let st = {};
       let dr = {};
       let bib = {};
-      let stUnits = [];
-      let drUnits = [];
-      let bibUnits = [];
       let plexi = {};
       let dekl = {};
       formData.forEach((key, value) => {
-        if (key == "Stolarnia") {
-          stUnits.push(value);
-          st["units"] = stUnits;
-        } else if (value == "Stolarnia") {
-          if (key != "") {
-            st["text"] = key;
-          }
-        } else if (key == "Drukarnia") {
-          drUnits.push(value);
-          dr["units"] = drUnits;
-        } else if (value == "Drukarnia") {
-          if (key != "") {
-            dr["text"] = key;
-          }
-        } else if (key == "Bibeloty") {
-          bibUnits.push(value);
-          bib["units"] = bibUnits;
-        } else if (value == "Bibeloty") {
-          if (key != "") {
-            bib["text"] = key;
+        let splited_value = value.split('-');
+        if (key != '' && splited_value[2] == 'text') {
+          let name =
+            splited_value[0] +
+            '-' +
+            splited_value[1] +
+            '-number-' +
+            splited_value[3];
+          let unit = splited_value[1];
+          let number = formData.get(name);
+          let entry =
+            unit.capitalize() + ' ' + number.capitalize() + ': ' + key;
+          if (splited_value[0] == 'stolarnia') {
+            st[unit + '_' + number] = entry;
+            formDataObj[splited_value[0]] = st;
+          } else if (splited_value[0] == 'drukarnia') {
+            dr[unit + '_' + number] = entry;
+            formDataObj[splited_value[0]] = dr;
+          } else if (splited_value[0] == 'bibeloty') {
+            bib[unit + '_' + number] = entry;
+            formDataObj[splited_value[0]] = bib;
           }
         } else {
-          if (value.split("_")[1] == "plexi" && key != "") {
-            plexi[value.split("_")[0]] = key;
-          } else if (value.split("_")[0] == "dekl") {
-            dekl[value.split("_")[1]] = key;
+          if (value.split('_')[1] == 'plexi' && key != '') {
+            plexi[value.split('_')[0]] = key;
+            formDataObj['plexi'] = plexi;
+          } else if (value.split('_')[0] == 'dekl') {
+            dekl[value.split('_')[1]] = key;
+            formDataObj['dekl'] = dekl;
           }
         }
       });
 
-      if (!$.isEmptyObject(st)) {
-        formDataObj["Stolarnia"] = st;
-      }
-      if (!$.isEmptyObject(dr)) {
-        formDataObj["Drukarnia"] = dr;
-      }
-      if (!$.isEmptyObject(bib)) {
-        formDataObj["Bibeloty"] = bib;
-      }
-      if (!$.isEmptyObject(plexi)) {
-        formDataObj["plexi"] = plexi;
-      }
-      if (!$.isEmptyObject(dekl)) {
-        formDataObj["dekl"] = dekl;
-      }
-
-      let username = getCookieValue("user");
-      formDataObj["username"] = username;
+      let username = getCookieValue('user');
+      formDataObj['username'] = username;
       if (id) {
-        formDataObj["id"] = id;
+        formDataObj['id'] = id;
       }
       let data = JSON.stringify(formDataObj);
 
-      console.log(formDataObj);
-
       try {
-        let [re, st] = await checkAuth(url + "auth");
-        console.log(re, st);
+        let [auth_response, auth_status] = await checkAuth(url + 'auth');
         if (
-          (st == 202 && re.detail == "authenticated") ||
-          (st == 200 && re.access_token)
+          (auth_status == 202 && auth_response.detail == 'authenticated') ||
+          (auth_status == 200 && auth_response.access_token)
         ) {
+          console.log(data);
           let [response, status] = await callApiPut(api_url, data);
-          console.log(response, status);
           if (status == 200 && response.message) {
-            alerts(status, response.message, "alert-green");
-            navigateTo("/");
+            alerts(status, response.message, 'alert-green');
+            navigateTo('/');
           } else {
-            alerts(status, response, "alert-red");
+            alerts(status, response, 'alert-red');
           }
         }
       } catch (error) {
         hideloader();
-        alerts("error", error, "alert-red");
+        alerts('error', error, 'alert-red');
       }
     });
   }
 
   fillData() {
-    console.log(this.currentRaport.plexi.length);
     this.currentRaport.units.forEach((item) => {
-      switch (item.region) {
-        case "Stolarnia":
-          document.getElementById(
-            `${item.region}` + "_" + `${item.unit}`
-          ).checked = true;
-          document.getElementById("text_Stolarnia").value = item.info;
-          break;
-        case "Drukarnia":
-          document.getElementById(
-            `${item.region}` + "_" + `${item.unit}`
-          ).checked = true;
-          document.getElementById("text_Drukarnia").value = item.info;
-          break;
-        case "Bibeloty":
-          document.getElementById(
-            `${item.region}` + "_" + `${item.unit}`
-          ).checked = true;
-          document.getElementById("text_Bibeloty").value = item.info;
-          break;
+      let text_box = document.querySelectorAll(
+        `.text-box-${item.unit.toLowerCase()}`
+      );
+      let counter = text_box.length - 1;
+      // create new empty details-text
+      this.create_new_entry(item, text_box);
+      // check checkmark
+      console.log(`${item.region}` + '_' + `${item.unit.toLowerCase()}`);
+      document.getElementById(
+        `${item.region}` + '_' + `${item.unit.toLowerCase()}`
+      ).checked = true;
+      // if unit have a number then fill number textarea
+      if (item.number) {
+        document.querySelector(
+          `#${item.region}-${item.unit.toLowerCase()}-number-${counter}`
+        ).value = item.number;
       }
+      // fill text textarea
+      let text = document.querySelector(
+        `#${item.region}-${item.unit.toLowerCase()}-text-${counter}`
+      );
+      text.value = item.info.split(': ')[1];
+      // unhide number and text textarea
+      text.parentNode.parentNode.parentNode.parentNode.classList.remove(
+        'hidden'
+      );
     });
-
     for (const [key, value] of Object.entries(this.currentRaport.dekl[0])) {
-      document.getElementById(`dekl_${capitalized(key)}`).value = value;
+      document.getElementById(`dekl_${key.capitalize()}`).value = value;
     }
 
     if (
-      this.currentRaport.hasOwnProperty("plexi") &&
+      this.currentRaport.hasOwnProperty('plexi') &&
       this.currentRaport.plexi.length != 0
     ) {
       for (const [key, value] of Object.entries(this.currentRaport.plexi[0])) {
-        console.log(key, value);
-        document.getElementById(key + "_plexi").value = value;
+        document.getElementById(key + '_plexi').value = value;
       }
     }
   }
 
+  create_new_entry(item, text_box) {
+    let new_text = this.create_details(
+      item.region.toLowerCase(),
+      item.unit.toLowerCase()
+    );
+    text_box[0].parentNode.appendChild(new_text);
+  }
+
   // labele
   createLabels(lab) {
-    const LabelBox = document.createElement("div");
-    LabelBox.classList.add("label-box");
-    const regionLabel = document.createElement("p");
+    const LabelBox = document.createElement('div');
+    LabelBox.classList.add('label-box');
+    const regionLabel = document.createElement('p');
     regionLabel.innerText = lab;
     LabelBox.appendChild(regionLabel);
     return LabelBox;
@@ -387,46 +377,91 @@ export default class extends AbstractView {
 
   //dodawanie checkboxów
   createCheckboxes(data, lab) {
-    const region = document.createElement("div");
-    region.classList.add("regions");
+    const region = document.createElement('div');
+    region.classList.add('regions');
 
-    const CheckBoxesBox = document.createElement("div");
-    CheckBoxesBox.classList.add("checkboxes");
+    const CheckBoxesBox = document.createElement('div');
+    CheckBoxesBox.classList.add('checkboxes');
     let i = 1;
     data.forEach((each) => {
-      const element = document.createElement("label");
-      element.classList.add("label-container");
-      element.innerText = each;
-
-      const span = document.createElement("span");
-      span.classList.add("checkmark");
-
-      const input = document.createElement("input");
-      input.type = "checkbox";
-      input.id = lab + "_" + each;
-      input.name = each;
+      const unit = document.createElement('div');
+      unit.classList.add('checkbox-unit');
+      const checkbox = document.createElement('label');
+      checkbox.classList.add('label-container');
+      checkbox.innerText = each.capitalize();
+      const span = document.createElement('span');
+      span.classList.add('checkmark');
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.id = lab + '_' + each.toLowerCase();
+      input.name = each.toLowerCase();
       input.value = lab;
       i += 1;
 
-      element.appendChild(input);
-      element.appendChild(span);
-      CheckBoxesBox.appendChild(element);
-      region.appendChild(CheckBoxesBox);
-    });
+      checkbox.appendChild(input);
+      checkbox.appendChild(span);
 
+      const details = document.createElement('div');
+      details.classList.add('details', 'hidden');
+      const details_text = document.createElement('div');
+      details_text.classList.add('details-text');
+      let text_box = this.create_details(lab, each.toLowerCase());
+      details_text.appendChild(text_box);
+      const add = document.createElement('button');
+      add.type = 'button';
+      add.innerText = '+';
+
+      details.appendChild(details_text);
+      details.appendChild(add);
+
+      unit.appendChild(checkbox);
+      unit.appendChild(details);
+
+      region.appendChild(unit);
+
+      input.addEventListener('change', (event) => {
+        if (event.currentTarget.checked) {
+          details.classList.remove('hidden');
+        } else {
+          details.classList.add('hidden');
+          let text_fields = document.querySelectorAll(`.${each}-${lab}-text`);
+          text_fields.forEach((element) => {
+            element.classList.remove('open');
+          });
+        }
+      });
+      add.addEventListener('click', () => {
+        let new_text = this.create_details(lab, each);
+        details_text.appendChild(new_text);
+      });
+    });
     return region;
   }
 
-  //tworzenie pól tekstowych
-  createTextFields(key) {
-    const txtField = document.createElement("div");
-    txtField.classList.add("form-line");
-    const inputField = document.createElement("textarea");
-    inputField.classList.add("raport-describe");
-    inputField.id = "text_" + key;
-    inputField.name = key;
-    inputField.rows = "19";
-    txtField.appendChild(inputField);
-    return txtField;
+  create_details(lab, each) {
+    let number = document.querySelectorAll(`.text-box-${each}`).length;
+    const text_box = document.createElement('div');
+    text_box.classList.add(`text-box-${each}`);
+    const number_box = document.createElement('div');
+    const number_field = document.createElement('textarea');
+    number_field.classList.add(`${lab}-${each}-number`);
+    number_field.name = `${lab}-${each}-number-${number}`;
+    number_field.id = `${lab}-${each}-number-${number}`;
+    number_field.rows = '1';
+    number_box.appendChild(number_field);
+
+    const descript_box = document.createElement('div');
+    const text_field = document.createElement('textarea');
+    text_field.classList.add(`${lab}-${each}-text`);
+    text_field.name = `${lab}-${each}-text-${number}`;
+    text_field.id = `${lab}-${each}-text-${number}`;
+    text_field.rows = '1';
+    text_field.addEventListener('click', function () {
+      text_field.classList.toggle('open');
+    });
+    descript_box.appendChild(text_field);
+    text_box.appendChild(number_box);
+    text_box.appendChild(descript_box);
+    return text_box;
   }
 }

@@ -44,7 +44,7 @@ body {
 }
 
 .alerts {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   font-weight: 200;
   margin-top: 5rem;
@@ -127,6 +127,14 @@ body {
 
 /* Tablet Landscape */
 @media only screen and (max-width: 1300px) and (orientation: landscape) {
+  .lds-ring {
+    width: 2rem;
+    height: 2rem;
+  }
+  .lds-ring div {
+    width: 2rem;
+    height: 2rem;
+  }
   .container,
   .alerts {
     padding-left: 10%;
@@ -147,6 +155,9 @@ body {
   .content {
     width: 100%;
   }
+  .alerts {
+    margin-top: 2.3rem;
+  }
 }
 
 /* Mobile */
@@ -163,10 +174,21 @@ body {
 }
 
 @media only screen and (max-width: 500px) and (orientation: portrait) {
+  .lds-ring {
+    width: 2rem;
+    height: 2rem;
+  }
+  .lds-ring div {
+    width: 2rem;
+    height: 2rem;
+  }
   .container,
   .alerts {
     padding-left: 5%;
     padding-right: 5%;
+  }
+  .alerts {
+    margin-top: 2.3rem;
   }
 
   .content {
