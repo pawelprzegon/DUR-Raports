@@ -5,10 +5,13 @@ from fastapi_sqlalchemy import DBSessionMiddleware
 from raporty_api.routers import raporty
 from auth_api.routers import auth
 from fastapi import FastAPI
-from models import Base
+from models import Base, User, Raport, Unit, Dekl, Plexi
 from fastapi.middleware.cors import CORSMiddleware
 from db import engine
 from descriptions import description, tags_metadata
+
+table_names = [User.__tablename__, Raport.__tablename__,
+               Unit.__tablename__, Dekl.__tablename__, Plexi.__tablename__]
 
 
 def include_routers(app):
@@ -41,9 +44,7 @@ def check_tables_exist():
     '''Checking if db have any tables'''
     inspector = inspect(engine)
     tables = inspector.get_table_names()
-
-    # Check if tables exist
-    return len(tables) > 0
+    return not (lacking_table := list(set(table_names) - set(tables)))
 
 
 def create_tables_if_not_exists():

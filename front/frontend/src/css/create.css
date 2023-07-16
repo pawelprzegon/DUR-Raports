@@ -8,6 +8,7 @@
   --purple: #8b5cf6;
   --bckg: #ffffff;
   --gray: #767676;
+  --lghtgray: #e6e6e6;
 }
 
 .content {
@@ -73,7 +74,49 @@
   flex-direction: column;
   align-items: center;
   margin: 0.1rem;
-  width: 30%;
+  width: 100%;
+}
+
+.checkbox-unit {
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+  background-color: var(--lghtgray);
+  border-radius: 0.6rem;
+  margin: 0.2rem;
+  padding: 0.5rem;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 7fr 1fr;
+}
+
+.details-text > div {
+  display: grid;
+  grid-template-columns: 1fr 7fr;
+}
+
+.details-text > div > div {
+  padding: 0.3rem;
+}
+
+.details-text > div > div > textarea {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  border-color: #bababa;
+  resize: none;
+  width: 90%;
+}
+
+.details button {
+  height: 2rem;
+}
+
+.hidden > div > div:first-child {
+  visibility: hidden;
+}
+.hidden > div > div:not(:first-child) {
+  display: none;
 }
 
 .checkboxes {
@@ -81,6 +124,7 @@
   flex-direction: column;
   flex-wrap: wrap;
   margin: 0;
+  width: 90%;
 }
 
 .form-line {
@@ -94,33 +138,31 @@
   display: flex;
   position: sticky;
   padding-left: 1.5rem;
-  margin-bottom: 1rem;
+  margin-top: 0.5rem;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  width: 4rem;
+  width: 60%;
 }
 
 .label-container input {
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.2rem;
   opacity: 0;
   cursor: pointer;
   height: 0;
   width: 0;
 }
 
-.raport-describe {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
-  border-radius: 0.3rem;
-  border-width: 0.05rem;
-  border-style: solid;
-  border-color: #bababa;
-  width: 90%;
-  height: 95%;
-  padding: 0.7rem;
+.open {
+  transition: all 0.3s ease-in-out;
+  min-height: 4rem;
+}
+.raport-describe:focus {
+  animation-duration: 0.3s;
+  animation-name: lineInserted;
+  transition: height 0.3s;
 }
 
 .deklaracje {
@@ -230,8 +272,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 1rem;
-  width: 1rem;
+  height: 1.2rem;
+  width: 1.2rem;
   background-color: #eee;
 }
 
@@ -254,10 +296,10 @@
 }
 
 .label-container .checkmark:after {
-  left: 0.3rem;
-  top: 0.2rem;
-  width: 0.1rem;
-  height: 0.3rem;
+  left: 0.4rem;
+  top: 0.1rem;
+  width: 0.2rem;
+  height: 0.5rem;
   border: solid white;
   border-width: 0 0.2rem 0.2rem 0;
   -webkit-transform: rotate(45deg);
@@ -306,13 +348,24 @@
 /* Tablet Landscape */
 @media only screen and (max-width: 1300px) and (orientation: landscape) {
   .swiper-wrapper {
-    height: 45vw;
+    height: 60vw;
   }
   .deklaracje-describe-areas {
     flex-direction: row;
   }
   .raport-describe {
     height: 90%;
+  }
+  .label-box {
+    margin: 0;
+  }
+  .label-box p {
+    padding: 0.2rem;
+    font-size: 1.3rem;
+    margin-right: 50px;
+  }
+  .elements {
+    margin-top: 0.5rem;
   }
 }
 
@@ -334,7 +387,7 @@
     margin-top: 0.7rem;
   }
   .swiper-wrapper {
-    height: 23vw;
+    height: 70vw;
     width: 10vw;
   }
 
@@ -360,10 +413,6 @@
 
   .elements {
     margin-top: 1px;
-    font-size: 13px;
-    flex-direction: row;
-    align-items: center;
-    width: 90%;
   }
   .checkboxes {
     display: grid;
@@ -372,19 +421,15 @@
     justify-items: center;
   }
   .checkmark {
-    height: 12px;
-    width: 12px;
+    height: 1rem;
+    width: 1rem;
   }
   .label-container .checkmark:after {
-    left: 4px;
+    left: 5px;
     top: 1px;
   }
   .label-container {
     margin-bottom: 0.3rem;
-  }
-  .regions {
-    display: block;
-    width: auto;
   }
   .slide-content {
     width: 90%;
@@ -446,18 +491,21 @@
     flex-direction: column;
     align-items: center;
   }
-  .checkboxes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 25px;
-    justify-items: center;
+  .checkbox-unit {
+    margin: 0.1rem;
+    padding: 0.2rem;
   }
+  .details-text > div > div {
+    padding: 0.1rem;
+    margin: 0.1rem;
+  }
+
   .checkmark {
-    height: 12px;
-    width: 12px;
+    height: 1rem;
+    width: 1rem;
   }
   .label-container .checkmark:after {
-    left: 4px;
+    left: 5px;
     top: 1px;
   }
   .label-container {
@@ -469,5 +517,15 @@
   }
   .slide-content {
     margin: 0 0;
+  }
+  .label-box {
+    margin: 0;
+  }
+  .label-box p {
+    font-size: 1rem;
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    top: var(--swiper-navigation-top-offset, 80%);
   }
 }

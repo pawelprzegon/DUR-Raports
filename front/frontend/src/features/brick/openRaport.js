@@ -63,7 +63,6 @@ export class openRaport {
     let editIcon = document.createElement('img');
     editIcon.src = '/src/static/raport_icons/edit.png';
     editIcon.addEventListener('click', () => {
-      console.log(this.id);
       navigateTo('/edit/' + this.id);
     });
 
@@ -168,19 +167,21 @@ export class openRaport {
         urzadzenia[each.region].push([each.unit, each.info]);
       }
     });
-
-    for (const [key, value] of Object.entries(urzadzenia)) {
+    Object.entries(urzadzenia).forEach(([key, value], index) => {
       const Region = document.createElement('div');
       const RegionHeader = document.createElement('div');
       const RegionInfo = document.createElement('p');
       RegionInfo.classList.add('header');
       RegionHeader.appendChild(RegionInfo);
       const RegionTextHeader = document.createElement('div');
-      const RegionText = document.createElement('p');
-      RegionText.innerText = `${value[0][1]}`;
-      RegionText.classList.add('tresc-raportu');
-      RegionTextHeader.appendChild(RegionText);
 
+      value.forEach((element) => {
+        const RegionText = document.createElement('p');
+
+        RegionText.innerText = `${element[1]}`;
+        RegionText.classList.add('tresc-raportu');
+        RegionTextHeader.appendChild(RegionText);
+      });
       Region.classList.add('single-raport-info-grid');
       RegionHeader.classList.add('raport-label');
       RegionTextHeader.classList.add('content-text', 'one');
@@ -188,7 +189,7 @@ export class openRaport {
       Region.appendChild(RegionHeader);
       Region.appendChild(RegionTextHeader);
       this.issuesContent.appendChild(Region);
-    }
+    });
 
     // PLEXI
 

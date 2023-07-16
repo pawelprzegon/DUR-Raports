@@ -184,6 +184,14 @@
   .chart-area {
     height: 30vh;
   }
+  .chart-linear {
+    min-height: 27vh;
+    max-height: 30vh;
+  }
+  .chart-doughnut {
+    min-height: 22vh;
+    max-height: 25vh;
+  }
 }
 
 /* Tablet portrait */
@@ -212,6 +220,14 @@
   .place {
     width: 100%;
   }
+  .chart-linear {
+    min-height: 85vh;
+    max-height: 90vh;
+  }
+  .chart-doughnut {
+    min-height: 80vh;
+    max-height: 85vh;
+  }
 }
 
 @media only screen and (max-width: 500px) and (orientation: portrait) {
@@ -227,5 +243,9 @@
   .users,
   .place {
     width: 100%;
+  }
+  .chart-doughnut {
+    min-height: 10vh;
+    max-height: 12vh;
   }
 }

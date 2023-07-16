@@ -48,6 +48,7 @@ export default class extends AbstractView {
 
   layout(response) {
     this.css();
+    console.log(response);
     this.departments(response);
     // this.container.appendChild(this.statistics(response));
     this.statistics(response);

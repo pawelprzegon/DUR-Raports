@@ -19,25 +19,24 @@ class Raports:
         self.new_raport_model = []
 
         for key, value in self.form.items():
-            if value:
-                match key:
-                    case 'Stolarnia' | 'Drukarnia' | 'Bibeloty':
-                        if 'units' in value and 'text' in value:
-                            for each in value['units']:
-                                data = Unit(
-                                    unit=each, info=value['text'], region=key, raport=self.new_raport)
-                            self.new_raport_model.append(data)
+            match key:
+                case 'stolarnia' | 'drukarnia' | 'bibeloty':
+                    print(type(value))
+                    for k, v in value.items():
+                        print(k)
+                        data = Unit(
+                            unit=k.split('_')[0].capitalize(), number=k.split('_')[1], info=v, region=key, raport=self.new_raport)
+                    self.new_raport_model.append(data)
 
-                    case 'plexi':
-                        data = Plexi(
-                            printed=value['printed'], wrong=value['wrong'], factor=value['factor'],  raport=self.new_raport)
-                        self.new_raport_model.append(data)
+                case 'plexi':
+                    data = Plexi(
+                        printed=value['printed'], wrong=value['wrong'], factor=value['factor'],  raport=self.new_raport)
+                    self.new_raport_model.append(data)
 
-                    case 'dekl':
-
-                        data = Dekl(adam=value['Adam'], pawel=value['Pawel'], bartek=value['Bartek'],
-                                    raport=self.new_raport)
-                        self.new_raport_model.append(data)
+                case 'dekl':
+                    data = Dekl(adam=value['Adam'], pawel=value['Pawel'], bartek=value['Bartek'],
+                                raport=self.new_raport)
+                    self.new_raport_model.append(data)
 
     def save_raport_in_db(self) -> JSONResponse:
         '''Commiting raport into db'''

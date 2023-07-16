@@ -81,7 +81,7 @@ class Statistics:
 
     def _pack_to_dict(self, chartData: dict, units: dict, user: dict) -> dict:
         '''Collects data into dict'''
-        places = ['Stolarnia', 'Drukarnia', 'Bibeloty']
+        places = ['stolarnia', 'drukarnia', 'bibeloty']
         for each in places:
             if each not in chartData:
                 chartData[each] = []
@@ -89,16 +89,16 @@ class Statistics:
 
         return {'statistics': {
             'stolarnia': {
-                'chart': chartData['Stolarnia'],
-                'items': units['Stolarnia'],
+                'chart': chartData['stolarnia'],
+                'items': units['stolarnia'],
             },
             'drukarnia': {
-                'chart': chartData['Drukarnia'],
-                'items': units['Drukarnia'],
+                'chart': chartData['drukarnia'],
+                'items': units['drukarnia'],
             },
             'bibeloty': {
-                'chart': chartData['Bibeloty'],
-                'items': units['Bibeloty'],
+                'chart': chartData['bibeloty'],
+                'items': units['bibeloty'],
 
             },
         },

@@ -9,6 +9,7 @@ from typing import List
 class Unit(BaseModel):
     id = int
     unit: str
+    number: str
     info: str
     region: str
 
@@ -18,6 +19,7 @@ class Unit(BaseModel):
 
 class UnitSmall(Unit):
     unit: str
+    number: str
     info: str
     region: str
 
