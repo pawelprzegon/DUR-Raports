@@ -144,7 +144,7 @@ export default class extends AbstractView {
   labelBox(k) {
     let labelBox = document.createElement('p');
     labelBox.classList.add('statistics-label');
-    labelBox.innerText = k;
+    labelBox.innerText = k.capitalize();
     return labelBox;
   }
 

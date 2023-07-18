@@ -55,13 +55,21 @@
 }
 
 .place {
-  /* width: 20%; */
+  font-weight: 300;
   margin: 0.7rem;
   display: flex;
   flex-direction: column;
 }
 .place p {
   margin: 0.2rem;
+}
+
+.statistics-label {
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0.3rem;
+  border-bottom: 0.1rem solid gray;
+  text-align: center;
 }
 
 .raport {
