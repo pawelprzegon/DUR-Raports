@@ -346,9 +346,9 @@
 }
 
 /* Tablet Landscape */
-@media only screen and (max-width: 1300px) and (orientation: landscape) {
+@media only screen and (max-width: 1400px) and (orientation: landscape) {
   .swiper-wrapper {
-    height: 60vw;
+    height: 45vw;
   }
   .deklaracje-describe-areas {
     flex-direction: row;
