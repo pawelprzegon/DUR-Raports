@@ -84,10 +84,17 @@ export class openRaport {
 
     let dateUserBox = document.createElement('div');
     dateUserBox.classList.add('date-user-box');
+
+    let w = window.screen.width;
+    let h = window.screen.height;
+    let resolution = document.createElement('div');
+    resolution.innerText = w + ' x ' + h;
+
     let dateInfo = document.createElement('small');
     let userInfo = document.createElement('small');
     dateInfo.innerText = data.date_created;
     userInfo.innerText = data.author.username.capitalize();
+    dateUserBox.appendChild(resolution);
     dateUserBox.appendChild(dateInfo);
     dateUserBox.appendChild(userInfo);
     this.user.appendChild(dateUserBox);
