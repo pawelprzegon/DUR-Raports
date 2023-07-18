@@ -421,10 +421,15 @@ export default class extends AbstractView {
 
       input.addEventListener('change', (event) => {
         if (event.currentTarget.checked) {
+          const opened_text = document.querySelectorAll('.open');
+          opened_text.forEach((element) => {
+            element.classList.remove('open');
+          });
           details.classList.remove('hidden');
         } else {
           details.classList.add('hidden');
-          let text_fields = document.querySelectorAll(`.${each}-${lab}-text`);
+          let text_fields = document.querySelectorAll(`.${lab}-${each}-text`);
+          console.log(text_fields);
           text_fields.forEach((element) => {
             element.classList.remove('open');
           });
