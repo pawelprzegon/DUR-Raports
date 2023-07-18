@@ -124,7 +124,7 @@ body {
 }
 
 /* Tablet Landscape */
-@media only screen and (max-width: 1400px) and (orientation: landscape) {
+@media only screen and (max-width: 1510px) and (orientation: landscape) {
   .container {
     padding-left: 10%;
     padding-right: 10%;

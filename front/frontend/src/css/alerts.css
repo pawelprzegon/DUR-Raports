@@ -142,7 +142,7 @@ hr {
 }
 
 /* Tablet Landscape */
-@media only screen and (max-width: 1300px) and (orientation: landscape) {
+@media only screen and (max-width: 1510px) and (orientation: landscape) {
   .alerts {
     padding-left: 10%;
     padding-right: 10%;

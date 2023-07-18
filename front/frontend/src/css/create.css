@@ -347,7 +347,7 @@
 }
 
 /* Tablet Landscape */
-@media only screen and (max-width: 1400px) and (orientation: landscape) {
+@media only screen and (max-width: 1510px) and (orientation: landscape) {
   .swiper-wrapper {
     height: 45vw;
   }
