@@ -8,7 +8,6 @@ import AbstractView from './AbstractView.js';
 export default class extends AbstractView {
   constructor() {
     super();
-
     this.loader = showloader();
     this.container = document.querySelector('#cont');
     this.container.innerHTML = '';

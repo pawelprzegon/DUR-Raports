@@ -38,7 +38,7 @@ export default class extends AbstractView {
           if (response == null) {
             alerts(
               status,
-              `Nie znaleziono raportu z dnia: ${this.params.query}`,
+              `Nie znaleziono: ${this.params.query}`,
               'alert-orange'
             );
           } else if ('id' in response) {
@@ -66,22 +66,25 @@ export default class extends AbstractView {
   layout(response) {
     this.css();
     this.container.innerHTML = '';
+    console.log(response);
+    this.container.appendChild(this.label(response));
 
-    this.container.appendChild(this.label());
-    this.container.appendChild(this.chart(response));
+    this.container.appendChild(this.line_chart(response));
+    // this.container.appendChild(this.bar_chart(response));
+
     this.container.appendChild(this.statistics(response));
   }
 
-  label() {
+  label(response) {
     let placeLabelBox = document.createElement('div');
     placeLabelBox.classList.add('labelBox');
     let placeLabel = document.createElement('h2');
-    placeLabel.innerText = this.params.query.capitalize();
+    placeLabel.innerText = response.searching.capitalize();
     placeLabelBox.appendChild(placeLabel);
     return placeLabelBox;
   }
 
-  chart(response) {
+  bar_chart(response) {
     const ChartArea = document.createElement('div');
     ChartArea.classList.add('chart-area');
     const Chart = document.createElement('div');
@@ -92,10 +95,28 @@ export default class extends AbstractView {
     let chart = new createCharts(
       response.searching.chart,
       canvas,
-      this.params.query
+      response.searching.query.capitalize()
     );
     chart.barChart();
+    Chart.appendChild(canvas);
+    ChartArea.appendChild(Chart);
+    return ChartArea;
+  }
 
+  line_chart(response) {
+    const ChartArea = document.createElement('div');
+    ChartArea.classList.add('chart-area');
+    const Chart = document.createElement('div');
+    Chart.classList.add('chart');
+    const canvas = document.createElement('canvas');
+    canvas.id = 'charts';
+    canvas.style = 'null';
+    let chart = new createCharts(
+      response.statistics,
+      canvas,
+      response.searching.capitalize()
+    );
+    chart.lineChart();
     Chart.appendChild(canvas);
     ChartArea.appendChild(Chart);
     return ChartArea;
@@ -104,42 +125,55 @@ export default class extends AbstractView {
   statistics(response) {
     let search = document.createElement('div');
     search.classList.add('searching');
-
-    let place = document.createElement('div');
-    place.classList.add('place');
-    place.id = Object.keys(response);
-    for (const value of Object.values(response)) {
+    for (const [key, value] of Object.entries(response.statistics)) {
+      let place = document.createElement('div');
+      place.classList.add('place');
+      place.id = key;
       let obj = Array.isArray(value.items);
+      let labelBox = this.labelBox(key);
+      place.appendChild(labelBox);
       for (const [k, v] of Object.entries(value.items)) {
-        let box = this.block(k, v, obj);
-        place.appendChild(box);
+        let dateBox = this.dateBox(k, v, obj);
+        place.appendChild(dateBox);
       }
+      search.appendChild(place);
     }
 
-    search.appendChild(place);
     return search;
   }
 
-  block(k, v, obj) {
-    let elemBox = document.createElement('div');
-    elemBox.classList.add('raport');
+  labelBox(k) {
+    let labelBox = document.createElement('p');
+    labelBox.classList.add('statistics-label');
+    labelBox.innerText = k;
+    return labelBox;
+  }
+
+  dateBox(k, v, obj) {
+    let dateBox = document.createElement('div');
+    dateBox.classList.add('raport');
     let elemLabel = document.createElement('p');
-    elemBox.appendChild(elemLabel);
+    dateBox.appendChild(elemLabel);
     if (obj == true) {
-      elemLabel.innerText = v.date;
-      elemLabel.addEventListener('click', () => {
-        navigateTo('/raport/' + v.id);
-      });
-    } else {
-      let elemQuantity = document.createElement('p');
-      let elemQuantityJedn = document.createElement('small');
-      elemLabel.innerText = k;
-      elemQuantity.innerText = v;
-      elemQuantityJedn.innerText = 'szt';
-      elemQuantity.appendChild(elemQuantityJedn);
-      elemBox.appendChild(elemQuantity);
+      if ('date' in v) {
+        elemLabel.innerText = v.date;
+        elemLabel.addEventListener('click', () => {
+          navigateTo('/raport/' + v.id);
+        });
+      } else if ('name' in v) {
+        let elemQuantity = document.createElement('p');
+        let elemQuantityJedn = document.createElement('small');
+        elemLabel.innerText = v.name;
+        elemLabel.addEventListener('click', () => {
+          navigateTo('/search/' + v.name);
+        });
+        elemQuantity.innerText = v.quantity;
+        elemQuantityJedn.innerText = 'szt';
+        elemQuantity.appendChild(elemQuantityJedn);
+        dateBox.appendChild(elemQuantity);
+      }
     }
 
-    return elemBox;
+    return dateBox;
   }
 }

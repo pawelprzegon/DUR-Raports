@@ -1,5 +1,6 @@
 from collections import defaultdict
 from raporty_api.date_conversion import convert_date
+from raporty_api.units_names import FIRST_LVL_UNITS_NAMES
 
 
 class Statistics:
@@ -13,7 +14,7 @@ class Statistics:
             places.extend(regio.region for regio in raport.units)
         return list(set(places))
 
-    def chart_labels_and_values(self) -> dict:
+    def departments_chart_data(self) -> dict:
         '''Filtering data necessary for chart'''
         chartData = {}
         for place in self.places:
@@ -31,10 +32,9 @@ class Statistics:
             for key in reversed(list(chartValues.keys())):
                 chartValues[key] = chartValues.pop(key)
             chartData[place] = chartValues
-
         return chartData
 
-    def get_raported_units(self) -> dict:
+    def units_chart_data(self) -> dict:
         '''Filtering raported items'''
         raportedUnits = {}
         sum_ = 0
@@ -43,30 +43,21 @@ class Statistics:
             for raport in self.data:
                 for regio in raport.units:
                     if regio.region == place:
+                        fixed_name = self.rename(regio.unit)
                         sum_ += 1
-
-                        if regio.unit in elem:
-                            elem[regio.unit] += 1
+                        if fixed_name in elem:
+                            elem[fixed_name] += 1
                         else:
-                            elem[regio.unit] = 1
+                            elem[fixed_name] = 1
             raportedUnits[place] = dict(
                 sorted(elem.items(), key=lambda item: item[1], reverse=False))
         raportedUnits['sum'] = sum_
-        # procentage usage of raported unit below (current unused)
-        # raportedUnits[place] = self.proportions_raported_units(
-        #     raportedUnits[place], sum_)
-
         return raportedUnits
 
-    def proportions_raported_units(self, units: dict, sum_: int) -> dict:
-        '''Creting a dict with list as value'''
-        return {
-            key: [value, f'{int(round(value / sum_ * 100, 0))}%']
-            for key, value in units.items()
-            if key != 'sum'
-        }
+    def rename(self, name):
+        return FIRST_LVL_UNITS_NAMES[name] if name in FIRST_LVL_UNITS_NAMES else name
 
-    def split_users(self) -> dict:
+    def users_chart_data(self) -> dict:
         '''create dict with user as key and his raports as a list'''
         sum_users_raports = 0
         user_raports = defaultdict(list)
@@ -81,6 +72,7 @@ class Statistics:
 
     def _pack_to_dict(self, chartData: dict, units: dict, user: dict) -> dict:
         '''Collects data into dict'''
+        print(units)
         places = ['stolarnia', 'drukarnia', 'bibeloty']
         for each in places:
             if each not in chartData:

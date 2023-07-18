@@ -11,10 +11,14 @@ from raporty_api.statistics import Statistics
 from raporty_api.raports import Raports
 from db import get_session
 from fastapi_sqlalchemy import db
+from raporty_api.units_names import get_singular_unit_name
 
 auth_handler = Auth()
 security = HTTPBearer()
 raporty = APIRouter()
+
+departaments = ['drukarnia', 'stolarnia',
+                'bibeloty', 'Drukarnia', 'Stolarnia', 'Bibeloty']
 
 
 @raporty.get("/raports/", response_model=List[schema.RaportsOut], tags=['Raports'])
@@ -83,26 +87,33 @@ def search(searching: str, credentials: HTTPAuthorizationCredentials = Security(
     '''
     token = credentials.credentials
     if (auth_handler.decode_token(token)):
-        if searching.capitalize() == 'Ebs':
-            query = searching.upper()
+
+        if searching not in departaments:
+            if searching.capitalize() == 'Ebs':
+                query = searching.upper()
+            else:
+                query = searching.capitalize()
+            query = get_singular_unit_name(query)
         else:
-            query = searching.capitalize()
+            query = searching.lower()
 
         try:
+            # szukanie po regionie
             if results := db.session.query(Unit).order_by(Unit.date_created.desc()).filter(
                     Unit.region == query).all():
                 search = Search(results, query)
-                chartData = search.chart_labels_and_values()
+                chartData = search.departaments()
                 units = search.get_raported_units()
-                return search._pack_to_dict(chartData, units, query)
-
+                return search._pack_to_dict(chartData, units, query, searching.capitalize())
+            # szukanie po urządzeniu
             elif results := db.session.query(Unit).order_by(Unit.date_created.desc()).filter(
                     Unit.unit == query).all():
                 search = Search(results, query)
-                chartData = search.chart_labels_and_values()
+                chartData = search.units()
                 units = search.get_raported_dates()
-                return search._pack_to_dict(chartData, units, query)
+                return search._pack_to_dict(chartData, units, query, searching.capitalize())
 
+            # szukanie po dacie
             elif results := db.session.query(Raport).filter(
                     Raport.date_created == query).first():
                 return schema.Raport(id=results.id,
@@ -126,13 +137,11 @@ def statistics(credentials: HTTPAuthorizationCredentials = Security(security)):
     if (auth_handler.decode_token(token)):
         resoults = db.session.query(Raport).order_by(
             Raport.date_created.desc()).all()
-
         statistics = Statistics(resoults)
-        chartData = statistics.chart_labels_and_values()
-        units = statistics.get_raported_units()
-        users = statistics.split_users()
-
-        return statistics._pack_to_dict(chartData, units, users)
+        departments_chart_data = statistics.departments_chart_data()
+        units_chart_data = statistics.units_chart_data()
+        users_chart_data = statistics.users_chart_data()
+        return statistics._pack_to_dict(departments_chart_data, units_chart_data, users_chart_data)
 
 
 @raporty.put('/create/', tags=['Raports'])

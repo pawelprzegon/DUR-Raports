@@ -1,5 +1,6 @@
 // import { getColors } from './colors.js';
 import { navigateTo } from '../../js/index.js';
+import { sort_dates } from './sort_dates.js';
 
 export class createCharts {
   constructor(data, canvas, department) {
@@ -14,19 +15,21 @@ export class createCharts {
 
   get_labels_and_data() {
     for (const [key, value] of Object.entries(this.data)) {
-      this.labels.push(key.capitalize());
+      this.labels.push(key);
       this.dataset.push(value);
     }
   }
 
   get_labels_and_data_lineChart() {
+    let labels = [];
     for (const value of Object.values(this.data)) {
       for (const k of Object.keys(value.chart)) {
-        if (!this.labels.includes(k)) {
-          this.labels.push(k);
+        if (!labels.includes(k)) {
+          labels.push(k);
         }
       }
     }
+    this.labels = sort_dates(labels);
   }
 
   line_config() {
@@ -35,7 +38,7 @@ export class createCharts {
       Object.entries(this.data)
     )) {
       let data = {
-        label: key,
+        label: key.capitalize(),
         data: value.chart,
         pointBackgroundColor: this.colors[index],
         borderColor: this.colors[index],
@@ -90,6 +93,8 @@ export class createCharts {
   }
 
   barChart() {
+    // console.log('bar chart: ');
+    // console.log(this.data);
     let color = this.get_department_color();
     this.get_labels_and_data();
     let dataset = this.bar_config(color);
