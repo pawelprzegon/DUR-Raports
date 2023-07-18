@@ -41,6 +41,7 @@ body {
 .content {
   display: grid;
   width: 70%;
+  margin-top: 0.5rem;
 }
 
 .alerts {
@@ -93,8 +94,7 @@ body {
 
 /* Desktop*/
 @media (min-width: 1100px) {
-  .container,
-  .alerts {
+  .container {
     padding-left: 20%;
     padding-right: 20%;
   }
@@ -104,8 +104,7 @@ body {
 }
 
 @media (min-width: 900px) and (max-width: 1100px) {
-  .container,
-  .alerts {
+  .container {
     padding-left: 15%;
     padding-right: 15%;
   }
@@ -115,8 +114,7 @@ body {
 }
 
 @media (max-width: 900px) {
-  .container,
-  .alerts {
+  .container {
     padding-left: 10%;
     padding-right: 10%;
   }
@@ -126,17 +124,8 @@ body {
 }
 
 /* Tablet Landscape */
-@media only screen and (max-width: 1300px) and (orientation: landscape) {
-  .lds-ring {
-    width: 2rem;
-    height: 2rem;
-  }
-  .lds-ring div {
-    width: 2rem;
-    height: 2rem;
-  }
-  .container,
-  .alerts {
+@media only screen and (max-width: 1400px) and (orientation: landscape) {
+  .container {
     padding-left: 10%;
     padding-right: 10%;
   }
@@ -147,23 +136,18 @@ body {
 
 /* Tablet portrait */
 @media only screen and (max-width: 900px) and (orientation: portrait) {
-  .container,
-  .alerts {
+  .container {
     padding-left: 7%;
     padding-right: 7%;
   }
   .content {
     width: 100%;
   }
-  .alerts {
-    margin-top: 3.3rem;
-  }
 }
 
 /* Mobile */
 @media only screen and (max-width: 1000px) and (orientation: landscape) {
-  .container,
-  .alerts {
+  .container {
     padding-left: 5%;
     padding-right: 5%;
   }
@@ -174,21 +158,9 @@ body {
 }
 
 @media only screen and (max-width: 500px) and (orientation: portrait) {
-  .lds-ring {
-    width: 2rem;
-    height: 2rem;
-  }
-  .lds-ring div {
-    width: 2rem;
-    height: 2rem;
-  }
-  .container,
-  .alerts {
+  .container {
     padding-left: 5%;
     padding-right: 5%;
-  }
-  .alerts {
-    margin-top: 2.3rem;
   }
 
   .content {

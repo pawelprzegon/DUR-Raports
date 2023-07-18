@@ -121,37 +121,85 @@ hr {
 @media (min-width: 1500px) {
 }
 @media (min-width: 1100px) and (max-width: 1500px) {
+  .alerts {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
 }
 
 @media (min-width: 900px) and (max-width: 1100px) {
+  .alerts {
+    padding-left: 15%;
+    padding-right: 15%;
+  }
 }
 
 @media (max-width: 900px) {
+  .alerts {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
 }
 
 /* Tablet Landscape */
 @media only screen and (max-width: 1300px) and (orientation: landscape) {
+  .alerts {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
   .alert {
     padding: 0.3rem;
+  }
+
+  .lds-ring {
+    width: 2rem;
+    height: 2rem;
+  }
+  .lds-ring div {
+    width: 2rem;
+    height: 2rem;
   }
 }
 
 /* Tablet portrait */
 @media only screen and (max-width: 900px) and (orientation: portrait) {
+  .alerts {
+    padding-left: 7%;
+    padding-right: 7%;
+    margin-top: 3.3rem;
+  }
   .alert {
-    padding: 0.3rem;
+    padding: 0.6rem;
   }
 }
 
 /* Mobile */
 @media only screen and (max-width: 1000px) and (orientation: landscape) {
+  .alerts {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
   .alert {
     padding: 0.3rem;
   }
 }
 
 @media only screen and (max-width: 500px) and (orientation: portrait) {
+  .alerts {
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-top: 3rem;
+  }
   .alert {
     padding: 0.3rem;
+  }
+
+  .lds-ring {
+    width: 2rem;
+    height: 2rem;
+  }
+  .lds-ring div {
+    width: 2rem;
+    height: 2rem;
   }
 }
