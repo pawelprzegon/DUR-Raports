@@ -72,7 +72,6 @@ class Statistics:
 
     def _pack_to_dict(self, chartData: dict, units: dict, user: dict) -> dict:
         '''Collects data into dict'''
-        print(units)
         places = ['stolarnia', 'drukarnia', 'bibeloty']
         for each in places:
             if each not in chartData:

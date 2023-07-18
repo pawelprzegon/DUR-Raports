@@ -93,8 +93,6 @@ export class createCharts {
   }
 
   barChart() {
-    // console.log('bar chart: ');
-    // console.log(this.data);
     let color = this.get_department_color();
     this.get_labels_and_data();
     let dataset = this.bar_config(color);

@@ -22,7 +22,6 @@ class Search:
 
         chartData[self.searching] = OrderedDict(
             reversed(list(chartValues.items())))
-        print(chartData)
         return chartData
 
     def get_raported_units(self) -> dict:
@@ -33,19 +32,10 @@ class Search:
                 elem[unit.unit] += 1
             else:
                 elem[unit.unit] = 1
-        # return {
-        #     self.searching: dict(
-        #         sorted(elem.items(), key=lambda item: item[1], reverse=False)
-        #     )}
         data = []
         [data.append({
             'name': key,
             'quantity': value}) for key, value in elem.items()]
-        # for key, value in elem.items():
-        #     data.append({
-        #         'name': key,
-        #         'quantity': value})
-        print(data)
         return {self.searching: data}
 
     def units(self) -> dict:
@@ -96,5 +86,4 @@ class Search:
         data = {'searching': searching,
                 'statistics': statistics}
 
-        print(data)
         return data

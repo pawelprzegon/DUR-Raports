@@ -66,7 +66,6 @@ export default class extends AbstractView {
   layout(response) {
     this.css();
     this.container.innerHTML = '';
-    console.log(response);
     this.container.appendChild(this.label(response));
 
     this.container.appendChild(this.line_chart(response));
