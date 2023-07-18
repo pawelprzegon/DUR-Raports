@@ -50,8 +50,8 @@
   width: 100%;
   display: flex;
   flex-grow: 1;
-  min-height: 20rem;
-  max-height: 32rem;
+  min-height: 20vh;
+  max-height: 35vh;
 }
 
 .place {
@@ -95,12 +95,16 @@
 }
 
 /* Tablet Landscape */
-@media only screen and (max-width: 1400px) and (orientation: landscape) {
+@media only screen and (max-width: 1510px) and (orientation: landscape) {
   .container {
     font-size: 1rem;
   }
   .chart-area {
     height: 50vh;
+  }
+  .chart {
+    min-height: 50vh;
+    max-height: 50vh;
   }
 }
 
@@ -114,6 +118,13 @@
   .container {
     font-size: 1rem;
   }
+  .chart-area {
+    height: 50vh;
+  }
+  .chart {
+    min-height: 50vh;
+    max-height: 50vh;
+  }
 }
 
 /* Mobile */
@@ -124,7 +135,11 @@
     padding-right: 5%;
   }
   .chart-area {
-    height: 90vh;
+    height: 60vh;
+  }
+  .chart {
+    min-height: 60vh;
+    max-height: 60vh;
   }
 }
 

@@ -386,7 +386,7 @@
 }
 
 /* Tablet Landscape */
-@media only screen and (max-width: 1280px) and (orientation: landscape) {
+@media only screen and (max-width: 1510px) and (orientation: landscape) {
   .card {
     display: flex;
     flex-direction: row;

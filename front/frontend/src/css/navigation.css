@@ -235,7 +235,7 @@
 }
 
 /* Tablet */
-@media only screen and (max-width: 1300px) and (orientation: landscape) {
+@media only screen and (max-width: 1510px) and (orientation: landscape) {
   .top-elements {
     grid-template-columns: 80px auto 50px 50px 50px;
     align-items: center;
