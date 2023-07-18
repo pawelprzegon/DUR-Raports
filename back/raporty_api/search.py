@@ -77,13 +77,8 @@ class Search:
         return data
 
     def _pack_to_dict(self, chartData: dict, units: dict, query: str, searching: str) -> dict:
-        statistics = {}
-        for each in chartData:
-            statistics[each] = {
-                'chart': chartData[each],
-                'items': units[each]
-            }
-        data = {'searching': searching,
-                'statistics': statistics}
-
-        return data
+        statistics = {
+            each: {'chart': chartData[each], 'items': units[each]}
+            for each in chartData
+        }
+        return {'searching': searching, 'statistics': statistics}
