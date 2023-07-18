@@ -8,7 +8,6 @@ import AbstractView from './AbstractView.js';
 export default class extends AbstractView {
   constructor() {
     super();
-
     this.loader = showloader();
     this.container = document.querySelector('#cont');
     this.container.innerHTML = '';
@@ -48,11 +47,8 @@ export default class extends AbstractView {
 
   layout(response) {
     this.css();
-    console.log(response);
     this.departments(response);
-    // this.container.appendChild(this.statistics(response));
     this.statistics(response);
-    // this.container.appendChild(this.users(response));
     this.users(response);
   }
 

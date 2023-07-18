@@ -220,7 +220,6 @@ export default class extends AbstractView {
 
   set_background_pic() {
     const body = document.querySelector('body');
-    console.log(body);
   }
 
   validateInputs(formDataObj) {
