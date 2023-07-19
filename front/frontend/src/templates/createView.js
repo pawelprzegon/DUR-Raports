@@ -329,6 +329,7 @@ export default class extends AbstractView {
       ).checked = true;
       // if unit have a number then fill number textarea
       if (item.number) {
+        console.log(item.number)
         document.querySelector(
           `#${item.region}-${item.unit.toLowerCase()}-number-${counter}`
         ).value = item.number;
@@ -337,12 +338,15 @@ export default class extends AbstractView {
       let text = document.querySelector(
         `#${item.region}-${item.unit.toLowerCase()}-text-${counter}`
       );
+      console.log(text)
       text.value = item.info.split(': ')[1];
       // unhide number and text textarea
       text.parentNode.parentNode.parentNode.parentNode.classList.remove(
         'hidden'
       );
     });
+    console.log(this.currentRaport.dekl[0])
+    console.log(this.currentRaport.plexi[0])
     for (const [key, value] of Object.entries(this.currentRaport.dekl[0])) {
       document.getElementById(`dekl_${key.capitalize()}`).value = value;
     }
