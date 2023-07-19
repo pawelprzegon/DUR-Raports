@@ -338,6 +338,7 @@ export default class extends AbstractView {
       let text = document.querySelector(
         `#${item.region}-${item.unit.toLowerCase()}-text-${counter}`
       );
+      console.log(counter)
       console.log(text)
       text.value = item.info.split(': ')[1];
       // unhide number and text textarea
