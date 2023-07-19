@@ -316,6 +316,7 @@ export default class extends AbstractView {
 
   fillData() {
     this.currentRaport.units.forEach((item) => {
+      console.log(this.currentRaport)
       let text_box = document.querySelectorAll(
         `.text-box-${item.unit.toLowerCase()}`
       );
@@ -451,9 +452,9 @@ export default class extends AbstractView {
   }
 
   create_details(lab, each) {
-    let number = document.querySelectorAll(`.text-box-${each}`).length;
+    let number = document.querySelectorAll(`.text-box-${lab}-${each}`).length;
     const text_box = document.createElement('div');
-    text_box.classList.add(`text-box-${each}`);
+    text_box.classList.add(`text-box-${lab}-${each}`);
     const number_box = document.createElement('div');
     const number_field = document.createElement('textarea');
     number_field.classList.add(`${lab}-${each}-number`);
