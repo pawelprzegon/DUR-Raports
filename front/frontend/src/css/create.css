@@ -308,10 +308,10 @@
   transform: rotate(45deg);
 }
 
-.swiper-wrapper {
+/* .swiper-wrapper {
   height: 60vh;
 }
-
+ */
 .swiper-button-prev,
 .swiper-button-next {
   color: rgb(182, 182, 182);
@@ -348,9 +348,9 @@
 
 /* Tablet Landscape */
 @media only screen and (max-width: 1510px) and (orientation: landscape) {
-  .swiper-wrapper {
+/*   .swiper-wrapper {
     height: 45vw;
-  }
+  } */
   .deklaracje-describe-areas {
     flex-direction: row;
   }
@@ -372,9 +372,9 @@
 
 /* Tablet portrait */
 @media only screen and (max-width: 900px) and (orientation: portrait) {
-  .swiper-wrapper {
+/*   .swiper-wrapper {
     height: 100vw;
-  }
+  } */
   .deklaracje-describe-areas {
     flex-direction: column;
     align-items: center;
@@ -387,10 +387,10 @@
   .alerts {
     margin-top: 0.7rem;
   }
-  .swiper-wrapper {
+/*   .swiper-wrapper {
     height: 70vw;
     width: 10vw;
-  }
+  } */
 
   .registration-grid {
     margin: 0;
@@ -462,9 +462,9 @@
 }
 
 @media only screen and (max-width: 500px) and (orientation: portrait) {
-  .swiper-wrapper {
+/*   .swiper-wrapper {
     height: 140vw;
-  }
+  } */
 
   .registration-grid {
     margin: 0;
