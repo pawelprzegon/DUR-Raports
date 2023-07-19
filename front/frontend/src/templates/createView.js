@@ -318,7 +318,7 @@ export default class extends AbstractView {
     this.currentRaport.units.forEach((item) => {
       console.log(this.currentRaport)
       let text_box = document.querySelectorAll(
-        `.text-box-{item.unit.toLowerCase()}-${item.region}`
+        `.text-box-{item.unit.toLowerCase()}-{item.region}`
       );
       console.log(text_box)
       let counter = text_box.length - 1;
