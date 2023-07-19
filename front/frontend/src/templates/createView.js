@@ -318,7 +318,7 @@ export default class extends AbstractView {
     this.currentRaport.units.forEach((item) => {
       console.log(this.currentRaport)
       let text_box = document.querySelectorAll(
-        `.text-box-${item.unit.toLowerCase()}-${item.region}`
+        `.text-box-${item.region}-${item.unit.toLowerCase()}`
       );
       console.log(text_box)
       let counter = text_box.length - 1;
@@ -391,7 +391,6 @@ export default class extends AbstractView {
     CheckBoxesBox.classList.add('checkboxes');
     let i = 1;
     data.forEach((each) => {
-      console.log(each)
       const unit = document.createElement('div');
       unit.classList.add('checkbox-unit');
       const checkbox = document.createElement('label');
