@@ -97,7 +97,7 @@
 }
 
 .details-text > div > div {
-  padding: 0.3rem;
+  padding: 0.2rem;
 }
 
 .details-text > div > div > textarea {
@@ -109,7 +109,36 @@
 }
 
 .details button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: 300;
+  font-size: 1.6rem;
   height: 2rem;
+  width: 2rem;
+  background-color: #9e9e9e;
+  border-radius: 1.3rem;
+  border: 0.2rem solid white;
+}
+
+.details button:hover {
+  background-color: #c22222;
+}
+
+.label {
+  margin-top: 0.3rem;
+}
+
+.descript-box {
+  display: flex;
+}
+.number-box {
+  display: flex;
+  align-items: flex-start;
+}
+.addBtnBox {
+  display: flex;
 }
 
 .hidden > div > div:first-child {
@@ -136,9 +165,9 @@
 
 .label-container {
   display: flex;
+  align-items: flex-start;
   position: sticky;
-  padding-left: 2rem;
-  margin-top: 0.5rem;
+  padding-left: 2.5rem;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -272,18 +301,19 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 1.2rem;
-  width: 1.2rem;
+  height: 1.5rem;
+  width: 1.5rem;
   background-color: white;
-  border: 0.1rem solid gray;
+  border-radius: 1rem;
+  border: 0.2rem solid white;
 }
 
 .label-container:hover input ~ .checkmark {
-  background-color: #747474;
+  background-color: #9e9e9e;
 }
 
 .label-container input:checked ~ .checkmark {
-  background-color: #2196f3;
+  background-color: #c22222;
 }
 
 .checkmark:after {
@@ -297,8 +327,8 @@
 }
 
 .label-container .checkmark:after {
-  left: 0.4rem;
-  top: 0.1rem;
+  left: 0.6rem;
+  top: 0.3rem;
   width: 0.2rem;
   height: 0.5rem;
   border: solid white;
@@ -310,8 +340,8 @@
 
 /* .swiper-wrapper {
   height: 60vh;
-}
- */
+} */
+
 .swiper-button-prev,
 .swiper-button-next {
   color: rgb(182, 182, 182);
@@ -348,7 +378,7 @@
 
 /* Tablet Landscape */
 @media only screen and (max-width: 1510px) and (orientation: landscape) {
-/*   .swiper-wrapper {
+  /* .swiper-wrapper {
     height: 45vw;
   } */
   .deklaracje-describe-areas {
@@ -372,9 +402,9 @@
 
 /* Tablet portrait */
 @media only screen and (max-width: 900px) and (orientation: portrait) {
-/*   .swiper-wrapper {
+  /* .swiper-wrapper {
     height: 100vw;
-  } */
+  }
   .deklaracje-describe-areas {
     flex-direction: column;
     align-items: center;
@@ -388,9 +418,10 @@
     margin-top: 0.7rem;
   }
 /*   .swiper-wrapper {
+  /* .swiper-wrapper {
     height: 70vw;
     width: 10vw;
-  } */
+  }
 
   .registration-grid {
     margin: 0;
@@ -462,7 +493,7 @@
 }
 
 @media only screen and (max-width: 500px) and (orientation: portrait) {
-/*   .swiper-wrapper {
+  /* .swiper-wrapper {
     height: 140vw;
   } */
 
