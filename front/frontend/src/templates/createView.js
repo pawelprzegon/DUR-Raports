@@ -12,7 +12,6 @@ export default class extends AbstractView {
   constructor(params) {
     super(params);
     this.params = params;
-    // console.log(this.params)
     if ('_id' in this.params) {
       this.currentRaport = JSON.parse(sessionStorage.getItem('active_raport'));
       this.setTitle('Edit ' + this.params._id);
@@ -102,7 +101,7 @@ export default class extends AbstractView {
     this.plexi();
 
     if ('_id' in this.params) {
-      this.fillData();
+      this.fillForm();
       this.events(this.api_url, this.params._id);
     } else {
       this.events(this.api_url);
@@ -298,7 +297,6 @@ export default class extends AbstractView {
           (auth_status == 202 && auth_response.detail == 'authenticated') ||
           (auth_status == 200 && auth_response.access_token)
         ) {
-          console.log(data);
           let [response, status] = await callApiPut(api_url, data);
           if (status == 200 && response.message) {
             alerts(status, response.message, 'alert-green');
@@ -314,14 +312,22 @@ export default class extends AbstractView {
     });
   }
 
-  fillData() {
+  fillForm() {
     this.currentRaport.units.forEach((item) => {
-      let text_box = document.querySelectorAll(
-        `.text-box-${item.unit.toLowerCase()}-${item.region}`
+      let text_boxes = document.querySelectorAll(
+        `.text-box-${item.region}-${item.unit.toLowerCase()}`
       );
-      let counter = text_box.length - 1;
+      let counter = text_boxes.length - 1;
+      let isTextFieldEmpty = document.querySelector(
+        `#${item.region}-${item.unit.toLowerCase()}-text-${counter}`
+      ).value;
+
       // create new empty details-text
-      this.create_new_entry(item, text_box);
+      if (isTextFieldEmpty.trim() !== '') {
+        this.create_new_entry(item, text_boxes);
+        counter += 1;
+      }
+
       // check checkmark
       document.getElementById(
         `${item.region}` + '_' + `${item.unit.toLowerCase()}`
@@ -332,6 +338,7 @@ export default class extends AbstractView {
           `#${item.region}-${item.unit.toLowerCase()}-number-${counter}`
         ).value = item.number;
       }
+
       // fill text textarea
       let text = document.querySelector(
         `#${item.region}-${item.unit.toLowerCase()}-text-${counter}`
@@ -356,12 +363,12 @@ export default class extends AbstractView {
     }
   }
 
-  create_new_entry(item, text_box) {
+  create_new_entry(item, text_boxes) {
     let new_text = this.create_details(
       item.region.toLowerCase(),
       item.unit.toLowerCase()
     );
-    text_box[0].parentNode.appendChild(new_text);
+    text_boxes[0].parentNode.appendChild(new_text);
   }
 
   // labele
@@ -387,7 +394,10 @@ export default class extends AbstractView {
       unit.classList.add('checkbox-unit');
       const checkbox = document.createElement('label');
       checkbox.classList.add('label-container');
-      checkbox.innerText = each.capitalize();
+      const label = document.createElement('div');
+      label.classList.add('label');
+      label.innerText = each.capitalize();
+      checkbox.appendChild(label);
       const span = document.createElement('span');
       span.classList.add('checkmark');
       const input = document.createElement('input');
@@ -404,14 +414,16 @@ export default class extends AbstractView {
       details.classList.add('details', 'hidden');
       const details_text = document.createElement('div');
       details_text.classList.add('details-text');
-      let text_box = this.create_details(lab, each.toLowerCase());
+      const text_box = this.create_details(lab, each.toLowerCase());
       details_text.appendChild(text_box);
+      const buttonBox = document.createElement('div');
+      buttonBox.classList.add('addBtnBox');
       const add = document.createElement('button');
       add.type = 'button';
       add.innerText = '+';
-
+      buttonBox.appendChild(add);
       details.appendChild(details_text);
-      details.appendChild(add);
+      details.appendChild(buttonBox);
 
       unit.appendChild(checkbox);
       unit.appendChild(details);
@@ -428,7 +440,6 @@ export default class extends AbstractView {
         } else {
           details.classList.add('hidden');
           let text_fields = document.querySelectorAll(`.${lab}-${each}-text`);
-          console.log(text_fields);
           text_fields.forEach((element) => {
             element.classList.remove('open');
           });
@@ -447,6 +458,7 @@ export default class extends AbstractView {
     const text_box = document.createElement('div');
     text_box.classList.add(`text-box-${lab}-${each}`);
     const number_box = document.createElement('div');
+    number_box.classList.add('number-box');
     const number_field = document.createElement('textarea');
     number_field.classList.add(`${lab}-${each}-number`);
     number_field.name = `${lab}-${each}-number-${number}`;
@@ -455,12 +467,17 @@ export default class extends AbstractView {
     number_box.appendChild(number_field);
 
     const descript_box = document.createElement('div');
+    descript_box.classList.add('descript-box');
     const text_field = document.createElement('textarea');
     text_field.classList.add(`${lab}-${each}-text`);
     text_field.name = `${lab}-${each}-text-${number}`;
     text_field.id = `${lab}-${each}-text-${number}`;
     text_field.rows = '1';
     text_field.addEventListener('click', function () {
+      const opened_text = document.querySelectorAll('.open');
+      opened_text.forEach((element) => {
+        element.classList.remove('open');
+      });
       text_field.classList.toggle('open');
     });
     descript_box.appendChild(text_field);
