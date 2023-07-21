@@ -317,13 +317,12 @@ export default class extends AbstractView {
   fillData() {
     this.currentRaport.units.forEach((item) => {
       let text_box = document.querySelectorAll(
-        `.text-box-${item.unit.toLowerCase()}`
+        `.text-box-${item.unit.toLowerCase()}-${item.region}`
       );
       let counter = text_box.length - 1;
       // create new empty details-text
       this.create_new_entry(item, text_box);
       // check checkmark
-      console.log(`${item.region}` + '_' + `${item.unit.toLowerCase()}`);
       document.getElementById(
         `${item.region}` + '_' + `${item.unit.toLowerCase()}`
       ).checked = true;
@@ -444,9 +443,9 @@ export default class extends AbstractView {
   }
 
   create_details(lab, each) {
-    let number = document.querySelectorAll(`.text-box-${each}`).length;
+    let number = document.querySelectorAll(`.text-box-${lab}-${each}`).length;
     const text_box = document.createElement('div');
-    text_box.classList.add(`text-box-${each}`);
+    text_box.classList.add(`text-box-${lab}-${each}`);
     const number_box = document.createElement('div');
     const number_field = document.createElement('textarea');
     number_field.classList.add(`${lab}-${each}-number`);
