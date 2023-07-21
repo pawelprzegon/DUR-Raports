@@ -404,7 +404,7 @@
 @media only screen and (max-width: 900px) and (orientation: portrait) {
   /* .swiper-wrapper {
     height: 100vw;
-  }
+  } */
   .deklaracje-describe-areas {
     flex-direction: column;
     align-items: center;
@@ -417,11 +417,10 @@
   .alerts {
     margin-top: 0.7rem;
   }
-/*   .swiper-wrapper {
   /* .swiper-wrapper {
     height: 70vw;
     width: 10vw;
-  }
+  } */
 
   .registration-grid {
     margin: 0;
