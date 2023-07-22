@@ -405,14 +405,14 @@ export default class extends AbstractView {
       checkbox.appendChild(label);
       const span = document.createElement('span');
       span.classList.add('checkmark');
-      const input = document.createElement('input');
-      input.type = 'checkbox';
-      input.id = lab + '_' + each.toLowerCase();
-      input.name = each.toLowerCase();
-      input.value = lab;
+      const check = document.createElement('input');
+      check.type = 'checkbox';
+      check.id = lab + '_' + each.toLowerCase();
+      check.name = each.toLowerCase();
+      check.value = lab;
       i += 1;
 
-      checkbox.appendChild(input);
+      checkbox.appendChild(check);
       checkbox.appendChild(span);
 
       const details = document.createElement('div');
@@ -435,7 +435,7 @@ export default class extends AbstractView {
 
       region.appendChild(unit);
 
-      input.addEventListener('change', (event) => {
+      check.addEventListener('change', (event) => {
         if (event.currentTarget.checked) {
           const opened_text = document.querySelectorAll('.open');
           opened_text.forEach((element) => {
@@ -479,8 +479,8 @@ export default class extends AbstractView {
     text_field.id = `${lab}-${each}-text-${number}`;
     text_field.rows = '1';
     text_field.addEventListener('click', function () {
-      const opened_text = document.querySelectorAll('.open');
-      opened_text.forEach((element) => {
+      const opened_textfields = document.querySelectorAll('.open');
+      opened_textfields.forEach((element) => {
         element.classList.remove('open');
       });
       text_field.classList.toggle('open');
