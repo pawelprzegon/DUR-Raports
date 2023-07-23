@@ -1,16 +1,17 @@
-// import { getColors } from './colors.js';
 import { navigateTo } from '../../js/index.js';
 import { sort_dates } from './sort_dates.js';
+import { getColors } from './colors.js';
 
 export class createCharts {
   constructor(data, canvas, department) {
     this.data = data;
-    this.ctx = canvas;
+    this.ctx = canvas.getContext('2d');
     this.department = department;
     this.chart;
     this.labels = [];
     this.dataset = [];
     this.colors = ['#69e0a3', '#E069c1', '#Ffcf03'];
+    this.labels_color = 'rgb(200,200,200)';
   }
 
   get_labels_and_data() {
@@ -33,7 +34,6 @@ export class createCharts {
   }
 
   line_config() {
-    // let color = getColors(this.ctx);
     for (const [index, [key, value]] of Object.entries(
       Object.entries(this.data)
     )) {
@@ -42,7 +42,7 @@ export class createCharts {
         data: value.chart,
         pointBackgroundColor: this.colors[index],
         borderColor: this.colors[index],
-        backgroundColor: '#eeeeee6e',
+        backgroundColor: getColors(this.ctx, this.colors[index]),
         tension: 0.2,
         borderWidth: 2,
         fill: true,
@@ -51,47 +51,79 @@ export class createCharts {
     }
   }
 
-  doughnut_config() {
-    return {
-      data: this.dataset,
-      backgroundColor: ['#b3b3b3', '#868686', '#5a5a5a'],
-      borderWidth: 2,
-    };
-  }
-
-  bar_config(color) {
-    return {
-      data: this.dataset,
-      backgroundColor: color + '3e',
-      borderColor: color,
-      borderWidth: 2,
-    };
-  }
-
-  doughnutChart() {
-    this.get_labels_and_data();
-    let dataset = this.doughnut_config();
+  lineChart() {
+    this.get_labels_and_data_lineChart();
+    this.line_config();
     this.chart = new Chart(this.ctx, {
-      type: 'doughnut',
+      type: 'line',
       data: {
         labels: this.labels,
-        datasets: [dataset],
+        datasets: this.dataset,
       },
       options: {
-        responsive: true,
         maintainAspectRatio: false,
+        responsive: true,
         plugins: {
           legend: {
-            position: 'left',
+            position: 'top',
+            align: 'start',
+            labels: {
+              color: this.labels_color,
+              font: {
+                size: 13,
+              },
+            },
           },
-          title: {
-            display: false,
+        },
+        interaction: {
+          mode: 'nearest',
+          axis: 'x',
+          intersect: false,
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'miesiąc',
+              color: this.labels_color,
+            },
+            grid: {
+              display: false,
+            },
+            ticks: {
+              color: this.labels_color,
+            },
+          },
+          y: {
+            stacked: false,
+            title: {
+              display: true,
+              text: 'ilość',
+              color: this.labels_color,
+            },
+            grid: {
+              display: false,
+            },
+            min: 0,
+            // max: max,
+            ticks: {
+              stepSize: 1,
+              color: this.labels_color,
+            },
           },
         },
       },
     });
   }
 
+  bar_config(color) {
+    return {
+      data: this.dataset,
+      backgroundColor: getColors(this.ctx, color),
+      borderColor: color,
+      borderWidth: 2,
+    };
+  }
   barChart() {
     let color = this.get_department_color();
     this.get_labels_and_data();
@@ -122,10 +154,18 @@ export class createCharts {
             grid: {
               display: false,
             },
+            ticks: {
+              stepSize: 1,
+              color: this.labels_color,
+            },
           },
           y: {
             grid: {
               display: false,
+            },
+            ticks: {
+              stepSize: 1,
+              color: this.labels_color,
             },
           },
         },
@@ -134,61 +174,42 @@ export class createCharts {
     this.ctx.onclick = this.clickHandler;
   }
 
-  lineChart() {
-    this.get_labels_and_data_lineChart();
-    this.line_config();
+  doughnut_config() {
+    return {
+      data: this.dataset,
+      backgroundColor: [
+        getColors(this.ctx, '#78a1bb'),
+        getColors(this.ctx, '#ebf5ee'),
+        getColors(this.ctx, '#bfa89e'),
+      ],
+      borderWidth: 2,
+    };
+  }
+
+  doughnutChart() {
+    this.get_labels_and_data();
+    let dataset = this.doughnut_config();
     this.chart = new Chart(this.ctx, {
-      type: 'line',
+      type: 'doughnut',
       data: {
         labels: this.labels,
-        datasets: this.dataset,
+        datasets: [dataset],
       },
       options: {
-        maintainAspectRatio: false,
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
-            position: 'top',
-            align: 'start',
+            position: 'left',
             labels: {
+              color: this.labels_color,
               font: {
-                size: 12,
+                size: 13,
               },
             },
           },
-          tooltip: {
-            mode: 'index',
-          },
-        },
-        interaction: {
-          mode: 'nearest',
-          axis: 'x',
-          intersect: false,
-        },
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'miesiąc',
-            },
-            grid: {
-              display: false,
-            },
-          },
-          y: {
-            stacked: false,
-            title: {
-              display: true,
-              text: 'ilość',
-            },
-            grid: {
-              display: false,
-            },
-            min: 0,
-            // max: max,
-            ticks: {
-              stepSize: 1,
-            },
+          title: {
+            display: false,
           },
         },
       },
