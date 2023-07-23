@@ -1,25 +1,13 @@
-:root {
-  --dark: #374151;
-  --darker: #1f2937;
-  --darkest: #111827;
-  --gray: #6b7280;
-  --light: #eee;
-  --pink: #ec4899;
-  --purple: #8b5cf6;
-  --bckg: #ffffff;
-}
-
 body {
   display: flex;
   flex-direction: column;
-  /* min-height: 100vh; */
-  /* background: var(--bckg);
-  background-color: var(--bckg); */
+  height: 100vh;
   color: #5a5a5a;
-  background-image: url('../static/login_background.jpg');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
+  background-image: linear-gradient(
+    -180deg,
+    var(--base-light) 0%,
+    var(--base-dark) 100%
+  );
 }
 
 .container {
@@ -29,6 +17,7 @@ body {
   padding-left: 15%;
   padding-right: 15%;
   height: auto;
+  color: var(--font-color);
 }
 
 #form {
@@ -38,14 +27,10 @@ body {
   border-radius: 0.3rem;
   font-size: 0.9rem;
   font-family: 'Roboto', sans-serif;
-  background-color: white;
-  -webkit-box-shadow: 0 0.3rem 2rem -0.3rem rgba(119, 120, 138, 1);
-  -moz-box-shadow: 0 0.3rem 2rem -0.3rem rgba(119, 120, 138, 1);
-  box-shadow: 0 0.3rem 2rem -0.3rem rgba(119, 120, 138, 1);
+  background-color: #484848;
 }
 
 #form h1 {
-  color: #0f2027;
   text-align: center;
 }
 

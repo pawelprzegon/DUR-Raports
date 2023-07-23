@@ -1,12 +1,9 @@
-:root {
-  --bckg: #ffffff;
-}
-
 .container {
   align-items: center;
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   justify-content: flex-start;
+  color: var(--font-color);
 }
 .container,
 .alerts {
@@ -78,7 +75,7 @@
   grid-template-columns: 2fr 1fr;
 }
 .raport:hover {
-  background-color: rgb(201, 201, 201);
+  background-color: rgb(105, 105, 105);
 }
 
 /* Desktop*/

@@ -1,23 +1,15 @@
-export function getColors(ctx) {
-  let colors = [];
+export function getColors(ctx, base_color) {
+  let color = ctx.createLinearGradient(0, 0, 0, 450);
+  color.addColorStop(0, hexToRgba(base_color, 0.4));
+  color.addColorStop(0.1, hexToRgba(base_color, 0.2));
+  color.addColorStop(0.3, hexToRgba(base_color, 0));
+  console.log(base_color);
+  return color;
+}
 
-  let dark_blue = ctx.createLinearGradient(0, 0, 0, 450);
-  dark_blue.addColorStop(0, 'rgba(1,42,94,0.6)');
-  dark_blue.addColorStop(0.2, 'rgba(1,42,94,0.4)');
-  dark_blue.addColorStop(0.7, 'rgba(1,42,94,0)');
-
-  let orange = ctx.createLinearGradient(0, 0, 0, 450);
-  orange.addColorStop(0, 'rgba(37,153,190, 0.6)');
-  orange.addColorStop(0.2, 'rgba(37,153,190, 0.4)');
-  orange.addColorStop(0.7, 'rgba(37,153,190, 0)');
-
-  let red = ctx.createLinearGradient(0, 0, 0, 450);
-  red.addColorStop(0, 'rgba(218,100,94, 0.6)');
-  red.addColorStop(0.2, 'rgba(218,100,94, 0.4)');
-  red.addColorStop(0.7, 'rgba(218,100,94, 0)');
-
-  colors.push([dark_blue, 'rgb(1,42,94)']);
-  colors.push([orange, 'rgb(37,153,190)']);
-  colors.push([red, 'rgb(218,100,94)']);
-  return colors;
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }

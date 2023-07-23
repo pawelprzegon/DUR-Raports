@@ -1,31 +1,23 @@
-REGISTRATION :root {
-  --dark: #374151;
-  --darker: #1f2937;
-  --darkest: #111827;
+:root {
   --gray: #6b7280;
-
-  --bckg: #ffffff;
-  --bridge: #ffffff;
-  --fntColor: #000000;
-  --brdr: #1f1f1f;
-
-  --full: #ca1717;
-  --empty: #817c7c;
-  --glow: #000000;
-
-  --btn: #d2b43b;
-  --border: #000000;
-  --btnTxt: #030303;
-  --fntWeight: 300;
+  --base-light: #3a3a3a;
+  --base-dark: #101010;
+  --font-color: #e6e6e6;
+  --red-circle: #ca171799;
 }
 
 body {
   display: flex;
   flex-direction: column;
-  background: var(--bckg);
-  background-color: var(--bckg);
-  color: #000000;
+  /* background: var(--bckg); */
+  background-image: linear-gradient(
+    -180deg,
+    var(--base-light) 0%,
+    var(--base-dark) 100%
+  );
+  margin: 0;
   --top-row-height: 4.5rem;
+  height: 100vh;
 }
 
 .container {
@@ -33,7 +25,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  min-height: calc(var(--vh, 1vh) * 80);
+  min-height: calc(var(--vh, 1vh) * 90);
   padding-left: 8%;
   padding-right: 8%;
 }

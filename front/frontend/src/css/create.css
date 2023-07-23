@@ -1,20 +1,8 @@
-/* REGISTRATION */
-:root {
-  --dark: #374151;
-  --darker: #1f2937;
-  --darkest: #111827;
-  --light: #eee;
-  --pink: #ec4899;
-  --purple: #8b5cf6;
-  --bckg: #ffffff;
-  --gray: #767676;
-  --lghtgray: #e6e6e6;
-}
-
 .content {
   display: block;
   height: 100%;
   width: 100%;
+  color: var(--font-color);
 }
 
 .slide-content {
@@ -80,7 +68,7 @@
 .checkbox-unit {
   display: grid;
   grid-template-columns: 2fr 6fr;
-  background-color: var(--lghtgray);
+  background-color: var(--base-light);
   border-radius: 0.6rem;
   margin: 0.2rem;
   padding: 0.5rem;
@@ -199,7 +187,10 @@
 .deklaracje {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
+}
+
+textarea {
+  background: #d8d8d8;
 }
 
 .deklaracje-describe-areas {
@@ -271,27 +262,12 @@
   background-color: #ea4c4c;
   border-radius: 0.5rem;
   border-style: none;
-  box-sizing: border-box;
   color: #ffffff;
   cursor: pointer;
-  display: inline-block;
   font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 500;
   height: 2.5rem;
-  line-height: 1.5rem;
-  list-style: none;
-  margin: 0;
-  outline: none;
-  padding: 0.7rem 1rem;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  transition: color 100ms;
-  vertical-align: baseline;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
 }
 
 .submit:hover,
@@ -340,10 +316,6 @@
   transform: rotate(45deg);
 }
 
-/* .swiper-wrapper {
-  height: 60vh;
-} */
-
 .swiper-button-prev,
 .swiper-button-next {
   color: rgb(182, 182, 182);
@@ -351,13 +323,17 @@
 
 .swiper-button-prev:hover,
 .swiper-button-next:hover {
-  color: #000000;
+  color: white;
 }
 .swiper-pagination {
   position: static;
 }
+
+.swiper-pagination-bullet {
+  background: rgb(168, 168, 168);
+}
 .swiper-pagination-bullet-active {
-  background: #000000;
+  background: white;
 }
 
 /* Desktop*/

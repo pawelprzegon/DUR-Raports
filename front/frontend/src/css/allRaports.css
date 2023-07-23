@@ -1,13 +1,6 @@
 :root {
-  --gray: #a1a1a1;
-  --lghtgray: #e6e6e6;
-  --bckg: #ffffff;
-  --bridge: #ffffff;
-  --fntColor: #000000;
-
-  --full: #ca1717;
-
-  --fntWeight: 300;
+  --activ-card: #7b7b7b;
+  --unactiv-card: #383838;
 }
 
 .manual {
@@ -36,14 +29,14 @@
   display: flex;
 }
 
-.buttons-box img:hover {
-  opacity: 1;
-  cursor: pointer;
-}
-
 .buttons-box img {
   height: 30px;
   opacity: 0.5;
+  filter: invert(1);
+}
+.buttons-box img:hover {
+  opacity: 1;
+  cursor: pointer;
 }
 
 .edit-delete-box {
@@ -56,6 +49,7 @@
   align-items: flex-end;
   justify-content: space-around;
   width: 10rem;
+  color: var(--font-color);
 }
 .btn-hidden {
   display: none;
@@ -100,7 +94,7 @@
   margin: 0.2rem;
   border-radius: 0.6rem;
   /* border: 0.1rem solid lightgray; */
-  background-color: var(--lghtgray);
+  background-color: var(--font-color);
   width: 90%;
 }
 
@@ -156,15 +150,12 @@
   font-size: 1.2rem;
   margin: 0.5rem;
   text-align: center;
-  color: #000000;
-  background: var(--empty);
-  box-shadow: 0.1rem 0.1rem 0.6rem var(--glow);
 }
 
 .full {
   color: #ffffff;
-  background: var(--full);
-  box-shadow: 0.1rem 0.1rem 0.6rem var(--full);
+  background: var(--red-circle);
+  box-shadow: 0.1rem 0.1rem 0.6rem var(--red-circle);
   padding: 0;
 }
 
@@ -175,9 +166,9 @@
   justify-content: space-around;
 }
 
-.raport-details {
+/* .raport-details {
   font-weight: 500;
-}
+} */
 
 .raport-data-user {
   display: flex;
@@ -220,10 +211,10 @@
 .regions-headers {
   margin-left: 0.6rem;
   margin-right: 0.6rem;
-  font-weight: var(--fntWeight);
+  font-weight: 300;
   text-align: center;
   font-weight: 300;
-  color: black;
+  color: var(--font-color);
 }
 
 .arrow {
@@ -321,11 +312,11 @@
 
 .card {
   font-family: 'Roboto', sans-serif;
-  color: var(--fntColor);
+  color: var(--font-color);
   border-radius: 0.4rem;
   box-sizing: border-box;
   height: 6.5rem;
-  background-color: var(--lghtgray);
+  background-color: var(--unactiv-card);
 }
 
 .card:hover .arrow {
@@ -346,17 +337,17 @@
 }
 
 .selected {
-  background-color: var(--gray);
+  background-color: var(--activ-card);
 }
 
 .swiper-button-prev,
 .swiper-button-next {
-  color: rgb(182, 182, 182);
+  color: var(--base-light);
   top: 40%;
 }
 .swiper-button-prev:hover,
 .swiper-button-next:hover {
-  color: #000000;
+  color: var(--font-color);
 }
 
 .swiper-pagination-bullet-active {

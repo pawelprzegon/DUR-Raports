@@ -1,14 +1,9 @@
-:root {
-  --bckg: #ffffff;
-  --h2size: 1.3rem;
-  --h4size: 1rem;
-}
-
 .container {
   align-items: center;
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   justify-content: flex-start;
+  color: var(--font-color);
 }
 
 .departments {
@@ -40,7 +35,7 @@
 .statistics h2,
 .users h2 {
   font-weight: 400;
-  font-size: var(--h2size);
+  font-size: 1.3rem;
   margin: 0.1rem;
   margin-right: 0.7rem;
   text-align: right;
@@ -49,7 +44,7 @@
 .statistics h4,
 .users h4 {
   font-weight: 300;
-  font-size: var(--h4size);
+  font-size: 1rem;
   margin: 0.1rem;
   margin-top: 0.3rem;
   margin-right: 0.7rem;
@@ -63,7 +58,7 @@
   flex-direction: column;
   align-items: flex-end;
   border-radius: 0.3rem;
-  background-color: #eeeeee6e;
+  background-color: #494949;
   box-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -86,10 +81,10 @@
   flex-direction: row;
   margin: 0;
   h2 {
-    font-size: var(--h2size);
+    font-size: 1.3rem;
   }
   h4 {
-    font-size: var(--h4size);
+    font-size: 1rem;
   }
 }
 

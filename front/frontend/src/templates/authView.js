@@ -314,7 +314,7 @@ export default class extends AbstractView {
 
       this.responseBox.appendChild(this.responseStatus);
       this.responseBox.appendChild(this.responseData);
-      alerts(status + ' Failed', response.message, 'alert-red');
+      alerts(status + ' Failed', response.detail, 'alert-red');
     }
   }
 
