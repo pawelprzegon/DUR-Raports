@@ -78,27 +78,6 @@
   background-color: rgb(105, 105, 105);
 }
 
-/* Desktop*/
-/* @media (min-width: 1500px) {
-}
-@media (min-width: 1100px) and (max-width: 1500px) {
-  .container {
-    font-size: 0.8rem;
-  }
-}
-
-@media (min-width: 900px) and (max-width: 1100px) {
-  .container {
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 900px) {
-  .container {
-    font-size: 0.7rem;
-  }
-} */
-
 /* Tablet Landscape */
 @media only screen and (min-width: 1001px) and (max-width: 1510px) and (orientation: landscape) {
   .container {

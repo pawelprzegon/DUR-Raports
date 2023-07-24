@@ -5,12 +5,21 @@ import { getColors } from './colors.js';
 export class createCharts {
   constructor(data, canvas, department) {
     this.data = data;
-    this.ctx = canvas.getContext('2d');
+    this.ctx = canvas;
     this.department = department;
     this.chart;
     this.labels = [];
     this.dataset = [];
-    this.colors = ['#69e0a3', '#E069c1', '#Ffcf03'];
+    this.colors = [
+      '#69e0a3',
+      '#E069c1',
+      '#Ffcf03',
+      '#ff8503',
+      '#ffa600',
+      '#b82e2e',
+      '#32b82e',
+      '#8c11d4',
+    ];
     this.labels_color = 'rgb(200,200,200)';
   }
 
@@ -37,23 +46,30 @@ export class createCharts {
     for (const [index, [key, value]] of Object.entries(
       Object.entries(this.data)
     )) {
+      console.log(key.capitalize());
+      console.log(value.chart);
       let data = {
         label: key.capitalize(),
         data: value.chart,
         pointBackgroundColor: this.colors[index],
         borderColor: this.colors[index],
-        backgroundColor: getColors(this.ctx, this.colors[index]),
+        backgroundColor: getColors(
+          this.ctx.getContext('2d'),
+          this.colors[index]
+        ),
         tension: 0.2,
         borderWidth: 2,
         fill: true,
       };
       this.dataset.push(data);
+      console.log(this.dataset);
     }
   }
 
   lineChart() {
     this.get_labels_and_data_lineChart();
     this.line_config();
+    console.log(this.dataset);
     this.chart = new Chart(this.ctx, {
       type: 'line',
       data: {
@@ -114,7 +130,7 @@ export class createCharts {
   bar_config(color) {
     return {
       data: this.dataset,
-      backgroundColor: getColors(this.ctx, color),
+      backgroundColor: getColors(this.ctx.getContext('2d'), color),
       borderColor: color,
       borderWidth: 2,
     };
@@ -166,16 +182,16 @@ export class createCharts {
         },
       },
     });
-    this.ctx.onclick = this.clickHandler;
+    this.ctx.onclick = this.clickHandler.bind(this);
   }
 
   doughnut_config() {
     return {
       data: this.dataset,
       backgroundColor: [
-        getColors(this.ctx, '#78a1bb'),
-        getColors(this.ctx, '#ebf5ee'),
-        getColors(this.ctx, '#bfa89e'),
+        getColors(this.ctx.getContext('2d'), '#78a1bb'),
+        getColors(this.ctx.getContext('2d'), '#ebf5ee'),
+        getColors(this.ctx.getContext('2d'), '#bfa89e'),
       ],
       borderWidth: 2,
     };
@@ -212,6 +228,7 @@ export class createCharts {
   }
 
   clickHandler = (click) => {
+    console.log('test');
     const points = this.chart.getElementsAtEventForMode(
       click,
       'nearest',
