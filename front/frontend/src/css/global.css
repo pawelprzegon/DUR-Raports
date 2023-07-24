@@ -1,6 +1,6 @@
 :root {
   --gray: #6b7280;
-  --base-light: #3a3a3a;
+  --base-light: #474747;
   --base-dark: #101010;
   --font-color: #e6e6e6;
   --red-circle: #ca171799;
@@ -9,7 +9,9 @@
 body {
   display: flex;
   flex-direction: column;
-  /* background: var(--bckg); */
+  background: var(--base-dark);
+  background-size: cover;
+  background-repeat: no-repeat;
   background-image: linear-gradient(
     -180deg,
     var(--base-light) 0%,
@@ -25,7 +27,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  min-height: calc(var(--vh, 1vh) * 90);
+  height: 92vh;
   padding-left: 8%;
   padding-right: 8%;
 }
@@ -34,13 +36,6 @@ body {
   display: grid;
   width: 70%;
   margin-top: 0.5rem;
-}
-
-.alerts {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
-  font-weight: 200;
-  margin-top: 5rem;
 }
 
 .spinner-border {
@@ -84,39 +79,8 @@ body {
   }
 }
 
-/* Desktop*/
-@media (min-width: 1100px) {
-  .container {
-    padding-left: 20%;
-    padding-right: 20%;
-  }
-  .content {
-    width: 100%;
-  }
-}
-
-@media (min-width: 900px) and (max-width: 1100px) {
-  .container {
-    padding-left: 15%;
-    padding-right: 15%;
-  }
-  .content {
-    width: 100%;
-  }
-}
-
-@media (max-width: 900px) {
-  .container {
-    padding-left: 10%;
-    padding-right: 10%;
-  }
-  .content {
-    width: 100%;
-  }
-}
-
 /* Tablet Landscape */
-@media only screen and (max-width: 1510px) and (orientation: landscape) {
+@media only screen and (min-width: 1001px) and (max-width: 1510px) and (orientation: landscape) {
   .container {
     padding-left: 10%;
     padding-right: 10%;
@@ -126,8 +90,8 @@ body {
   }
 }
 
-/* Tablet portrait */
-@media only screen and (max-width: 900px) and (orientation: portrait) {
+/* Tablet Portrait */
+@media only screen and (min-width: 900px) and (max-width: 1510px) and (orientation: portrait) {
   .container {
     padding-left: 7%;
     padding-right: 7%;
@@ -137,7 +101,7 @@ body {
   }
 }
 
-/* Mobile */
+/* Mobile Landscape */
 @media only screen and (max-width: 1000px) and (orientation: landscape) {
   .container {
     padding-left: 5%;
@@ -148,8 +112,8 @@ body {
     width: 100%;
   }
 }
-
-@media only screen and (max-width: 500px) and (orientation: portrait) {
+/* Mobile Portrait */
+@media only screen and (max-width: 899px) and (orientation: portrait) {
   .container {
     padding-left: 5%;
     padding-right: 5%;

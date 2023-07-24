@@ -64,9 +64,9 @@ export default class extends AbstractView {
 
   users(response) {
     let users = document.createElement('div');
-    users.classList.add('users', 'place');
+    users.classList.add('users');
     let chartBox = this.chartBox('Raporty użytkowników', response.user.sum);
-    chartBox.classList.add('chart-area');
+    chartBox.classList.add('place');
     chartBox.appendChild(this.chart(response.user.user_raports, 'doughnut'));
     users.appendChild(chartBox);
     this.container.appendChild(users);
@@ -101,6 +101,7 @@ export default class extends AbstractView {
   chartBox(label, quantity) {
     let chartBox = document.createElement('div');
     chartBox.id = label;
+
     let placeLabelBox = document.createElement('div');
     placeLabelBox.classList.add('labelBoxChart');
     let placeLabelMain = document.createElement('h4');
