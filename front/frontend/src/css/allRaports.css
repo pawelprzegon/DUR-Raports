@@ -91,7 +91,8 @@
 .single-raport-info-grid {
   font-family: 'Roboto', sans-serif;
   padding: 0.5rem;
-  margin: 0.2rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
   border-radius: 0.6rem;
   /* border: 0.1rem solid lightgray; */
   background-color: var(--font-color);
@@ -357,138 +358,56 @@
   position: relative;
 }
 
-/* Desktop*/
-@media (min-width: 1100px) and (max-width: 1500px) {
-  .content-text {
-    font-size: 1rem;
-  }
-}
-
-@media (min-width: 900px) and (max-width: 1100px) {
-  .content-text {
-    font-size: 1rem;
-  }
-}
-
-@media (min-width: 750px) and (max-width: 900px) {
-  .content-text {
-    font-size: 1rem;
-  }
-}
-
 /* Tablet Landscape */
-@media only screen and (max-width: 1510px) and (orientation: landscape) {
-  .card {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    height: 4rem;
-  }
-  .user {
-    font-size: 1rem;
-  }
-  .raport-data-user p {
-    font-size: 0.8rem;
-  }
-  .raport-data-user {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0;
-    width: 70%;
-    border-radius: 0.5rem 0.5rem 0 0;
-    margin-left: 0.1rem;
-    height: 90%;
-  }
-  .raport-detail-box {
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-  }
-  .arrow {
-    margin-left: 0.4rem;
+@media only screen and (min-width: 1001px) and (max-width: 1510px) and (orientation: landscape) {
+  body {
+    height: auto;
   }
 
-  .raport-regions {
-    font-size: 0.6rem;
-    padding: 0.1rem;
-    height: 90%;
-    width: 100%;
-  }
-  .regions-headers {
-    margin-left: 0.2rem;
-    margin-right: 0.2rem;
-  }
-  .raport-circle-empty {
-    width: 1.4rem;
-    height: 1.4rem;
-    line-height: 1.5rem;
-    font-size: 1rem;
-    margin: 0.3rem;
-  }
-}
-
-/* Tablet portrait */
-@media only screen and (max-width: 900px) and (orientation: portrait) {
   .content-text {
-    font-size: 0.8rem;
-  }
-  .user {
     font-size: 1rem;
   }
   .raport-data-user p {
     font-size: 1rem;
   }
-  .arrow {
-    margin-left: 1.5rem;
-  }
-
-  .card {
-    height: 7rem;
-  }
-  .slide-container {
-    width: 90%;
+  .raport-label p {
+    font-size: 1.3rem;
   }
 }
 
-/* Mobile */
-@media only screen and (max-width: 1000px) and (orientation: landscape) {
-  .card {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    height: 3.3rem;
-  }
-  .user {
+/* Tablet Portrait */
+@media only screen and (min-width: 900px) and (max-width: 1510px) and (orientation: portrait) {
+  .content-text {
     font-size: 1rem;
   }
+  .raport-data-user p {
+    font-size: 1rem;
+  }
+  .raport-label p {
+    font-size: 1.3rem;
+  }
+}
+
+/* Mobile Landscape */
+@media only screen and (max-width: 1000px) and (orientation: landscape) {
+  body {
+    height: auto;
+  }
+  .container {
+    height: auto;
+  }
+
   .raport-content {
     flex-direction: column;
     justify-content: flex-start;
   }
+  .raport-label p {
+    font-size: 1rem;
+  }
   .content-text {
     font-size: 0.8rem;
   }
-  .raport-data-user p {
-    font-size: 0.9rem;
-  }
-  .raport-data-user {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0;
-    width: 70%;
-    border-radius: 0.5rem 0.5rem 0 0;
-    margin-left: 0.1rem;
-    height: 90%;
-  }
-  .raport-detail-box {
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-  }
+
   .dekl {
     width: 100%;
     flex-direction: row;
@@ -496,52 +415,22 @@
   .issues {
     width: 100%;
   }
-  .raport-data-user p {
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: 0.2rem;
-    margin-right: 0.2rem;
-  }
-  .arrow {
-    margin-left: 0.4rem;
-  }
-
-  .raport-regions {
-    font-size: 0.6rem;
-    padding: 0.1rem;
-    height: 90%;
-    width: 100%;
-  }
-  .regions-headers {
-    margin-left: 0.2rem;
-    margin-right: 0.2rem;
-  }
-  .raport-circle-empty {
-    width: 1.4rem;
-    height: 1.4rem;
-    line-height: 1.5rem;
-    font-size: 1rem;
-    margin: 0.3rem;
-  }
 }
 
-@media only screen and (max-width: 500px) and (orientation: portrait) {
+/* Mobile Portrait */
+@media only screen and (max-width: 899px) and (orientation: portrait) {
   body {
     overflow: visible;
   }
-  .user {
-    font-size: 1rem;
-  }
 
   .raport-data-user p {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .content-text {
     font-size: 0.8rem;
   }
   .raport-label p {
-    padding: 0.5rem;
     font-size: 1rem;
   }
   .raport-content {
@@ -554,10 +443,6 @@
   .dekl {
     width: 100%;
     flex-direction: row;
-  }
-
-  .card {
-    height: 7rem;
   }
 
   .issues {

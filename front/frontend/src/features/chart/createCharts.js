@@ -82,11 +82,6 @@ export class createCharts {
         },
         scales: {
           x: {
-            title: {
-              display: true,
-              text: 'miesiąc',
-              color: this.labels_color,
-            },
             grid: {
               display: false,
             },
