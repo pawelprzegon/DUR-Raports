@@ -10,7 +10,16 @@ export class createCharts {
     this.chart;
     this.labels = [];
     this.dataset = [];
-    this.colors = ['#69e0a3', '#E069c1', '#Ffcf03'];
+    this.colors = [
+      '#69e0a3',
+      '#E069c1',
+      '#Ffcf03',
+      '#ff8503',
+      '#ffa600',
+      '#b82e2e',
+      '#32b82e',
+      '#8c11d4',
+    ];
     this.labels_color = 'rgb(200,200,200)';
   }
 
