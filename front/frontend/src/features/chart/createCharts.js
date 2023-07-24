@@ -5,7 +5,7 @@ import { getColors } from './colors.js';
 export class createCharts {
   constructor(data, canvas, department) {
     this.data = data;
-    this.ctx = canvas.getContext('2d');
+    this.ctx = canvas;
     this.department = department;
     this.chart;
     this.labels = [];
@@ -51,7 +51,10 @@ export class createCharts {
         data: value.chart,
         pointBackgroundColor: this.colors[index],
         borderColor: this.colors[index],
-        backgroundColor: getColors(this.ctx, this.colors[index]),
+        backgroundColor: getColors(
+          this.ctx.getContext('2d'),
+          this.colors[index]
+        ),
         tension: 0.2,
         borderWidth: 2,
         fill: true,
@@ -123,7 +126,7 @@ export class createCharts {
   bar_config(color) {
     return {
       data: this.dataset,
-      backgroundColor: getColors(this.ctx, color),
+      backgroundColor: getColors(this.ctx.getContext('2d'), color),
       borderColor: color,
       borderWidth: 2,
     };
@@ -182,9 +185,9 @@ export class createCharts {
     return {
       data: this.dataset,
       backgroundColor: [
-        getColors(this.ctx, '#78a1bb'),
-        getColors(this.ctx, '#ebf5ee'),
-        getColors(this.ctx, '#bfa89e'),
+        getColors(this.ctx.getContext('2d'), '#78a1bb'),
+        getColors(this.ctx.getContext('2d'), '#ebf5ee'),
+        getColors(this.ctx.getContext('2d'), '#bfa89e'),
       ],
       borderWidth: 2,
     };
