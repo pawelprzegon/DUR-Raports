@@ -46,8 +46,6 @@ export class createCharts {
     for (const [index, [key, value]] of Object.entries(
       Object.entries(this.data)
     )) {
-      console.log(key.capitalize());
-      console.log(value.chart);
       let data = {
         label: key.capitalize(),
         data: value.chart,
@@ -62,14 +60,12 @@ export class createCharts {
         fill: true,
       };
       this.dataset.push(data);
-      console.log(this.dataset);
     }
   }
 
   lineChart() {
     this.get_labels_and_data_lineChart();
     this.line_config();
-    console.log(this.dataset);
     this.chart = new Chart(this.ctx, {
       type: 'line',
       data: {
@@ -182,7 +178,7 @@ export class createCharts {
         },
       },
     });
-    this.ctx.onclick = this.clickHandler.bind(this);
+    this.ctx.onclick = this.clickHandler;
   }
 
   doughnut_config() {
@@ -228,7 +224,6 @@ export class createCharts {
   }
 
   clickHandler = (click) => {
-    console.log('test');
     const points = this.chart.getElementsAtEventForMode(
       click,
       'nearest',

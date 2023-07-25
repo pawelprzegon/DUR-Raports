@@ -6,6 +6,13 @@
   --red-circle: #ca171799;
 }
 
+@font-face {
+  font-family: 'Roboto';
+  src: url(../fonts/Roboto-Light.ttf) format('woff2'),
+    url(../fonts/Roboto-Light.ttf) format('woff'),
+    url(../fonts/Roboto-Light.ttf) format('truetype');
+}
+
 body {
   display: flex;
   flex-direction: column;
