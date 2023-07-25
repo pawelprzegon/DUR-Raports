@@ -3,17 +3,6 @@
   --unactiv-card: #383838;
 }
 
-.manual {
-  display: flex;
-  flex-direction: column;
-  font-family: 'Handlee', cursive;
-}
-.manual-top-descript {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
 .user {
   display: flex;
   flex-direction: row;

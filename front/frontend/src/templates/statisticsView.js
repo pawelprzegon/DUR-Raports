@@ -8,7 +8,6 @@ import AbstractView from './AbstractView.js';
 export default class extends AbstractView {
   constructor() {
     super();
-    this.loader = showloader();
     this.container = document.querySelector('#cont');
     this.container.innerHTML = '';
     this.setTitle('Statystyki');
@@ -27,20 +26,20 @@ export default class extends AbstractView {
         (st == 202 && re.detail == 'authenticated') ||
         (st == 200 && re.access_token)
       ) {
+        const loader = showloader();
         let [response, status] = await callApiGet(this.api_url);
         if (status == 200) {
           hideloader();
-          clearTimeout(this.loader);
+          clearTimeout(loader);
           this.layout(response);
         } else {
           hideloader();
-          clearTimeout(this.loader);
+          clearTimeout(loader);
           alerts(status, response, 'alert-orange');
         }
       }
     } catch (error) {
-      hideloader();
-      clearTimeout(this.loader);
+      clearTimeout(loader);
       alerts('error', error, 'alert-red');
     }
   }
