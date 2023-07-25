@@ -1,8 +1,8 @@
 export function Slider(id) {
-  let indexToGet = $(".swiper .card").index($(`#${id}`));
+  let indexToGet = $('.swiper .card').index($(`#${id}`));
 
-  let mySwiper = new Swiper(".slide-content", {
-    slidesPerView: 3,
+  let mySwiper = new Swiper('.slide-content', {
+    slidesPerView: 5,
     spaceBetween: 25,
     loop: false,
     initialSlide: indexToGet,
@@ -12,13 +12,13 @@ export function Slider(id) {
       enabled: true,
     },
     pagination: {
-      el: ".swiper-pagination",
+      el: '.swiper-pagination',
       clickable: true,
       dynamicBullets: true,
     },
     navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
     },
     breakpoints: {
       0: {
@@ -26,12 +26,12 @@ export function Slider(id) {
         slidesPerGroup: 1,
       },
       751: {
-        slidesPerView: 2,
-        slidesPerGroup: 2,
-      },
-      1501: {
         slidesPerView: 3,
         slidesPerGroup: 3,
+      },
+      1510: {
+        slidesPerView: 5,
+        slidesPerGroup: 5,
       },
     },
   });
@@ -39,14 +39,14 @@ export function Slider(id) {
 }
 
 export function SliderForm() {
-  new Swiper(".slide-content", {
+  new Swiper('.slide-content', {
     slidesPerView: 1,
     spaceBetween: 30,
     loop: false,
     grabCursor: false,
     allowTouchMove: false,
     pagination: {
-      el: ".swiper-pagination",
+      el: '.swiper-pagination',
       clickable: true,
       dynamicBullets: false,
     },
@@ -54,8 +54,8 @@ export function SliderForm() {
       enabled: true,
     },
     navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
     },
   });
 }
