@@ -18,6 +18,10 @@ body {
   padding-right: 15%;
   height: auto;
   color: var(--font-color);
+  --link-color: rgb(116, 204, 255);
+  --link-color-hover: rgb(93, 176, 255);
+  --err-input-color: rgb(255, 56, 96);
+  --succ-input-color: rgb(165, 218, 195);
 }
 
 #form {
@@ -28,6 +32,7 @@ body {
   font-size: 0.9rem;
   font-family: 'Roboto', sans-serif;
   background-color: #484848;
+  box-shadow: 0 0 1rem 0 rgba(172, 172, 172, 0.5);
 }
 
 #form h1 {
@@ -80,22 +85,26 @@ body {
 }
 
 .input-control.success input {
-  border-color: #a5dac3;
+  border-color: var(--succ-input-color);
   border-width: 0.05rem;
 }
 
 .input-control.error input {
-  border-color: #ff3860;
+  border-color: var(--err-input-color);
 }
 
 .input-control .error {
-  color: #ff3860;
-  font-size: 0.6rem;
+  color: var(--err-input-color);
+  font-size: 0.9rem;
   height: 0.9rem;
+}
+.error {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .response-error {
-  color: #ff3860;
+  color: var(--err-input-color);
 }
 
 .loginSignup {
@@ -115,11 +124,10 @@ body {
 
 .loginSignup-box {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 0.3rem;
 }
 .loginSignup-box p {
-  padding: 0.2rem;
   margin: 0;
 }
 .loginSignup-box a {
@@ -127,19 +135,18 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   font-weight: 500;
-  color: rgb(76, 128, 225);
+  color: var(--link-color);
 }
 
 .loginSignup-box a:hover {
   font-weight: 500;
-  color: rgb(40, 89, 172);
+  color: var(--link-color-hover);
   text-decoration: underline;
 }
 
 .resetPasswdBox {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 0.3rem;
+  justify-content: space-between;
 }
 
 .resetPasswdBox a {
@@ -147,12 +154,12 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   font-weight: 500;
-  color: rgb(76, 128, 225);
+  color: var(--link-color);
 }
 
 .resetPasswdBox a:hover {
   font-weight: 500;
-  color: rgb(40, 89, 172);
+  color: var(--link-color-hover);
   text-decoration: underline;
 }
 

@@ -11,7 +11,7 @@
   padding: 0.5rem;
   backdrop-filter: blur(8px);
   border-bottom: 0.1rem solid #585858;
-  /* background: ; */
+  --font-color: rgb(197, 197, 197);
 }
 
 .top-elements {
@@ -47,7 +47,7 @@
 }
 
 .material-icon {
-  color: var(--base-dark);
+  color: var(--font-color);
   font-size: 2rem;
   pointer-events: stroke;
   font-family: 'Roboto', sans-serif;
@@ -55,7 +55,7 @@
 }
 
 .material-icon:hover {
-  color: var(--font-color);
+  color: white;
   font-weight: 400;
 }
 
@@ -71,7 +71,7 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
   text-decoration: none;
-  color: rgb(197, 197, 197);
+  color: var(--font-color);
   transition: font-size 0.3s;
   cursor: pointer;
 }
