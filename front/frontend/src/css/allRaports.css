@@ -149,10 +149,10 @@
   margin-right: 0.3rem;
 }
 .regio-circle-box:nth-child(2) {
-  margin-right: 0.8rem;
+  margin-right: 1.2rem;
 }
 .regio-circle-box:nth-child(3) {
-  margin-right: 1.3rem;
+  margin-right: 2.1rem;
 }
 
 .raport-circle-empty {
@@ -315,25 +315,43 @@
 }
 
 .swiper-wrapper {
-  filter: url('#goo');
+  /* filter: url('#goo'); */
 }
 
 .card {
   display: flex;
-  /* justify-content: space-between;
-   */
   justify-content: space-around;
   font-family: 'Roboto', sans-serif;
   color: var(--font-color);
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   height: 6.5rem;
-  background-color: rgba(19, 19, 19, 1);
-  border-bottom: 0.1rem white solid;
-  clip-path: polygon(10% 0, 100% 0%, 90% 100%, 0% 100%);
+  /* background-color: rgba(19, 19, 19, 1); */
+  border-top: 0.1rem rgb(114, 114, 114) solid;
+  border-bottom: 0.1rem rgb(114, 114, 114) solid;
+  border-radius: 0.8rem;
+  clip-path: polygon(15% 0, 100% 0%, 85% 100%, 0% 100%);
 }
 
 .card:hover {
-  background-color: var(--activ-card);
+  /* background-color: var(--activ-card); */
+  /* background: rgb(79, 79, 81); */
+  background: radial-gradient(
+    circle,
+    rgba(44, 43, 48, 1) 10%,
+    rgba(0, 0, 0, 0) 53%
+  );
+}
+
+.selected {
+  /* background-color: var(--activ-card); */
+  /* background: rgb(79, 79, 81); */
+  background: radial-gradient(
+    circle,
+    rgba(44, 43, 48, 1) 10%,
+    rgba(0, 0, 0, 0) 53%
+  );
+  border-top: 0.1rem white solid;
+  border-bottom: 0.1rem white solid;
 }
 
 .card:hover .arrow {
@@ -351,10 +369,6 @@
     border: solid 0.1rem rgb(0, 0, 0);
     border-radius: 50%;
   }
-}
-
-.selected {
-  background-color: var(--activ-card);
 }
 
 .swiper-button-prev,
@@ -377,9 +391,9 @@
 
 /* Tablet Landscape */
 @media only screen and (min-width: 1001px) and (max-width: 1510px) and (orientation: landscape) {
-  body {
+  /* body {
     height: auto;
-  }
+  } */
 
   .content-text {
     font-size: 1rem;
@@ -409,13 +423,19 @@
   .raport-label p {
     font-size: 1.3rem;
   }
+  .raport-day-month {
+    margin-left: 1rem;
+  }
+  .raport-year {
+    margin-left: 0.5rem;
+  }
 }
 
 /* Mobile Landscape */
 @media only screen and (max-width: 1000px) and (orientation: landscape) {
-  body {
+  /* body {
     height: auto;
-  }
+  } */
   .container {
     height: auto;
   }
@@ -438,8 +458,30 @@
   .issues {
     width: 100%;
   }
+
+  .card {
+    height: 5rem;
+  }
+  .raport-day-month {
+    margin-left: 1rem;
+  }
+  .raport-year {
+    margin-left: 0.5rem;
+  }
   .raport-data-user p {
-    font-size: 1rem;
+    font-size: 1.6rem;
+  }
+
+  .regio-circle-box {
+    margin-top: 0.1rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .regio-circle-box:nth-child(2) {
+    margin-right: 1.2rem;
+  }
+  .regio-circle-box:nth-child(3) {
+    margin-right: 2.1rem;
   }
 }
 
@@ -468,5 +510,29 @@
 
   .slide-container {
     width: 100%;
+  }
+  .card {
+    height: 5rem;
+  }
+  .raport-day-month {
+    margin-left: 1.4rem;
+  }
+  .raport-year {
+    margin-left: 0.5rem;
+  }
+  .raport-data-user p {
+    font-size: 1.6rem;
+  }
+
+  .regio-circle-box {
+    margin-top: 0.1rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .regio-circle-box:nth-child(2) {
+    margin-right: 1.2rem;
+  }
+  .regio-circle-box:nth-child(3) {
+    margin-right: 2.1rem;
   }
 }
