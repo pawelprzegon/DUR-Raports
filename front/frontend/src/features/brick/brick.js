@@ -25,19 +25,14 @@ export class Brick {
     raportDataUser.classList.add('raport-data-user');
     const detailsBox = document.createElement('div');
     detailsBox.classList.add('raport-detail-box');
-    // const detailsDate = document.createElement('div');
-    // detailsDate.classList.add('raport-details');
-    // detailsDate.innerText = this.date;
     const splitedDate = this.date.split('-');
     const dayMonth = document.createElement('p');
     dayMonth.classList.add('raport-day-month');
     dayMonth.innerText = splitedDate[2] + '/' + splitedDate[1];
     const year = document.createElement('p');
     year.classList.add('raport-year');
-    year.innerText = '/' + splitedDate[0];
+    year.innerText = splitedDate[0];
 
-    // const moreButton = document.createElement('div');
-    // moreButton.classList.add('arrow');
     this.raportInfoGrid.onclick = () => {
       navigateTo('/raport/' + this.id);
     };
@@ -46,7 +41,6 @@ export class Brick {
     detailsBox.appendChild(year);
     // detailsBox.appendChild(detailsDate);
     raportDataUser.appendChild(detailsBox);
-    // raportDataUser.appendChild(moreButton);
 
     this.raportInfoGrid.appendChild(raportDataUser);
     let regions = this.regions(this.each.units);
