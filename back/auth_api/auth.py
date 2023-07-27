@@ -3,21 +3,23 @@ from fastapi import HTTPException
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from pytz import timezone
+
 ACCESS_TOKEN_TIME = 30
 REFRESH_TOKEN_TIME = 120
 
+hasher = CryptContext(schemes=['bcrypt'])
+
 
 class Auth():
-    hasher = CryptContext(schemes=['bcrypt'])
     secret = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 
     def encode_password(self, password: str) -> str:
         '''Hashing password'''
-        return self.hasher.hash(password)
+        return hasher.hash(password)
 
     def verify_password(self, password: str, encoded_password: str) -> bool:
         '''Returns true or false if password equals with db'''
-        return self.hasher.verify(password, encoded_password)
+        return hasher.verify(password, encoded_password)
 
     def encode_token(self, username: dict) -> str:
         '''Hashing token'''
