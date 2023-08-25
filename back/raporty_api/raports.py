@@ -9,11 +9,21 @@ class Raports:
     def __init__(self, form) -> None:
         self.form = form
 
+    def get_author(self):
+        with get_session() as session:
+            try:
+                return session.query(User).filter_by(
+                    username=self.form['username']).first()
+            except SQLAlchemyError as e:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=e.orig.args,
+                ) from e
+
     def create_new_model(self):
         '''Creating new raport from input form'''
-        with get_session() as session:
-            author = session.query(User).filter_by(
-                username=self.form['username']).first()
+
+        author = self.get_author()
 
         self.new_raport = Raport(author=author)
         self.new_raport_model = []
