@@ -9,8 +9,7 @@ FIRST_LVL_UNITS_NAMES = {
 }
 
 
-def get_singular_unit_name(units):
-    # generator
+def get_singular_unit_name(units) -> str:
     return next(
         (val for key, val in FIRST_LVL_UNITS_NAMES.items() if key == units),
         units,

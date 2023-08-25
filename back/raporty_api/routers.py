@@ -1,17 +1,17 @@
-import schema
+import back.schema as schema
 from fastapi import APIRouter, Request, HTTPException, Security, status
-from models import Raport, Unit, User
+from back.models import Raport, Unit, User
 from sqlalchemy.exc import SQLAlchemyError
 from typing import List
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from auth_api.auth import Auth
+from back.auth_api.auth import Auth
 from starlette.responses import JSONResponse
-from raporty_api.search import Search
-from raporty_api.statistics import Statistics
-from raporty_api.raports import Raports
-from db import get_session
+from back.raporty_api.search import Search
+from back.raporty_api.statistics import Statistics
+from back.raporty_api.raports import Raports
+from back.db import get_session
 from fastapi_sqlalchemy import db
-from raporty_api.units_names import get_singular_unit_name
+from back.raporty_api.units_names import get_singular_unit_name
 
 auth_handler = Auth()
 security = HTTPBearer()
@@ -128,20 +128,20 @@ def search(searching: str, credentials: HTTPAuthorizationCredentials = Security(
 
 
 @raporty.get('/statistics', tags=['Raports'])
-def statistics(credentials: HTTPAuthorizationCredentials = Security(security)):
+def statistics(credentials: HTTPAuthorizationCredentials = Security(security)) -> dict:
     '''
     endpoint: show statistics
     Authorization needed: Barer token - sended as Header: ('Authorization': 'Bearer '+ token)
     '''
     token = credentials.credentials
-    if (auth_handler.decode_token(token)):
-        resoults = db.session.query(Raport).order_by(
+    if auth_handler.decode_token(token):
+        results = db.session.query(Raport).order_by(
             Raport.date_created.desc()).all()
-        statistics = Statistics(resoults)
-        departments_chart_data = statistics.departments_chart_data()
-        units_chart_data = statistics.units_chart_data()
-        users_chart_data = statistics.users_chart_data()
-        return statistics._pack_to_dict(departments_chart_data, units_chart_data, users_chart_data)
+        statistics_data = Statistics(results)
+        departments_chart_data = statistics_data.departments_chart_data()
+        units_chart_data = statistics_data.units_chart_data()
+        users_chart_data = statistics_data.users_chart_data()
+        return statistics_data.pack_to_dict(departments_chart_data, units_chart_data, users_chart_data)
 
 
 @raporty.put('/create/', tags=['Raports'])

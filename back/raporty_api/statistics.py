@@ -1,6 +1,6 @@
 from collections import defaultdict
-from raporty_api.date_conversion import convert_date
-from raporty_api.units_names import FIRST_LVL_UNITS_NAMES
+from back.raporty_api.date_conversion import convert_date
+from back.raporty_api.units_names import get_singular_unit_name
 
 
 class Statistics:
@@ -10,68 +10,81 @@ class Statistics:
 
     def _places(self) -> list:
         places = []
-        for raport in self.data:
-            places.extend(regio.region for regio in raport.units)
+        for report in self.data:
+            places.extend(region.region for region in report.units)
         return list(set(places))
 
+    # def departments_chart_data(self) -> dict:
+    #     """Filtering data necessary for chart"""
+    #     chart_data = {}
+    #     for place in self.places:
+    #         chart_values = {}
+    #         for report in self.data:
+    #             for region in report.units:
+    #                 if region.region == place:
+    #                     fixed_month = convert_date(report.date_created)
+    #                     if region.region in chart_data and fixed_month in chart_data[region.region]:
+    #                         chart_values[fixed_month] += 1
+    #                     else:
+    #                         chart_values[fixed_month] = 1
+    #                     chart_data[place] = dict(
+    #                         sorted(chart_values.items(), reverse=False))
+    #         for key in reversed(list(chart_values.keys())):
+    #             chart_values[key] = chart_values.pop(key)
+    #         chart_data[place] = chart_values
+    #     return chart_data
+
     def departments_chart_data(self) -> dict:
-        '''Filtering data necessary for chart'''
-        chartData = {}
+        """Filtering data necessary for chart"""
+        chart_data = {}
+
         for place in self.places:
-            chartValues = {}
-            for raport in self.data:
-                for regio in raport.units:
-                    if regio.region == place:
-                        fixed_mnth = convert_date(raport.date_created)
-                        if regio.region in chartData and fixed_mnth in chartData[regio.region]:
-                            chartValues[fixed_mnth] += 1
-                        else:
-                            chartValues[fixed_mnth] = 1
-                        chartData[place] = dict(
-                            sorted(chartValues.items(), reverse=False))
-            for key in reversed(list(chartValues.keys())):
-                chartValues[key] = chartValues.pop(key)
-            chartData[place] = chartValues
-        return chartData
+            chart_values = {}
+
+            for report in self.data:
+                for region in report.units:
+                    if region.region == place:
+                        fixed_month = convert_date(report.date_created)
+                        chart_values[fixed_month] = chart_values.get(fixed_month, 0) + 1
+
+            sorted_chart_values = dict(sorted(chart_values.items()))
+            chart_data[place] = sorted_chart_values
+
+        return chart_data
+
+    @staticmethod
+    def __rename(name: str) -> str:
+        return get_singular_unit_name(name)
 
     def units_chart_data(self) -> dict:
-        '''Filtering raported items'''
-        raportedUnits = {}
-        sum_ = 0
+        """Filtering reported items"""
+        reported_units = {}
+        total_units_sum = 0
+
         for place in self.places:
             elem = {}
-            for raport in self.data:
-                for regio in raport.units:
-                    if regio.region == place:
-                        fixed_name = self.rename(regio.unit)
-                        sum_ += 1
-                        if fixed_name in elem:
-                            elem[fixed_name] += 1
-                        else:
-                            elem[fixed_name] = 1
-            raportedUnits[place] = dict(
-                sorted(elem.items(), key=lambda item: item[1], reverse=False))
-        raportedUnits['sum'] = sum_
-        return raportedUnits
+            for report in self.data:
+                for region in report.units:
+                    if region.region == place:
+                        fixed_name = self.__rename(region.unit)
+                        elem[fixed_name] = elem.get(fixed_name, 0) + 1
 
-    def rename(self, name):
-        return FIRST_LVL_UNITS_NAMES[name] if name in FIRST_LVL_UNITS_NAMES else name
+            reported_units[place] = dict(
+                sorted(elem.items(), key=lambda item: item[1]))
+            reported_units['sum'] = reported_units.get('sum', 0) + sum(elem.values())
+        return reported_units
 
     def users_chart_data(self) -> dict:
-        '''create dict with user as key and his raports as a list'''
-        sum_users_raports = 0
-        user_raports = defaultdict(list)
-        for raport in self.data:
-            sum_users_raports += 1
-            if raport.author.username in user_raports:
-                user_raports[raport.author.username] += 1
-            else:
-                user_raports[raport.author.username] = 1
-        return {'sum': sum_users_raports,
+        """create dict with user as key and his raports as a list"""
+        user_raports = {}
+        for report in self.data:
+            user_raports[report.author.username] = user_raports.get(report.author.username, 0) + 1
+
+        return {'sum': len(self.data),
                 'user_raports': user_raports}
 
-    def _pack_to_dict(self, chartData: dict, units: dict, user: dict) -> dict:
-        '''Collects data into dict'''
+    def pack_to_dict(self, chartData: dict, units: dict, user: dict) -> dict:
+        """Collects data into dict"""
         places = ['stolarnia', 'drukarnia', 'bibeloty']
         for each in places:
             if each not in chartData:

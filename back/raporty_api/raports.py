@@ -1,5 +1,5 @@
-from db import get_session
-from models import Raport, Unit, Plexi, Dekl, User
+from back.db import get_session
+from back.models import Raport, Unit, Plexi, Dekl, User
 from starlette.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
 from fastapi import HTTPException, status

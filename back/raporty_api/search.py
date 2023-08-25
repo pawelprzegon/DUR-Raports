@@ -1,4 +1,4 @@
-from raporty_api.date_conversion import convert_date
+from back.raporty_api.date_conversion import convert_date
 from collections import OrderedDict
 
 
